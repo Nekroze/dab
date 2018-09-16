@@ -2,3 +2,4 @@ app/subcommands/template.sh
 /tests/vendor
 /.git
 /scripts
+/node_modules
