@@ -34,3 +34,9 @@ Additionally, to run the suite of regression tests execute:
 ```bash
  $ ./scripts/test.sh
 ```
+
+[1]: https://docker.com
+[2]: https://docs.docker.com/engine/reference/run
+[3]: https://hub.docker.com/r/nekroze/dab
+[4]: https://github.com/mvdan/sh
+[5]: https://github.com/charlierudolph/cucumber_lint
