@@ -1,0 +1,270 @@
+version: '3.5'
+
+services:
+
+  cyberchef:
+    build:
+      context: .
+      dockerfile: Dockerfile.cyberchef
+    ports:
+      - 80
+    healthcheck:
+      test: 'wget --spider http://localhost || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  portainer:
+    image: portainer/portainer
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    ports:
+      - 9000
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+
+  tick:
+    image: chronograf:alpine
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - telegraf
+      - influxdb
+      - kapacitor
+    networks:
+      - default
+      - observability
+    volumes:
+      - chronograf:/var/lib/chronograf
+    environment:
+      INFLUXDB_URL: http://influxdb:8086
+      KAPACITOR_URL: http://kapacitor:9092
+    ports:
+      - 8888
+    links:
+      - influxdb
+      - kapacitor
+    healthcheck:
+      test: 'wget --spider http://localhost:8888/ || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  telegraf:
+    build:
+      context: .
+      dockerfile: Dockerfile.telegraf
+    depends_on:
+      - influxdb
+    networks:
+      - default
+      - observability
+      - lab
+    ports:
+      - 8086
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/utmp:/var/run/utmp:ro
+    healthcheck:
+      test: 'wget --spider http://localhost:8086/ping || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  influxdb:
+    image: influxdb:alpine
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - influxdb:/var/lib/influxdb
+    networks:
+      - observability
+    ports:
+      - 8086
+    healthcheck:
+      test: 'wget --spider http://localhost:8086/ping || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  kapacitor:
+    image: kapacitor:alpine
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - observability
+    depends_on:
+      - influxdb
+    environment:
+      KAPACITOR_HOSTNAME: kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+    links:
+      - influxdb
+    ports:
+      - 9092
+    volumes:
+      - kapacitor:/var/lib/kapacitor
+    healthcheck:
+      test: 'wget --spider http://localhost:9092/kapacitor/v1/ping || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  traefik:
+    image: traefik:alpine
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    command:
+      - --ping
+      - --web
+      - --api
+      - --docker
+      - --accesslog
+      - --tracing
+      - --tracing.backend=zipkin
+      - --tracing.zipkin
+      - --tracing.zipkin.httpendpoint=http://telegraf:9411/api/v1/spans
+    ports:
+      - 80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - lab
+      - default
+      - observability
+      - public
+    healthcheck:
+      test: 'wget --spider http://localhost:8080/ping || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  ngrok:
+    build:
+      context: .
+      dockerfile: Dockerfile.ngrok
+    ports:
+      - 4040
+    depends_on:
+      - traefik
+    networks:
+      - public
+    healthcheck:
+      test: 'wget --spider http://localhost:4040 || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  logspout:
+    image: gliderlabs/logspout:latest
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - /etc/hostname:/etc/host_hostname:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command:
+      syslog://telegraf:6514
+    depends_on:
+      - telegraf
+    ports:
+      - 80
+    environment:
+      INACTIVITY_TIMEOUT: 1m
+
+  watchtower:
+    image: v2tec/watchtower
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --label-enable
+
+  sysdig:
+    image: sysdig/sysdig:latest
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - /dev:/host/dev
+      - /proc:/host/proc:ro
+      - /boot:/host/boot:ro
+      - /lib/modules:/host/lib/modules:ro
+      - /usr:/host/usr:ro
+
+  grafana:
+    image: grafana/grafana:latest
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - observability
+    volumes:
+      - grafana:/var/lib/grafana
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+    ports:
+      - 3000
+    healthcheck:
+      test: 'wget --spider http://localhost:3000/api || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  consul:
+    image: consul:latest
+    labels:
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - observability
+    volumes:
+      - consul:/consul/data
+    ports:
+      - 8500
+    environment:
+      CONSUL_LOCAL_CONFIG: >
+        {
+          "datacenter": "${DAB_INSTANCE_NAME:-dab}",
+          "skip_leave_on_interrupt": true,
+          "addresses": {
+            "http": "0.0.0.0",
+            "dns": "0.0.0.0"
+          }
+        }
+    command: agent -server -bootstrap -ui
+    healthcheck:
+      test: 'wget --spider http://localhost:8500/v1/status/leader || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  serveo:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    entrypoint:
+      - /usr/bin/ssh
+    command:
+      - '-o StrictHostKeyChecking=no'
+      - '-R 80:traefik:80'
+      - 'serveo.net'
+    networks:
+      - public
+
+volumes:
+  influxdb:
+  kapacitor:
+  chronograf:
+  portainer:
+  grafana:
+  consul:
+
+networks:
+  observability:
+  public:
+  lab:
+    name: lab
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "${DAB_LAB_INTERNET:-false}"
+    ipam:
+      driver: default
+      config:
+        - subnet: "${DAB_LAB_SUBNET:-10.10.0.0/16}"

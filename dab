@@ -1,0 +1,116 @@
+#!/bin/sh
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -euf
+
+# Some static values to get us started.
+image='nekroze/dab:latest'
+docker_args='--hostname dab --rm --tmpfs /run,/tmp'
+
+# just a little helper to keep things readable when declaring parameters to be
+# used when starting the dab container.
+dArg() {
+	for arg in "$@"; do
+		docker_args="$docker_args $arg"
+	done
+}
+
+# helper to pass through an environment variable if it is set to some value.
+envpass() {
+	key="$1"
+	value=$(eval "echo \$$1")
+	if [ -n "$value" ]; then
+		dArg -e "$key=\"$value\""
+	fi
+}
+
+# If we are in a tty (interactive terminal environment) then run the dab
+# container in one too.
+if [ -t 0 ]; then
+	dArg --tty --interactive
+fi
+
+# Pass current working directory through to a consistent location.
+dArg -v "$PWD:/pwd"
+
+# UID and GID passthrough/customization.  This will prevent most common docker
+# issues with volume mounting directories owned by or running as a different
+# user. Also allows customizable permissions if you want to make a user group
+# for dab on your machine to restrict its access more granularly, and provide
+# security by not running as root.
+# shellcheck disable=SC2039
+dArg --user "${DAB_UID:-${UID:-1000}}:${DAB_GID:-${GID:-1000}}"
+
+# Home passthrough.
+dArg \
+	-v "$HOME:$HOME" \
+	-e "HOME=$HOME"
+
+# Docker user and group lists access if it exists on the host.
+[ -f /etc/passwd ] && dArg -v '/etc/passwd:/etc/passwd:ro'
+[ -f /etc/group ] && dArg -v '/etc/group:/etc/group:ro'
+
+# Add the docker user explicitly to the groups dab has access too when
+# possible. This may be neccesary for customized UID's or GID's that may not
+# have docker access.
+if [ -r /etc/group ]; then
+	docker_gid="$(grep '^docker:' /etc/group | cut -d: -f3)"
+	if [ -n "$docker_gid" ]; then
+		dArg --group-add "$docker_gid"
+	fi
+fi
+
+# Make dab managed codebases available to the host.
+DAB_REPO_PATH="${DAB_REPO_PATH:-$HOME/dab}"
+mkdir -p "$DAB_REPO_PATH" || true # try ensure it is owned by this user
+dArg -v "$DAB_REPO_PATH:/var/dab/repos"
+
+# Volume mount dab config to host user's XDG config directory.
+export DAB_CONF_PATH="${DAB_CONF_PATH:-$HOME/.config/dab}"
+mkdir -p "$DAB_CONF_PATH" || true # try ensure it is owned by this user
+dArg -v "$DAB_CONF_PATH:/etc/dab/"
+
+# Pass through ssh agent socket or mount ~/.ssh directory.
+if [ -n "${SSH_AUTH_SOCK:-}" ]; then
+	socket='/var/run/ssh-agent'
+	dArg \
+		-v "$SSH_AUTH_SOCK:$socket" \
+		-e "SSH_AUTH_SOCK=$socket"
+fi
+
+# Attempt work out how we connect to docker for passthrough.
+local_docker_socket='/var/run/docker.sock'
+if [ -e "$local_docker_socket" ]; then
+	dArg -v "$local_docker_socket:$local_docker_socket"
+elif [ -n "${DOCKER_HOST:-}" ]; then
+	dArg -e "DOCKER_HOST=$DOCKER_HOST"
+
+	[ -n "${DOCKER_TLS_VERIFY:-}" ] \
+		&& dArg -e "DOCKER_TLS_VERIFY=$DOCKER_TLS_VERIFY"
+
+	if [ -n "${DOCKER_CERT_PATH:-}" ]; then
+		dArg \
+			-e "DOCKER_CERT_PATH=$DOCKER_CERT_PATH" \
+			-v "$DOCKER_CERT_PATH:$DOCKER_CERT_PATH:ro"
+	fi
+else
+	echo "cannot determine how to connect to docker, either ensure $local_docker_socket exists or set environment variables for docker over the network" 1>&2
+	exit 1
+fi
+
+# Mount app dir if it is there for faster dev cycles.
+if [ "${DAB_DEV_MOUNT:-yes}" = 'yes' ] && [ -x "$PWD/app/main.sh" ]; then
+	dArg -v "$PWD/app:/opt/dab:ro"
+fi
+
+# Passthrough all defined non empty DAB_* environment variables after unsetting some values
+# that should never be passed through to the container.
+dArg "$(
+env DAB_CONF_PATH= DAB_REPO_PATH= DAB_DEV_MOUNT= \
+	| grep -E "^DAB_.+=.+" \
+	| awk '{ print "-e " $1; }' \
+	| tr '\n' ' '
+)"
+
+# Execute with all generated args and passing in all script params to the container.
+# shellcheck disable=SC2086
+docker run $docker_args "$image" "$@"

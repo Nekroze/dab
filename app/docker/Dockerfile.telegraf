@@ -1,0 +1,7 @@
+FROM telegraf:alpine
+
+EXPOSE 9411
+EXPOSE 6514
+EXPOSE 8086
+EXPOSE 8125
+COPY configs/telegraf.conf /etc/telegraf/telegraf.conf

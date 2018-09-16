@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+
+  dab:
+    build: ../
+    image: nekroze/dab:latest
+
+  test:
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile
+    image: nekroze/dab-tests
+    environment:
+      DAB_REPO_PATH: /tmp/dab/repos
+      DAB_CONF_PATH: /tmp/dab/config
+      DAB_DEV_MOUNT: 'no'
+      DAB_AUTOUPDATE: 'no'
+      DAB_UID: '0'
+      DAB_GID: '0'
+    volumes:
+      - /etc/group:/etc/group:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/dab/repos:/tmp/dab/repos
+      - /tmp/dab/config:/tmp/dab/config

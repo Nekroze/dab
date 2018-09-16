@@ -1,0 +1,3 @@
+FROM nginx:alpine
+
+ADD --chown=nginx:nginx https://gchq.github.io/CyberChef/cyberchef.htm /usr/share/nginx/html/index.html
