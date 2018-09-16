@@ -10,7 +10,7 @@ services:
     build:
       context: ../
       dockerfile: tests/Dockerfile
-    image: nekroze/dab-tests
+    image: nekroze/dab:tests
     environment:
       DAB_REPO_PATH: /tmp/dab/repos
       DAB_CONF_PATH: /tmp/dab/config
