@@ -1,15 +1,26 @@
-version: '2'
+version: '3.2'
 
 services:
 
   dab:
-    build: ../
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      cache_from:
+        - alpine:latest
+        - nekroze/dab:latest
     image: nekroze/dab:latest
 
   test:
     build:
       context: ../
       dockerfile: tests/Dockerfile
+      cache_from:
+        - alpine:latest
+        - nekroze/dab:tests
+        - koalaman/shellcheck-alpine:stable
+        - golang:alpine
+        - ruby:2.5
     image: nekroze/dab:tests
     environment:
       DAB_REPO_PATH: /tmp/dab/repos

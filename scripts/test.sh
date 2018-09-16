@@ -6,11 +6,14 @@ set -euf
 # shellcheck disable=SC1091
 . ./scripts/build.sh
 
+# Pull the last dab image for caching.
+doco pull test
+
 # build test container, contains linting.
 doco build --force-rm --pull test
 
 # run test container and pass any params to this script to cucumber.
 doco run --rm test "$@"
 
-# cleanup after a successful run
+# cleanup after a successful run.
 doco down --volumes --timeout 120
