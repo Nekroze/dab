@@ -37,14 +37,13 @@ RUN apk add --no-cache docker python3 \
 # Misc tools required for scripts.
 RUN apk add --no-cache git openssh tree util-linux
 
-# Some handy defaults.
-ENV PS1='\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] '
-ENV COMPOSE_PROJECT_NAME=dab
-
-# Inside the dab container, user configurable paths are mounted to consistent
-# locations.
-ENV DAB_REPO_PATH="/var/dab/repos"
-ENV DAB_CONF_PATH="/etc/dab"
+# Inside the dab container, user configurable paths are
+# mounted to consistent locations. And some handy defaults.
+ENV \
+	DAB_REPO_PATH="/var/dab/repos" \
+	DAB_CONF_PATH="/etc/dab" \
+	PS1='\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] ' \
+	COMPOSE_PROJECT_NAME=dab
 VOLUME "$DAB_REPO_PATH" "$DAB_CONF_PATH"
 
 # Move just the app directory from the dab repository and execute from there to
