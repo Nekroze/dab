@@ -5,11 +5,23 @@ language: nix
 services:
   - docker
 
+
 git:
   quiet: true
 
+stages:
+  - Danger
+  - Tests
+  - Nix
+
 jobs:
   include:
+
+    - stage: Danger
+      name: Danger Checks
+      script:
+        - yarn install
+        - yarn danger ci
 
     - stage: Tests
       name: Behaviour Tests
