@@ -1,3 +1,30 @@
+# First two stages are for testing shell script syntax and format.
+# Prevents broken images from being created.
+FROM koalaman/shellcheck-alpine:stable
+
+WORKDIR /mnt
+
+# Copy in the whole project for analysis.
+COPY ./ ./
+
+RUN shellcheck --shell sh --color dab $(find . -name '*.sh' -type f)
+
+
+# Second analysis stage runs shfmt to ensure a consistent style.
+FROM golang:alpine
+
+# Install shfmt https://github.com/mvdan/sh and git.
+RUN apk add --no-cache git \
+ && go get -v mvdan.cc/sh/cmd/shfmt/...
+
+# Copy in the whole project for analysis.
+COPY ./app ./
+
+# display diffs of any files that do not conform to a posix compliant
+# simplified style.
+RUN shfmt -d -ln=posix -s .
+
+
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
 FROM alpine:latest

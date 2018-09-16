@@ -7,7 +7,7 @@ set -euf
 . ./scripts/build.sh
 
 # Pull the last dab image for caching.
-doco pull test
+doco pull test || true
 
 # build test container, contains linting.
 doco build --force-rm --pull test

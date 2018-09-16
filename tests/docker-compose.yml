@@ -13,8 +13,8 @@ services:
 
   test:
     build:
-      context: ../
-      dockerfile: tests/Dockerfile
+      context: .
+      dockerfile: Dockerfile
       cache_from:
         - alpine:latest
         - nekroze/dab:tests
@@ -34,3 +34,4 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/dab/repos:/tmp/dab/repos
       - /tmp/dab/config:/tmp/dab/config
+      - ../dab:/usr/src/app/dab:ro

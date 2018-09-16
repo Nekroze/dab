@@ -6,7 +6,7 @@ set -euf
 alias doco='docker-compose --project-name dab -f tests/docker-compose.yml'
 
 # Pull the last dab image for caching.
-doco pull dab
+doco pull dab || true
 
 # Build just the dab image and clean up.
 doco build --force-rm --pull dab
