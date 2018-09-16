@@ -16,4 +16,4 @@ doco build --force-rm --pull test
 doco run --rm test "$@"
 
 # cleanup after a successful run.
-doco down --volumes --timeout 120
+doco down --volumes

@@ -1,7 +1,20 @@
 sudo: required
 
+language: nix
+
 services:
   - docker
 
-script:
-- ./scripts/test.sh
+git:
+  quiet: true
+
+jobs:
+  include:
+
+    - stage: Tests
+      name: Behaviour Tests
+      script: ./scripts/test.sh
+
+    - stage: Nix
+      name: Nix Package
+      script: nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'
