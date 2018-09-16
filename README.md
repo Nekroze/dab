@@ -32,7 +32,7 @@ Dab is quite young and as such everything is still subject to change with little
 - Easy tool access like [CyberChef](https://gchq.github.io/CyberChef/)
 - Auto update of dab and its image
 - Setup of private lab network
-- Automatically collect logs to explore via TICK
+- Automatically collect logs to explore via [TICK][3]
 
 ### Proposed
 
@@ -52,3 +52,4 @@ If you would like to help hone dab into a better tool check out our [contributin
 
 [1]: https://github.com/Nekroze/dab/blob/master/dab
 [2]: https://github.com/Nekroze/dab/blob/master/CONTRIBUTING.md
+[3]: https://www.influxdata.com/time-series-platform/
