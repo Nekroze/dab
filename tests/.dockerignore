@@ -1,1 +1,5 @@
 /vendor
+/yarn.lock
+/package.json
+/dangerfile.js
+/node_modules
