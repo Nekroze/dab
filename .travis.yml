@@ -18,11 +18,31 @@ jobs:
 
     - stage: Danger
       name: Danger Checks
-      script: ./scripts/danger.sh
+      language: node_js
+      node_js: '8'
+      cache: yarn
+      before_install: cd tests
+      install: yarn install
+      script: yarn danger ci
 
     - stage: Tests
       name: Behaviour Tests
-      script: ./scripts/test.sh
+      language: ruby
+      env:
+        - DAB_REPO_PATH=/tmp/dab/repos
+        - DAB_CONF_PATH=/tmp/dab/config
+        - DAB_DEV_MOUNT=no
+        - DAB_AUTOUPDATE=no
+        - DAB_UID=2000
+        - DAB_GID=2000
+      install:
+        - ln -s $PWD/dab $PWD/tests/dab
+        - cd tests
+        - gem install cucumber_lint
+        - gem install aruba
+        - mkdir -p /tmp/dab
+      before_script: cucumber_lint
+      script: cucumber --color --fail-fast --strict --guess --verbose
 
     - stage: Nix
       name: Nix Package
