@@ -12,16 +12,7 @@ services:
     image: nekroze/dab:latest
 
   test:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      cache_from:
-        - alpine:latest
-        - nekroze/dab:tests
-        - koalaman/shellcheck-alpine:stable
-        - golang:alpine
-        - ruby:2.5
-    image: nekroze/dab:tests
+    image: nekroze/containaruba:latest
     environment:
       DAB_REPO_PATH: /tmp/dab/repos
       DAB_CONF_PATH: /tmp/dab/config
@@ -29,9 +20,11 @@ services:
       DAB_AUTOUPDATE: 'no'
       DAB_UID: '0'
       DAB_GID: '0'
+    user: '0:0'
     volumes:
+      - ./features:/usr/src/app/features
       - /etc/group:/etc/group:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - /tmp/dab/repos:/tmp/dab/repos
-      - /tmp/dab/config:/tmp/dab/config
+      - /tmp/dab:/tmp/dab
       - ../dab:/usr/src/app/dab:ro
+      - ../dab:/bin/dab:ro
