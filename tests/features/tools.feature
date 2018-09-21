@@ -2,11 +2,10 @@ Feature: Subcommand: dab tools
 	The tools subcommand provides easy access tool common/powerful tools.
 
 	Background:
-		As though a new user.
+		Containers are cool, and they can be fast... but not over Australian
+		internet.
 
-		Given the directory "/tmp/dab/repos" does not exist
-		And the directory "/tmp/dab/config" does not exist
-		And the aruba exit timeout is 60 seconds
+		Given the aruba exit timeout is 60 seconds
 
 	Scenario: Can execute tools with no parameters and get usage info
 		When I run `./dab tools`

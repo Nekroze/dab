@@ -43,6 +43,7 @@ ENV \
 	DAB_REPO_PATH="/var/dab/repos" \
 	DAB_CONF_PATH="/etc/dab" \
 	PS1='\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] ' \
+	PATH="$PATH:/opt/dab/docker" \
 	COMPOSE_PROJECT_NAME=dab
 VOLUME "$DAB_REPO_PATH" "$DAB_CONF_PATH"
 

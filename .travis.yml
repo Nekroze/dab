@@ -2,15 +2,11 @@ sudo: required
 
 language: nix
 
-services:
-  - docker
-
 git:
   quiet: true
 
 stages:
   - Danger
-  - Tests
   - Nix
 
 jobs:
@@ -20,10 +16,6 @@ jobs:
       name: Danger Checks
       script: ./scripts/danger.sh
       cache: yarn
-
-    - stage: Tests
-      name: Behaviour Tests
-      script: ./scripts/test.sh
 
     - stage: Nix
       name: Nix Package

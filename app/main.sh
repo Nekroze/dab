@@ -6,6 +6,7 @@ set -euf
 . lib.sh
 
 maybe_selfupdate_dab
+ensure_network
 
 usage() {
 	echo "Dab"
