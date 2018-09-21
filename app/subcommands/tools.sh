@@ -9,7 +9,7 @@ toolpose() {
 	# Project must not be named dab otherwise test and run containers may be
 	# removed causing exit code 137 failures.
 	docker-compose \
-		--file docker/docker-compose.yml \
+		--file docker/docker-compose.tools.yml \
 		--project-directory ./docker \
 		--project-name tools \
 		"$@"

@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  shell:
+    image: alpine:latest
+    networks:
+      - lab
+
+networks:
+  lab:
+    name: lab
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "${DAB_LAB_INTERNET:-false}"
+    ipam:
+      driver: default
+      config:
+        - subnet: "${DAB_LAB_SUBNET:-10.10.0.0/16}"

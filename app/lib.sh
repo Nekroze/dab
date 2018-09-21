@@ -125,6 +125,20 @@ maybe_selfupdate_dab() {
 	fi
 }
 
+netpose() {
+	# Project must not be named dab otherwise test and run containers may be
+	# removed causing exit code 137 failures.
+	docker-compose \
+		--file docker/docker-compose.network.yml \
+		--project-directory ./docker \
+		--project-name lab \
+		"$@"
+}
+
+ensure_network() {
+	quietly netpose up --no-start
+}
+
 # Subcommand table display
 alias draw_subcommand_table="sort -s -k 1,1 | column -s':' -o' | ' -t -N SUBCOMMAND,ALIASES,DESCRIPTION -R SUBCOMMAND"
 subcmd_row() {

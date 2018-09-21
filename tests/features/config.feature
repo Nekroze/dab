@@ -3,12 +3,6 @@ Feature: Subcommand: dab config
 	keys are any word or sequence of words (for namespacing) delimited by a
 	period, eg. repos.dab.url would store the url for the dab repository.
 
-	Background:
-		As though a new user.
-
-		Given the directory "/tmp/dab/repos" does not exist
-		And the directory "/tmp/dab/config" does not exist
-
 	Scenario: Can execute config with no parameters and get usage info
 		When I run `./dab config`
 

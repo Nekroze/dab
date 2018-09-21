@@ -5,6 +5,14 @@ set -euf
 # shellcheck disable=SC1091
 . lib.sh
 
+# shellcheck disable=SC2016
+DEFAULT_ENTRYPOINT_SCRIPT='#!/bin/sh
+set -eu
+
+# Put containers on the lab network by default.
+export COMPOSE_FILE="$(compose-external-default-network.sh 2.1 lab default)"
+'
+
 add_repo() {
 	config_set "repo/$1/url" "$2"
 }
@@ -65,14 +73,12 @@ create_entrypoint_scripts() {
 
 	config_set "repo/$repo/entrypoint/start/command" "sh /etc/dab/$start_path"
 	if [ ! -f "/etc/dab/$start_path" ]; then
-		config_set "repo/$repo/entrypoint/start/script" '#!/bin/sh
-set -eu'
+		config_set "repo/$repo/entrypoint/start/script" "$DEFAULT_ENTRYPOINT_SCRIPT"
 	fi
 
 	config_set "repo/$repo/entrypoint/stop/command" "sh /etc/dab/$stop_path"
 	if [ ! -f "/etc/dab/$stop_path" ]; then
-		config_set "repo/$repo/entrypoint/stop/script" '#!/bin/sh
-set -eu'
+		config_set "repo/$repo/entrypoint/stop/script" "$DEFAULT_ENTRYPOINT_SCRIPT"
 	fi
 
 	inform "Please edit \$DAB_CONF_PATH/$start_path to start your project"
@@ -80,9 +86,9 @@ set -eu'
 	inform "These scripts will be run from the root of the repository"
 }
 
-create_entrypoint_docker_compose() {
-	config_set "repo/$repo/entrypoint/start/command" "docker_compose up"
-	config_set "repo/$repo/entrypoint/stop/command" "docker_compose down"
+create_entrypoint_command() {
+	config_set "repo/$1/entrypoint/start/command" "echo start $1"
+	config_set "repo/$1/entrypoint/stop/command" "echo stop $1"
 }
 
 entrypoint_subcommands() {
@@ -113,7 +119,7 @@ entrypoint() {
 
 entrypoint_set_subcommands() {
 	subcmd_row script 'use start and stop scripts (ideally idempotent ones) stored in dab config'
-	subcmd_row compose 'use basic docker-compose up and down'
+	subcmd_row command 'run any command within the dab shell after entering the repo directory'
 }
 
 entrypoint_set() {
@@ -123,8 +129,9 @@ entrypoint_set() {
 	script)
 		create_entrypoint_scripts "$repo"
 		;;
-	compose)
-		create_entrypoint_docker_compose "$repo"
+	command)
+		shift
+		create_entrypoint_command "$repo" "$@"
 		;;
 	'-h' | '--help' | help | *)
 		inform "Entrypoints are start stop pairs of commands to execute from inside the repository."
