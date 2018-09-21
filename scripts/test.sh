@@ -9,9 +9,6 @@ set -euf
 # Pull the last dab image for caching.
 doco pull test || true
 
-# build test container, contains linting.
-doco build --force-rm --pull test
-
 # run test container and pass any params to this script to cucumber.
 doco run --rm test "$@"
 
