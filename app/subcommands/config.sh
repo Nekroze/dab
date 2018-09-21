@@ -14,13 +14,22 @@ subcommands() {
 
 case "${1:-}" in
 set)
-	quietly config_set "$2" "${3:-}"
+	shift
+	[ -n "${1:-}" ] || fatality "must provide a config key"
+	key="$1"
+	shift
+	config_set "$key" "$@"
 	;;
 get)
+	[ -n "${2:-}" ] || fatality "must provide a config key"
 	config_get "$2"
 	;;
 add)
-	config_add "$2" "$3"
+	shift
+	[ -n "${1:-}" ] || fatality "must provide a config key"
+	key="$1"
+	shift
+	config_add "$key" "$@"
 	;;
 keys | tree)
 	(

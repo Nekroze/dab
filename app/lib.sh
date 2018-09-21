@@ -66,21 +66,30 @@ config_get() {
 }
 
 config_set() {
-	whisper "setting config key $1 to $2"
-	path="/etc/dab/$1"
-	mkdir -p "$(dirname "$path")"
-	if [ -n "$2" ]; then
-		echo "$2" >"$path"
-	else
+	key="$1"
+	shift
+
+	path="/etc/dab/$key"
+	if [ -n "${1:-}" ]; then
+		whisper "setting config key $key to $*"
+		mkdir -p "$(dirname "$path")"
+		echo "$@" >"$path"
+	elif [ -f "$path" ]; then
+		whisper "deleting config key $key"
 		rm -f "$path"
 	fi
 }
 
 config_add() {
-	path="/etc/dab/$1"
+	key="$1"
+	shift
+
+	[ -n "$1" ] || fatality "must provide some value to add"
+
+	path="/etc/dab/$key"
 	mkdir -p "$(dirname "$path")"
-	echo "$2" >>"$path"
-	whisper "added $2 to config key $1 which now contains $(wc -l <"$path") values"
+	echo "$@" >>"$path"
+	whisper "added $* to config key $key which now contains $(wc -l <"$path") values"
 }
 
 # Auto update functionality
