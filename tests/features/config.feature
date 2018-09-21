@@ -36,10 +36,11 @@ Feature: Subcommand: dab config
 		"""
 
 		Examples:
-			| KEY     | VALUE |
-			| foo     | bar   |
-			| foo     | barry |
-			| bar.foo | 42    |
+			| KEY     | VALUE    |
+			| foo     | bar      |
+			| foo     | barry    |
+			| bar.foo | 42       |
+			| bar.foo | 42 barry |
 
 	Scenario Outline: Can add to a config value making a list
 		The user should be able to set a config value and then add to it to
@@ -67,10 +68,12 @@ Feature: Subcommand: dab config
 		"""
 
 		Examples:
-			| KEY        | FIRST | SECOND |
-			| thing1     | foo   | bar    |
-			| thing2     | barry | allen  |
-			| thing3/foo | 42    | lolwut |
+			| KEY        | FIRST  | SECOND |
+			| thing1     | foo    | bar    |
+			| thing2     | barry  | allen  |
+			| thing3/foo | 42     | lolwut |
+			| thing4/goo | 42 foo | lolwut |
+			| thing5/poo | 42 foo | lol 42 |
 
 	Scenario Outline: Can erase config items with an empty set
 		By not giving a value to assign to a key when running the `config set`
