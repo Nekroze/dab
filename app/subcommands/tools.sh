@@ -15,10 +15,27 @@ toolpose() {
 		"$@"
 }
 
-get_tool_port() {
+get_tool_port_random() {
 	docker ps --filter "name=tools_$1_1" --format '{{ .Ports }}' |
 		grep -Eo '0\.0\.0\.0\:[0-9]+' |
 		cut -d: -f2
+}
+
+get_tool_port_host() {
+	mode="$(docker inspect "tools_$1_1" --format '{{ .HostConfig.NetworkMode }}')"
+	if [ "$mode" = "host" ]; then
+		docker inspect "tools_$1_1" --format '{{ json .HostConfig.PortBindings }}' |
+			jq keys | grep -Eo "[0-9]+" | head -n 1
+	fi
+}
+
+get_tool_port() {
+	port="$(get_tool_port_random "$1")"
+	if [ -z "$port" ]; then
+		get_tool_port_host "$1"
+	else
+		echo "$port"
+	fi
 }
 
 get_tool_url() {
@@ -83,7 +100,8 @@ standard_tool() {
 		;;
 	start | up | ensure | *)
 		toolpose up --remove-orphans --build -d "$service"
-		inform "$service is available at ${COLOR_BLUE}$(get_tool_url "$service")${COLOR_NC}"
+		url="$(get_tool_url "$service")"
+		[ -n "$url" ] && inform "$service is available at ${COLOR_BLUE}$url${COLOR_NC}"
 		;;
 	esac
 }
@@ -143,11 +161,13 @@ tools_subcommands() {
 	tool_row grafana 'The open platform for analytics and monitoring'
 	tool_row consul 'Services discovery and key value store'
 	tool_row serveo 'Expose local servers to the internet'
+	tool_row ntopng 'Monitor network interfaces'
 }
 
 case "${1:-}" in
 cyberchef | portainer | traefik | ngrok | logspout | watchtower | \
-	tick | telegraf | influxdb | kapacitor | sysdig | grafana | consul | serveo)
+	tick | telegraf | influxdb | kapacitor | sysdig | grafana | \
+	consul | serveo | ntopng)
 	standard_tool "$@"
 	;;
 all)

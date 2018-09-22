@@ -1,6 +1,12 @@
 Feature: Subcommand: dab network
 	The network subcommand provides management over the lab network.
 
+	Background:
+		No tools are running, for testing purposes.
+
+		Given the aruba exit timeout is 60 seconds
+		And I successfully run `./dab tools all destroy`
+
 	Scenario: Network is ensured to exist
 		When I successfully run `./dab -h`
 

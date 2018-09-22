@@ -35,7 +35,7 @@ RUN apk add --no-cache docker python3 \
  && pip3 install docker-compose
 
 # Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux
+RUN apk add --no-cache git openssh tree util-linux jq
 
 # Inside the dab container, user configurable paths are
 # mounted to consistent locations. And some handy defaults.

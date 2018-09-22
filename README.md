@@ -41,7 +41,6 @@ The following features are being considered or have been planned to be implement
 - Auto update of managed repositories that are master
 - Automatically detect out of date wrapper script
 - Automated observability improvements:
-	- Autoconfigure network monitoring (eg ntopng)
 	- Autoconfigure tracing via something like [linkerd](https://github.com/linkerd/linkerd-examples)+zipkin
 	- Record common traffic like http via something like [mitmproxy](https://byteplumbing.net/2018/01/)
 
