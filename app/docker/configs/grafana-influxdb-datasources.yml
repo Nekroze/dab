@@ -1,0 +1,14 @@
+datasources:
+
+  - name: InfluxDB - Telegraf - Dab     # name of the datasource
+    access: proxy                       # make grafana perform the requests
+    type: influxdb                      # type of the data source
+    url: http://influxdb:8086           # url of the prom instance
+    database: telegraf                  # influxdb database to use
+    is_default: true                    # whether this should be the default DS
+
+  - name: InfluxDB - Internal - Dab     # name of the datasource
+    access: proxy                       # make grafana perform the requests
+    type: influxdb                      # type of the data source
+    url: http://influxdb:8086           # url of the prom instance
+    database: _internal                 # database to use

@@ -192,9 +192,13 @@ services:
       - /usr:/host/usr:ro
 
   grafana:
-    image: grafana/grafana:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.grafana
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - influxdb
     networks:
       - observability
     volumes:
