@@ -1,0 +1,3 @@
+FROM grafana/grafana:latest
+
+COPY configs/grafana-influxdb-datasources.yml /etc/grafana/provisioning/datasources/
