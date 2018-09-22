@@ -26,5 +26,5 @@ if (changedGemfile && !changedGemfileLock) {
 const changedWrapper = danger.git.modified_files.includes('dab')
 // Changes to the dab wrapper script are to be avoided when possible.
 if (changedWrapper) {
-	warn('Changes to the dab wrapper script are to be avoided when possible as it is not automatically updated.')
+	warn('Changes to the dab wrapper script are to be avoided when possible.')
 }

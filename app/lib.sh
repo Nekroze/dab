@@ -45,6 +45,11 @@ inform() {
 	echo -e "${COLOR_CYAN}$*${COLOR_NC}"
 }
 
+warn() {
+	# shellcheck disable=SC2039
+	echo -e "${COLOR_YELLOW}$*${COLOR_NC}"
+}
+
 whisper() {
 	# shellcheck disable=SC2039
 	echo -e "${COLOR_GRAY}$*${COLOR_NC}"
@@ -57,6 +62,11 @@ dab() {
 	[ -f "$sub" ] || fatality "$1 is not a valid subcommand!"
 	shift
 	"$sub" "$@"
+}
+
+FILE_HASH_ALGO=md5
+file_hash() {
+	"${FILE_HASH_ALGO}sum" "$1" | cut -d' ' -f1
 }
 
 # config helpers
@@ -105,6 +115,15 @@ should_selfupdate() {
 	[ "$seconds_since_last_update" -gt "$day_in_seconds" ]
 }
 
+maybe_notify_wrapper_update() {
+	if [ ! -f /tmp/wrapper ] || [ ! -f dab ]; then
+		tree /tmp
+		return 0
+	fi
+	if [ "$(file_hash dab)" != "$(file_hash /tmp/wrapper)" ]; then
+		warn 'Dab wrapper script appears to have an update available!'
+	fi
+}
 maybe_selfupdate_repo() {
 	if should_selfupdate "repo.$1"; then
 		inform "checking $1 repo for updates"
@@ -123,6 +142,7 @@ maybe_selfupdate_dab() {
 		config_set updates/last "$(date +%s)"
 		./subcommands/update.sh
 	fi
+	maybe_notify_wrapper_update
 }
 
 netpose() {
