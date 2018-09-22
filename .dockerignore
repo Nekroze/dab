@@ -1,9 +1,6 @@
 /app/subcommands/template.sh
 /.git
 /scripts
-/scripts/danger.sh
-/tests/vendor
-/tests/yarn.lock
-/tests/package.json
-/tests/dangerfile.js
-/tests/node_modules
+/tests
+/default.nix
+!/tests/features

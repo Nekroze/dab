@@ -6,9 +6,6 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      cache_from:
-        - alpine:latest
-        - nekroze/dab:latest
     image: nekroze/dab:latest
 
   test:
@@ -26,5 +23,4 @@ services:
       - /etc/group:/etc/group:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/dab:/tmp/dab
-      - ../dab:/usr/src/app/dab:ro
       - ../dab:/bin/dab:ro
