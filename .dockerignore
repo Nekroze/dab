@@ -4,3 +4,4 @@
 /tests
 /default.nix
 !/tests/features
+*.log

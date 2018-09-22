@@ -1,3 +1,4 @@
-FROM nginx:alpine
+ARG NGINX_TAG=alpine
+FROM "nginx:$NGINX_TAG"
 
 ADD --chown=nginx:nginx https://gchq.github.io/CyberChef/cyberchef.htm /usr/share/nginx/html/index.html

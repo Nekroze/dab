@@ -1,4 +1,5 @@
-FROM telegraf:alpine
+ARG TELEGRAF_TAG=alpine
+FROM "telegraf:$TELEGRAF_TAG"
 
 EXPOSE 9411
 EXPOSE 6514

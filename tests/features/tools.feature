@@ -48,6 +48,31 @@ Feature: Subcommand: dab tools
 			| logspout  |
 			| grafana   |
 
+	Scenario Outline: Can select different tool versions with environment variables
+		A non exhaustive list of tools and versions that can be configured.
+
+		Given I set the environment variable "<VAR>" to "<VERSION>"
+
+		When I successfully run `dab tools <TOOL> start`
+
+		Then I run `docker ps --format '{{ .Image }}' --filter 'name=tools_<TOOL>_1'`
+		And it should pass with "<VERSION>"
+		And I successfully run `dab tools <TOOL> stop`
+
+		Examples:
+			| TOOL      | VAR                      | VERSION    |
+			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | latest     |
+			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | alpine     |
+			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | 1.5        |
+			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | 1.5-alpine |
+			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | 1.6-alpine |
+			| portainer | DAB_TOOLS_PORTAINER_TAG  | 1.19.2     |
+			| influxdb  | DAB_TOOLS_INFLUXDB_TAG   | 1.5-alpine |
+			| kapacitor | DAB_TOOLS_KAPACITOR_TAG  | 1.5-alpine |
+			| traefik   | DAB_TOOLS_TRAEFIK_TAG    | v1.7       |
+			| logspout  | DAB_TOOLS_LOGSPOUT_TAG   | v3.1       |
+			| consul    | DAB_TOOLS_CONSUL_TAG     | 1.1.0      |
+
 	Scenario: Can stop all tools at once
 		Given I successfully run `dab tools cyberchef start`
 

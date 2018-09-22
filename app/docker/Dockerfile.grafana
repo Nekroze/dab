@@ -1,3 +1,4 @@
-FROM grafana/grafana:latest
+ARG GRAFANA_TAG=latest
+FROM "grafana/grafana:$GRAFANA_TAG"
 
 COPY configs/grafana-influxdb-datasources.yml /etc/grafana/provisioning/datasources/
