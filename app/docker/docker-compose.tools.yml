@@ -253,6 +253,23 @@ services:
     networks:
       - public
 
+  ntopng:
+    build:
+      context: .
+      dockerfile: Dockerfile.ntopng
+    network_mode: host
+    ports:
+      - 3000
+    depends_on:
+      - redis
+    restart: on-failure
+    command: --redis localhost:16379
+
+  redis:
+    image: redis:latest
+    ports:
+      - '16379:6379'
+
 volumes:
   influxdb:
   kapacitor:

@@ -11,6 +11,7 @@ Feature: Subcommand: dab tools
 		When I run `./dab tools`
 
 		Then it should fail with "Please select from the available tools"
+		And the stderr should not contain anything
 
 	Scenario: Can update all tools at once
 		Given the aruba exit timeout is 3600 seconds
@@ -30,6 +31,7 @@ Feature: Subcommand: dab tools
 		And I successfully run `docker top tools_<TOOL>_1`
 
 		When I successfully run `./dab tools <TOOL> stop`
+		And the stderr should not contain anything
 
 		Then I run `docker top tools_<TOOL>_1`
 		And it should fail with "is not running"
@@ -45,6 +47,7 @@ Feature: Subcommand: dab tools
 			| traefik   |
 			| logspout  |
 			| grafana   |
+			| ntopng    |
 
 	Scenario: Can stop all tools at once
 		Given I successfully run `./dab tools cyberchef start`

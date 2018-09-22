@@ -1,0 +1,13 @@
+FROM nixos/nix
+
+RUN echo "Updating channel and install ntopng" \
+ && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
+ && nix-channel --update \
+ && nix-env -i ntopng
+
+VOLUME /var/lib/ntopng
+
+CMD ntopng
+EXPOSE 3000
+
+ENTRYPOINT ["/nix/var/nix/profiles/default/bin/ntopng"]
