@@ -116,9 +116,9 @@ if [ -z "${DAB_WRAPPER_PATH:-}" ]; then
 	wrapperlink="$(readlink -f "$0" || true)"
 	wrappercmd="$(command -v "$0" || true)"
 	if [ -e "$wrapperlink" ]; then
-		DAB_WRAPPER_PATH="$wrapperlink:/tmp/wrapper"
+		DAB_WRAPPER_PATH="$wrapperlink"
 	elif [ -n "$wrappercmd" ] && [ -f "$wrappercmd" ]; then
-		DAB_WRAPPER_PATH="$wrappercmd:/tmp/wrapper"
+		DAB_WRAPPER_PATH="$wrappercmd"
 	fi
 fi
 [ -n "${DAB_WRAPPER_PATH:-}" ] && dArg -v "$DAB_WRAPPER_PATH:/tmp/wrapper"
@@ -126,4 +126,3 @@ fi
 # Execute with all generated args and passing in all script params to the container.
 # shellcheck disable=SC2086
 docker run $docker_args "$image" "$@"
-# simulated change indicating wrapper is out of date

@@ -117,7 +117,6 @@ should_selfupdate() {
 
 maybe_notify_wrapper_update() {
 	if [ ! -f /tmp/wrapper ] || [ ! -f dab ]; then
-		tree /tmp
 		return 0
 	fi
 	if [ "$(file_hash dab)" != "$(file_hash /tmp/wrapper)" ]; then
