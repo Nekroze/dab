@@ -1,24 +1,24 @@
 Feature: Subcommand: dab config
 	The config subcommand manages the dab configuration key value store. Config
 	keys are any word or sequence of words (for namespacing) delimited by a
-	period, eg. repos.dab.url would store the url for the dab repository.
+	period, eg. repos/dab/url would store the url for the dab repository.
 
 	Scenario: Can execute config with no parameters and get usage info
-		When I run `./dab config`
+		When I run `dab config`
 
 		Then it should fail with "SUBCOMMAND"
 
 	Scenario: Can execute config with -h and get usage info
-		When I run `./dab config -h`
+		When I run `dab config -h`
 
 		Then it should pass with "SUBCOMMAND"
 
 	Scenario Outline: Can set and retrieve config values
 		The user should be able to get and set arbitrary config key value pairs.
 
-		Given I successfully run `./dab config set <KEY> <VALUE>`
+		Given I successfully run `dab config set <KEY> <VALUE>`
 
-		When I run `./dab config get <KEY>`
+		When I run `dab config get <KEY>`
 
 		Then it should pass with exactly:
 		"""
@@ -41,9 +41,9 @@ Feature: Subcommand: dab config
 		make a list, note setting will replace the list with the single new
 		element.
 
-		Given I successfully run `./dab config set <KEY> <FIRST>`
+		Given I successfully run `dab config set <KEY> <FIRST>`
 
-		When I run `./dab config add <KEY> <SECOND>`
+		When I run `dab config add <KEY> <SECOND>`
 
 		Then it should pass with exactly:
 		"""
@@ -54,7 +54,7 @@ Feature: Subcommand: dab config
 		<FIRST>
 		<SECOND>
 		"""
-		And I run `./dab config get <KEY>`
+		And I run `dab config get <KEY>`
 		And it should pass with exactly:
 		"""
 		<FIRST>
@@ -73,10 +73,10 @@ Feature: Subcommand: dab config
 		By not giving a value to assign to a key when running the `config set`
 		subcommand that key will be deleted.
 
-		Given I successfully run `./dab config set <KEY> toErase`
+		Given I successfully run `dab config set <KEY> toErase`
 		And the file "/tmp/dab/config/<KEY>" should exist
 
-		When I successfully run `./dab config set <KEY>`
+		When I successfully run `dab config set <KEY>`
 
 		Then the file "/tmp/dab/config/<KEY>" should not exist anymore
 

@@ -8,7 +8,7 @@ Feature: Subcommand: dab tools
 		Given the aruba exit timeout is 60 seconds
 
 	Scenario: Can execute tools with no parameters and get usage info
-		When I run `./dab tools`
+		When I run `dab tools`
 
 		Then it should fail with "Please select from the available tools"
 		And the stderr should not contain anything
@@ -16,13 +16,13 @@ Feature: Subcommand: dab tools
 	Scenario: Can update all tools at once
 		Given the aruba exit timeout is 3600 seconds
 
-		When I run `./dab tools all update`
+		When I run `dab tools all update`
 
 		Then it should pass with "Pulling"
 		And the output should contain "Building"
 
 	Scenario Outline: Can start and stop web based tools
-		When I run `./dab tools <TOOL> start`
+		When I run `dab tools <TOOL> start`
 
 		Then it should pass matching:
 		"""
@@ -30,7 +30,7 @@ Feature: Subcommand: dab tools
 		"""
 		And I successfully run `docker top tools_<TOOL>_1`
 
-		When I successfully run `./dab tools <TOOL> stop`
+		When I successfully run `dab tools <TOOL> stop`
 		And the stderr should not contain anything
 
 		Then I run `docker top tools_<TOOL>_1`
@@ -47,20 +47,19 @@ Feature: Subcommand: dab tools
 			| traefik   |
 			| logspout  |
 			| grafana   |
-			| ntopng    |
 
 	Scenario: Can stop all tools at once
-		Given I successfully run `./dab tools cyberchef start`
+		Given I successfully run `dab tools cyberchef start`
 
-		When I run `./dab tools all stop`
+		When I run `dab tools all stop`
 
 		Then I run `docker top tools_cyberchef_1`
 		And it should fail with "is not running"
 
 	Scenario: Can erase all tools and their state at once
-		Given I successfully run `./dab tools cyberchef start`
+		Given I successfully run `dab tools cyberchef start`
 
-		When I run `./dab tools all destroy`
+		When I run `dab tools all destroy`
 
 		Then I run `docker top tools_cyberchef_1`
 		And it should fail with "No such container"
