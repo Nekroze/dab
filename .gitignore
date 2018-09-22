@@ -1,2 +1,3 @@
 /tests/vendor
 /tests/node_modules
+*.log

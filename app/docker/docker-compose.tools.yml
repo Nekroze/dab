@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.cyberchef
+      args:
+        - "NGINX_TAG=${DAB_TOOLS_NGINX_TAG:-alpine}"
     ports:
       - 80
     healthcheck:
@@ -15,7 +17,7 @@ services:
       retries: 3
 
   portainer:
-    image: portainer/portainer
+    image: "portainer/portainer:${DAB_TOOLS_PORTAINER_TAG:-latest}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     ports:
@@ -26,7 +28,7 @@ services:
       - portainer:/data
 
   tick:
-    image: chronograf:alpine
+    image: "chronograf:${DAB_TOOLS_CHRONOGRAF_TAG:-alpine}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
@@ -56,6 +58,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.telegraf
+      args:
+        - "TELEGRAF_TAG=${DAB_TOOLS_TELEGRAF_TAG:-alpine}"
     depends_on:
       - influxdb
     networks:
@@ -74,7 +78,7 @@ services:
       retries: 3
 
   influxdb:
-    image: influxdb:alpine
+    image: "influxdb:${DAB_TOOLS_INFLUXDB_TAG:-alpine}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
@@ -90,7 +94,7 @@ services:
       retries: 3
 
   kapacitor:
-    image: kapacitor:alpine
+    image: "kapacitor:${DAB_TOOLS_KAPACITOR_TAG:-alpine}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
@@ -113,7 +117,7 @@ services:
       retries: 3
 
   traefik:
-    image: traefik:alpine
+    image: "traefik:${DAB_TOOLS_TRAEFIK_TAG:-alpine}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     command:
@@ -158,7 +162,7 @@ services:
       retries: 3
 
   logspout:
-    image: gliderlabs/logspout:latest
+    image: "gliderlabs/logspout:${DAB_TOOLS_LOGSPOUT_TAG:-latest}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
@@ -174,7 +178,7 @@ services:
       INACTIVITY_TIMEOUT: 1m
 
   watchtower:
-    image: v2tec/watchtower
+    image: v2tec/watchtower:latest
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
@@ -182,7 +186,7 @@ services:
     command: --cleanup --label-enable
 
   sysdig:
-    image: sysdig/sysdig:latest
+    image: "sysdig/sysdig:${DAB_TOOLS_SYSDIG_TAG:-latest}"
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
       - /dev:/host/dev
@@ -195,6 +199,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.grafana
+      args:
+        - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
@@ -214,7 +220,7 @@ services:
       retries: 3
 
   consul:
-    image: consul:latest
+    image: "consul:${DAB_TOOLS_CONSUL_TAG:-latest}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
@@ -266,7 +272,7 @@ services:
     command: --redis localhost:16379
 
   redis:
-    image: redis:latest
+    image: "redis:${DAB_TOOLS_REDIS_TAG:-latest}"
     ports:
       - '16379:6379'
 
