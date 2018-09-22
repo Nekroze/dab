@@ -50,7 +50,7 @@ VOLUME "$DAB_REPO_PATH" "$DAB_CONF_PATH"
 # Move just the app directory from the dab repository and execute from there to
 # keep paths consistent and predictable.
 WORKDIR /opt/dab
-COPY ./app ./README.md ./LICENSE ./
+COPY ./app ./README.md ./LICENSE ./dab ./
 ENTRYPOINT ["/opt/dab/main.sh"]
 
 LABEL org.label-schema.schema-version="1.0" \
