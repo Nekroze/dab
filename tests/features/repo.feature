@@ -65,10 +65,18 @@ Feature: Subcommand: dab repo
 
 	Scenario: Can put any command in an entrypoint start command
 		Given I successfully run `dab repo add dotfiles6 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint dotfiles6 set script`
-		And I successfully run `dab config set repo/dotfiles6/entrypoint/start/command "echo FOOBAR"`
+		And I run `dab repo entrypoint dotfiles5 set command echo FOOBAR`
 
-		When I run `dab repo entrypoint dotfiles6 start`
+		When I run `dab repo entrypoint dotfiles5 start`
+
+		Then it should pass with "FOOBAR"
+
+	Scenario: Can put any command in an entrypoint start script
+		Given I successfully run `dab repo add dotfiles7 https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint dotfiles7 set script`
+		And I successfully run `dab config set repo/dotfiles7/entrypoint/start/command echo FOOBAR`
+
+		When I run `dab repo entrypoint dotfiles7 start`
 
 		Then it should pass with "FOOBAR"
 
@@ -99,3 +107,51 @@ Feature: Subcommand: dab repo
 		FOO
 		"""
 		And the directory "/tmp/dab/repos/two/.git/" should exist
+
+	Scenario: Can group repositories then start them together
+		Given I successfully run `dab tools all stop`
+		And I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab repo entrypoint three set command`
+		And I successfully run `dab repo add four https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab repo entrypoint four set command`
+
+		When I run `dab repo group work addRepo three`
+
+		Then it should pass with "contains 1 value(s)"
+
+		When I run `dab repo group work repo four`
+
+		Then it should pass with "contains 2 value(s)"
+
+		When I run `dab repo group work start`
+
+		Then it should pass with:
+		"""
+		Executing three entrypoint start
+		start three
+		Executing four entrypoint start
+		start four
+		"""
+
+	Scenario: Can group repositories and tools then start them together
+		Given I successfully run `dab tools all stop`
+		And I successfully run `dab repo add five https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab repo entrypoint five set command`
+		And I successfully run `dab repo group work addRepo five`
+
+		When I run `dab repo group work addTool telegraf`
+
+		Then it should pass with "contains 1 value(s)"
+
+		When I run `dab repo group work addTool cyberchef`
+
+		Then it should pass with "contains 2 value(s)"
+
+		When I run `dab repo group work start`
+		Then it should pass with:
+		"""
+		Executing five entrypoint start
+		start five
+		"""
+		And the output should contain "telegraf is available at http://localhost:"
+		And the output should contain "cyberchef is available at http://localhost:"

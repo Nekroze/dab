@@ -47,7 +47,7 @@ Feature: Subcommand: dab config
 
 		Then it should pass with exactly:
 		"""
-		added <SECOND> to config key <KEY> which now contains 2 values
+		added <SECOND> to config key <KEY> which now contains 2 value(s)
 		"""
 		And the file "/tmp/dab/config/<KEY>" should contain exactly:
 		"""
@@ -68,6 +68,25 @@ Feature: Subcommand: dab config
 			| thing3/foo | 42     | lolwut |
 			| thing4/goo | 42 foo | lolwut |
 			| thing5/poo | 42 foo | lol 42 |
+
+	Scenario: Can add to a config key that does not exist to create a new list
+		The user should be able to add without having already done a set.
+
+		When I run `dab config add plumbus schleem`
+
+		Then it should pass with exactly:
+		"""
+		added schleem to config key plumbus which now contains 1 value(s)
+		"""
+		And the file "/tmp/dab/config/plumbus" should contain exactly:
+		"""
+		schleem
+		"""
+		And I run `dab config get plumbus`
+		And it should pass with exactly:
+		"""
+		schleem
+		"""
 
 	Scenario Outline: Can erase config items with an empty set
 		By not giving a value to assign to a key when running the `config set`

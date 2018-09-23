@@ -33,13 +33,13 @@ Dab is quite young and as such everything is still subject to change with little
 - Auto update of dab and its image
 - Setup of private lab network
 - Automatically collect logs to explore via [TICK][3]
+- Automatically detect out of date wrapper script
 
 ### Proposed
 
 The following features are being considered or have been planned to be implemented in a future version.
 
 - Auto update of managed repositories that are master
-- Automatically detect out of date wrapper script
 - Automated observability improvements:
 	- Autoconfigure tracing via something like [linkerd](https://github.com/linkerd/linkerd-examples)+zipkin
 	- Record common traffic like http via something like [mitmproxy](https://byteplumbing.net/2018/01/)

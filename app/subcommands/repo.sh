@@ -87,8 +87,10 @@ create_entrypoint_scripts() {
 }
 
 create_entrypoint_command() {
-	config_set "repo/$1/entrypoint/start/command" "echo start $1"
-	config_set "repo/$1/entrypoint/stop/command" "echo stop $1"
+	repo="$1"
+	shift
+	config_set "repo/$repo/entrypoint/start/command" "$@"
+	config_set "repo/$repo/entrypoint/stop/command" "$@"
 }
 
 entrypoint_subcommands() {
@@ -100,12 +102,13 @@ entrypoint_subcommands() {
 
 entrypoint() {
 	repo="$1"
-	case "${2:-}" in
+	shift
+	case "${1:-}" in
 	'-h' | '--help' | help)
 		entrypoint_subcommands "$repo" | draw_subcommand_table
 		;;
 	set)
-		shift 2
+		shift
 		entrypoint_set "$repo" "$@"
 		;;
 	stop)
@@ -124,18 +127,85 @@ entrypoint_set_subcommands() {
 
 entrypoint_set() {
 	repo="$1"
+	shift
 	[ -n "$(dab config get "repo/$repo/url")" ] || fatality "url for $repo is unknown"
-	case "${2:-}" in
+	case "${1:-}" in
 	script)
 		create_entrypoint_scripts "$repo"
 		;;
 	command)
 		shift
-		create_entrypoint_command "$repo" "$@"
+		if [ "$#" -gt 0 ]; then
+			create_entrypoint_command "$repo" "$@"
+		else
+			create_entrypoint_command "$repo" echo start "$repo"
+		fi
 		;;
 	'-h' | '--help' | help | *)
 		inform "Entrypoints are start stop pairs of commands to execute from inside the repository."
 		entrypoint_set_subcommands "$repo" | draw_subcommand_table
+		;;
+	esac
+}
+
+group_subcommands() {
+	subcmd_row addRepo repo 'Add to (or create a new) group the given repo as a dependency'
+	subcmd_row addTool tool 'Add to (or create a new) group the given tool as a dependency'
+	subcmd_row start up,run 'Start a groups repos and then tools if defined, in FIFO order'
+	subcmd_row fetch update,check 'Run the fetch subcommand on all dependant repos in the group'
+}
+
+group_subcmd() {
+	group_name="$1"
+	shift
+	case "${1:-}" in
+	addRepo | repo)
+		shift
+		[ -n "${1:-}" ] || fatality 'must provide a repo name to add as a dependency'
+		config_add "group/$group_name/repos" "$1"
+		;;
+	addTool | tool)
+		shift
+		[ -n "${1:-}" ] || fatality 'must provide a tool name to add as a dependency'
+		config_add "group/$group_name/tools" "$1"
+		;;
+	fetch | update | check)
+		repos="$(config_get "group/$group_name/repos")"
+		tools="$(config_get "group/$group_name/tools")"
+		if [ -z "$repos" ] && [ -z "$tools" ]; then
+			fatality "group $group_name does not have any dependencies to update"
+		fi
+		for repo in $repos; do
+			(
+				maybe_selfupdate_repo "$repo"
+			)
+		done
+		for tool in $tools; do
+			(
+				dab tools "$tool" update
+			)
+		done
+		;;
+	start | up | run)
+		repos="$(config_get "group/$group_name/repos")"
+		tools="$(config_get "group/$group_name/tools")"
+		if [ -z "$repos" ] && [ -z "$tools" ]; then
+			fatality "group $group_name does not have any dependencies to start"
+		fi
+		for repo in $repos; do
+			(
+				run_entrypoint_start "$repo"
+			)
+		done
+		for tool in $tools; do
+			(
+				dab tools "$tool" start
+			)
+		done
+		;;
+	'-h' | '--help' | help | *)
+		inform 'Groups are collections of repos that can be controlled in bulk.'
+		group_subcommands "$group_name" | draw_subcommand_table
 		;;
 	esac
 }
@@ -179,6 +249,11 @@ fetch)
 	for repo in $repos; do
 		maybe_selfupdate_repo "$repo"
 	done
+	;;
+group)
+	shift
+	[ -n "${1:-}" ] || fatality "must provide a repo name as the first parameter"
+	group_subcmd "$@"
 	;;
 *)
 	repo_subcommands | draw_subcommand_table

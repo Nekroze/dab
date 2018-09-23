@@ -15,4 +15,5 @@ First month of life, hello world!
 
 ### Added
 
+- `dab repo group` subcommand
 - Initialized Changelog

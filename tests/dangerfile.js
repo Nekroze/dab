@@ -37,17 +37,3 @@ const hasTestChanges = appChanges.length > 0;
 if (hasAppChanges && !hasTestChanges) {
 	warn("There are changes to app , but not tests. That's OK as long as you're refactoring.");
 }
-
-// New subcommands should get new feature files for testing
-const correspondingTestsForSubcommandChanges = changesSubcommands.map(f => {
-	const changed = path.basename(f)
-	const test = path.basename(changed).replace('.sh', '.feature')
-	return `tests/features/${test}`
-});
-const missingTestFiles = correspondingTestsForSubcommandChanges.filter(f => fs.existsSync(f));
-if (missingTestFiles.length > 0) {
-	const output = `Missing Test Feature Files:
-	${testFilesThatDontExist.map(f => `  - [] \`${f}\``).join("\n")}
-	You cannot add a subcommand and not add some kind of test for it.`
-	fail(output)
-}
