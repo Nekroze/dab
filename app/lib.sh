@@ -99,7 +99,7 @@ config_add() {
 	path="/etc/dab/$key"
 	mkdir -p "$(dirname "$path")"
 	echo "$@" >>"$path"
-	whisper "added $* to config key $key which now contains $(wc -l <"$path") values"
+	whisper "added $* to config key $key which now contains $(wc -l <"$path") value(s)"
 }
 
 # Auto update functionality
