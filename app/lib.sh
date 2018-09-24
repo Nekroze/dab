@@ -81,6 +81,7 @@ config_set() {
 
 	path="/etc/dab/$key"
 	if [ -n "${1:-}" ]; then
+		[ "$(carelessly cat "$path")" = "$*" ] && return 0
 		whisper "setting config key $key to $*"
 		mkdir -p "$(dirname "$path")"
 		echo "$@" >"$path"
@@ -97,6 +98,7 @@ config_add() {
 	[ -n "$1" ] || fatality "must provide some value to add"
 
 	path="/etc/dab/$key"
+	silently grep -E "^$*$" "$path" && return 0
 	mkdir -p "$(dirname "$path")"
 	echo "$@" >>"$path"
 	whisper "added $* to config key $key which now contains $(wc -l <"$path") value(s)"

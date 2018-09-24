@@ -16,7 +16,12 @@ Feature: Subcommand: dab config
 	Scenario Outline: Can set and retrieve config values
 		The user should be able to get and set arbitrary config key value pairs.
 
-		Given I successfully run `dab config set <KEY> <VALUE>`
+		When I successfully run `dab config set <KEY> <VALUE>`
+
+		Then it should pass with exactly:
+		"""
+		setting config key <KEY> to <VALUE>
+		"""
 
 		When I run `dab config get <KEY>`
 
@@ -35,6 +40,32 @@ Feature: Subcommand: dab config
 			| foo     | barry    |
 			| bar.foo | 42       |
 			| bar.foo | 42 barry |
+
+	Scenario Outline: Setting config values is an idempotent operation
+		The user should be able to set a config multiple times with the same
+		value and it only apply once.
+
+		Given I successfully run `dab config set <KEY> <VALUE>`
+		And the output should contain exactly:
+		"""
+		setting config key <KEY> to <VALUE>
+		"""
+
+		When I successfully run `dab config set <KEY> <VALUE>`
+		Then the output should not contain anything
+
+		When I run `dab config get <KEY>`
+		Then it should pass with exactly:
+		"""
+		<VALUE>
+		"""
+
+		Examples:
+			| KEY     | VALUE    |
+			| soo     | lan      |
+			| soo     | larry    |
+			| dar.foo | 42       |
+			| dar.foo | 42 larry |
 
 	Scenario Outline: Can add to a config value making a list
 		The user should be able to set a config value and then add to it to
@@ -87,6 +118,30 @@ Feature: Subcommand: dab config
 		"""
 		schleem
 		"""
+
+	Scenario: Adding config values to a list is an idempotent operation
+
+		Given I successfully run `dab config add shleembop bloof`
+		And the output should contain exactly:
+		"""
+		added bloof to config key shleembop which now contains 1 value(s)
+		"""
+
+		When I successfully run `dab config add shleembop bloof`
+
+		Then the output should not contain anything
+
+	Scenario: Adding config values to non list is an idempotent operation
+
+		Given I successfully run `dab config set pewpew boom`
+		And the output should contain exactly:
+		"""
+		setting config key pewpew to boom
+		"""
+
+		When I successfully run `dab config add pewpew boom`
+
+		Then the output should not contain anything
 
 	Scenario Outline: Can erase config items with an empty set
 		By not giving a value to assign to a key when running the `config set`
