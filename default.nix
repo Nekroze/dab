@@ -7,6 +7,8 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/bin
     cp dab $out/bin/
+    mkdir -p "$out/share/bash-completion/completions/"
+    cp "app/completion.bash" "$out/share/bash-completion/completions/dab"
   '';
 
   propagatedBuildInputs = [
