@@ -11,6 +11,7 @@ First month of life, hello world!
 
 ### Changed
 
+- More fleshed out testing
 - Config `set` and `add` operations are now idempotent
 - Allow version selection of tools via `$DAB_TOOLS_<NAME>_TAG`
 

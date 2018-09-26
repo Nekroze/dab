@@ -1,9 +1,9 @@
 Feature: Subcommand: dab tools
-	The tools subcommand provides easy access tool common/powerful tools.
+	Provides easy access to common/powerful tools.
 
 	Background:
-		Containers are cool, and they can be fast... but not over Australian
-		internet.
+		Containers can be fast... but not over
+		Australian internet.
 
 		Given the aruba exit timeout is 60 seconds
 
