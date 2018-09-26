@@ -41,12 +41,8 @@ keys | tree)
 			-e '/^\s*$/d'
 	)
 	;;
-'-h' | '--help' | help)
+'-h' | '--help' | 'help' | *)
 	subcommands | draw_subcommand_table
-	exit 0
-	;;
-*)
-	subcommands | draw_subcommand_table
-	exit 1
+	[ -n "${1:-}" ]
 	;;
 esac

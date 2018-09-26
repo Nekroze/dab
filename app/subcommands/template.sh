@@ -11,8 +11,8 @@ template_subcommands() {
 }
 
 case "${1:-}" in
-*)
+'-h' | '--help' | 'help' | *)
 	template_subcommands | draw_subcommand_table
-	exit 1
+	[ -n "${1:-}" ]
 	;;
 esac

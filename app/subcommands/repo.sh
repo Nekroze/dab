@@ -101,12 +101,10 @@ entrypoint_subcommands() {
 }
 
 entrypoint() {
+	set -x
 	repo="$1"
 	shift
 	case "${1:-}" in
-	'-h' | '--help' | help)
-		entrypoint_subcommands "$repo" | draw_subcommand_table
-		;;
 	set)
 		shift
 		entrypoint_set "$repo" "$@"
@@ -114,8 +112,12 @@ entrypoint() {
 	stop)
 		run_entrypoint_stop "$repo"
 		;;
-	start | *)
+	start)
 		run_entrypoint_start "$repo"
+		;;
+	'-h' | '--help' | 'help' | *)
+		entrypoint_subcommands "$repo" | draw_subcommand_table
+		[ -n "${1:-}" ]
 		;;
 	esac
 }
@@ -141,9 +143,10 @@ entrypoint_set() {
 			create_entrypoint_command "$repo" echo start "$repo"
 		fi
 		;;
-	'-h' | '--help' | help | *)
+	'-h' | '--help' | 'help' | *)
 		inform "Entrypoints are start stop pairs of commands to execute from inside the repository."
 		entrypoint_set_subcommands "$repo" | draw_subcommand_table
+		[ -n "${1:-}" ]
 		;;
 	esac
 }
@@ -203,9 +206,10 @@ group_subcmd() {
 			)
 		done
 		;;
-	'-h' | '--help' | help | *)
+	'-h' | '--help' | 'help' | *)
 		inform 'Groups are collections of repos that can be controlled in bulk.'
 		group_subcommands "$group_name" | draw_subcommand_table
+		[ -n "${1:-}" ]
 		;;
 	esac
 }
@@ -255,8 +259,8 @@ group)
 	[ -n "${1:-}" ] || fatality "must provide a repo name as the first parameter"
 	group_subcmd "$@"
 	;;
-*)
+'-h' | '--help' | 'help' | *)
 	repo_subcommands | draw_subcommand_table
-	exit 1
+	[ -n "${1:-}" ]
 	;;
 esac

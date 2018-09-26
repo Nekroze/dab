@@ -19,6 +19,8 @@ services:
       DAB_GID: '0'
       DAB_WRAPPER_PATH: "${PWD}/dab"
     user: '0:0'
+    command:
+      - --order=random
     volumes:
       - ./features:/usr/src/app/features
       - /etc/group:/etc/group:ro
