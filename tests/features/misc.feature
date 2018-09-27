@@ -35,7 +35,7 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		And I copy the file "/bin/dab.original" to "/bin/dab"
 
-	Scenario Outline: All sub commands provide usage imformation via --help and variations
+	Scenario Outline: All sub commands groups provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
 		And it should pass with "SUBCOMMAND"
 
@@ -46,12 +46,12 @@ Feature: Docker entrypoint wrapper script works
 		And it should pass with "SUBCOMMAND"
 
 		Examples:
-			| SUBCOMMAND           |
-			| config               |
-			| shell                |
-			| network              |
-			| repo                 |
-			| repo entrypoint test |
-			| repo group test      |
-			| tools cyberchef      |
-			| tools all            |
+			| SUBCOMMAND      |
+			| config          |
+			| network         |
+			| repo            |
+			| repo entrypoint |
+			| repo group      |
+			| shell           |
+			| tools all       |
+			| tools cyberchef |

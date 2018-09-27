@@ -1,9 +1,10 @@
 #!/bin/sh
+# Description: does things
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
 # shellcheck disable=SC1091
-. lib.sh
+. ./lib.sh
 
 template_subcommands() {
 	subcmd_row thing 'does cool stuff'

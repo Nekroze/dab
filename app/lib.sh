@@ -58,10 +58,7 @@ whisper() {
 # allow scripts to use dab without spawning another container by skipping main
 # and executing subcommands directly. For consistency main uses this as well.
 dab() {
-	sub="subcommands/$1.sh"
-	[ -f "$sub" ] || fatality "$1 is not a valid subcommand!"
-	shift
-	"$sub" "$@"
+	./subcommander.sh "$@"
 }
 
 FILE_HASH_ALGO=md5
