@@ -81,30 +81,21 @@ Feature: Subcommand: dab repo
 		Then it should pass with "FOOBAR"
 
 	Scenario: Can have one repo depend on another
-		Given the directory "/tmp/dab/repos/one/.git/" should not exist
-		And I successfully run `dab repo add one https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint one set script`
+		Given I successfully run `dab repo add one https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab repo entrypoint one set command`
 		And I successfully run `dab repo add two https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint two set script`
+		And I successfully run `dab repo entrypoint two set command`
 		And the directory "/tmp/dab/repos/two" does not exist
-		And I append to "/tmp/dab/config/repo/one/entrypoint/start/script" with:
-		"""
-		echo FOO
-		"""
-		And I append to "/tmp/dab/config/repo/two/entrypoint/start/script" with:
-		"""
-		echo BAR
-		"""
-		And I successfully run `dab repo require one two`
 
-		When I run `dab repo entrypoint one start`
+		When I successfully run `dab repo require one two`
 
-		Then it should pass with:
+		Then I run `dab repo entrypoint one start`
+		And it should pass with:
 		"""
 		Executing two entrypoint start
-		BAR
+		start two
 		Executing one entrypoint start
-		FOO
+		start one
 		"""
 		And the directory "/tmp/dab/repos/two/.git/" should exist
 
@@ -148,6 +139,7 @@ Feature: Subcommand: dab repo
 		Then it should pass with "contains 2 value(s)"
 
 		When I run `dab repo group work start`
+
 		Then it should pass with:
 		"""
 		Executing five entrypoint start

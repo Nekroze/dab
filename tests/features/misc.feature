@@ -16,14 +16,12 @@ Feature: Docker entrypoint wrapper script works
 		Then it should pass with "Usage:"
 
 	Scenario: Warns user when wrapper is out of date with image wrapper
-		When I successfully run `dab -h`
-
-		Then the output should not contain:
+		Given I successfully run `dab -h`
+		And the output should not contain:
 		"""
 		Dab wrapper script appears to have an update available!
 		"""
-
-		Given I copy the file "/bin/dab" to "/bin/dab.original"
+		And I copy the file "/bin/dab" to "/bin/dab.original"
 		And I append to "/bin/dab" with:
 		"""
 		# simulated change indicating wrapper is out of date
@@ -35,5 +33,25 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		Dab wrapper script appears to have an update available!
 		"""
-
 		And I copy the file "/bin/dab.original" to "/bin/dab"
+
+	Scenario Outline: All sub commands provide usage imformation via --help and variations
+		Given I run `dab <SUBCOMMAND> --help`
+		And it should pass with "SUBCOMMAND"
+
+		When I run `dab <SUBCOMMAND> -h`
+		And it should pass with "SUBCOMMAND"
+
+		Then I run `dab <SUBCOMMAND> help`
+		And it should pass with "SUBCOMMAND"
+
+		Examples:
+			| SUBCOMMAND           |
+			| config               |
+			| shell                |
+			| network              |
+			| repo                 |
+			| repo entrypoint test |
+			| repo group test      |
+			| tools cyberchef      |
+			| tools all            |

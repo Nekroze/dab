@@ -65,7 +65,7 @@ standard_tool_subcommands() {
 standard_tool() {
 	service="$1"
 	case "${2:-}" in
-	'-h' | '--help' | help)
+	'-h' | '--help' | 'help')
 		standard_tool_subcommands "$service" | draw_subcommand_table
 		;;
 	logs | log)
@@ -139,8 +139,9 @@ all_tools() {
 		shift
 		toolpose ps "$@"
 		;;
-	'-h' | '--help' | help | *)
+	'-h' | '--help' | 'help' | *)
 		all_tools_subcommands | draw_subcommand_table
+		[ -n "${1:-}" ]
 		;;
 	esac
 }
@@ -174,9 +175,9 @@ all)
 	shift
 	all_tools "$@"
 	;;
-*)
+'-h' | '--help' | 'help' | *)
 	inform 'Please select from the available tools'
 	tools_subcommands | column -s':' -o' | ' -t -N TOOL,DESCRIPTION
-	exit 1
+	[ -n "${1:-}" ]
 	;;
 esac

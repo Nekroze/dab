@@ -21,6 +21,6 @@ destroy | erase | rm | clean)
 '-h' | '--help' | 'help' | *)
 	inform 'Manage the lab network.'
 	template_subcommands | draw_subcommand_table
-	exit 1
+	[ -n "${1:-}" ]
 	;;
 esac

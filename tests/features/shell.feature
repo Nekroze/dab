@@ -9,6 +9,7 @@ Feature: Subcommand: dab shell
 
 	Scenario: All DAB_ env vars are passed into the dab container
 		Given I set the environment variable "DAB_CUSTOM_VAR" to "FOOBAR"
+
 		When I run `dab shell env`
 
 		Then it should pass with:
