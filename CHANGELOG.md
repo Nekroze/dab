@@ -18,6 +18,7 @@ First month of life, hello world!
 
 ### Added
 
+- Added [Hashicorp Vault](https://www.vaultproject.io/) and [VaultBot](https://gitlab.com/msvechla/vaultbot) to tools.
 - `subcommander.sh` to handle nested subcommands
 - `dab repo group` subcommand
 - Initialized Changelog

@@ -164,12 +164,14 @@ tools_subcommands() {
 	tool_row consul 'Services discovery and key value store'
 	tool_row serveo 'Expose local servers to the internet'
 	tool_row ntopng 'Monitor network interfaces'
+	tool_row vault 'Store, manage, and generate secrets with Hashicorp Vault'
+	tool_row vaultbot 'Automate interaction with Hashicorp Vault'
 }
 
 case "${1:-}" in
 cyberchef | portainer | traefik | ngrok | logspout | watchtower | \
 	tick | telegraf | influxdb | kapacitor | sysdig | grafana | \
-	consul | serveo | ntopng)
+	consul | serveo | ntopng | vault | vaultbot)
 	standard_tool "$@"
 	;;
 all)
