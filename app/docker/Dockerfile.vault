@@ -1,0 +1,6 @@
+ARG VAULT_TAG=latest
+FROM "vault:$VAULT_TAG"
+
+COPY configs/vault.hcl /vault/config/
+
+CMD ["server"]

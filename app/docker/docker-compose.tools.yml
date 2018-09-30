@@ -276,6 +276,42 @@ services:
     ports:
       - '16379:6379'
 
+  vaultbot:
+    image: "msvechla/vaultbot:${DAB_TOOLS_VAULTBOT_TAG:-latest}"
+    entrypoint:
+      - ./vaultbot
+      - '--vault-adr=http://vault:8200'
+    networks:
+      - vault
+    depends_on:
+      - vault
+
+  vault:
+    build:
+      context: .
+      dockerfile: Dockerfile.vault
+      args:
+        - "VAULT_TAG=${DAB_TOOLS_VAULT_TAG:-latest}"
+    restart: on-failure
+    networks:
+      vault:
+      observability:
+      lab:
+        aliases:
+          - vault
+    healthcheck:
+      test: 'wget --spider http://localhost:8200/v1/sys/health || exit 1'
+      interval: 10s
+      timeout: 9s
+      retries: 3
+    ports:
+      - 8200
+    cap_add:
+      - IPC_LOCK
+    depends_on:
+      - consul
+      - telegraf
+
 volumes:
   influxdb:
   kapacitor:
@@ -283,10 +319,12 @@ volumes:
   portainer:
   grafana:
   consul:
+  vault:
 
 networks:
   observability:
   public:
+  vault:
   lab:
     external:
       name: lab
