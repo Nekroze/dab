@@ -53,8 +53,7 @@ Feature: Docker entrypoint wrapper script works
 			| repo entrypoint     |
 			| repo entrypoint set |
 			| repo group          |
-			| tools all           |
-			| tools cyberchef     |
+			| tools               |
 
 	Scenario Outline: All sub commands provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
@@ -69,23 +68,32 @@ Feature: Docker entrypoint wrapper script works
 		Examples:
 			| SUBCOMMAND                  |
 			| config add                  |
-			| config set                  |
 			| config get                  |
 			| config keys                 |
+			| config set                  |
 			| network destroy             |
 			| network shell               |
 			| repo add                    |
 			| repo clone                  |
-			| repo fetch                  |
-			| repo require                |
-			| repo entrypoint start       |
-			| repo entrypoint stop        |
 			| repo entrypoint set command |
 			| repo entrypoint set script  |
+			| repo entrypoint start       |
+			| repo entrypoint stop        |
+			| repo fetch                  |
 			| repo group repo             |
-			| repo group tool             |
 			| repo group start            |
+			| repo group tool             |
 			| repo group update           |
+			| repo require                |
 			| shell                       |
+			| tools address               |
+			| tools destroy               |
+			| tools exec                  |
+			| tools list                  |
+			| tools logs                  |
+			| tools restart               |
+			| tools run                   |
+			| tools start                 |
+			| tools stop                  |
+			| tools update                |
 			| update                      |
-			| tools                       |

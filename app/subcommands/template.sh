@@ -6,15 +6,3 @@ set -euf
 
 # shellcheck disable=SC1091
 . ./lib.sh
-
-template_subcommands() {
-	subcmd_row thing 'does cool stuff'
-	subcmd_row foo bar,barry 'thingo with two aliases'
-}
-
-case "${1:-}" in
-'-h' | '--help' | 'help' | *)
-	template_subcommands | draw_subcommand_table
-	[ -n "${1:-}" ]
-	;;
-esac

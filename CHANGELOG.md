@@ -11,6 +11,7 @@ First month of life, hello world!
 
 ### Changed
 
+- Brought `dab tools` subcommands in line with the other subcommand UX
 - Tools can now be listed via `dab tools list`
 - Generate help and usage info for leaf commands
 - More uniform subcommands and params

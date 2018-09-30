@@ -5,8 +5,8 @@ set -euf
 
 case "${1:-}" in
 '-h' | '--help' | 'help')
-	inform "The update subcommand will attempt to udpate the dab image."
-	inform "There are no SUBCOMMANDS."
+	inform 'The update subcommand will attempt to udpate the dab image.'
+	inform 'There are no SUBCOMMANDS.'
 	exit 0
 	;;
 esac

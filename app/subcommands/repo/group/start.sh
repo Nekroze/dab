@@ -24,6 +24,6 @@ done
 
 for tool in $tools; do
 	(
-		dab tools "$tool" start
+		dab tools start "$tool"
 	)
 done

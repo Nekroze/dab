@@ -7,7 +7,7 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib.sh
 
-[ -n "${1:-}" ] || fatality "must provide a config key"
+[ -n "${1:-}" ] || fatality 'must provide a config key'
 key="$1"
 shift
 config_set "$key" "$@"

@@ -5,7 +5,7 @@ Feature: Subcommand: dab network
 		No tools are running, for testing purposes.
 
 		Given the aruba exit timeout is 60 seconds
-		And I successfully run `dab tools all destroy`
+		And I successfully run `dab tools destroy`
 
 	Scenario: Network is ensured to exist
 		When I successfully run `dab -h`
