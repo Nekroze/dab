@@ -7,6 +7,6 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib.sh
 
-[ -n "${1:-}" ] || fatality "must provide a repo name to add the dependency too as the first paramater"
-[ -n "${2:-}" ] || fatality "must provide a repo name to add as a dependency as the second paramater"
+[ -n "${1:-}" ] || fatality 'must provide a repo name to add the dependency too as the first paramater'
+[ -n "${2:-}" ] || fatality 'must provide a repo name to add as a dependency as the second paramater'
 config_add "repo/$1/deps/repos" "$2"

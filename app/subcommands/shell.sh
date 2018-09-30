@@ -9,8 +9,8 @@ set -euf
 
 case "${1:-}" in
 '-h' | '--help' | 'help')
-	inform "The shell subcommand can be used to enter the dab container in a shell, alternatively you could also give commands to be run as parameters non-interactively."
-	inform "Available SUBCOMMANDS are any commmands available within the dab container."
+	inform 'The shell subcommand can be used to enter the dab container in a shell, alternatively you could also give commands to be run as parameters non-interactively.'
+	inform 'Available SUBCOMMANDS are any commmands available within the dab container.'
 	exit 0
 	;;
 esac

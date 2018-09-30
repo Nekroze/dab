@@ -103,7 +103,7 @@ Feature: Subcommand: dab repo
 		And the directory "/tmp/dab/repos/two/.git/" should exist
 
 	Scenario: Can group repositories then start them together
-		Given I successfully run `dab tools all stop`
+		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `dab repo entrypoint set command three`
 		And I successfully run `dab repo add four https://github.com/Nekroze/dotfiles.git`
@@ -127,8 +127,9 @@ Feature: Subcommand: dab repo
 		start four
 		"""
 
+	@announce-output
 	Scenario: Can group repositories and tools then start them together
-		Given I successfully run `dab tools all stop`
+		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add five https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `dab repo entrypoint set command five`
 		And I successfully run `dab repo group repo sidehustle five`
