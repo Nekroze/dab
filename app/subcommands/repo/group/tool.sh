@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Add to (or create a new) group the given tool as a dependency
+# Usage: <GROUP_NAME> <TOOL_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

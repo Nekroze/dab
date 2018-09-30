@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Run the fetch subcommand on all dependant repos in the group
+# Usage: <GROUP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

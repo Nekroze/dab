@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Assign to the given key a value no value to delete it
+# Usage: <KEY> [<VALUE>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

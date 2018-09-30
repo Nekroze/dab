@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Add another repo to start before this one
+# Usage: <REPO_NAME> <DEPENDANT_REPO_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

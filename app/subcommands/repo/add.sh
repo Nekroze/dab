@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Add a repo by giving a name and the url
+# Usage: <REPO_NAME> <GIT_URL>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
