@@ -11,6 +11,8 @@ First month of life, hello world!
 
 ### Changed
 
+- Tools can now be listed via `dab tools list`
+- Generate help and usage info for leaf commands
 - More uniform subcommands and params
 - More fleshed out testing
 - Config `set` and `add` operations are now idempotent

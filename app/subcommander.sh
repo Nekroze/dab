@@ -9,10 +9,27 @@ script_to_subcmd() {
 }
 
 script_to_description() {
-	grep "^# Description" "$1" | cut -d":" -f2 | sed -e 's/^[[:space:]]*//' || true
+	grep "^# Description" "$1" | cut -d":" -f2 | sed 's/^[[:space:]]*//' || true
 }
 
-script_to_usage() {
+script_to_usage_suffix() {
+	grep "^# Usage" "$1" | cut -d":" -f2 | sed 's/^[[:space:]]*//' || true
+}
+
+script_to_cmd() {
+	subcmd="$(echo "$1" | sed -e 's@^subcommands/@@' -e 's/\.sh$//' -e 's@/@ @g')"
+	echo "dab $subcmd"
+}
+
+script_to_help() {
+	echo 'Usage:'
+	echo "	$(script_to_cmd "$1") $(script_to_usage_suffix "$1")"
+	echo
+	script_to_description "$1"
+	exit 0
+}
+
+script_to_subcmd_row() {
 	subcmd_row "$(script_to_subcmd "$1")" "$(script_to_description "$1")"
 }
 
@@ -24,7 +41,7 @@ subcommands_help() {
 	set +f
 	for subcmd in "$1"/*; do
 		if [ -f "$subcmd" ]; then
-			script_to_usage "$subcmd"
+			script_to_subcmd_row "$subcmd"
 		elif [ -d "$subcmd" ]; then
 			dir_to_usage "$subcmd"
 		fi
@@ -60,6 +77,7 @@ subcommand_recurse() {
 		subcommand_recurse "$newscope" "$@"
 	elif [ -n "$subcmd" ] && [ -f "$newscope.sh" ]; then
 		shift
+		is_help "${1:-}" && script_to_help "$newscope.sh"
 		"$newscope.sh" "$@"
 		exit $?
 	fi

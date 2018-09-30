@@ -7,11 +7,11 @@ Feature: Subcommand: dab tools
 
 		Given the aruba exit timeout is 60 seconds
 
-	Scenario: Can execute tools with no parameters and get usage info
-		When I run `dab tools`
+	Scenario: Can list all available tools
+		When I run `dab tools list`
 
-		Then it should fail with "Please select from the available tools"
-		And the stderr should not contain anything
+		Then it should pass with "TOOL"
+		And the output should contain "DESCRIPTION"
 
 	Scenario: Can update all tools at once
 		Given the aruba exit timeout is 3600 seconds

@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: easy access to common devops tools
+# Usage: <NAME> <ACTION>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -150,6 +151,7 @@ all_tools() {
 tool_row() {
 	echo "$1:$2"
 }
+
 tools_subcommands() {
 	tool_row all 'Bulk operations to manage all tools'
 	tool_row cyberchef 'The Cyber Swiss Army Knife'
@@ -178,8 +180,7 @@ all)
 	shift
 	all_tools "$@"
 	;;
-'-h' | '--help' | 'help' | *)
-	inform 'Please select from the available tools'
+list | ls)
 	tools_subcommands | column -s':' -o' | ' -t -N TOOL,DESCRIPTION
 	[ -n "${1:-}" ]
 	;;

@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: open up a shell in the dab container
+# Usage: [<CMD>...]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

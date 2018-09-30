@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Add to (or create a new) group the given repo as a dependency
+# Usage: <GROUP_NAME> <REPO_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

@@ -46,12 +46,46 @@ Feature: Docker entrypoint wrapper script works
 		And it should pass with "SUBCOMMAND"
 
 		Examples:
-			| SUBCOMMAND      |
-			| config          |
-			| network         |
-			| repo            |
-			| repo entrypoint |
-			| repo group      |
-			| shell           |
-			| tools all       |
-			| tools cyberchef |
+			| SUBCOMMAND          |
+			| config              |
+			| network             |
+			| repo                |
+			| repo entrypoint     |
+			| repo entrypoint set |
+			| repo group          |
+			| tools all           |
+			| tools cyberchef     |
+
+	Scenario Outline: All sub commands provide usage information
+		Given I run `dab <SUBCOMMAND> --help`
+		And it should pass with "Usage:"
+
+		When I run `dab <SUBCOMMAND> -h`
+		And it should pass with "Usage:"
+
+		Then I run `dab <SUBCOMMAND> help`
+		And it should pass with "Usage:"
+
+		Examples:
+			| SUBCOMMAND                  |
+			| config add                  |
+			| config set                  |
+			| config get                  |
+			| config keys                 |
+			| network destroy             |
+			| network shell               |
+			| repo add                    |
+			| repo clone                  |
+			| repo fetch                  |
+			| repo require                |
+			| repo entrypoint start       |
+			| repo entrypoint stop        |
+			| repo entrypoint set command |
+			| repo entrypoint set script  |
+			| repo group repo             |
+			| repo group tool             |
+			| repo group start            |
+			| repo group update           |
+			| shell                       |
+			| update                      |
+			| tools                       |

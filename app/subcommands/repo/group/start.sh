@@ -1,5 +1,6 @@
 #!/bin/sh
 # Description: Start a group's repos and then tools if defined, in FIFO order
+# Usage: <GROUP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
