@@ -11,18 +11,32 @@ RUN shellcheck --shell sh --color dab $(find . -name '*.sh' -type f)
 
 
 # Second analysis stage runs shfmt to ensure a consistent style.
-FROM golang:alpine
+FROM golang:latest
 
 # Install shfmt https://github.com/mvdan/sh and git.
-RUN apk add --no-cache git \
- && go get -v mvdan.cc/sh/cmd/shfmt/...
+RUN go get -v mvdan.cc/sh/cmd/shfmt/...
 
 # Copy in the whole project for analysis.
-COPY ./app ./
+COPY ./app ./app
 
 # display diffs of any files that do not conform to a posix compliant
 # simplified style.
 RUN shfmt -d -ln=posix -s .
+
+
+# Third stage for compiling shell completion binary.
+FROM golang:latest
+WORKDIR $GOPATH/src/app/completion
+
+# Install golangci-lint
+RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin latest
+
+# Test, lint, and build the shell completion binary.
+COPY ./completion/*.go ./
+RUN go get -d -v ./... \
+ && go test ./... \
+ && golangci-lint run --deadline '2m' --enable-all \
+ && go build -o completion .
 
 
 # Selected alpine for a small base image that many other images also use
@@ -31,7 +45,7 @@ FROM alpine:latest
 
 # Docker and docker-compose are always required but take a while to install so
 # they are to be kept at a lower layer for caching.
-RUN apk add --no-cache docker python3 \
+RUN apk add --no-cache docker python3 ca-certificates \
  && pip3 install docker-compose
 
 # Misc tools required for scripts.
@@ -51,6 +65,7 @@ VOLUME "$DAB_REPO_PATH" "$DAB_CONF_PATH"
 # keep paths consistent and predictable.
 WORKDIR /opt/dab
 COPY ./app ./README.md ./LICENSE ./dab ./
+COPY --from=2 /go/src/app/completion ./
 ENTRYPOINT ["/opt/dab/main.sh"]
 
 LABEL org.label-schema.schema-version="1.0" \

@@ -5,3 +5,4 @@
 /default.nix
 !/tests/features
 *.log
+/completion/completion

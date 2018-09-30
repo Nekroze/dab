@@ -11,11 +11,14 @@ First month of life, hello world!
 
 ### Changed
 
+- More uniform subcommands and params
 - More fleshed out testing
 - Config `set` and `add` operations are now idempotent
 - Allow version selection of tools via `$DAB_TOOLS_<NAME>_TAG`
 
 ### Added
 
+- `subcommander.sh` to handle nested subcommands
 - `dab repo group` subcommand
 - Initialized Changelog
+- Shell completion support for bash, zsh, and fish.

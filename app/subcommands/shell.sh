@@ -1,9 +1,10 @@
 #!/bin/sh
+# Description: open up a shell in the dab container
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
 # shellcheck disable=SC1091
-. lib.sh
+. ./lib.sh
 
 case "${1:-}" in
 '-h' | '--help' | 'help')

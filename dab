@@ -30,7 +30,8 @@ if [ -t 0 ]; then
 fi
 
 # Pass current working directory through to a consistent location.
-dArg -v "$PWD:/pwd"
+dArg -v "$PWD:/host/pwd"
+dArg -v "$HOME:/host/home"
 
 # UID and GID passthrough/customization.  This will prevent most common docker
 # issues with volume mounting directories owned by or running as a different
