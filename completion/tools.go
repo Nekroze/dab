@@ -3,7 +3,6 @@ package main
 import "github.com/posener/complete"
 
 var tools = []string{
-	"all",
 	"cyberchef",
 	"portainer",
 	"tick",
@@ -16,6 +15,8 @@ var tools = []string{
 	"consul",
 	"serveo",
 	"ntopng",
+	"vault",
+	"vaultbot",
 }
 
 func predictTools(_ complete.Args) []string {
