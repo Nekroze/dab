@@ -1,8 +1,16 @@
 #!/bin/sh
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib.sh
+# Subcommand table display
+alias draw_subcommand_table="sort -s -k 1,1 | column -s':' -o' | ' -t -N SUBCOMMAND,DESCRIPTION -R SUBCOMMAND"
+subcmd_row() {
+	echo "$1:$2"
+}
+
+warn() {
+	# shellcheck disable=SC2039
+	echo -e "${COLOR_YELLOW}$*${COLOR_NC}"
+}
 
 script_to_subcmd() {
 	basename "$1" | sed 's/\.sh$//g'
@@ -17,8 +25,11 @@ script_to_usage_suffix() {
 }
 
 script_to_cmd() {
-	subcmd="$(echo "$1" | sed -e 's@^subcommands/@@' -e 's/\.sh$//' -e 's@/@ @g')"
-	echo "dab $subcmd"
+	echo "$1" | sed -e 's@^subcommands@dab@' -e 's/\.sh$//' -e 's@/@ @g'
+}
+
+subcmd_path_to_cmd() {
+	echo "$1" | sed -e 's@^subcommands@dab@' -e 's@/$@@' -e 's@/@ @g'
 }
 
 script_to_help() {
@@ -48,10 +59,13 @@ subcommands_help() {
 	done
 	set -f
 
-	subcmd_row help -h,--help 'You are looking at it'
+	subcmd_row help 'You are looking at it'
 }
 
 usage() {
+	echo 'Usage:'
+	echo "	$(subcmd_path_to_cmd "$1") <SUBCOMMAND> [<ARGUMENT>...]"
+	echo
 	subcommands_help "$1" | draw_subcommand_table
 }
 

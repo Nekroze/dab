@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: displays the address of any tools exposed by the tool
+# Description: Displays the address of any tools exposed by the tool
 # Usage: <TOOL_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf

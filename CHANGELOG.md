@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 Please indicate the change you have made in a section below entitled `YYYY-MM`.
 
+## 2018-10
+
+Are you ready to get STABLE!
+
+### Changed
+
+- Cleanup app code
+- `subcommander.sh` is now self contained
+- `subcommander.sh` now handles all argument routing
+
+### Fixed
+
+- Listing subcommands on root `dab` command
+
+### Changed
+
 ## 2018-09
 
 First month of life, hello world!
@@ -14,9 +30,9 @@ First month of life, hello world!
 - Brought `dab tools` subcommands in line with the other subcommand UX
 - Tools can now be listed via `dab tools list`
 - Generate help and usage info for leaf commands
-- More uniform subcommands and params
+- More uniform subcommands and parameters
 - More fleshed out testing
-- Config `set` and `add` operations are now idempotent
+- Configuration `set` and `add` operations are now idempotent
 - Allow version selection of tools via `$DAB_TOOLS_<NAME>_TAG`
 
 ### Added

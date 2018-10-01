@@ -1,5 +1,6 @@
 #!/bin/sh
-# Description: does things
+# Description: Set the given repo to a script style entrypoint
+# Usage: <REPO_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

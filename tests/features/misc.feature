@@ -37,13 +37,16 @@ Feature: Docker entrypoint wrapper script works
 
 	Scenario Outline: All sub commands groups provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
-		And it should pass with "SUBCOMMAND"
+		And it should pass with "Usage:"
+		And the output should contain "SUBCOMMAND"
 
 		When I run `dab <SUBCOMMAND> -h`
-		And it should pass with "SUBCOMMAND"
+		And it should pass with "Usage:"
+		And the output should contain "SUBCOMMAND"
 
 		Then I run `dab <SUBCOMMAND> help`
-		And it should pass with "SUBCOMMAND"
+		And it should pass with "Usage:"
+		And the output should contain "SUBCOMMAND"
 
 		Examples:
 			| SUBCOMMAND          |

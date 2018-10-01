@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: run a command in the running instance of the given tool
+# Description: Run a command in the running instance of the given tool
 # Usage: <TOOL_NAME> <CMD>...
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf

@@ -1,5 +1,6 @@
 #!/bin/sh
-# Description: does things
+# Description: Set the given repo to a command style entrypoint
+# Usage: <REPO_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -11,15 +12,5 @@ set -euf
 repo="$1"
 shift
 
-create_entrypoint_command() {
-	repo="$1"
-	shift
-	config_set "repo/$repo/entrypoint/start/command" "$@"
-	config_set "repo/$repo/entrypoint/stop/command" "$@"
-}
-
-if [ "$#" -gt 0 ]; then
-	create_entrypoint_command "$repo" "$@"
-else
-	create_entrypoint_command "$repo" echo start "$repo"
-fi
+config_set "repo/$repo/entrypoint/start/command" echo start "$repo"
+config_set "repo/$repo/entrypoint/stop/command" echo stop "$repo"

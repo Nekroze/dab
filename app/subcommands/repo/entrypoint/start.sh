@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: does things
+# Description: Execute the start entrypoint for the given repo
 # Usage: <REPO_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf

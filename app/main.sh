@@ -8,28 +8,4 @@ set -euf
 maybe_selfupdate_dab
 ensure_network
 
-usage() {
-	echo "Dab"
-	echo "Developer lab."
-	echo
-	echo "Usage:"
-	echo "  $ dab [subcommand]... [options]..."
-	echo
-	echo "Subcommands:"
-	set +f
-	find subcommands/* | cut -d/ -f2 | cut -d. -f1
-	set -f
-	exit "${1:-1}"
-}
-
-case "${1:-}" in
-'')
-	usage
-	;;
-'-h' | '--help')
-	usage 0
-	;;
-*)
-	dab "$@"
-	;;
-esac
+dab "$@"

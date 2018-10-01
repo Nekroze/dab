@@ -55,8 +55,8 @@ whisper() {
 	echo -e "${COLOR_GRAY}$*${COLOR_NC}"
 }
 
-# allow scripts to use dab without spawning another container by skipping main
-# and executing subcommands directly. For consistency main uses this as well.
+# Allow scripts to use dab without spawning another container while skipping main
+# and executing subcommander directly. For consistency main uses this as well.
 dab() {
 	./subcommander.sh "$@"
 }
@@ -155,19 +155,6 @@ netpose() {
 
 ensure_network() {
 	quietly netpose up --no-start
-}
-
-# Subcommand table display
-alias draw_subcommand_table="sort -s -k 1,1 | column -s':' -o' | ' -t -N SUBCOMMAND,ALIASES,DESCRIPTION -R SUBCOMMAND"
-subcmd_row() {
-	cmd="$1"
-	aliases=""
-	desc="$2"
-	if [ "$#" -eq 3 ]; then
-		aliases="$2"
-		desc="$3"
-	fi
-	echo "$cmd:$aliases:$desc"
 }
 
 toolpose() {
