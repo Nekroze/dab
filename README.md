@@ -4,17 +4,67 @@
 
 The Developer lab.
 
+Dab is a flexible tool for managing multiple interdependent projects and their orchestration, all while providing a friendly user experiance and handy devops tools.
+
 ## Usage
 
 You need only have docker installed and any POSIX compliant shell to run the wrapper scripts and get going with dab. This will start the dab container and forward all arguments into it:
 
 ```bash
- $ ./dab --help
+ $ dab --help
 ```
 
 If you do not need to build the docker image yourself and just want to use dab, the [dab script][1] we just executed is all that is needed and can be used from (or moved to) any location.
 
 It is recommended you add the directory containing the [dab script][1] to your shell's `PATH` environment variable.
+
+### Setting up a project
+
+As a developer I work on a heaps of projects each with their own needs and quirks. Lets use `dab` to manage a project for us, first we need to register its existance:
+
+```bash
+ $ dab repo add containaruba https://github.com/Nekroze/containaruba.git
+```
+
+This will register the `containaruba` repository and attempt to clone it into `$DAB_REPO_PATH` which defaults to `~/dab`.
+
+Now we can set the type of entrypoint we want this repo to use.
+
+```bash
+ $ dab repo entrypoint set command containaruba
+ $ dab config set repo/containaruba/entrypoint/start/command ./test.sh
+```
+
+Now whenever we start this repo, or a repo that depends upon this one, the `test.sh` script within the root of the containaruba repo will be executed.
+
+```bash
+ $ dab repo entrypoint start containaruba
+```
+
+### Using tools
+
+There is an ever growing selection of tools dab provides (checkout `dab tools list`) for recording metrics, debugging, etc.
+
+```bash
+ $ dab tools start grafana
+ $ dab tools start ntopng
+ $ dab tools start sysdig
+```
+
+### Installing
+
+Simple doenload the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
+
+```bash
+ $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab 
+ $ sudo chmod 755 /usr/bin/dab
+```
+
+After this the `dab` command should be available in your shell:
+
+```bash
+ $ dab completion --help
+```
 
 ### Updating
 
@@ -23,9 +73,7 @@ Dab has a self updating mechanism in that it will pull the latest version of the
 The [dab script][1] wrapper has been designed to reduce the requirement to update it when new features are added to dab, however it may be necessary to do so on occasion and can be accomplished simply by downloading the latest version of the file and replace the existing one on your machine.
 
 
-Dab is quite young and as such everything is still subject to change with little to no warning. In the future dab will solidify on what works best.
-
-### Implemented
+### Features
 
 - Only depends on docker and a small wrapper script
 - Manage code repositories
@@ -34,15 +82,6 @@ Dab is quite young and as such everything is still subject to change with little
 - Setup of private lab network
 - Automatically collect logs to explore via [TICK][3]
 - Automatically detect out of date wrapper script
-
-### Proposed
-
-The following features are being considered or have been planned to be implemented in a future version.
-
-- Auto update of managed repositories that are master
-- Automated observability improvements:
-	- Autoconfigure tracing via something like [linkerd](https://github.com/linkerd/linkerd-examples)+zipkin
-	- Record common traffic like http via something like [mitmproxy](https://byteplumbing.net/2018/01/)
 
 ## Contributing
 
