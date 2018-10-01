@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: list available tools
+# Description: List available tools
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: start the container for a given tool, or all tools if none is given
+# Description: Start the container for a given tool, or all tools if none is given
 # Usage: [<TOOL_NAME>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf

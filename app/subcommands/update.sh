@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: update dab
+# Description: Update dab
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 

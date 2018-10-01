@@ -68,7 +68,8 @@ Feature: Subcommand: dab repo
 
 	Scenario: Can put any command in an entrypoint start command
 		Given I successfully run `dab repo add dotfiles6 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint set command dotfiles6 echo FOOBAR`
+		And I run `dab repo entrypoint set command dotfiles6`
+		And I run `dab config set repo/dotfiles6/entrypoint/start/command echo FOOBAR`
 
 		When I run `dab repo entrypoint start dotfiles6`
 
@@ -77,7 +78,7 @@ Feature: Subcommand: dab repo
 	Scenario: Can put any command in an entrypoint start script
 		Given I successfully run `dab repo add dotfiles7 https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint set script dotfiles7`
-		And I successfully run `dab config set repo/dotfiles7/entrypoint/start/command echo FOOBAR`
+		And I successfully run `dab config add repo/dotfiles7/entrypoint/start/script echo FOOBAR`
 
 		When I run `dab repo entrypoint start dotfiles7`
 
@@ -127,7 +128,6 @@ Feature: Subcommand: dab repo
 		start four
 		"""
 
-	@announce-output
 	Scenario: Can group repositories and tools then start them together
 		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add five https://github.com/Nekroze/dotfiles.git`

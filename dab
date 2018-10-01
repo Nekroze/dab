@@ -14,15 +14,6 @@ dArg() {
 	done
 }
 
-# helper to pass through an environment variable if it is set to some value.
-envpass() {
-	key="$1"
-	value=$(eval "echo \$$1")
-	if [ -n "$value" ]; then
-		dArg -e "$key=\"$value\""
-	fi
-}
-
 # If we are in a tty (interactive terminal environment) then run the dab
 # container in one too.
 if [ -t 0 ]; then
