@@ -15,7 +15,8 @@ DEFAULT_ENTRYPOINT_SCRIPT='#!/bin/sh
 set -eu
 
 # Put containers on the lab network by default.
-export COMPOSE_FILE="$(compose-external-default-network.sh 2.1 lab default)"
+COMPOSE_FILE="docker-compose.yml:$(compose-external-default-network.sh 2.1 lab default)"
+export COMPOSE_FILE
 '
 
 entrypoint_script_path() {

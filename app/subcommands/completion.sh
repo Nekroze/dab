@@ -6,7 +6,7 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib.sh
 
-cp completion /host/home/.dab-completion
+cp completion ~/.dab-completion
 echo 'The shell completion binary has been placed in your home directory.'
 echo 'To install shell completion please execute the following command:'
 # shellcheck disable=SC2088
