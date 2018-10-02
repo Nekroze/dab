@@ -15,6 +15,10 @@ Are you ready to get STABLE!
 - `subcommander.sh` is now self contained
 - `subcommander.sh` now handles all argument routing
 
+### Added
+
+- `DAB_USER` environment variable containing user that ran the wrapper script
+
 ### Fixed
 
 - Listing subcommands on root `dab` command
