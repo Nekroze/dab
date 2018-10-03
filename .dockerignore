@@ -1,6 +1,5 @@
 /app/subcommands/template.sh
 /.git
-/scripts
 /tests
 /default.nix
 !/tests/features

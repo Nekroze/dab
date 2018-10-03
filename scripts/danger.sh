@@ -1,5 +1,4 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i sh -p nodejs yarn
+#!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 
 # You can test danger locally against a pull request, for example:
