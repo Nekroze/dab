@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/config.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a group name to add too'
 [ -n "${2:-}" ] || fatality 'must provide a tool name to add as a dependency'

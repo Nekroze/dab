@@ -11,17 +11,24 @@ Are you ready to get STABLE!
 
 ### Changed
 
+- Split `lib.sh` into parts
+- All entry points are now scripts, and are made via `dab repo entrypoint create`
+- Use named docker stages
+- Changed `dab network destroy` to `dab network recreate` which also brings the network back up
 - Cleanup app code
 - `subcommander.sh` is now self contained
 - `subcommander.sh` now handles all argument routing
 
 ### Added
 
+- Execute [ShellCheck](https://github.com/koalaman/shellcheck) before on entry points before executing
+- Repo entry points now passes any additional parameters to their corresponding scripts
 - `DAB_USER` environment variable containing user that ran the wrapper script
 
 ### Fixed
 
 - Listing subcommands on root `dab` command
+- Vault containers cli client address
 
 ### Changed
 

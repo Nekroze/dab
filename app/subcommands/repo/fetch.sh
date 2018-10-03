@@ -5,7 +5,9 @@
 set -eu
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/output.sh
+# shellcheck disable=SC1091
+. ./lib/update.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a repo name'
 

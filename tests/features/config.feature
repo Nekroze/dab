@@ -1,3 +1,4 @@
+# vim: ts=4 sw=4 sts=4 noet
 Feature: Subcommand: dab config
 	The config subcommand manages the dab configuration key value store. Config
 	keys are any word or sequence of words (for namespacing) delimited by a

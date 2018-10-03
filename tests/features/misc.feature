@@ -1,3 +1,4 @@
+# vim: ts=4 sw=4 sts=4 noet
 Feature: Docker entrypoint wrapper script works
 	The main dab entrypoint is actually a small posix complient shell script
 	that wraps docker and starts a container using the dab image for you.
@@ -49,14 +50,13 @@ Feature: Docker entrypoint wrapper script works
 		And the output should contain "SUBCOMMAND"
 
 		Examples:
-			| SUBCOMMAND          |
-			| config              |
-			| network             |
-			| repo                |
-			| repo entrypoint     |
-			| repo entrypoint set |
-			| repo group          |
-			| tools               |
+			| SUBCOMMAND      |
+			| config          |
+			| network         |
+			| repo            |
+			| repo entrypoint |
+			| repo group      |
+			| tools           |
 
 	Scenario Outline: All sub commands provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
@@ -69,34 +69,33 @@ Feature: Docker entrypoint wrapper script works
 		And it should pass with "Usage:"
 
 		Examples:
-			| SUBCOMMAND                  |
-			| config add                  |
-			| config get                  |
-			| config keys                 |
-			| config set                  |
-			| network destroy             |
-			| network shell               |
-			| repo add                    |
-			| repo clone                  |
-			| repo entrypoint set command |
-			| repo entrypoint set script  |
-			| repo entrypoint start       |
-			| repo entrypoint stop        |
-			| repo fetch                  |
-			| repo group repo             |
-			| repo group start            |
-			| repo group tool             |
-			| repo group update           |
-			| repo require                |
-			| shell                       |
-			| tools address               |
-			| tools destroy               |
-			| tools exec                  |
-			| tools list                  |
-			| tools logs                  |
-			| tools restart               |
-			| tools run                   |
-			| tools start                 |
-			| tools stop                  |
-			| tools update                |
-			| update                      |
+			| SUBCOMMAND             |
+			| config add             |
+			| config get             |
+			| config keys            |
+			| config set             |
+			| network recreate       |
+			| network shell          |
+			| repo add               |
+			| repo clone             |
+			| repo entrypoint create |
+			| repo entrypoint start  |
+			| repo entrypoint stop   |
+			| repo fetch             |
+			| repo group repo        |
+			| repo group start       |
+			| repo group tool        |
+			| repo group update      |
+			| repo require           |
+			| shell                  |
+			| tools address          |
+			| tools destroy          |
+			| tools exec             |
+			| tools list             |
+			| tools logs             |
+			| tools restart          |
+			| tools run              |
+			| tools start            |
+			| tools stop             |
+			| tools update           |
+			| update                 |

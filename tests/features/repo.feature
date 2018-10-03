@@ -1,3 +1,4 @@
+# vim: ts=4 sw=4 sts=4 noet
 Feature: Subcommand: dab repo
 	The repo subcommand manages configured git repositories.
 
@@ -39,56 +40,65 @@ Feature: Subcommand: dab repo
 
 		Then the directory "/tmp/dab/repos/dotfiles2/.git/" should exist
 
+	Scenario: Can list repositories
+		Given a file named "/tmp/dab/config/repo/dotfiles3/url" with:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
+		And the directory "/tmp/dab/repos/dotfiles3/.git/" should not exist
+		And I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
+
+		When I successfully run `dab repo list`
+
+		Then it should pass with "REPO      |         STATUS"
+		And the output should contain "dotfiles3 | not downloaded"
+		And the output should contain "dotfiles4 |     downloaded"
+
 	Scenario: Can set entrypoint to script
-		Given I successfully run `dab repo add dotfiles3 https://github.com/Nekroze/dotfiles.git`
+		Given I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
 
-		When I run `dab repo entrypoint set script dotfiles3`
+		When I run `dab repo entrypoint create dotfiles4`
 
-		Then it should pass with "Please edit $DAB_CONF_PATH/repo/dotfiles3/entrypoint/start/script"
+		Then it should pass with "Please edit $DAB_CONF_PATH/repo/dotfiles4/entrypoint/start"
 
 	Scenario: Can put any command in an entrypoint start script
-		Given I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint set script dotfiles4`
-		And I append to "/tmp/dab/config/repo/dotfiles4/entrypoint/start/script" with:
+		Given I successfully run `dab repo add dotfiles5 https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create dotfiles5`
+		And I append to "/tmp/dab/config/repo/dotfiles5/entrypoint/start" with:
 		"""
 		echo FOOBAR
 		"""
 
-		When I run `dab repo entrypoint start dotfiles4`
+		When I run `dab repo entrypoint start dotfiles5`
 
 		Then it should pass with "FOOBAR"
 
-	Scenario: Can use entrypoint command default start
-		Given I successfully run `dab repo add dotfiles5 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint set command dotfiles5`
-
-		When I run `dab repo entrypoint start dotfiles5`
-
-		Then it should pass with "start dotfiles5"
-
-	Scenario: Can put any command in an entrypoint start command
+	Scenario: Can put any command in an entrypoint start script
 		Given I successfully run `dab repo add dotfiles6 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint set command dotfiles6`
-		And I run `dab config set repo/dotfiles6/entrypoint/start/command echo FOOBAR`
+		And I run `dab repo entrypoint create dotfiles6`
+		And I successfully run `dab config add repo/dotfiles6/entrypoint/start echo FOOBAR`
 
 		When I run `dab repo entrypoint start dotfiles6`
 
 		Then it should pass with "FOOBAR"
 
-	Scenario: Can put any command in an entrypoint start script
+	Scenario: Can use custom arguments in entrypoints
 		Given I successfully run `dab repo add dotfiles7 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint set script dotfiles7`
-		And I successfully run `dab config add repo/dotfiles7/entrypoint/start/script echo FOOBAR`
+		And I run `dab repo entrypoint create dotfiles7`
+		And I successfully run `dab config add repo/dotfiles7/entrypoint/start echo \$1`
+		And I successfully run `dab config add repo/dotfiles7/entrypoint/stop echo \$1`
 
-		When I run `dab repo entrypoint start dotfiles7`
+		When I run `dab repo entrypoint start dotfiles7 FOO`
 
-		Then it should pass with "FOOBAR"
+		Then it should pass with "FOO"
+
+		When I run `dab repo entrypoint stop dotfiles7 BAR`
+
+		Then it should pass with "BAR"
 
 	Scenario: Can have one repo depend on another
 		Given I successfully run `dab repo add one https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint set command one`
 		And I successfully run `dab repo add two https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint set command two`
 		And the directory "/tmp/dab/repos/two" does not exist
 
 		When I successfully run `dab repo require one two`
@@ -97,18 +107,16 @@ Feature: Subcommand: dab repo
 		And it should pass with:
 		"""
 		Executing two entrypoint start
-		start two
+		two has no start entrypoint defined
 		Executing one entrypoint start
-		start one
+		one has no start entrypoint defined
 		"""
 		And the directory "/tmp/dab/repos/two/.git/" should exist
 
 	Scenario: Can group repositories then start them together
 		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint set command three`
 		And I successfully run `dab repo add four https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint set command four`
 
 		When I run `dab repo group repo work three`
 
@@ -123,15 +131,14 @@ Feature: Subcommand: dab repo
 		Then it should pass with:
 		"""
 		Executing three entrypoint start
-		start three
+		three has no start entrypoint defined
 		Executing four entrypoint start
-		start four
+		four has no start entrypoint defined
 		"""
 
 	Scenario: Can group repositories and tools then start them together
 		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add five https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo entrypoint set command five`
 		And I successfully run `dab repo group repo sidehustle five`
 
 		When I run `dab repo group tool sidehustle telegraf`
@@ -148,7 +155,6 @@ Feature: Subcommand: dab repo
 		And the output should contain:
 		"""
 		Executing five entrypoint start
-		start five
 		"""
 		And the output should contain "telegraf is available at http://localhost:"
 		And the output should contain "cyberchef is available at http://localhost:"

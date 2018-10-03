@@ -11,7 +11,7 @@ Only the [app directory](./app) will end up in the docker image wherein main.sh 
 
 All scripts should be POSIX compliant and run under `set -e` to ensure errors are not ignored.
 
-Common functionality is stored in a common [library file](./app/lib.sh) providing functions for things such as; recursive dab executing, config reading and writing, output colorizers, and more.
+Common functionality is stored in a common [library directory](./app/lib) providing functions for things such as; recursive dab executing, config reading and writing, output colorizers, and more.
 
 ## Style
 

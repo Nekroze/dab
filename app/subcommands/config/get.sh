@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/config.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a config key'
 config_get "$1"

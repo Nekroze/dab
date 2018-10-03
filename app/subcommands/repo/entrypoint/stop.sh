@@ -5,14 +5,23 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/output.sh
+# shellcheck disable=SC1091
+. ./lib/dab.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a repo name'
-
 repo="$1"
+[ -n "${2:-}" ] && shift
+
+inform "Executing $repo entrypoint stop"
 dab repo clone "$repo"
 
-entrypoint="$(config_get "repo/$repo/entrypoint/stop/command")"
-[ -n "$entrypoint" ] || fatality "$repo has no stop entrypoint defined"
+entrypoint="$DAB_CONF_PATH/repo/$repo/entrypoint/stop"
+if [ ! -x "$entrypoint" ]; then
+	warn "$repo has no stop entrypoint defined"
+	exit 0
+fi
+
 cd "$DAB_REPO_PATH/$repo"
-$entrypoint
+shellcheck "$entrypoint" || true
+"$entrypoint" "$@"

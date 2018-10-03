@@ -3,9 +3,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib.sh
-
 tool_row() {
 	echo "$1:$2"
 }
@@ -27,4 +24,4 @@ tools_subcommands() {
 	tool_row vaultbot 'Automate interaction with Hashicorp Vault'
 }
 
-tools_subcommands | column -s':' -o' | ' -t -N TOOL,DESCRIPTION
+tools_subcommands | column -s':' -o' | ' -t -N TOOL,DESCRIPTION -R TOOL

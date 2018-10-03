@@ -5,7 +5,9 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/compose.sh
+# shellcheck disable=SC1091
+. ./lib/output.sh
 
 [ $# -gt 0 ] || fatality 'must provide at least a tool name'
 toolpose run --rm "$@"

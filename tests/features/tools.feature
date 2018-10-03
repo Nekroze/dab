@@ -1,3 +1,4 @@
+# vim: ts=4 sw=4 sts=4 noet
 Feature: Subcommand: dab tools
 	Provides easy access to common/powerful tools.
 

@@ -5,7 +5,11 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/config.sh
+# shellcheck disable=SC1091
+. ./lib/update.sh
+# shellcheck disable=SC1091
+. ./lib/dab.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a group name to add too'
 group_name="$1"

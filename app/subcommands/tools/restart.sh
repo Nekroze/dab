@@ -5,6 +5,6 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/compose.sh
 
 toolpose restart --timout 30 "$@"

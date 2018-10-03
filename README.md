@@ -31,8 +31,8 @@ This will register the `containaruba` repository and attempt to clone it into `$
 Now we can set the type of entrypoint we want this repo to use.
 
 ```bash
- $ dab repo entrypoint set command containaruba
- $ dab config set repo/containaruba/entrypoint/start/command ./test.sh
+ $ dab repo entrypoint create containaruba
+ $ dab config add repo/containaruba/entrypoint/start ./test.sh
 ```
 
 Now whenever we start this repo, or a repo that depends upon this one, the `test.sh` script within the root of the containaruba repo will be executed.
@@ -56,7 +56,7 @@ There is an ever growing selection of tools dab provides (checkout `dab tools li
 Simple doenload the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
 
 ```bash
- $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab 
+ $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab
  $ sudo chmod 755 /usr/bin/dab
 ```
 

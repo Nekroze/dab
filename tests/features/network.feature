@@ -1,11 +1,11 @@
+# vim: ts=4 sw=4 sts=4 noet
 Feature: Subcommand: dab network
 	The network subcommand provides management over the lab network.
 
 	Background:
-		No tools are running, for testing purposes.
+		As a mildly patient user.
 
 		Given the aruba exit timeout is 60 seconds
-		And I successfully run `dab tools destroy`
 
 	Scenario: Network is ensured to exist
 		When I successfully run `dab -h`
@@ -17,8 +17,9 @@ Feature: Subcommand: dab network
 
 		Then it should pass with "bin"
 
-	Scenario: Can destroy the lab network
-		When I successfully run `dab network destroy`
+	Scenario: Can recreate the lab network
+		Given I successfully run `dab tools destroy`
 
-		Then I run `docker network inspect lab`
-		And it should fail with "No such network"
+		When I successfully run `dab network recreate`
+
+		Then I successfully run `docker network inspect lab`

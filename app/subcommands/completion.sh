@@ -3,9 +3,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib.sh
-
 cp completion ~/.dab-completion
 echo 'The shell completion binary has been placed in your home directory.'
 echo 'To install shell completion please execute the following command:'

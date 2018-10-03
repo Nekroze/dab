@@ -3,10 +3,7 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib.sh
-
-cd /etc/dab
+cd "$DAB_CONF_PATH"
 # Remove first, last, and empty lines from tree output
 tree | sed \
 	-e '1 d' \
