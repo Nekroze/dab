@@ -56,12 +56,16 @@ fi
 # Make dab managed codebases available to the host.
 DAB_REPO_PATH="${DAB_REPO_PATH:-$HOME/dab}"
 mkdir -p "$DAB_REPO_PATH" || true # try ensure it is owned by this user
-dArg -v "$DAB_REPO_PATH:/var/dab/repos"
+dArg \
+	-v "$DAB_REPO_PATH:/var/dab/repos" \
+	-e "DAB_REPO_HOST:$DAB_REPO_PATH"
 
 # Volume mount dab config to host user's XDG config directory.
 export DAB_CONF_PATH="${DAB_CONF_PATH:-$HOME/.config/dab}"
 mkdir -p "$DAB_CONF_PATH" || true # try ensure it is owned by this user
-dArg -v "$DAB_CONF_PATH:/etc/dab/"
+dArg \
+	-v "$DAB_CONF_PATH:/etc/dab/" \
+	-e "DAB_CONF_HOST:$DAB_CONF_PATH"
 
 # Pass through ssh agent socket or mount ~/.ssh directory.
 if [ -n "${SSH_AUTH_SOCK:-}" ]; then
