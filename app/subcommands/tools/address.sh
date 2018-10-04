@@ -5,7 +5,9 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/tools.sh
+# shellcheck disable=SC1091
+. ./lib/output.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a tool name'
 tool="$1"

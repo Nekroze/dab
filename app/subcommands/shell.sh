@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/output.sh
 
 case "${1:-}" in
 '-h' | '--help' | 'help')

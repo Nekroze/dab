@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/compose.sh
 
 toolpose pull --include-deps "$@"
 toolpose build --pull --force-rm "$@"

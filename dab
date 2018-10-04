@@ -32,7 +32,9 @@ export DAB_USER="${USER:-user}"
 # for dab on your machine to restrict its access more granularly, and provide
 # security by not running as root.
 # shellcheck disable=SC2039
-dArg --user "${DAB_UID:-${UID:-1000}}:${DAB_GID:-${GID:-1000}}"
+export DAB_UID="${DAB_UID:-${UID:-1000}}"
+export DAB_GID="${DAB_GID:-${GID:-1000}}"
+dArg --user "$DAB_UID:$DAB_GID"
 
 # Home passthrough.
 dArg \
@@ -54,18 +56,14 @@ if [ -r /etc/group ]; then
 fi
 
 # Make dab managed codebases available to the host.
-DAB_REPO_PATH="${DAB_REPO_PATH:-$HOME/dab}"
+export DAB_REPO_PATH="${DAB_REPO_PATH:-$HOME/dab}"
 mkdir -p "$DAB_REPO_PATH" || true # try ensure it is owned by this user
-dArg \
-	-v "$DAB_REPO_PATH:/var/dab/repos" \
-	-e "DAB_REPO_HOST:$DAB_REPO_PATH"
+dArg -v "$DAB_REPO_PATH:$DAB_REPO_PATH"
 
 # Volume mount dab config to host user's XDG config directory.
 export DAB_CONF_PATH="${DAB_CONF_PATH:-$HOME/.config/dab}"
 mkdir -p "$DAB_CONF_PATH" || true # try ensure it is owned by this user
-dArg \
-	-v "$DAB_CONF_PATH:/etc/dab/" \
-	-e "DAB_CONF_HOST:$DAB_CONF_PATH"
+dArg -v "$DAB_CONF_PATH:$DAB_CONF_PATH"
 
 # Pass through ssh agent socket or mount ~/.ssh directory.
 if [ -n "${SSH_AUTH_SOCK:-}" ]; then
@@ -100,10 +98,9 @@ if [ "${DAB_DEV_MOUNT:-yes}" = 'yes' ] && [ -x "$PWD/app/main.sh" ]; then
 	dArg -v "$PWD/app:/opt/dab:ro"
 fi
 
-# Passthrough all defined non empty DAB_* environment variables after unsetting some values
-# that should never be passed through to the container.
+# Passthrough all defined non empty DAB_* environment variables.
 dArg "$(
-env DAB_CONF_PATH= DAB_REPO_PATH= DAB_DEV_MOUNT= \
+env \
 	| grep -E "^DAB_.+=.+" \
 	| awk '{ print "-e " $1; }' \
 	| tr '\n' ' '

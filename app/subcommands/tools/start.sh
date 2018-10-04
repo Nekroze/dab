@@ -5,7 +5,11 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib.sh
+. ./lib/compose.sh
+# shellcheck disable=SC1091
+. ./lib/output.sh
+# shellcheck disable=SC1091
+. ./lib/tools.sh
 
 toolpose up --remove-orphans --build -d "$@"
 

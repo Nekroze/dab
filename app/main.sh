@@ -3,9 +3,15 @@
 set -euf
 
 # shellcheck disable=SC1091
-. lib.sh
+. ./lib/compose.sh
+# shellcheck disable=SC1091
+. ./lib/output.sh
+# shellcheck disable=SC1091
+. ./lib/update.sh
+# shellcheck disable=SC1091
+. ./lib/dab.sh
 
 maybe_selfupdate_dab
-ensure_network
+quietly ensure_network
 
 dab "$@"
