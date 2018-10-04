@@ -53,7 +53,7 @@ There is an ever growing selection of tools dab provides (checkout `dab tools li
 
 ### Installing
 
-Simple doenload the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
+Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
 
 ```bash
  $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab
