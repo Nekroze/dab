@@ -12,6 +12,6 @@ set -euf
 . ./lib/dab.sh
 
 maybe_selfupdate_dab
-quietly ensure_network
+[ "${1:-network}" = "network" ] || quietly ensure_network
 
 dab "$@"

@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project does *not* adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html), opting instead for a rolling release model.
@@ -29,6 +30,7 @@ Are you ready to get STABLE!
 
 - Listing subcommands on root `dab` command
 - Vault containers cli client address
+- Prevent network ensure hook from running for null and network subcommands
 
 ### Changed
 
