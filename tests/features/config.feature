@@ -146,3 +146,10 @@ Feature: Subcommand: dab config
 		When I run `dab config set asguard lost`
 
 		Then it should fail with "Is a directory"
+
+	Scenario: Can set environment variables with config
+		Given I successfully run `dab config set environment/SOME_ENV toshi`
+
+		When I run `dab shell echo \$SOME_ENV`
+
+		Then it should pass with "toshi"

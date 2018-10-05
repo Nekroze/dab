@@ -28,12 +28,15 @@ Are you ready to get STABLE!
 - `DAB_USER` environment variable containing user that ran the wrapper script
 - `services` subcommand that works like tools
 - `repo group service` subcommand to add a service dependency that will start before repos
+- `environment` config namespace now stores key value environment variables to be loaded
 
 ### Fixed
 
 - Listing subcommands on root `dab` command
 - Vault containers cli client address
 - Prevent network ensure hook from running for null and network subcommands
+- `dab shell` now takes multiple parameters like it should
+- `$USER` is now set correctly inside dab
 
 ### Changed
 

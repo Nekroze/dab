@@ -34,7 +34,9 @@ export DAB_USER="${USER:-user}"
 # shellcheck disable=SC2039
 export DAB_UID="${DAB_UID:-${UID:-1000}}"
 export DAB_GID="${DAB_GID:-${GID:-1000}}"
-dArg --user "$DAB_UID:$DAB_GID"
+dArg \
+	--user "$DAB_UID:$DAB_GID" \
+	-e USER="${USER:-user}"
 
 # Home passthrough.
 dArg \

@@ -16,7 +16,7 @@ case "${1:-}" in
 esac
 
 if [ $# -gt 0 ]; then
-	sh -c "$@"
+	sh -c "$*"
 else
 	sh
 fi
