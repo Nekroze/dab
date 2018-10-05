@@ -45,3 +45,14 @@ config_add() {
 	echo "$@" >>"$path"
 	whisper "added $* to config key $key which now contains $(wc -l <"$path") value(s)"
 }
+
+config_load_envs() {
+	set +f
+	envs="$DAB_CONF_PATH/environment"
+	[ -d "$envs" ] || return 0
+	for file in "$envs"/*; do
+		name="$(basename "$file")"
+		export "$name=$(config_get "environment/$name")"
+	done
+	set -f
+}
