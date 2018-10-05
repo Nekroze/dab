@@ -141,20 +141,31 @@ Feature: Subcommand: dab repo
 		And I successfully run `dab repo add five https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `dab repo group repo sidehustle five`
 
-		When I run `dab repo group tool sidehustle telegraf`
+		When I run `dab repo group tool sidehustle cyberchef`
 
 		Then it should pass with "contains 1 value(s)"
 
-		When I run `dab repo group tool sidehustle cyberchef`
-
-		Then it should pass with "contains 2 value(s)"
-
 		When I run `dab repo group start sidehustle`
 
-		Then the exit status should be 0
-		And the output should contain:
+		Then it should pass with:
 		"""
 		Executing five entrypoint start
 		"""
-		And the output should contain "telegraf is available at http://localhost:"
 		And the output should contain "cyberchef is available at http://localhost:"
+
+	Scenario: Can group repositories and services then start them together
+		Given I successfully run `dab services stop`
+		And I successfully run `dab repo add six https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab repo group repo hackathon-2018 six`
+
+		When I run `dab repo group services hackathon-2018 redis`
+
+		Then it should pass with "contains 1 value(s)"
+
+		When I run `dab repo group start hackathon-2018`
+
+		Then it should pass with:
+		"""
+		Executing six entrypoint start
+		"""
+		And I successfully run `docker top services_redis_1`

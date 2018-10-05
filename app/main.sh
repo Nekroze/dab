@@ -12,6 +12,14 @@ set -euf
 . ./lib/dab.sh
 
 maybe_selfupdate_dab
-[ "${1:-network}" = "network" ] || quietly ensure_network
+
+case "${1:-}" in
+'-h' | '--help' | 'help' | 'network' | '')
+	true
+	;;
+*)
+	quietly ensure_network
+	;;
+esac
 
 dab "$@"

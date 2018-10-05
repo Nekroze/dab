@@ -50,5 +50,5 @@ warn() {
 
 whisper() {
 	# shellcheck disable=SC2039
-	echo -e "${COLOR_GRAY}$*${COLOR_NC}"
+	echo -e "${COLOR_LIGHT_GRAY}$*${COLOR_NC}"
 }

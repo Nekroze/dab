@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: Start a group's repos and then tools if defined, in FIFO order
+# Description: Start a group's services, then repos, and then tools (where defined), in FIFO order
 # Usage: <GROUP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
@@ -13,10 +13,17 @@ set -euf
 group_name="$1"
 repos="$(config_get "group/$group_name/repos")"
 tools="$(config_get "group/$group_name/tools")"
+services="$(config_get "group/$group_name/services")"
 
-if [ -z "$repos" ] && [ -z "$tools" ]; then
+if [ -z "$repos" ] && [ -z "$tools" ] && [ -z "$services" ]; then
 	fatality "group $group_name does not have any dependencies to start"
 fi
+
+for service in $services; do
+	(
+		dab services start "$service"
+	)
+done
 
 for repo in $repos; do
 	(

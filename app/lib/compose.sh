@@ -25,3 +25,13 @@ toolpose() {
 		--project-name tools \
 		"$@"
 }
+
+servicepose() {
+	# Project must not be named dab otherwise test and run containers may be
+	# removed causing exit code 137 failures.
+	docker-compose \
+		--file docker/docker-compose.services.yml \
+		--project-directory ./docker \
+		--project-name services \
+		"$@"
+}

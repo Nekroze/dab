@@ -5,10 +5,13 @@ services:
     image: alpine:latest
     networks:
       - lab
+      - services
     tmpfs:
       - /tmp
 
 networks:
+  services:
+    name: services
   lab:
     name: lab
     driver_opts:
