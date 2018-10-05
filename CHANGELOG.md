@@ -19,12 +19,15 @@ Are you ready to get STABLE!
 - Cleanup app code
 - `subcommander.sh` is now self contained
 - `subcommander.sh` now handles all argument routing
+- `tools` no longer automatically start services they might interact with
 
 ### Added
 
 - Execute [ShellCheck](https://github.com/koalaman/shellcheck) before on entry points before executing
 - Repo entry points now passes any additional parameters to their corresponding scripts
 - `DAB_USER` environment variable containing user that ran the wrapper script
+- `services` subcommand that works like tools
+- `repo group service` subcommand to add a service dependency that will start before repos
 
 ### Fixed
 

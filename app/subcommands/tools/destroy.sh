@@ -7,4 +7,9 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/compose.sh
 
-toolpose down --remove-orphans --volumes "$@"
+if [ -n "${1:-}" ]; then
+	yes y | toolpose rm --stop -v "$@"
+	docker volume rm "tools_$1"
+else
+	toolpose down --remove-orphans --volumes
+fi

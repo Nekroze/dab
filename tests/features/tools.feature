@@ -38,16 +38,13 @@ Feature: Subcommand: dab tools
 		And it should fail with "is not running"
 
 		Examples:
-			| TOOL      |
-			| cyberchef |
-			| grafana   |
-			| influxdb  |
-			| kapacitor |
-			| logspout  |
-			| portainer |
-			| telegraf  |
-			| tick      |
-			| traefik   |
+			| TOOL       |
+			| cyberchef  |
+			| grafana    |
+			| kapacitor  |
+			| portainer  |
+			| chronograf |
+			| traefik    |
 
 	Scenario Outline: Can select different tool versions with environment variables
 		A non exhaustive list of tools and versions that can be configured.
@@ -61,18 +58,12 @@ Feature: Subcommand: dab tools
 		And I successfully run `dab tools stop <TOOL>`
 
 		Examples:
-			| TOOL      | VAR                      | VERSION    |
-			| consul    | DAB_TOOLS_CONSUL_TAG     | 1.1.0      |
-			| influxdb  | DAB_TOOLS_INFLUXDB_TAG   | 1.5-alpine |
-			| kapacitor | DAB_TOOLS_KAPACITOR_TAG  | 1.5-alpine |
-			| logspout  | DAB_TOOLS_LOGSPOUT_TAG   | v3.1       |
-			| portainer | DAB_TOOLS_PORTAINER_TAG  | 1.19.2     |
-			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | 1.5        |
-			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | 1.5-alpine |
-			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | 1.6-alpine |
-			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | alpine     |
-			| tick      | DAB_TOOLS_CHRONOGRAF_TAG | latest     |
-			| traefik   | DAB_TOOLS_TRAEFIK_TAG    | v1.7       |
+			| TOOL       | VAR                      | VERSION    |
+			| kapacitor  | DAB_TOOLS_KAPACITOR_TAG  | 1.5-alpine |
+			| portainer  | DAB_TOOLS_PORTAINER_TAG  | 1.19.2     |
+			| chronograf | DAB_TOOLS_CHRONOGRAF_TAG | 1.5-alpine |
+			| chronograf | DAB_TOOLS_CHRONOGRAF_TAG | alpine     |
+			| traefik    | DAB_TOOLS_TRAEFIK_TAG    | v1.7       |
 
 	Scenario: Can stop all tools at once
 		Given I successfully run `dab tools start cyberchef`

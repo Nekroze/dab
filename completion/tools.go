@@ -3,20 +3,19 @@ package main
 import "github.com/posener/complete"
 
 var tools = []string{
+	"chronograf",
 	"cyberchef",
-	"portainer",
-	"tick",
-	"traefik",
-	"ngrok",
-	"logspout",
-	"watchtower",
-	"sysdig",
 	"grafana",
-	"consul",
-	"serveo",
+	"kapacitor",
+	"ngrok",
 	"ntopng",
-	"vault",
+	"pgadmin",
+	"portainer",
+	"serveo",
+	"sysdig",
+	"traefik",
 	"vaultbot",
+	"watchtower",
 }
 
 func predictTools(_ complete.Args) []string {

@@ -31,17 +31,14 @@ services:
     tmpfs:
       - /tmp
 
-  tick:
+  chronograf:
     image: "chronograf:${DAB_TOOLS_CHRONOGRAF_TAG:-alpine}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
-      - telegraf
-      - influxdb
       - kapacitor
     networks:
-      - default
-      - observability
+      - services
     volumes:
       - chronograf:/var/lib/chronograf
     environment:
@@ -49,54 +46,8 @@ services:
       KAPACITOR_URL: http://kapacitor:9092
     ports:
       - 8888
-    links:
-      - influxdb
-      - kapacitor
     healthcheck:
       test: 'wget --spider http://localhost:8888/ || exit 1'
-      interval: 1m
-      timeout: 10s
-      retries: 3
-    tmpfs:
-      - /tmp
-
-  telegraf:
-    build:
-      context: .
-      dockerfile: Dockerfile.telegraf
-      args:
-        - "TELEGRAF_TAG=${DAB_TOOLS_TELEGRAF_TAG:-alpine}"
-    depends_on:
-      - influxdb
-    networks:
-      - default
-      - observability
-      - lab
-    ports:
-      - 8086
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/run/utmp:/var/run/utmp:ro
-    healthcheck:
-      test: 'wget --spider http://localhost:8086/ping || exit 1'
-      interval: 1m
-      timeout: 10s
-      retries: 3
-    tmpfs:
-      - /tmp
-
-  influxdb:
-    image: "influxdb:${DAB_TOOLS_INFLUXDB_TAG:-alpine}"
-    labels:
-      com.centurylinklabs.watchtower.enable: 'true'
-    volumes:
-      - influxdb:/var/lib/influxdb
-    networks:
-      - observability
-    ports:
-      - 8086
-    healthcheck:
-      test: 'wget --spider http://localhost:8086/ping || exit 1'
       interval: 1m
       timeout: 10s
       retries: 3
@@ -108,14 +59,10 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
-      - observability
-    depends_on:
-      - influxdb
+      - services
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
-    links:
-      - influxdb
     ports:
       - 9092
     volumes:
@@ -149,7 +96,7 @@ services:
     networks:
       - lab
       - default
-      - observability
+      - services
       - public
     healthcheck:
       test: 'wget --spider http://localhost:8080/ping || exit 1'
@@ -174,24 +121,6 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-    tmpfs:
-      - /tmp
-
-  logspout:
-    image: "gliderlabs/logspout:${DAB_TOOLS_LOGSPOUT_TAG:-latest}"
-    labels:
-      com.centurylinklabs.watchtower.enable: 'true'
-    volumes:
-      - /etc/hostname:/etc/host_hostname:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    command:
-      syslog://telegraf:6514
-    depends_on:
-      - telegraf
-    ports:
-      - 80
-    environment:
-      INACTIVITY_TIMEOUT: 1m
     tmpfs:
       - /tmp
 
@@ -225,10 +154,8 @@ services:
         - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
       com.centurylinklabs.watchtower.enable: 'true'
-    depends_on:
-      - influxdb
     networks:
-      - observability
+      - services
     volumes:
       - grafana:/var/lib/grafana
     environment:
@@ -237,35 +164,6 @@ services:
       - 3000
     healthcheck:
       test: 'wget --spider http://localhost:3000/api || exit 1'
-      interval: 1m
-      timeout: 10s
-      retries: 3
-    tmpfs:
-      - /tmp
-
-  consul:
-    image: "consul:${DAB_TOOLS_CONSUL_TAG:-latest}"
-    labels:
-      com.centurylinklabs.watchtower.enable: 'true'
-    networks:
-      - observability
-    volumes:
-      - consul:/consul/data
-    ports:
-      - 8500
-    environment:
-      CONSUL_LOCAL_CONFIG: >
-        {
-          "datacenter": "${DAB_INSTANCE_NAME:-dab}",
-          "skip_leave_on_interrupt": true,
-          "addresses": {
-            "http": "0.0.0.0",
-            "dns": "0.0.0.0"
-          }
-        }
-    command: agent -server -bootstrap -ui
-    healthcheck:
-      test: 'wget --spider http://localhost:8500/v1/status/leader || exit 1'
       interval: 1m
       timeout: 10s
       retries: 3
@@ -294,17 +192,8 @@ services:
     network_mode: host
     ports:
       - 3000
-    depends_on:
-      - redis
     restart: on-failure
     command: --redis localhost:16379
-    tmpfs:
-      - /tmp
-
-  redis:
-    image: "redis:${DAB_TOOLS_REDIS_TAG:-latest}"
-    ports:
-      - '16379:6379'
     tmpfs:
       - /tmp
 
@@ -314,55 +203,33 @@ services:
       - ./vaultbot
       - '--vault-adr=http://vault:8200'
     networks:
-      - vault
-    depends_on:
-      - vault
+      - services
     tmpfs:
       - /tmp
 
-  vault:
-    build:
-      context: .
-      dockerfile: Dockerfile.vault
-      args:
-        - "VAULT_TAG=${DAB_TOOLS_VAULT_TAG:-latest}"
-    restart: on-failure
-    networks:
-      vault:
-      observability:
-      lab:
-        aliases:
-          - vault
-    healthcheck:
-      test: 'wget --spider http://localhost:8200/v1/sys/health || exit 1'
-      interval: 10s
-      timeout: 9s
-      retries: 3
-    ports:
-      - 8200
+  pgadmin:
+    image: "dpage/pgadmin4:${DAB_TOOLS_PGADMIN_TAG:-latest}"
     environment:
-      VAULT_ADDR: 'http://127.0.0.1:8200'
-    cap_add:
-      - IPC_LOCK
-    depends_on:
-      - consul
-      - telegraf
+      PGADMIN_DEFAULT_EMAIL: 'user@dab'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+    networks:
+      - services
+    ports:
+      - 80
     tmpfs:
       - /tmp
 
 volumes:
-  influxdb:
   kapacitor:
   chronograf:
   portainer:
   grafana:
-  consul:
-  vault:
 
 networks:
-  observability:
   public:
-  vault:
+  services:
+    external:
+      name: services
   lab:
     external:
       name: lab

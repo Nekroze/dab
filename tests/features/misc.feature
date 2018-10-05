@@ -57,6 +57,7 @@ Feature: Docker entrypoint wrapper script works
 			| repo entrypoint |
 			| repo group      |
 			| tools           |
+			| services        |
 
 	Scenario Outline: All sub commands provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
@@ -87,6 +88,15 @@ Feature: Docker entrypoint wrapper script works
 			| repo group tool        |
 			| repo group update      |
 			| repo require           |
+			| services destroy       |
+			| services exec          |
+			| services list          |
+			| services logs          |
+			| services restart       |
+			| services run           |
+			| services start         |
+			| services stop          |
+			| services update        |
 			| shell                  |
 			| tools address          |
 			| tools destroy          |
