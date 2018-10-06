@@ -8,7 +8,7 @@ set -euf
 . ./lib/compose.sh
 
 if [ -n "${1:-}" ]; then
-	yes y | toolpose rm --stop -v "$@"
+	toolpose rm --stop -v -f "$@"
 	docker volume rm "tools_$1"
 else
 	toolpose down --remove-orphans --volumes
