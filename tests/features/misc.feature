@@ -58,6 +58,7 @@ Feature: Docker entrypoint wrapper script works
 			| repo group      |
 			| tools           |
 			| services        |
+			| pki             |
 
 	Scenario Outline: All sub commands provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
@@ -77,6 +78,9 @@ Feature: Docker entrypoint wrapper script works
 			| config set             |
 			| network recreate       |
 			| network shell          |
+			| pki destroy            |
+			| pki issue              |
+			| pki ready              |
 			| repo add               |
 			| repo clone             |
 			| repo entrypoint create |
@@ -88,6 +92,7 @@ Feature: Docker entrypoint wrapper script works
 			| repo group tool        |
 			| repo group update      |
 			| repo require           |
+			| services address       |
 			| services destroy       |
 			| services exec          |
 			| services list          |

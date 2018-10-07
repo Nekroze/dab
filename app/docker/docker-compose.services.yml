@@ -13,7 +13,7 @@ services:
       - 8086
     healthcheck:
       test: 'wget --spider http://localhost:8086/ping || exit 1'
-      interval: 1m
+      interval: 30s
       timeout: 10s
       retries: 3
     tmpfs:
@@ -35,7 +35,7 @@ services:
       - /var/run/utmp:/var/run/utmp:ro
     healthcheck:
       test: 'wget --spider http://localhost:8086/ping || exit 1'
-      interval: 1m
+      interval: 30s
       timeout: 10s
       retries: 3
     tmpfs:
@@ -82,7 +82,7 @@ services:
     command: agent -server -bootstrap -ui
     healthcheck:
       test: 'wget --spider http://localhost:8500/v1/status/leader || exit 1'
-      interval: 1m
+      interval: 30s
       timeout: 10s
       retries: 3
     tmpfs:
@@ -91,6 +91,11 @@ services:
   redis:
     image: "redis:${DAB_SERVICES_REDIS_TAG:-latest}"
     restart: on-failure
+    healthcheck:
+      test: 'redis-cli ping'
+      interval: 30s
+      timeout: 10s
+      retries: 3
     ports:
       - '16379:6379'
     tmpfs:
@@ -104,9 +109,9 @@ services:
         - "VAULT_TAG=${DAB_SERVICES_VAULT_TAG:-latest}"
     restart: on-failure
     healthcheck:
-      test: 'wget --spider http://localhost:8200/v1/sys/health || exit 1'
-      interval: 10s
-      timeout: 9s
+      test: 'vault status | grep Version'
+      interval: 30s
+      timeout: 10s
       retries: 3
     ports:
       - 8200

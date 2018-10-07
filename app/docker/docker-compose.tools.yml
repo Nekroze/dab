@@ -201,7 +201,9 @@ services:
     image: "msvechla/vaultbot:${DAB_TOOLS_VAULTBOT_TAG:-latest}"
     entrypoint:
       - ./vaultbot
-      - '--vault-adr=http://vault:8200'
+      - '--vault_addr=http://vault:8200'
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
     networks:
       - services
     tmpfs:

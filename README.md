@@ -87,6 +87,7 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 - Shared base image, most all tools and services along with dab itself uses an alpine base image that is auto updated
 - Simple, thanks to the `subcommander.sh` dispatcher most subcommands are implemented in only a couple SLOC
 - Tree structured configuration that can be shared
+- x509 PKI managed via [Vault][5] with transparent certificate renewal via [VaultBot][6]
 
 ## Contributing
 
@@ -96,3 +97,6 @@ If you would like to help hone dab into a better tool check out our [contributin
 [1]: https://github.com/Nekroze/dab/blob/master/dab
 [2]: https://github.com/Nekroze/dab/blob/master/CONTRIBUTING.md
 [3]: https://www.influxdata.com/time-series-platform/
+[4]: https://github.com/gliderlabs/logspout
+[5]: https://www.vaultproject.io/
+[6]: https://gitlab.com/msvechla/vaultbot

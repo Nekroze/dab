@@ -19,6 +19,7 @@ Feature: Subcommand: dab network
 
 	Scenario: Can recreate the lab network
 		Given I successfully run `dab tools destroy`
+		And I successfully run `dab services destroy`
 
 		When I successfully run `dab network recreate`
 

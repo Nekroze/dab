@@ -12,3 +12,7 @@ set -euf
 . ./lib/update.sh
 # shellcheck disable=SC1091
 . ./lib/dab.sh
+# shellcheck disable=SC1091
+. ./lib/vault.sh
+# shellcheck disable=SC1091
+. ./lib/services.sh

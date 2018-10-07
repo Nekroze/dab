@@ -20,6 +20,8 @@ Are you ready to get STABLE!
 - `subcommander.sh` is now self contained
 - `subcommander.sh` now handles all argument routing
 - `tools` no longer automatically start services they might interact with
+- added/improved docker health checks for services
+- improved destroy subcommand when used on specific tools and services
 
 ### Added
 
@@ -29,6 +31,9 @@ Are you ready to get STABLE!
 - `services` subcommand that works like tools
 - `repo group service` subcommand to add a service dependency that will start before repos
 - `environment` config namespace now stores key value environment variables to be loaded
+- `pki` subcommand providing a simple interface to a vault backed full PKI
+- `dab services address` subcommand and address output on `dab services start`
+- Added `lib/services.sh`
 
 ### Fixed
 
@@ -37,6 +42,7 @@ Are you ready to get STABLE!
 - Prevent network ensure hook from running for null and network subcommands
 - `dab shell` now takes multiple parameters like it should
 - `$USER` is now set correctly inside dab
+- vaultbot vault address param name corrected
 
 ### Changed
 
