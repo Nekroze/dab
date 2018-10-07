@@ -18,6 +18,23 @@ If you do not need to build the docker image yourself and just want to use dab, 
 
 It is recommended you add the directory containing the [dab script][1] to your shell's `PATH` environment variable.
 
+### Installing
+
+Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
+
+```bash
+ $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab
+ $ sudo chmod 755 /usr/bin/dab
+```
+
+After this the `dab` command should be available in your shell:
+
+```bash
+ $ dab completion --help
+```
+
+By the way, installing completion via the instructions given by the last command is highly recommended.
+
 ### Setting up a project
 
 As a developer I work on a heaps of projects each with their own needs and quirks. Lets use `dab` to manage a project for us, first we need to register its existence:
@@ -41,29 +58,14 @@ Now whenever we start this repo, or a repo that depends upon this one, the `test
  $ dab repo entrypoint start containaruba
 ```
 
-### Using tools
+### Using tools and services
 
-There is an ever growing selection of tools dab provides (checkout `dab tools list`) for recording metrics, debugging, etc.
+There is an ever growing selection of tools and services dab provides (checkout `dab tools list` and `dab services list`) for recording metrics, databases, etc.
 
 ```bash
  $ dab tools start grafana
  $ dab tools start ntopng
- $ dab tools start sysdig
-```
-
-### Installing
-
-Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
-
-```bash
- $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab
- $ sudo chmod 755 /usr/bin/dab
-```
-
-After this the `dab` command should be available in your shell:
-
-```bash
- $ dab completion --help
+ $ dab services start redis
 ```
 
 ### Updating
@@ -71,7 +73,6 @@ After this the `dab` command should be available in your shell:
 Dab has a self updating mechanism in that it will pull the latest version of the dab image when dab is next executed a day or more after the last time it checked. So generally you do not have to do anything at all to stay up to date with the latest features, bug fixes, and security improvements.
 
 The [dab script][1] wrapper has been designed to reduce the requirement to update it when new features are added to dab, however it may be necessary to do so on occasion and can be accomplished simply by downloading the latest version of the file and replace the existing one on your machine. Executing the install steps again should suffice.
-
 
 ### Features
 
@@ -92,7 +93,6 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 ## Contributing
 
 If you would like to help hone dab into a better tool check out our [contributing][2] documentation.
-
 
 [1]: https://github.com/Nekroze/dab/blob/master/dab
 [2]: https://github.com/Nekroze/dab/blob/master/CONTRIBUTING.md

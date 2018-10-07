@@ -20,6 +20,12 @@ var dab = complete.Command{
 				"shell":   {},
 			},
 		},
+		"pki": {
+			Sub: complete.Commands{
+				"ready": {},
+				"issue": {},
+			},
+		},
 		"repo": {
 			Sub: complete.Commands{
 				"add":   {Args: newGeneric(predictRepos, 1)},
@@ -76,6 +82,7 @@ var dab = complete.Command{
 		},
 		"services": {
 			Sub: complete.Commands{
+				"address": {Args: newGeneric(predictServices, 1)},
 				"destroy": {Args: newGeneric(predictServices, 1)},
 				"exec":    {Args: newGeneric(predictServices, 1)},
 				"list":    {},
