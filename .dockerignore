@@ -1,7 +1,5 @@
 /app/subcommands/template.sh
 /.git
-/tests
 /default.nix
-!/tests/features
 *.log
 /completion/completion
