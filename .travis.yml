@@ -14,7 +14,10 @@ jobs:
 
     - stage: Danger
       name: Danger Checks
-      script: ./scripts/danger.sh
+      script:
+        - git clone -b tests https://github.com/Nekroze/dab.git tests
+        - cd tests
+        - ./scripts/danger.sh
       cache: yarn
 
     - stage: Nix
