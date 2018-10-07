@@ -17,7 +17,10 @@ dArg() {
 # If we are in a tty (interactive terminal environment) then run the dab
 # container in one too.
 if [ -t 0 ]; then
-	dArg --tty --interactive
+	dArg --interactive
+fi
+if [ -t 1 ]; then
+	dArg --tty
 fi
 
 # Pass current working directory through to a consistent location.

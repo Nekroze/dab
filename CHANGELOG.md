@@ -32,8 +32,10 @@ Are you ready to get STABLE!
 - `repo group service` subcommand to add a service dependency that will start before repos
 - `environment` config namespace now stores key value environment variables to be loaded
 - `pki` subcommand providing a simple interface to a vault backed full PKI
+- `pki` subcommands to completion
 - `dab services address` subcommand and address output on `dab services start`
 - Added `lib/services.sh`
+- `gawk` to nix package propagated dependencies
 
 ### Fixed
 
@@ -43,6 +45,7 @@ Are you ready to get STABLE!
 - `dab shell` now takes multiple parameters like it should
 - `$USER` is now set correctly inside dab
 - vaultbot vault address param name corrected
+- correctly set docker `--interactive` and `--tty` when appropriate
 
 ### Changed
 

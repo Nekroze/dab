@@ -1,4 +1,4 @@
-{ stdenv, docker, gnugrep, ... }:
+{stdenv, docker, gnugrep, gawk, ...}:
 
 stdenv.mkDerivation rec {
   name = "dab";
@@ -12,6 +12,7 @@ stdenv.mkDerivation rec {
   propagatedBuildInputs = [
     docker
     gnugrep
+    gawk
   ];
 
   meta = {
