@@ -22,6 +22,7 @@ Are you ready to get STABLE!
 - `tools` no longer automatically start services they might interact with
 - added/improved docker health checks for services
 - improved destroy subcommand when used on specific tools and services
+- Moved `dab repo group` subcommand to `dab group`
 
 ### Added
 

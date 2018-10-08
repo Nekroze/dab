@@ -39,24 +39,24 @@ var dab = complete.Command{
 				},
 				"fetch":   {Args: newGeneric(predictRepos, 1)},
 				"require": {Args: newGeneric(predictRepos, 1, 2)},
-				"group": {
-					Sub: map[string]complete.Command{
-						"repo": {Args: complete.PredictOr(
-							newGeneric(predictGroups, 1),
-							newGeneric(predictRepos, 2),
-						)},
-						"tool": {Args: complete.PredictOr(
-							newGeneric(predictGroups, 1),
-							newGeneric(predictTools, 2),
-						)},
-						"services": {Args: complete.PredictOr(
-							newGeneric(predictGroups, 1),
-							newGeneric(predictServices, 2),
-						)},
-						"update": {Args: newGeneric(predictGroups, 1)},
-						"start":  {Args: newGeneric(predictGroups, 1)},
-					},
-				},
+			},
+		},
+		"group": {
+			Sub: map[string]complete.Command{
+				"repo": {Args: complete.PredictOr(
+					newGeneric(predictGroups, 1),
+					newGeneric(predictRepos, 2),
+				)},
+				"tool": {Args: complete.PredictOr(
+					newGeneric(predictGroups, 1),
+					newGeneric(predictTools, 2),
+				)},
+				"services": {Args: complete.PredictOr(
+					newGeneric(predictGroups, 1),
+					newGeneric(predictServices, 2),
+				)},
+				"update": {Args: newGeneric(predictGroups, 1)},
+				"start":  {Args: newGeneric(predictGroups, 1)},
 			},
 		},
 		"shell": {},
