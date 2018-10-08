@@ -32,14 +32,9 @@ var dab = complete.Command{
 				"clone": {Args: newGeneric(predictRepos, 1)},
 				"entrypoint": {
 					Sub: map[string]complete.Command{
-						"set": {
-							Sub: map[string]complete.Command{
-								"command": {Args: newGeneric(predictRepos, 1)},
-								"script":  {Args: newGeneric(predictRepos, 1)},
-							},
-						},
-						"start": {Args: newGeneric(predictRepos, 1)},
-						"stop":  {Args: newGeneric(predictRepos, 1)},
+						"create": {Args: newGeneric(predictRepos, 1)},
+						"start":  {Args: newGeneric(predictRepos, 1)},
+						"stop":   {Args: newGeneric(predictRepos, 1)},
 					},
 				},
 				"fetch":   {Args: newGeneric(predictRepos, 1)},
