@@ -23,6 +23,7 @@ Are you ready to get STABLE!
 - added/improved docker health checks for services
 - improved destroy subcommand when used on specific tools and services
 - Moved `dab repo group` subcommand to `dab group`
+- Automatically install PKI CA certificate in browsers when possible
 
 ### Added
 

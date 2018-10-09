@@ -50,7 +50,7 @@ RUN apk add --no-cache docker python3 ca-certificates \
  && pip3 install docker-compose
 
 # Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux jq
+RUN apk add --no-cache git openssh tree util-linux jq nss-tools
 
 # Handy env var configs
 ENV DAB="/opt/dab" \

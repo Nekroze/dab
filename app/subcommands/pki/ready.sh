@@ -37,4 +37,13 @@ if ! vault_pki_enabled; then
 	vault secrets tune -max-lease-ttl="$DAB_PKI_CA_TTL" pki_dab
 	ca_cert="$(carelessly vault write -format=json -field=certificate pki_dab/root/generate/internal common_name=dab ttl="$DAB_PKI_CA_TTL")"
 	dab config set pki/ca/certificate "$(echo "$ca_cert" | jq -r)"
+	cert="$DAB_CONF_PATH/pki/ca/certificate"
+	for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
+		inform "Installing CA Certificate in $(dirname "$db")"
+		quietly certutil -A -n "Dab PKI" -t "TCu,Cu,Tu" -i "$cert" -d "dbm:$(dirname "$db")"
+	done
+	for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
+		inform "Installing CA Certificate in $(dirname "$db")"
+		quietly certutil -A -n "Dab PKI" -t "TCu,Cu,Tu" -i "$cert" -d "sql:$(dirname "$db")"
+	done
 fi
