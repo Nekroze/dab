@@ -35,8 +35,8 @@ vaultbot --vault_token="$(vault_token)" \
 	--pki_cert_path="$pki_path/certificate" \
 	--pki_privkey_path="$pki_path/key" \
 	-y
-toolpose run --entrypoint /bin/sh vaultbot -c "chown $DAB_UID:$DAB_GID $pki_path/*"
-toolpose run --entrypoint /bin/sh vaultbot -c "chmod 644 $pki_path/*"
+toolpose run --rm --entrypoint /bin/sh vaultbot -c "chown $DAB_UID:$DAB_GID $pki_path/*"
+toolpose run --rm --entrypoint /bin/sh vaultbot -c "chmod 644 $pki_path/*"
 
 conf_path="\$DAB_CONF_PATH/pki/$fqdn"
 inform "$fqdn pem formatted certificate can be found at $conf_path/certificate"

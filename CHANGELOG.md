@@ -47,6 +47,7 @@ Are you ready to get STABLE!
 - `$USER` is now set correctly inside dab
 - vaultbot vault address param name corrected
 - correctly set docker `--interactive` and `--tty` when appropriate
+- Cleanup vault and vaultbot containers started by `pki` subcommands
 
 ### Changed
 
