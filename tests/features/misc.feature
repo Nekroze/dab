@@ -55,7 +55,7 @@ Feature: Docker entrypoint wrapper script works
 			| network         |
 			| repo            |
 			| repo entrypoint |
-			| repo group      |
+			| group           |
 			| tools           |
 			| services        |
 			| pki             |
@@ -76,6 +76,10 @@ Feature: Docker entrypoint wrapper script works
 			| config get             |
 			| config keys            |
 			| config set             |
+			| group repo             |
+			| group start            |
+			| group tool             |
+			| group update           |
 			| network recreate       |
 			| network shell          |
 			| pki destroy            |
@@ -87,10 +91,6 @@ Feature: Docker entrypoint wrapper script works
 			| repo entrypoint start  |
 			| repo entrypoint stop   |
 			| repo fetch             |
-			| repo group repo        |
-			| repo group start       |
-			| repo group tool        |
-			| repo group update      |
 			| repo require           |
 			| services address       |
 			| services destroy       |
