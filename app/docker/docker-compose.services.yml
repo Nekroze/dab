@@ -109,7 +109,7 @@ services:
         - "VAULT_TAG=${DAB_SERVICES_VAULT_TAG:-latest}"
     restart: on-failure
     healthcheck:
-      test: 'vault status | grep Version'
+      test: 'netstat -tulpn | grep 0.0.0.0:8200'
       interval: 30s
       timeout: 10s
       retries: 3
