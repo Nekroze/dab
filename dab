@@ -35,8 +35,20 @@ export DAB_USER="${USER:-user}"
 # for dab on your machine to restrict its access more granularly, and provide
 # security by not running as root.
 # shellcheck disable=SC2039
-export DAB_UID="${DAB_UID:-${UID:-1000}}"
-export DAB_GID="${DAB_GID:-${GID:-1000}}"
+if [ -z "${DAB_UID:-}" ]; then
+	if [ -n "${UID:-}" ]; then
+		DAB_UID="$UID"
+	else
+		DAB_UID="$(id -u)"
+	fi
+fi
+if [ -z "${DAB_GID:-}" ]; then
+	if [ -n "${GID:-}" ]; then
+		DAB_GID="$GID"
+	else
+		DAB_GID="$(id -g)"
+	fi
+fi
 dArg \
 	--user "$DAB_UID:$DAB_GID" \
 	-e USER="${USER:-user}"
