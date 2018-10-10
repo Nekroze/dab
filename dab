@@ -49,6 +49,7 @@ if [ -z "${DAB_GID:-}" ]; then
 		DAB_GID="$(id -g)"
 	fi
 fi
+export DAB_UID DAB_GID
 dArg \
 	--user "$DAB_UID:$DAB_GID" \
 	-e USER="${USER:-user}"
