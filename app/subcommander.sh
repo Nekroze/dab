@@ -40,6 +40,16 @@ script_to_help() {
 	exit 0
 }
 
+version_info() {
+	echo "Dab Version: $(cat /VERSION)"
+	docker info | grep -E '(Runtime(s)|Version|System|Architecture|Version):'
+}
+
+display_version() {
+	version_info | grep -E '(\w|\s)+:'
+	exit 0
+}
+
 script_to_subcmd_row() {
 	subcmd_row "$(script_to_subcmd "$1")" "$(script_to_description "$1")"
 }
@@ -60,6 +70,7 @@ subcommands_help() {
 	set -f
 
 	subcmd_row help 'You are looking at it'
+	subcmd_row version 'Display dab and docker information'
 }
 
 usage() {
@@ -80,6 +91,17 @@ is_help() {
 	esac
 }
 
+is_version() {
+	case "${1:-}" in
+	'-v' | '--version' | 'version')
+		return 0
+		;;
+	*)
+		return 1
+		;;
+	esac
+}
+
 subcommand_recurse() {
 	scope="$1"
 	subcmd="${2:-}"
@@ -91,13 +113,20 @@ subcommand_recurse() {
 		subcommand_recurse "$newscope" "$@"
 	elif [ -n "$subcmd" ] && [ -f "$newscope.sh" ]; then
 		shift
-		is_help "${1:-}" && script_to_help "$newscope.sh"
-		"$newscope.sh" "$@"
+		if is_help "${1:-}"; then
+			script_to_help "$newscope.sh"
+		elif is_version "${1:-}"; then
+			display_version
+		else
+			"$newscope.sh" "$@"
+		fi
 		exit $?
 	fi
 
 	if is_help "$subcmd"; then
 		true
+	elif is_version "$subcmd"; then
+		display_version
 	elif [ -z "$subcmd" ]; then
 		code=1
 	else

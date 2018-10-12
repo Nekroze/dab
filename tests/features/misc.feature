@@ -49,6 +49,10 @@ Feature: Docker entrypoint wrapper script works
 		And it should pass with "Usage:"
 		And the output should contain "SUBCOMMAND"
 
+		When I run `dab <SUBCOMMAND>`
+		And it should fail with "Usage:"
+		And the output should contain "SUBCOMMAND"
+
 		Examples:
 			| SUBCOMMAND      |
 			| config          |
@@ -60,7 +64,7 @@ Feature: Docker entrypoint wrapper script works
 			| services        |
 			| pki             |
 
-	Scenario Outline: All sub commands provide usage information
+	Scenario Outline: All sub commands provide usage and version info
 		Given I run `dab <SUBCOMMAND> --help`
 		And it should pass with "Usage:"
 
@@ -69,6 +73,15 @@ Feature: Docker entrypoint wrapper script works
 
 		Then I run `dab <SUBCOMMAND> help`
 		And it should pass with "Usage:"
+
+		Given I run `dab <SUBCOMMAND> --version`
+		And it should pass with "Operating System:"
+
+		When I run `dab <SUBCOMMAND> -v`
+		And it should pass with "Operating System:"
+
+		Then I run `dab <SUBCOMMAND> version`
+		And it should pass with "Operating System:"
 
 		Examples:
 			| SUBCOMMAND             |

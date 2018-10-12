@@ -38,6 +38,7 @@ Are you ready to get STABLE!
 - `dab services address` subcommand and address output on `dab services start`
 - Added `lib/services.sh`
 - `gawk` to nix package propagated dependencies
+- `--version` and variants are now taken by all commands and gives handy info for debugging
 
 ### Fixed
 

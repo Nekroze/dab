@@ -19,9 +19,10 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS/Distro: [e.g. Mac, Ubuntu]
- - Docker Version: [e.g. 18.06.1-ce]
+**`dab version` output:**
+
+```bash
+```
 
 **Additional context**
 Add any other context about the problem here.

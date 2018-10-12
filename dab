@@ -98,8 +98,8 @@ if [ -e "$local_docker_socket" ]; then
 elif [ -n "${DOCKER_HOST:-}" ]; then
 	dArg -e "DOCKER_HOST=$DOCKER_HOST"
 
-	[ -n "${DOCKER_TLS_VERIFY:-}" ] \
-		&& dArg -e "DOCKER_TLS_VERIFY=$DOCKER_TLS_VERIFY"
+	[ -n "${DOCKER_TLS_VERIFY:-}" ] &&
+		dArg -e "DOCKER_TLS_VERIFY=$DOCKER_TLS_VERIFY"
 
 	if [ -n "${DOCKER_CERT_PATH:-}" ]; then
 		dArg \
@@ -118,10 +118,10 @@ fi
 
 # Passthrough all defined non empty DAB_* environment variables.
 dArg "$(
-env \
-	| grep -E "^DAB_.+=.+" \
-	| awk '{ print "-e " $1; }' \
-	| tr '\n' ' '
+	env |
+		grep -E "^DAB_.+=.+" |
+		awk '{ print "-e " $1; }' |
+		tr '\n' ' '
 )"
 
 # Attempt to mount this script into the container, if it can be found.

@@ -14,4 +14,3 @@ if [ "$#" -gt 0 ]; then
 else
 	yarn danger ci
 fi
-

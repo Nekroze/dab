@@ -17,7 +17,8 @@ FROM golang:latest AS shfmt
 RUN go get -v mvdan.cc/sh/cmd/shfmt/...
 
 # Copy in the whole project for analysis.
-COPY ./app ./app
+COPY ./ ./
+RUN git rev-parse HEAD > /VERSION
 
 # display diffs of any files that do not conform to a posix compliant
 # simplified style.
@@ -62,6 +63,7 @@ ENV DAB="/opt/dab" \
 WORKDIR /opt/dab
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
 COPY --from=completion /go/src/app/completion ./
+COPY --from=shfmt /VERSION /VERSION
 COPY ./app ./README.md ./LICENSE ./dab ./
 ENTRYPOINT ["/opt/dab/main.sh"]
 
