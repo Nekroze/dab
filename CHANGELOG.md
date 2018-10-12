@@ -24,6 +24,8 @@ Are you ready to get STABLE!
 - improved destroy subcommand when used on specific tools and services
 - Moved `dab repo group` subcommand to `dab group`
 - Automatically install PKI CA certificate in browsers when possible
+- `tools list` and `services list` now have username and password columns for applicable services
+- When creating an entrypoint check if anything already exists before writing
 
 ### Added
 

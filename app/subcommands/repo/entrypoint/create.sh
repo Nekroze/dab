@@ -34,12 +34,12 @@ write_script() {
 start_path="$(entrypoint_script_path "$repo" 'start')"
 stop_path="$(entrypoint_script_path "$repo" 'stop')"
 
-if [ ! -f "$DAB_CONF_PATH/$start_path" ]; then
+if [ ! -e "$DAB_CONF_PATH/$start_path" ]; then
 	write_script "$start_path" "$DEFAULT_ENTRYPOINT_SCRIPT
 # docker-compose up -d"
 fi
 
-if [ ! -f "$DAB_CONF_PATH/$stop_path" ]; then
+if [ ! -e "$DAB_CONF_PATH/$stop_path" ]; then
 	write_script "$stop_path" "$DEFAULT_ENTRYPOINT_SCRIPT
 # docker-compose stop"
 fi

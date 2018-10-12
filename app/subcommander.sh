@@ -46,7 +46,7 @@ version_info() {
 }
 
 display_version() {
-	version_info | grep -E '(\w|\s)+:'
+	version_info | grep -E '^\w(\w|\s)+:'
 	exit 0
 }
 
