@@ -4,7 +4,7 @@
 set -euf
 
 tool_row() {
-	echo "$1:$2"
+	echo "$1:$2:${3:-}:${4:-}"
 }
 
 tools_subcommands() {
@@ -20,7 +20,7 @@ tools_subcommands() {
 	tool_row serveo 'Expose local servers to the internet'
 	tool_row ntopng 'Monitor network interfaces, requires redis service'
 	tool_row vaultbot 'Automate interaction with Hashicorp Vault'
-	tool_row pgadmin 'Postgres administration console, usr:pw=user@dab:admin'
+	tool_row pgadmin 'Postgres administration console' 'user@dab' 'admin'
 }
 
-tools_subcommands | column -s':' -o' | ' -t -N TOOL,DESCRIPTION -R TOOL
+tools_subcommands | column -s':' -o' | ' -t -N TOOL,DESCRIPTION,USERNAME,PASSWORD -R TOOL
