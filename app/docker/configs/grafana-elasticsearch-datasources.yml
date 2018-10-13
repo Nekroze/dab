@@ -1,0 +1,10 @@
+datasources:
+
+  - name: Elasticsearch - Dab
+    type: elasticsearch
+    access: proxy
+    database: "[metrics-]YYYY.MM.DD"
+    url: http://elasticsearch:9200
+    jsonData:
+      interval: Daily
+      timeField: "@timestamp"

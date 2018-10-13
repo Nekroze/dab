@@ -35,14 +35,15 @@ Feature: Subcommand: dab services
 		And it should fail with "is not running"
 
 		Examples:
-			| SERVICE  |
-			| influxdb |
-			| telegraf |
-			| logspout |
-			| redis    |
-			| postgres |
-			| vault    |
-			| consul   |
+			| SERVICE       |
+			| influxdb      |
+			| telegraf      |
+			| elasticsearch |
+			| logspout      |
+			| redis         |
+			| postgres      |
+			| vault         |
+			| consul        |
 
 	Scenario Outline: Can select different service versions with environment variables
 		A non exhaustive list of services and versions that can be configured.
@@ -56,12 +57,13 @@ Feature: Subcommand: dab services
 		And I successfully run `dab services stop <SERVICE>`
 
 		Examples:
-			| SERVICE  | VAR                       | VERSION    |
-			| consul   | DAB_SERVICES_CONSUL_TAG   | 1.1.0      |
-			| influxdb | DAB_SERVICES_INFLUXDB_TAG | 1.5-alpine |
-			| logspout | DAB_SERVICES_LOGSPOUT_TAG | v3.1       |
-			| postgres | DAB_SERVICES_POSTGRES_TAG | 9.4-alpine |
-			| redis    | DAB_SERVICES_REDIS_TAG    | 3.2-alpine |
+			| SERVICE       | VAR                            | VERSION    |
+			| consul        | DAB_SERVICES_CONSUL_TAG        | 1.1.0      |
+			| influxdb      | DAB_SERVICES_INFLUXDB_TAG      | 1.5-alpine |
+			| logspout      | DAB_SERVICES_LOGSPOUT_TAG      | v3.1       |
+			| postgres      | DAB_SERVICES_POSTGRES_TAG      | 9.4-alpine |
+			| redis         | DAB_SERVICES_REDIS_TAG         | 3.2-alpine |
+			| elasticsearch | DAB_SERVICES_ELASTICSEARCH_TAG | 6.4.1      |
 
 	Scenario: Can stop all services at once
 		Given I successfully run `dab services start redis`

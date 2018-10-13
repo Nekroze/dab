@@ -23,7 +23,7 @@ It is recommended you add the directory containing the [dab script][1] to your s
 Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
 
 ```bash
- $ sudo curl https://github.com/Nekroze/dab/blob/master/dab -o /usr/bin/dab
+ $ sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o /usr/bin/dab
  $ sudo chmod 755 /usr/bin/dab
 ```
 
@@ -94,7 +94,7 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 
 If you would like to help hone dab into a better tool check out our [contributing][2] documentation.
 
-[1]: https://github.com/Nekroze/dab/blob/master/dab
+[1]: https://github.com/Nekroze/dab/raw/master/dab
 [2]: https://github.com/Nekroze/dab/blob/master/CONTRIBUTING.md
 [3]: https://www.influxdata.com/time-series-platform/
 [4]: https://github.com/gliderlabs/logspout

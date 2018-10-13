@@ -8,6 +8,8 @@ var services = []string{
 	"logspout",
 	"postgres",
 	"redis",
+	"telegraf",
+	"elasticsearch",
 	"vault",
 }
 
