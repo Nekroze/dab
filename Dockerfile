@@ -13,7 +13,7 @@ RUN shellcheck --shell sh --color dab $(find . -name '*.sh' -type f)
 # Second analysis stage runs shfmt to ensure a consistent style.
 FROM golang:latest AS shfmt
 
-# Install shfmt https://github.com/mvdan/sh and git.
+# Install shfmt https://github.com/mvdan/sh
 RUN go get -v mvdan.cc/sh/cmd/shfmt/...
 
 # Copy in the whole project for analysis.
@@ -58,9 +58,12 @@ ENV DAB="/opt/dab" \
     PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
 	PATH="$PATH:/opt/dab/docker"
 
-# Move just the app directory from the dab repository and execute from there to
-# keep paths consistent and predictable.
+# Move just the app directory from the dab repository (along with some other
+# file from previous layers) and execute from there to keep paths consistent
+# and predictable.
 WORKDIR /opt/dab
+ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
+RUN chmod +x /usr/bin/yq
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
 COPY --from=completion /go/src/app/completion ./
 COPY --from=shfmt /VERSION /VERSION

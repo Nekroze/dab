@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile.cyberchef
       args:
         - "NGINX_TAG=${DAB_TOOLS_NGINX_TAG:-alpine}"
+    labels:
+      description: 'The Cyber Swiss Army Knife'
     ports:
       - 80
     healthcheck:
@@ -21,6 +23,7 @@ services:
   portainer:
     image: "portainer/portainer:${DAB_TOOLS_PORTAINER_TAG:-latest}"
     labels:
+      description: 'Docker Management Web UI'
       com.centurylinklabs.watchtower.enable: 'true'
     ports:
       - 9000
@@ -34,6 +37,7 @@ services:
   chronograf:
     image: "chronograf:${DAB_TOOLS_CHRONOGRAF_TAG:-alpine}"
     labels:
+      description: 'Chronograf metrics explorer from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
       - kapacitor
@@ -57,6 +61,7 @@ services:
   kapacitor:
     image: "kapacitor:${DAB_TOOLS_KAPACITOR_TAG:-alpine}"
     labels:
+      description: 'Real-Time metrics processing from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -78,6 +83,7 @@ services:
   traefik:
     image: "traefik:${DAB_TOOLS_TRAEFIK_TAG:-alpine}"
     labels:
+      description: 'The Cloud Native Edge Router, docker reverse proxy'
       com.centurylinklabs.watchtower.enable: 'true'
     command:
       - --ping
@@ -110,6 +116,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ngrok
+    labels:
+      description: 'Secure introspectable tunnels, points to traefik'
     ports:
       - 4040
     depends_on:
@@ -127,6 +135,7 @@ services:
   watchtower:
     image: v2tec/watchtower:latest
     labels:
+      description: 'Watches labelled container images for updates and applies them'
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -136,6 +145,8 @@ services:
 
   sysdig:
     image: "sysdig/sysdig:${DAB_TOOLS_SYSDIG_TAG:-latest}"
+    labels:
+      description: 'Universal system visibility tool with native support for containers'
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
       - /dev:/host/dev
@@ -153,6 +164,7 @@ services:
       args:
         - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
+      description: 'The open platform for analytics and monitoring'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -174,6 +186,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ssh
+    labels:
+      description: 'Expose local servers to the internet'
     entrypoint:
       - /usr/bin/ssh
     command:
@@ -189,6 +203,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ntopng
+    labels:
+      description: 'Monitor network interfaces, requires redis service'
     network_mode: host
     ports:
       - 3000
@@ -199,6 +215,9 @@ services:
 
   vaultbot:
     image: "msvechla/vaultbot:${DAB_TOOLS_VAULTBOT_TAG:-latest}"
+    labels:
+      description: 'Automate interaction with Hashicorp Vault'
+      com.centurylinklabs.watchtower.enable: 'true'
     entrypoint:
       - ./vaultbot
       - '--vault_addr=http://vault:8200'
@@ -211,6 +230,9 @@ services:
 
   pgadmin:
     image: "dpage/pgadmin4:${DAB_TOOLS_PGADMIN_TAG:-latest}"
+    labels:
+      description: 'Postgres administration console user=user@dab pass=admin'
+      com.centurylinklabs.watchtower.enable: 'true'
     environment:
       PGADMIN_DEFAULT_EMAIL: 'user@dab'
       PGADMIN_DEFAULT_PASSWORD: 'admin'

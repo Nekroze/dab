@@ -26,6 +26,7 @@ Are you ready to get STABLE!
 - Automatically install PKI CA certificate in browsers when possible
 - `tools list` and `services list` now have username and password columns for applicable services
 - When creating an entrypoint check if anything already exists before writing
+- Generate `tools list` and `services list` out dynamically from docker-compose files
 
 ### Added
 
@@ -41,6 +42,7 @@ Are you ready to get STABLE!
 - Added `lib/services.sh`
 - `gawk` to nix package propagated dependencies
 - `--version` and variants are now taken by all commands and gives handy info for debugging
+- [yq](https://github.com/mikefarah/yq) to the dab image for yaml bashing
 
 ### Fixed
 
