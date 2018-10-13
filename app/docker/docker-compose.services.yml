@@ -160,6 +160,34 @@ services:
     tmpfs:
       - /tmp
 
+  zookeeper:
+    image: "confluentinc/cp-zookeeper:${DAB_SERVICES_ZOOKEEPER_TAG:-latest}"
+    labels:
+      description: 'Distributed configuration service'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: WARN
+    tmpfs:
+      - /tmp
+
+  kafka:
+    image: "confluentinc/cp-kafka:${DAB_SERVICES_KAFKA_TAG:-latest}"
+    labels:
+      description: 'Stream processing platform'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
+    tmpfs:
+      - /tmp
+
 volumes:
   postgres:
   influxdb:
@@ -171,4 +199,3 @@ networks:
   default:
     external:
       name: services
-

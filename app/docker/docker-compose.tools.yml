@@ -257,4 +257,3 @@ networks:
   lab:
     external:
       name: lab
-
