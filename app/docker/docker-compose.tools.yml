@@ -164,7 +164,7 @@ services:
       args:
         - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
-      description: 'The open platform for analytics and monitoring'
+      description: 'The open platform for analytics and monitoring, user=admin pass=admin'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -231,7 +231,7 @@ services:
   pgadmin:
     image: "dpage/pgadmin4:${DAB_TOOLS_PGADMIN_TAG:-latest}"
     labels:
-      description: 'Postgres administration console user=user@dab pass=admin'
+      description: 'Postgres administration console, user=user@dab pass=admin'
       com.centurylinklabs.watchtower.enable: 'true'
     environment:
       PGADMIN_DEFAULT_EMAIL: 'user@dab'

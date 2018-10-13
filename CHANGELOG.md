@@ -43,6 +43,7 @@ Are you ready to get STABLE!
 - `gawk` to nix package propagated dependencies
 - `--version` and variants are now taken by all commands and gives handy info for debugging
 - [yq](https://github.com/mikefarah/yq) to the dab image for yaml bashing
+- elasticsearch to services
 
 ### Fixed
 

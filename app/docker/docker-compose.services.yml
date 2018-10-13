@@ -10,8 +10,6 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - influxdb:/var/lib/influxdb
-    ports:
-      - 8086
     healthcheck:
       test: 'wget --spider http://localhost:8086/ping || exit 1'
       interval: 30s
@@ -29,10 +27,9 @@ services:
     labels:
       description: 'Metrics collection agent from the TICK stack'
     restart: on-failure
+    command: --quiet
     depends_on:
       - influxdb
-    ports:
-      - 8086
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/run/utmp:/var/run/utmp:ro
@@ -123,8 +120,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    ports:
-      - 8200
     environment:
       VAULT_ADDR: 'http://127.0.0.1:8200'
     cap_add:
@@ -145,6 +140,23 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres:/var/lib/postgresql/data/pgdata
+    tmpfs:
+      - /tmp
+
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:${DAB_SERVICES_ELASTICSEARCH_TAG:-6.4.2}"
+    labels:
+      description: 'Object-relational database management system'
+    restart: on-failure
+    environment:
+      discovery.type: 'single-node'
+      bootstrap.memory_lock: 'true'
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+    healthcheck:
+      test: 'curl -fsSL "http://localhost:9200/_cat/health?h=status" | grep green'
+      interval: 30s
+      timeout: 10s
+      retries: 3
     tmpfs:
       - /tmp
 
