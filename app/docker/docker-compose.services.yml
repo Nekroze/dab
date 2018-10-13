@@ -6,6 +6,7 @@ services:
     image: "influxdb:${DAB_SERVICES_INFLUXDB_TAG:-alpine}"
     restart: on-failure
     labels:
+      description: 'Time series database from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - influxdb:/var/lib/influxdb
@@ -25,6 +26,8 @@ services:
       dockerfile: Dockerfile.telegraf
       args:
         - "TELEGRAF_TAG=${DAB_SERVICES_TELEGRAF_TAG:-alpine}"
+    labels:
+      description: 'Metrics collection agent from the TICK stack'
     restart: on-failure
     depends_on:
       - influxdb
@@ -45,6 +48,7 @@ services:
     image: "gliderlabs/logspout:${DAB_SERVICES_LOGSPOUT_TAG:-latest}"
     restart: on-failure
     labels:
+      description: 'Log routing for Docker container logs, points to tick'
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - /etc/hostname:/etc/host_hostname:ro
@@ -64,6 +68,7 @@ services:
     image: "consul:${DAB_SERVICES_CONSUL_TAG:-latest}"
     restart: on-failure
     labels:
+      description: 'Services discovery and key value store'
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - consul:/consul/data
@@ -90,6 +95,9 @@ services:
 
   redis:
     image: "redis:${DAB_SERVICES_REDIS_TAG:-latest}"
+    labels:
+      description: 'In-memory data structure store'
+      com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     healthcheck:
       test: 'redis-cli ping'
@@ -107,6 +115,8 @@ services:
       dockerfile: Dockerfile.vault
       args:
         - "VAULT_TAG=${DAB_SERVICES_VAULT_TAG:-latest}"
+    labels:
+      description: 'Store, manage, and generate secrets with Hashicorp Vault'
     restart: on-failure
     healthcheck:
       test: 'netstat -tulpn | grep 0.0.0.0:8200'
@@ -127,6 +137,9 @@ services:
 
   postgres:
     image: "postgres:${DAB_SERVICES_POSTGRES_TAG:-alpine}"
+    labels:
+      description: 'Object-relational database management system'
+      com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata

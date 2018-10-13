@@ -35,3 +35,8 @@ servicepose() {
 		--project-name services \
 		"$@"
 }
+
+get_compose_service_rows() {
+	yq read "docker/docker-compose.$1.yml" services -j |
+		jq 'to_entries[] | "\(.key):\(.value.labels.description)"' -r
+}
