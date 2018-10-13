@@ -12,6 +12,9 @@ if [ "$TEST_DOCKER" = 'local' ]; then
 	mkdir -p /tmp/dab
 fi
 
+export UID="${UID:-1000}"
+export UID="${GID:-1000}"
+
 # Cleanup first
 docker-compose down --volumes
 

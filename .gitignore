@@ -1,4 +1,5 @@
 /tests/vendor
+/tests/docs/docs.html
 /tests/node_modules
 /completion/completion
 *.log

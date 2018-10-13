@@ -65,6 +65,7 @@ Are you ready to get STABLE!
 - Nats to services
 - Adminer to tools
 - Kibana to tools
+- Generation of documentation from gherkin feature files
 
 ### Fixed
 

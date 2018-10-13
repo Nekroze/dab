@@ -26,3 +26,15 @@ services:
     working_dir: /opt/dab/tests
     volumes:
       - ../:/opt/dab:ro
+
+  docs:
+    build: .
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ./features/:/usr/src/app/features
+      - ./docs/templates/:/usr/src/app/templates
+      - ./docs/:/usr/src/app/output
+
+volumes:
+  data:
+  sock:
