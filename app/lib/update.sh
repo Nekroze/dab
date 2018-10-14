@@ -31,7 +31,7 @@ maybe_notify_wrapper_update() {
 	fi
 }
 maybe_selfupdate_repo() {
-	if should_selfupdate "repo.$1"; then
+	if should_selfupdate "repo/$1"; then
 		inform "checking $1 repo for updates"
 		(
 			cd "$DAB_REPO_PATH/$1"
@@ -46,7 +46,6 @@ maybe_selfupdate_dab() {
 	if should_selfupdate; then
 		inform "self updating dab!"
 		config_set updates/last "$(date +%s)"
-		./subcommands/update.sh
+		docker pull nekroze/dab:latest
 	fi
-	maybe_notify_wrapper_update
 }
