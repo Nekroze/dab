@@ -10,14 +10,15 @@ set -euf
 . ./lib/update.sh
 
 hooks() {
-	maybe_selfupdate_dab || true
 	config_load_envs || true
+	maybe_notify_wrapper_update || true
 
 	case "${1:-}" in
-	'-h' | '--help' | 'help' | 'network' | '')
+	'-h' | '--help' | 'help' | 'network' | 'update')
 		true
 		;;
 	*)
+		maybe_selfupdate_dab || true
 		quietly ensure_network || true
 		;;
 	esac

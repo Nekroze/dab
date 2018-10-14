@@ -56,6 +56,7 @@ Are you ready to get STABLE!
 - correctly set docker `--interactive` and `--tty` when appropriate
 - Cleanup vault and vaultbot containers started by `pki` subcommands
 - UID and GID detection in more varied environments
+- `update` subcommand now updates
 
 ### Changed
 
