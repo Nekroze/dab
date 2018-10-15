@@ -29,6 +29,7 @@ Are you ready to get STABLE!
 - Generate `tools list` and `services list` out dynamically from docker-compose files
 - `dab group tool` is now `dab group tools`
 - `dab group repo` is now `dab group repos`
+- Disconnect containers before recreating `lab` and `services` networks then reconnect them
 
 ### Added
 

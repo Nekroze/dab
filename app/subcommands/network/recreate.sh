@@ -4,7 +4,31 @@
 set -euf
 
 # shellcheck disable=SC1091
+. ./lib/output.sh
+# shellcheck disable=SC1091
 . ./lib/compose.sh
+
+containers_on_network() {
+	docker ps --filter "network=$1" -q
+}
+
+action_containers_on_network() {
+	containers="$1"
+	network="$2"
+	action="${3:-connect}"
+	for container in $containers; do
+		quietly docker network "$action" "$network" "$container"
+	done
+}
+
+lab_containers="$(containers_on_network 'lab')"
+services_containers="$(containers_on_network 'services')"
+
+action_containers_on_network "$lab_containers" 'lab' 'disconnect'
+action_containers_on_network "$services_containers" 'services' 'disconnect'
 
 netpose down --volumes
 netpose up --no-start
+
+action_containers_on_network "$lab_containers" 'lab' 'connect'
+action_containers_on_network "$services_containers" 'services' 'connect'
