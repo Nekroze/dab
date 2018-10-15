@@ -11,13 +11,20 @@ set -euf
 
 [ -n "${1:-}" ] || fatality 'must provide a group name to add too'
 group_name="$1"
+groups="$(config_get "group/$group_name/groups")"
 repos="$(config_get "group/$group_name/repos")"
 tools="$(config_get "group/$group_name/tools")"
 services="$(config_get "group/$group_name/services")"
 
-if [ -z "$repos" ] && [ -z "$tools" ] && [ -z "$services" ]; then
+if [ -z "$repos$tools$services$groups" ]; then
 	fatality "group $group_name does not have any dependencies to start"
 fi
+
+for group in $groups; do
+	(
+		dab group start "$group"
+	)
+done
 
 for service in $services; do
 	(

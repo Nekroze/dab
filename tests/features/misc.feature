@@ -89,9 +89,11 @@ Feature: Docker entrypoint wrapper script works
 			| config get             |
 			| config keys            |
 			| config set             |
-			| group repo             |
+			| group groups           |
+			| group repos            |
+			| group services         |
 			| group start            |
-			| group tool             |
+			| group tools            |
 			| group update           |
 			| network recreate       |
 			| network shell          |
