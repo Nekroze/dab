@@ -27,6 +27,8 @@ Are you ready to get STABLE!
 - `tools list` and `services list` now have username and password columns for applicable services
 - When creating an entrypoint check if anything already exists before writing
 - Generate `tools list` and `services list` out dynamically from docker-compose files
+- `dab group tool` is now `dab group tools`
+- `dab group repo` is now `dab group repos`
 
 ### Added
 
@@ -44,6 +46,7 @@ Are you ready to get STABLE!
 - `--version` and variants are now taken by all commands and gives handy info for debugging
 - [yq](https://github.com/mikefarah/yq) to the dab image for yaml bashing
 - elasticsearch to services
+- `dab group groups` to allow one group to depend on other groups, started before services
 
 ### Fixed
 

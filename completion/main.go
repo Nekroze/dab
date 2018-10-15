@@ -47,7 +47,7 @@ var dab = complete.Command{
 					newGeneric(predictGroups, 1),
 					newGeneric(predictRepos, 2),
 				)},
-				"tool": {Args: complete.PredictOr(
+				"tools": {Args: complete.PredictOr(
 					newGeneric(predictGroups, 1),
 					newGeneric(predictTools, 2),
 				)},
@@ -55,6 +55,7 @@ var dab = complete.Command{
 					newGeneric(predictGroups, 1),
 					newGeneric(predictServices, 2),
 				)},
+				"groups": {Args: newGeneric(predictGroups, 1, 2)},
 				"update": {Args: newGeneric(predictGroups, 1)},
 				"start":  {Args: newGeneric(predictGroups, 1)},
 			},
