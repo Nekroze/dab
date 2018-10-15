@@ -29,12 +29,12 @@ Feature: Subcommand: dab tools
 		"""
 		^<TOOL> is available at https?://localhost:[0-9]+$
 		"""
-		And I successfully run `docker top tools_<TOOL>_1`
+		And I successfully run `docker top testtools_<TOOL>_1`
 
 		When I successfully run `dab tools stop <TOOL>`
 		And the stderr should not contain anything
 
-		Then I run `docker top tools_<TOOL>_1`
+		Then I run `docker top testtools_<TOOL>_1`
 		And it should fail with "is not running"
 
 		Examples:
@@ -53,7 +53,7 @@ Feature: Subcommand: dab tools
 
 		When I successfully run `dab tools start <TOOL>`
 
-		Then I run `docker ps --format '{{ .Image }}' --filter 'name=tools_<TOOL>_1'`
+		Then I run `docker ps --format '{{ .Image }}' --filter 'name=testtools_<TOOL>_1'`
 		And it should pass with "<VERSION>"
 		And I successfully run `dab tools stop <TOOL>`
 
@@ -70,14 +70,14 @@ Feature: Subcommand: dab tools
 
 		When I run `dab tools stop`
 
-		Then I run `docker top tools_cyberchef_1`
+		Then I run `docker top testtools_cyberchef_1`
 		And it should fail with "is not running"
 
 	Scenario: Can erase all tools and their state at once
 		Given I successfully run `dab tools start cyberchef`
 
 		When I run `dab tools destroy`
-		And it should pass with "Stopping tools_cyberchef_1 ... done"
+		And it should pass with "Stopping testtools_cyberchef_1 ... done"
 
-		Then I run `docker top tools_cyberchef_1`
+		Then I run `docker top testtools_cyberchef_1`
 		And it should fail with "No such container"

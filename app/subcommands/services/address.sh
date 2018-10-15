@@ -12,6 +12,6 @@ set -euf
 [ -n "${1:-}" ] || fatality 'must provide a service name'
 service="$1"
 
-silently docker top "services_${service}_1" || fatality "$service is not running"
+silently docker top "${DAB_COMPOSE_PREFIX}services_${service}_1" || fatality "$service is not running"
 
 inform "$(get_service_url "$service")"

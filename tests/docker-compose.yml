@@ -18,6 +18,8 @@ services:
       DAB_UID: '0'
       DAB_GID: '0'
       DAB_WRAPPER_PATH: "${PWD}/dab"
+      DAB_LAB_NAME: 'testlab'
+      DAB_COMPOSE_PREFIX: 'test'
     user: '0:0'
     command:
       - --order=random

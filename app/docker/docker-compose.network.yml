@@ -11,9 +11,9 @@ services:
 
 networks:
   services:
-    name: services
+    name: "${DAB_COMPOSE_PREFIX:-}services"
   lab:
-    name: lab
+    name: "${DAB_LAB_NAME:-lab}"
     driver_opts:
       com.docker.network.bridge.enable_ip_masquerade: "${DAB_LAB_INTERNET:-false}"
     ipam:

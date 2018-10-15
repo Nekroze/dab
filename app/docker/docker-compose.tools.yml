@@ -253,7 +253,8 @@ networks:
   public:
   services:
     external:
-      name: services
+      name: "${DAB_COMPOSE_PREFIX:-}services"
   lab:
     external:
       name: lab
+      name: "${DAB_LAB_NAME:-lab}"
