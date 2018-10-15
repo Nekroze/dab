@@ -29,6 +29,7 @@ Are you ready to get STABLE!
 - Generate `tools list` and `services list` out dynamically from docker-compose files
 - `dab group tool` is now `dab group tools`
 - `dab group repo` is now `dab group repos`
+- Tests now use a different lab network name for testing dab while using dab
 
 ### Added
 

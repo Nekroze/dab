@@ -26,12 +26,12 @@ Feature: Subcommand: dab services
 		When I run `dab services start <SERVICE>`
 
 		Then the exit status should be 0
-		And I successfully run `docker top services_<SERVICE>_1`
+		And I successfully run `docker top testservices_<SERVICE>_1`
 
 		When I successfully run `dab services stop <SERVICE>`
 		And the stderr should not contain anything
 
-		Then I run `docker top services_<SERVICE>_1`
+		Then I run `docker top testservices_<SERVICE>_1`
 		And it should fail with "is not running"
 
 		Examples:
@@ -52,7 +52,7 @@ Feature: Subcommand: dab services
 
 		When I successfully run `dab services start <SERVICE>`
 
-		Then I run `docker ps --format '{{ .Image }}' --filter 'name=services_<SERVICE>_1'`
+		Then I run `docker ps --format '{{ .Image }}' --filter 'name=testservices_<SERVICE>_1'`
 		And it should pass with "<VERSION>"
 		And I successfully run `dab services stop <SERVICE>`
 
@@ -70,7 +70,7 @@ Feature: Subcommand: dab services
 
 		When I run `dab services stop`
 
-		Then I run `docker top services_redis_1`
+		Then I run `docker top testservices_redis_1`
 		And it should fail with "is not running"
 
 	Scenario: Can erase all services and their state at once
@@ -78,5 +78,5 @@ Feature: Subcommand: dab services
 
 		When I run `dab services destroy`
 
-		Then I run `docker top services_redis_1`
+		Then I run `docker top testservices_redis_1`
 		And it should fail with "No such container"

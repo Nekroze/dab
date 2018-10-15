@@ -198,4 +198,4 @@ volumes:
 networks:
   default:
     external:
-      name: services
+      name: "${DAB_COMPOSE_PREFIX:-}services"

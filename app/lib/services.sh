@@ -2,16 +2,18 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
+export DAB_COMPOSE_PREFIX="${DAB_COMPOSE_PREFIX:-}"
+
 get_service_port_random() {
-	docker ps --filter "name=services_$1_1" --format '{{ .Ports }}' |
+	docker ps --filter "name=${DAB_COMPOSE_PREFIX}services_$1_1" --format '{{ .Ports }}' |
 		grep -Eo '0\.0\.0\.0\:[0-9]+' |
 		cut -d: -f2
 }
 
 get_service_port_host() {
-	mode="$(docker inspect "services_$1_1" --format '{{ .HostConfig.NetworkMode }}')"
+	mode="$(docker inspect "${DAB_COMPOSE_PREFIX}services_$1_1" --format '{{ .HostConfig.NetworkMode }}')"
 	if [ "$mode" = "host" ]; then
-		docker inspect "services_$1_1" --format '{{ json .HostConfig.PortBindings }}' |
+		docker inspect "${DAB_COMPOSE_PREFIX}services_$1_1" --format '{{ json .HostConfig.PortBindings }}' |
 			jq keys | grep -Eo "[0-9]+" | head -n 1
 	fi
 }
@@ -33,7 +35,7 @@ get_service_url() {
 }
 
 service_status() {
-	docker inspect "services_${1}_1" --format '{{ .State.Health.Status }}'
+	docker inspect "${DAB_COMPOSE_PREFIX}services_${1}_1" --format '{{ .State.Health.Status }}'
 }
 
 await_service_healthy_timeout=60

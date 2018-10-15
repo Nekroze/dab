@@ -77,6 +77,7 @@ Feature: Subcommand: dab config
 
 	Scenario: Can add to a config key that does not exist to create a new list
 		You can add values to a config key, creating it when it does not exist.
+		Given I successfully run `dab config set plumbus`
 
 		When I run `dab config add plumbus schleem`
 

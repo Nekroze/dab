@@ -10,7 +10,7 @@ Feature: Subcommand: dab network
 	Scenario: Network is ensured to exist
 		When I successfully run `dab -h`
 
-		Then I successfully run `docker network inspect lab`
+		Then I successfully run `docker network inspect testlab`
 
 	Scenario: Can run command in shell
 		When I run `dab network shell ls /`
@@ -23,4 +23,4 @@ Feature: Subcommand: dab network
 
 		When I successfully run `dab network recreate`
 
-		Then I successfully run `docker network inspect lab`
+		Then I successfully run `docker network inspect testlab`

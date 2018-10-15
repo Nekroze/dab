@@ -2,13 +2,15 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
+export DAB_COMPOSE_PREFIX="${DAB_COMPOSE_PREFIX:-}"
+
 netpose() {
 	# Project must not be named dab otherwise test and run containers may be
 	# removed causing exit code 137 failures.
 	docker-compose \
 		--file docker/docker-compose.network.yml \
 		--project-directory ./docker \
-		--project-name lab \
+		--project-name "${DAB_COMPOSE_PREFIX}lab" \
 		"$@"
 }
 
@@ -22,7 +24,7 @@ toolpose() {
 	docker-compose \
 		--file docker/docker-compose.tools.yml \
 		--project-directory ./docker \
-		--project-name tools \
+		--project-name "${DAB_COMPOSE_PREFIX}tools" \
 		"$@"
 }
 
@@ -32,7 +34,7 @@ servicepose() {
 	docker-compose \
 		--file docker/docker-compose.services.yml \
 		--project-directory ./docker \
-		--project-name services \
+		--project-name "${DAB_COMPOSE_PREFIX}services" \
 		"$@"
 }
 
