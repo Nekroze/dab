@@ -18,7 +18,6 @@ RUN go get -v mvdan.cc/sh/cmd/shfmt/...
 
 # Copy in the whole project for analysis.
 COPY ./ ./
-RUN git rev-parse HEAD > /VERSION
 
 # display diffs of any files that do not conform to a posix compliant
 # simplified style.
@@ -40,18 +39,31 @@ RUN go get -d -v ./... \
  && go build -o completion .
 
 
+# This phase generates versioning artifacts from git.
+FROM alpine:latest AS versioning
+
+RUN apk add --no-cache git
+
+COPY ./.git ./
+
+RUN git rev-parse HEAD > /VERSION \
+ && git log --graph --pretty=format:'\e[0;31m%h\e[0m|^|%s \e[0;34m<%an>\e[0m' --abbrev-commit > /LOG
+
+
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
 FROM alpine:latest AS main
+
+RUN apk add --no-cache git
+
+# Misc tools required for scripts.
+RUN apk add --no-cache openssh tree util-linux jq nss-tools
 
 # Docker and docker-compose are always required but take a while to install so
 # they are to be kept at a lower layer for caching.
 RUN apk add --no-cache docker python3 ca-certificates \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
  && pip3 install docker-compose
-
-# Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux jq nss-tools
 
 # Handy env var configs
 ENV DAB="/opt/dab" \
@@ -66,7 +78,7 @@ ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/
 RUN chmod +x /usr/bin/yq
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
 COPY --from=completion /go/src/app/completion ./
-COPY --from=shfmt /VERSION /VERSION
+COPY --from=versioning /VERSION /LOG /
 COPY ./app ./README.md ./LICENSE ./dab ./
 ENTRYPOINT ["/opt/dab/main.sh"]
 

@@ -47,5 +47,6 @@ maybe_selfupdate_dab() {
 		inform "self updating dab!"
 		config_set updates/last "$(date +%s)"
 		docker pull nekroze/dab:latest
+		/tmp/wrapper changelog "$(cut -c -7 </VERSION)"
 	fi
 }
