@@ -25,11 +25,13 @@ services:
       - ../dab:/usr/bin/dab
     command:
       - '--order=random'
-      - '--retry=1'
+      - '--retry=2'
 
   docker:
     image: docker:stable-dind
     privileged: true
+    command:
+      - '--storage-driver=vfs'
     volumes:
       - sock:/var/run
       - data:/root

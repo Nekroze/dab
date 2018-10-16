@@ -18,4 +18,4 @@ tool="${1:-}"
 [ -z "$tool" ] && exit 0
 
 url="$(get_tool_url "$tool")"
-[ -n "$url" ] && inform "$tool is available at ${COLOR_BLUE}$url${COLOR_NC}"
+[ -z "$url" ] || inform "$tool is available at ${COLOR_BLUE}$url${COLOR_NC}"

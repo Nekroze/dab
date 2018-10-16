@@ -18,7 +18,7 @@ Feature: Subcommand: dab config
 		Config values can be altered and retrieved with set and get respectively.
 
 		Given I successfully run `dab config set <KEY> <VALUE>`
-		And it should pass with exactly:
+		And it should pass with:
 		"""
 		setting config key <KEY> to <VALUE>
 		"""
