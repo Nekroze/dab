@@ -30,6 +30,7 @@ Are you ready to get STABLE!
 - `dab group tool` is now `dab group tools`
 - `dab group repo` is now `dab group repos`
 - Disconnect containers before recreating `lab` and `services` networks then reconnect them
+- Tests are now run with docker in docker so it cannot affect locally running dab instances in any way
 
 ### Added
 
