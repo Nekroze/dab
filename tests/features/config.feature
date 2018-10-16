@@ -31,7 +31,7 @@ Feature: Subcommand: dab config
 		"""
 		<VALUE>
 		"""
-		And the file "/tmp/dab/config/<KEY>" should contain exactly:
+		And the file "~/.config/dab/<KEY>" should contain exactly:
 		"""
 		<VALUE>
 		"""
@@ -55,7 +55,7 @@ Feature: Subcommand: dab config
 		"""
 		added <SECOND> to config key <KEY> which now contains 2 value(s)
 		"""
-		And the file "/tmp/dab/config/<KEY>" should contain exactly:
+		And the file "~/.config/dab/<KEY>" should contain exactly:
 		"""
 		<FIRST>
 		<SECOND>
@@ -84,7 +84,7 @@ Feature: Subcommand: dab config
 		"""
 		added schleem to config key plumbus which now contains 1 value(s)
 		"""
-		And the file "/tmp/dab/config/plumbus" should contain exactly:
+		And the file "~/.config/dab/plumbus" should contain exactly:
 		"""
 		schleem
 		"""
@@ -118,11 +118,11 @@ Feature: Subcommand: dab config
 		By not giving a value to assign to a key that key will be deleted.
 
 		Given I successfully run `dab config set <KEY> toErase`
-		And the file "/tmp/dab/config/<KEY>" should exist
+		And the file "~/.config/dab/<KEY>" should exist
 
 		When I successfully run `dab config set <KEY>`
 
-		Then the file "/tmp/dab/config/<KEY>" should not exist anymore
+		Then the file "~/.config/dab/<KEY>" should not exist anymore
 
 		Examples:
 			| KEY     |

@@ -22,8 +22,8 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		Dab wrapper script appears to have an update available!
 		"""
-		And I copy the file "/bin/dab" to "/bin/dab.original"
-		And I append to "/bin/dab" with:
+		And I copy the file "/usr/bin/dab" to "/usr/bin/dab.original"
+		And I append to "/usr/bin/dab" with:
 		"""
 		# simulated change indicating wrapper is out of date
 		"""
@@ -34,7 +34,7 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		Dab wrapper script appears to have an update available!
 		"""
-		And I copy the file "/bin/dab.original" to "/bin/dab"
+		And I copy the file "/usr/bin/dab.original" to "/usr/bin/dab"
 
 	Scenario Outline: All sub commands groups provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
