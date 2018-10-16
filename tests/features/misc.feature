@@ -85,6 +85,7 @@ Feature: Docker entrypoint wrapper script works
 
 		Examples:
 			| SUBCOMMAND             |
+			| changelog              |
 			| config add             |
 			| config get             |
 			| config keys            |

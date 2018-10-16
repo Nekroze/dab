@@ -31,6 +31,7 @@ Are you ready to get STABLE!
 - `dab group repo` is now `dab group repos`
 - Disconnect containers before recreating `lab` and `services` networks then reconnect them
 - Tests are now run with docker in docker so it cannot affect locally running dab instances in any way
+- Display git commits between updates when self updating
 
 ### Added
 
@@ -49,6 +50,7 @@ Are you ready to get STABLE!
 - [yq](https://github.com/mikefarah/yq) to the dab image for yaml bashing
 - elasticsearch to services
 - `dab group groups` to allow one group to depend on other groups, started before services
+- `dab changelog` subcommand displays git history and optionally diff between revisions
 
 ### Fixed
 
