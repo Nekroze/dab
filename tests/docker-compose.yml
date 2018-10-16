@@ -6,24 +6,49 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
+      cache_from:
+        - 'alpine:latest'
+        - 'golang:latest'
+        - 'nekroze/dab:latest'
     image: nekroze/dab:latest
-
-  test:
-    image: nekroze/containaruba:latest
-    environment:
-      DAB_REPO_PATH: /tmp/dab/repos
-      DAB_CONF_PATH: /tmp/dab/config
-      DAB_DEV_MOUNT: 'no'
-      DAB_AUTOUPDATE: 'no'
-      DAB_UID: '0'
-      DAB_GID: '0'
-      DAB_WRAPPER_PATH: "${PWD}/dab"
-    user: '0:0'
-    command:
-      - --order=random
+    depends_on:
+      - docker
     volumes:
+      - sock:/var/run
+
+  tests:
+    image: 'nekroze/containaruba:latest'
+    depends_on:
+      - docker
+    environment:
+      DAB_AUTOUPDATE: 'no'
+    volumes:
+      - sock:/var/run
+      - data:/root
       - ./features:/usr/src/app/features
-      - /etc/group:/etc/group:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /tmp/dab:/tmp/dab
-      - ../dab:/bin/dab
+      - ../dab:/usr/bin/dab
+    command:
+      - '--order=random'
+      - '--retry=1'
+
+  docker:
+    image: docker:stable-dind
+    privileged: true
+    volumes:
+      - sock:/var/run
+      - data:/root
+      - ../dab:/usr/bin/dab
+
+  build:
+    image: docker/compose:1.22.0
+    depends_on:
+      - docker
+    command: build --force-rm --pull dab
+    working_dir: /opt/dab/tests
+    volumes:
+      - sock:/var/run
+      - ../:/opt/dab:ro
+
+volumes:
+  data:
+  sock:

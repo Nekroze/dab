@@ -19,33 +19,33 @@ Feature: Subcommand: dab repo
 		"""
 
 	Scenario: Can add a new repository
-		Given the directory "/tmp/dab/repos/dotfiles1/.git/" should not exist
+		Given the directory "~/dab/dotfiles1/.git/" should not exist
 
 		When I successfully run `dab repo add dotfiles1 https://github.com/Nekroze/dotfiles.git`
 
-		Then the file "/tmp/dab/config/repo/dotfiles1/url" should contain exactly:
+		Then the file "~/.config/dab/repo/dotfiles1/url" should contain exactly:
 		"""
 		https://github.com/Nekroze/dotfiles.git
 		"""
-		And the directory "/tmp/dab/repos/dotfiles1/.git/" should exist
+		And the directory "~/dab/dotfiles1/.git/" should exist
 
 	Scenario: Can clone an existing repository
-		Given a file named "/tmp/dab/config/repo/dotfiles2/url" with:
+		Given a file named "~/.config/dab/repo/dotfiles2/url" with:
 		"""
 		https://github.com/Nekroze/dotfiles.git
 		"""
-		And the directory "/tmp/dab/repos/dotfiles2/.git/" should not exist
+		And the directory "~/dab/dotfiles2/.git/" should not exist
 
 		When I successfully run `dab repo clone dotfiles2`
 
-		Then the directory "/tmp/dab/repos/dotfiles2/.git/" should exist
+		Then the directory "~/dab/dotfiles2/.git/" should exist
 
 	Scenario: Can list repositories
-		Given a file named "/tmp/dab/config/repo/dotfiles3/url" with:
+		Given a file named "~/.config/dab/repo/dotfiles3/url" with:
 		"""
 		https://github.com/Nekroze/dotfiles.git
 		"""
-		And the directory "/tmp/dab/repos/dotfiles3/.git/" should not exist
+		And the directory "~/dab/dotfiles3/.git/" should not exist
 		And I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
 
 		When I successfully run `dab repo list`
@@ -64,7 +64,7 @@ Feature: Subcommand: dab repo
 	Scenario: Can put any command in an entrypoint start script
 		Given I successfully run `dab repo add dotfiles5 https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint create dotfiles5`
-		And I append to "/tmp/dab/config/repo/dotfiles5/entrypoint/start" with:
+		And I append to "~/.config/dab/repo/dotfiles5/entrypoint/start" with:
 		"""
 		echo FOOBAR
 		"""
@@ -99,7 +99,7 @@ Feature: Subcommand: dab repo
 	Scenario: Can have one repo depend on another
 		Given I successfully run `dab repo add one https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `dab repo add two https://github.com/Nekroze/dotfiles.git`
-		And the directory "/tmp/dab/repos/two" does not exist
+		And the directory "~/dab/two" does not exist
 
 		When I successfully run `dab repo require one two`
 
@@ -111,4 +111,4 @@ Feature: Subcommand: dab repo
 		Executing one entrypoint start
 		one has no start entrypoint defined
 		"""
-		And the directory "/tmp/dab/repos/two/.git/" should exist
+		And the directory "~/dab/two/.git/" should exist

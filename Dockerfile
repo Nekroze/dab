@@ -56,7 +56,7 @@ RUN apk add --no-cache git openssh tree util-linux jq nss-tools
 # Handy env var configs
 ENV DAB="/opt/dab" \
     PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
-	PATH="$PATH:/opt/dab/docker"
+    PATH="$PATH:/opt/dab/docker"
 
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent
