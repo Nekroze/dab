@@ -50,3 +50,13 @@ maybe_selfupdate_dab() {
 		/tmp/wrapper changelog "$(cut -c -7 </VERSION)"
 	fi
 }
+
+maybe_update_completion() {
+	src='/usr/bin/dab-completion'
+	dst="$HOME/.dab-completion"
+	if [ -x "$dst" ] && silently diff "$src" "$dst"; then
+		return 0
+	elif [ "${DAB_AUTOUPDATE_COMPLETION:-}" != 'false' ]; then
+		cp "$src" "$dst"
+	fi
+}

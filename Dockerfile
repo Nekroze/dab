@@ -77,7 +77,7 @@ WORKDIR /opt/dab
 ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
 RUN chmod +x /usr/bin/yq
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
-COPY --from=completion /go/src/app/completion ./
+COPY --from=completion /go/src/app/completion/completion /usr/bin/dab-completion
 COPY --from=versioning /VERSION /LOG /
 COPY ./app ./README.md ./LICENSE ./dab ./
 ENTRYPOINT ["/opt/dab/main.sh"]
