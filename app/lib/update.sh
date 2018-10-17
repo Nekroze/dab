@@ -60,3 +60,19 @@ maybe_update_completion() {
 		cp "$src" "$dst"
 	fi
 }
+
+get_commits_differing_from_master_in_repo() {
+	repo="$1"
+	repopath="$DAB_REPO_PATH/$repo"
+	(
+		if [ -d "$repopath" ]; then
+			cd "$repopath"
+			git rev-list --left-right "$(git rev-parse HEAD)...${DAB_DEFAULT_REMOTE:-origin}/master"
+		fi
+	)
+}
+
+check_repo_is_up_to_date() {
+	repo="$1"
+	[ -z "$(get_commits_differing_from_master_in_repo "$repo")" ]
+}
