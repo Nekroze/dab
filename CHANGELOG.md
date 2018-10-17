@@ -34,6 +34,7 @@ Are you ready to get STABLE!
 - Display git commits between updates when self updating
 - Update group services and tools before running anything
 - Do not always build services and tools when starting them
+- Automatically update shell completion
 
 ### Added
 

@@ -6,10 +6,6 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      cache_from:
-        - 'alpine:latest'
-        - 'golang:latest'
-        - 'nekroze/dab:latest'
     image: nekroze/dab:latest
     depends_on:
       - docker
@@ -34,8 +30,6 @@ services:
   docker:
     image: docker:stable-dind
     privileged: true
-    command:
-      - '--storage-driver=vfs'
     volumes:
       - sock:/var/run
       - data:/root

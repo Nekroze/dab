@@ -12,6 +12,7 @@ set -euf
 hooks() {
 	config_load_envs || true
 	maybe_notify_wrapper_update || true
+	maybe_update_completion || true
 
 	case "${1:-}" in
 	'-h' | '--help' | 'help' | 'network' | 'update')
