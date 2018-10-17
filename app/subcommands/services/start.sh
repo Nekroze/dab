@@ -11,7 +11,7 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/services.sh
 
-servicepose up --remove-orphans --build -d "$@"
+servicepose up --remove-orphans -d "$@"
 
 service="${1:-}"
 # If there was no service (eg when starting all) stop here

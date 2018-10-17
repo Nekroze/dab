@@ -54,8 +54,6 @@ services:
       syslog://telegraf:6514
     depends_on:
       - telegraf
-    ports:
-      - 80
     environment:
       INACTIVITY_TIMEOUT: 1m
     tmpfs:

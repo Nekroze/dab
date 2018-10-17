@@ -6,6 +6,10 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
+      cache_from:
+        - 'alpine:latest'
+        - 'golang:latest'
+        - 'nekroze/dab:latest'
     image: nekroze/dab:latest
     depends_on:
       - docker
