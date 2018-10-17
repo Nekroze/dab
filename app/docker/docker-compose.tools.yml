@@ -243,6 +243,18 @@ services:
     tmpfs:
       - /tmp
 
+  kafkacat:
+    image: "confluentinc/cp-kafkacat:${DAB_TOOLS_KAFKACAT_TAG:-latest}"
+    labels:
+      description: 'Lightweight kafka console consumer/producer'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - services
+      - lab
+    entrypoint:
+      - /usr/local/bin/kafkacat
+    command: '-b kafka -L'
+
 volumes:
   kapacitor:
   chronograf:
