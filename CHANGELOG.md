@@ -68,6 +68,7 @@ Are you ready to get STABLE!
 - UID and GID detection in more varied environments
 - `update` subcommand now updates
 - `dab tools start` now returns exit status 0 on for headless tools
+- `dab repo fetch` now correctly takes no params
 
 ### Changed
 
