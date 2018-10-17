@@ -11,5 +11,5 @@ set -eu
 set +f
 for repo in "$DAB_CONF_PATH/repo/"*; do
 	name="$(basename "$repo" | sed "s@^$DAB_CONF_PATH@@")"
-	[ -d "$DAB_REPO_PATH/$name" ] && maybe_selfupdate_repo "$name"
+	[ ! -d "$DAB_REPO_PATH/$name" ] || maybe_selfupdate_repo "$name"
 done

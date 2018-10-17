@@ -35,6 +35,7 @@ Are you ready to get STABLE!
 - Update group services and tools before running anything
 - Do not always build services and tools when starting them
 - Automatically update shell completion
+- Add uptodate column to `dab repo list` indicating if the repo is on master
 
 ### Added
 

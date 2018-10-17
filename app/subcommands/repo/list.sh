@@ -4,21 +4,36 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/output.sh
+. ./lib/update.sh
+# shellcheck disable=SC1091
+. ./lib/dab.sh
+
+dab repo fetch
 
 repo_data=''
 repo_row() {
 	repo_data="$repo_data
-$1:$2"
+$1:$2:$3"
 }
 
 set +f
 for dir in "$DAB_CONF_PATH"/repo/*; do
 	repo="$(basename "$dir")"
+
 	status='not downloaded'
 	[ -d "$DAB_REPO_PATH/$repo" ] && status='downloaded'
-	repo_row "$repo" "$status"
+
+	uptodate=''
+	if [ "$status" != 'not downloaded' ]; then
+		if check_repo_is_up_to_date "$repo"; then
+			uptodate='✓'
+		else
+			uptodate='✗'
+		fi
+	fi
+
+	repo_row "$repo" "$status" "${uptodate:-}"
 done
 set -f
 
-echo "$repo_data" | column -s':' -o' | ' -t -N REPO,STATUS -R STATUS
+echo "$repo_data" | column -s':' -o' | ' -t -N REPO,STATUS,UPTODATE -R status
