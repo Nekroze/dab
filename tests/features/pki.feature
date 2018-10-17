@@ -10,7 +10,6 @@ Feature: Subcommand: dab pki
 		Given the aruba exit timeout is 300 seconds
 		And I successfully run `dab pki destroy`
 
-	@announce-output
 	Scenario: Can issue x509 certificate
 		Given I successfully run `script -qec 'dab pki ready'`
 
@@ -24,7 +23,6 @@ Feature: Subcommand: dab pki
 		And the output should contain "DNS:web.test.lan"
 		And I successfully run `openssl verify -CAfile /root/.config/dab/pki/ca/certificate /root/.config/dab/pki/web.test.lan/certificate`
 
-	@announce-output
 	Scenario: PKI persists across reboots
 		Given I successfully run `script -qec 'dab pki ready'`
 		And I copy the file "~/.config/dab/pki/ca/certificate" to "~/.config/dab/pki/ca/certificate.original"

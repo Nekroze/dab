@@ -64,6 +64,7 @@ Are you ready to get STABLE!
 - Cleanup vault and vaultbot containers started by `pki` subcommands
 - UID and GID detection in more varied environments
 - `update` subcommand now updates
+- `dab tools start` now returns exit status 0 on for headless tools
 
 ### Changed
 
