@@ -6,6 +6,7 @@ var tools = []string{
 	"chronograf",
 	"cyberchef",
 	"grafana",
+	"kafkacat",
 	"kapacitor",
 	"ngrok",
 	"ntopng",

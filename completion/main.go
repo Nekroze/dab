@@ -91,7 +91,8 @@ var dab = complete.Command{
 				"update":  {Args: newGeneric(predictServices, 1)},
 			},
 		},
-		"update": {},
+		"update":    {},
+		"changelog": {},
 	},
 
 	GlobalFlags: complete.Flags{
