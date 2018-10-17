@@ -20,6 +20,17 @@ if [ -z "$repos$tools$services$groups" ]; then
 	fatality "group $group_name does not have any dependencies to start"
 fi
 
+# Updating dab managed dependencies
+for service in $services; do
+	dab services update "$service"
+done
+
+for tool in $tools; do
+	dab tools update "$tool"
+done
+
+# Starting dependencies
+
 for group in $groups; do
 	(
 		dab group start "$group"

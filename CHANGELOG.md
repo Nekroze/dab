@@ -32,6 +32,8 @@ Are you ready to get STABLE!
 - Disconnect containers before recreating `lab` and `services` networks then reconnect them
 - Tests are now run with docker in docker so it cannot affect locally running dab instances in any way
 - Display git commits between updates when self updating
+- Update group services and tools before running anything
+- Do not always build services and tools when starting them
 
 ### Added
 

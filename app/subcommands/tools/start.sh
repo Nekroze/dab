@@ -11,7 +11,7 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/tools.sh
 
-toolpose up --remove-orphans --build -d "$@"
+toolpose up --remove-orphans -d "$@"
 
 tool="${1:-}"
 # If there was no tool (eg when starting all) stop here
