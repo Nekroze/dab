@@ -36,6 +36,15 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		And I copy the file "/usr/bin/dab.original" to "/usr/bin/dab"
 
+	Scenario: Can view the full changelog
+		When I run `dab changelog`
+
+		Then it should pass with:
+		"""
+		* 80e2a77|^|Init <Taylor Nekroze Lawson>
+		* 2cd1ee8|^|Initial commit <Taylor "Nekroze" Lawson>
+		"""
+
 	Scenario Outline: All sub commands groups provide usage information
 		Given I run `dab <SUBCOMMAND> --help`
 		And it should pass with "Usage:"
