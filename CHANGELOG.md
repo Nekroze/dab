@@ -56,6 +56,7 @@ Are you ready to get STABLE!
 - `dab group groups` to allow one group to depend on other groups, started before services
 - `dab changelog` subcommand displays git history and optionally diff between revisions
 - [kafkacat](https://github.com/edenhill/kafkacat) added to tools pointing at kafka service by default
+- Chronograf annotations hook to record each dab run
 
 ### Fixed
 
