@@ -1,0 +1,34 @@
+version: '3.2'
+
+services:
+
+  dab:
+    depends_on:
+      - docker
+    volumes:
+      - sock:/var/run
+
+  tests:
+    depends_on:
+      - docker
+    volumes:
+      - sock:/var/run
+      - data:/root
+
+  docker:
+    image: docker:stable-dind
+    privileged: true
+    volumes:
+      - sock:/var/run
+      - data:/root
+      - ../dab:/usr/bin/dab
+
+  build:
+    depends_on:
+      - docker
+    volumes:
+      - sock:/var/run
+
+volumes:
+  data:
+  sock:

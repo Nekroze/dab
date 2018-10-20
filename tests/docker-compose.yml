@@ -7,44 +7,22 @@ services:
       context: ../
       dockerfile: Dockerfile
     image: nekroze/dab:latest
-    depends_on:
-      - docker
-    volumes:
-      - sock:/var/run
 
   tests:
     image: 'nekroze/containaruba:latest'
-    depends_on:
-      - docker
     environment:
       DAB_AUTOUPDATE: 'no'
+      DAB_WRAPPER_PATH: "${PWD}/dab"
     volumes:
-      - sock:/var/run
-      - data:/root
       - ./features:/usr/src/app/features
       - ../dab:/usr/bin/dab
     command:
       - '--order=random'
       - '--retry=2'
 
-  docker:
-    image: docker:stable-dind
-    privileged: true
-    volumes:
-      - sock:/var/run
-      - data:/root
-      - ../dab:/usr/bin/dab
-
   build:
     image: docker/compose:1.22.0
-    depends_on:
-      - docker
     command: build --force-rm --pull dab
     working_dir: /opt/dab/tests
     volumes:
-      - sock:/var/run
       - ../:/opt/dab:ro
-
-volumes:
-  data:
-  sock:
