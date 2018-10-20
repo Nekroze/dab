@@ -65,6 +65,7 @@ Are you ready to get STABLE!
 - Nats to services
 - Adminer to tools
 - Kibana to tools
+- Shell completion tests
 
 ### Fixed
 
@@ -84,7 +85,7 @@ Are you ready to get STABLE!
 - `dab group repos` shell completion
 - pki tests for vault `0.11.0` bug
 - pki ready vault initialization check
-- pki management of vault 0.11.4, earlier versions will no longer work
+- pki management of vault `0.11.4`, earlier versions will no longer work
 
 ### Changed
 
