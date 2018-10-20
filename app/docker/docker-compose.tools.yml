@@ -164,7 +164,7 @@ services:
       args:
         - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
-      description: 'The open platform for analytics and monitoring, user=admin pass=admin'
+      description: 'The open platform for analytics and monitoring`admin`admin'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -254,6 +254,30 @@ services:
     entrypoint:
       - /usr/local/bin/kafkacat
     command: '-b kafka -L'
+
+  adminer:
+    image: "adminer:${DAB_TOOLS_ADMINER_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'Database manager with a small footprint'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - services
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 8080
+
+  kibana:
+    image: "kibana:${DAB_TOOLS_KIBANA_TAG:-6.4.2}"
+    restart: on-failure
+    labels:
+      description: 'Explore and visualize elasticsearch data'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - services
+    ports:
+      - 5601
 
 volumes:
   kapacitor:

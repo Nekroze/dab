@@ -36,6 +36,7 @@ Are you ready to get STABLE!
 - Do not always build services and tools when starting them
 - Automatically update shell completion
 - Add uptodate column to `dab repo list` indicating if the repo is on master
+- listing services and tools will now display a dynamic username and password column
 
 ### Added
 
@@ -57,6 +58,11 @@ Are you ready to get STABLE!
 - `dab changelog` subcommand displays git history and optionally diff between revisions
 - [kafkacat](https://github.com/edenhill/kafkacat) added to tools pointing at kafka service by default
 - Chronograf annotations hook to record each dab run
+- Mysql to services
+- Memcached to services
+- Nats to services
+- Adminer to tools
+- Kibana to tools
 
 ### Fixed
 

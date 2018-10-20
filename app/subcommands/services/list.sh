@@ -6,4 +6,4 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/compose.sh
 
-get_compose_service_rows 'services' | column -s':' -o' | ' -t -N SERVICE,DESCRIPTION -R SERVICE
+get_compose_service_rows 'services' | column -s'`' -o' | ' -t -N SERVICE,DESCRIPTION,USERNAME,PASSWORD -R SERVICE

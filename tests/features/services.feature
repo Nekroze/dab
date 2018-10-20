@@ -44,6 +44,9 @@ Feature: Subcommand: dab services
 			| postgres      |
 			| vault         |
 			| consul        |
+			| mysql         |
+			| memcached     |
+			| nats          |
 
 	Scenario Outline: Can select different service versions with environment variables
 		A non exhaustive list of services and versions that can be configured.

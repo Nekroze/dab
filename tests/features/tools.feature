@@ -45,6 +45,8 @@ Feature: Subcommand: dab tools
 			| portainer  |
 			| chronograf |
 			| traefik    |
+			| adminer    |
+			| pgadmin    |
 
 	Scenario Outline: Can select different tool versions with environment variables
 		A non exhaustive list of tools and versions that can be configured.
