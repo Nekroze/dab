@@ -13,7 +13,7 @@ Feature: Subcommand: dab repo
 	Scenario: Cannot clone an unknown repo
 		When I run `dab repo clone unknown_repo_name`
 
-		Then it should fail with exactly:
+		Then it should fail with:
 		"""
 		url for repo unknown_repo_name is unknown
 		"""

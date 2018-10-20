@@ -77,7 +77,8 @@ ENV DAB="/opt/dab" \
 # and predictable.
 WORKDIR /opt/dab
 ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
-RUN chmod +x /usr/bin/yq
+ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /usr/bin/subcommander
+RUN chmod 755 /usr/bin/yq /usr/bin/subcommander
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
 COPY --from=completion /go/src/app/completion/completion /usr/bin/dab-completion
 COPY --from=versioning /VERSION /LOG /

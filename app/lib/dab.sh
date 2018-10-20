@@ -7,6 +7,6 @@ set -euf
 dab() {
 	(
 		cd /opt/dab
-		./subcommander.sh "$@"
+		subcommander "$@"
 	)
 }

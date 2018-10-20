@@ -34,4 +34,3 @@ Feature: Subcommand: dab pki
 
 		Then I successfully run `openssl verify -CAfile /root/.config/dab/pki/ca/certificate /root/.config/dab/pki/git.test.lan/certificate`
 		And I successfully run `diff /root/.config/dab/pki/ca/certificate /root/.config/dab/pki/ca/certificate.original`
-		And the output should not contain anything
