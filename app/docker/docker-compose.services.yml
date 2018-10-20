@@ -28,6 +28,8 @@ services:
       description: 'Metrics collection agent from the TICK stack'
     restart: on-failure
     command: --quiet
+    environment:
+      DAB_SERVICES_MYSQL_ROOT_PASSWORD: "${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
     depends_on:
       - influxdb
     volumes:
@@ -111,7 +113,7 @@ services:
       args:
         - "VAULT_TAG=${DAB_SERVICES_VAULT_TAG:-latest}"
     labels:
-      description: 'Store, manage, and generate secrets with Hashicorp Vault'
+      description: 'Store, manage, and generate secrets with Hashicorp Vault``${DAB_SERVICES_VAULT_TOKEN:-}'
     restart: on-failure
     healthcheck:
       test: 'netstat -tulpn | grep 0.0.0.0:8200'
@@ -186,12 +188,44 @@ services:
     tmpfs:
       - /tmp
 
+  mysql:
+    image: "mysql:${DAB_SERVICES_MYSQL_TAG:-latest}"
+    labels:
+      description: "Open Source RDBMS`root`${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
+    volumes:
+      - mysql:/var/lib/mysql
+    tmpfs:
+      - /tmp
+
+  nats:
+    image: "nats:${DAB_SERVICES_NATS_TAG:-latest}"
+    labels:
+      description: 'Cloud native messaging system'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+  memcached:
+    image: "memcached:${DAB_SERVICES_MEMCACHED_TAG:-alpine}"
+    labels:
+      description: 'Distributed memory object caching'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
 volumes:
   postgres:
   influxdb:
   grafana:
   consul:
   vault:
+  mysql:
 
 networks:
   default:

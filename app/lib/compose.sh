@@ -37,6 +37,8 @@ servicepose() {
 }
 
 get_compose_service_rows() {
-	yq read "docker/docker-compose.$1.yml" services -j |
-		jq 'to_entries[] | "\(.key):\(.value.labels.description)"' -r
+	tmp="$(mktemp)"
+	docker-compose -f "docker/docker-compose.$1.yml" config >"$tmp"
+	yq read "$tmp" services -j |
+		jq 'to_entries[] | "\(.key)`\(.value.labels.description)"' -r
 }

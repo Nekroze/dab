@@ -7,6 +7,8 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/config.sh
 # shellcheck disable=SC1091
+. ./lib/vault.sh
+# shellcheck disable=SC1091
 . ./lib/update.sh
 
 maybe_post_chronograf_annotiation() {
@@ -22,7 +24,9 @@ maybe_post_chronograf_annotiation() {
 }
 
 hooks() {
-	quietly maybe_post_chronograf_annotiation "$*"
+	quietly maybe_post_chronograf_annotiation "$*" || true
+	DAB_SERVICES_VAULT_TOKEN="$(vault_token)"
+	export DAB_SERVICES_VAULT_TOKEN
 
 	config_load_envs || true
 	maybe_notify_wrapper_update || true

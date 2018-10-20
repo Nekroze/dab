@@ -3,6 +3,7 @@ package main
 import "github.com/posener/complete"
 
 var tools = []string{
+	"adminer",
 	"chronograf",
 	"cyberchef",
 	"grafana",
