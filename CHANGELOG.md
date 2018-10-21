@@ -82,6 +82,8 @@ Are you ready to get STABLE!
 - `dab repo fetch` now correctly takes no params
 - `dab changelog` subcommand output no longer truncated incorrectly
 - `dab group repos` shell completion
+- pki tests for vault `0.11.0` bug
+- pki ready vault initialization check
 
 ### Changed
 

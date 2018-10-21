@@ -7,6 +7,11 @@ export COMPOSE_PROJECT_NAME='dab'
 export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.$TEST_DOCKER.yml"
 trap 'docker-compose stop' EXIT
 
+if [ "$TEST_DOCKER" = 'local' ]; then
+	[ -d /tmp/dab ] && sudo rm -rf /tmp/dab
+	mkdir -p /tmp/dab
+fi
+
 # Cleanup first
 docker-compose down --volumes
 
