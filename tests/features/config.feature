@@ -4,16 +4,6 @@ Feature: Subcommand: dab config
 	keys are any word or sequence of words (for namespacing) delimited by a
 	forward slash, eg. `foo/bar` would store the url for the dab repository.
 
-	Scenario: Can execute config with no parameters and get usage info
-		When I run `dab config`
-
-		Then it should fail with "SUBCOMMAND"
-
-	Scenario: Can execute config with -h and get usage info
-		When I run `dab config -h`
-
-		Then it should pass with "SUBCOMMAND"
-
 	Scenario Outline: Can set and retrieve config values
 		Config values can be altered and retrieved with set and get respectively.
 

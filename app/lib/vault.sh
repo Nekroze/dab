@@ -48,9 +48,11 @@ vault_status() {
 }
 
 vault_initialized() {
-	sealed="$(vault_status | jq -M .initialized)"
-	[ "$sealed" = 'true' ]
-	return $?
+	if vault_status | grep 'server is not yet initialized'; then
+		return 1
+	else
+		return 0
+	fi
 }
 
 vault_sealed() {

@@ -7,8 +7,10 @@ Feature: Subcommand: dab pki
 		scenarios by prefixing commands with `script -qec` but real users will
 		not need to do this.
 
-		Given the aruba exit timeout is 300 seconds
+		Given the aruba exit timeout is 600 seconds
 		And I successfully run `dab pki destroy`
+		And I set the environment variable "DAB_SERVICES_VAULT_TAG" to "0.10.4"
+		And I successfully run `dab services update vault`
 
 	Scenario: Can issue x509 certificate
 		Given I successfully run `script -qec 'dab pki ready'`
@@ -18,7 +20,7 @@ Feature: Subcommand: dab pki
 		Then I run `dab config get pki/web.test.lan/certificate`
 		And it should pass with "BEGIN CERTIFICATE"
 		And I successfully run `openssl x509 -text -noout -in /root/.config/dab/pki/web.test.lan/certificate`
-		And the output should contain "CN = web.test.lan"
+		And the output should contain "CN=web.test.lan"
 		And the output should contain "DNS:*.web.test.lan"
 		And the output should contain "DNS:web.test.lan"
 		And I successfully run `openssl verify -CAfile /root/.config/dab/pki/ca/certificate /root/.config/dab/pki/web.test.lan/certificate`

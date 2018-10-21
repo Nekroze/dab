@@ -5,11 +5,6 @@ Feature: Subcommand: dab repo
 	Background:
 		Given the aruba exit timeout is 60 seconds
 
-	Scenario: Can execute repo with no parameters and get usage info
-		When I run `dab repo`
-
-		Then it should fail with "SUBCOMMAND"
-
 	Scenario: Cannot clone an unknown repo
 		When I run `dab repo clone unknown_repo_name`
 
