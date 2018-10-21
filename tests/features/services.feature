@@ -29,7 +29,6 @@ Feature: Subcommand: dab services
 		And I successfully run `docker top services_<SERVICE>_1`
 
 		When I successfully run `dab services stop <SERVICE>`
-		And the stderr should not contain anything
 
 		Then I run `docker top services_<SERVICE>_1`
 		And it should fail with "is not running"

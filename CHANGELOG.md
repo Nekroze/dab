@@ -38,6 +38,7 @@ Are you ready to get STABLE!
 - Add uptodate column to `dab repo list` indicating if the repo is on master
 - listing services and tools will now display a dynamic username and password column
 - Test script now runs with dind by default unless `TEST_DOCKER` is set to `local`
+- Use [subcommander](https://github.com/Nekroze/subcommander)
 
 ### Added
 

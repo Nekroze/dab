@@ -32,7 +32,6 @@ Feature: Subcommand: dab tools
 		And I successfully run `docker top tools_<TOOL>_1`
 
 		When I successfully run `dab tools stop <TOOL>`
-		And the stderr should not contain anything
 
 		Then I run `docker top tools_<TOOL>_1`
 		And it should fail with "is not running"
