@@ -2,22 +2,23 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# Alias docker-compose with params we need for the test environment.
-alias doco='docker-compose --project-name dab -f tests/docker-compose.yml'
-trap 'doco stop' EXIT
+export TEST_DOCKER="${TEST_DOCKER:-dind}"
+export COMPOSE_PROJECT_NAME='dab'
+export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.$TEST_DOCKER.yml"
+trap 'docker-compose stop' EXIT
 
 # Cleanup first
-doco down --volumes
+docker-compose down --volumes
 
 # Pull/build the latest test images.
-doco pull docker build || true
-doco build --force-rm tests
+docker-compose pull || true
+docker-compose build --force-rm tests
 
 # Start the docker in docker daemon, isolating it from the host.
-doco up -d --remove-orphans docker
+[ "$TEST_DOCKER" = 'local' ] || docker-compose up -d --remove-orphans docker
 
 # run build container to get the image in dind.
-doco run --rm build
+docker-compose run --rm build
 
 # run tests container and pass any params to this script to cucumber.
-doco run tests "$@"
+docker-compose run tests "$@"

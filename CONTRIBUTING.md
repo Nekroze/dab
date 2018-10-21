@@ -34,6 +34,8 @@ Additionally, to run the suite of regression tests execute:
  $ ./scripts/test.sh
 ```
 
+By default it will run with docker in docker so not to affect your normal use of dab, this is however very slow. If you feel adventurous you can set `TEST_DOCKER` environment variable to `local` before running the `./scripts/test.sh` script to run on your machines local docker instance which should be much faster.
+
 [1]: https://docker.com
 [2]: https://docs.docker.com/engine/reference/run
 [3]: https://hub.docker.com/r/nekroze/dab

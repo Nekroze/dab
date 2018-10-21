@@ -43,7 +43,7 @@ var dab = complete.Command{
 		},
 		"group": {
 			Sub: map[string]complete.Command{
-				"repo": {Args: complete.PredictOr(
+				"repos": {Args: complete.PredictOr(
 					newGeneric(predictGroups, 1),
 					newGeneric(predictRepos, 2),
 				)},

@@ -37,6 +37,7 @@ Are you ready to get STABLE!
 - Automatically update shell completion
 - Add uptodate column to `dab repo list` indicating if the repo is on master
 - listing services and tools will now display a dynamic username and password column
+- Test script now runs with dind by default unless `TEST_DOCKER` is set to `local`
 
 ### Added
 
@@ -79,6 +80,7 @@ Are you ready to get STABLE!
 - `dab tools start` now returns exit status 0 on for headless tools
 - `dab repo fetch` now correctly takes no params
 - `dab changelog` subcommand output no longer truncated incorrectly
+- `dab group repos` shell completion
 
 ### Changed
 

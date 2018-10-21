@@ -13,3 +13,5 @@ jobs:
       - run:
           name: Acceptance Tests
           command: ./scripts/test.sh
+          environment:
+            TEST_DOCKER: local

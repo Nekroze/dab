@@ -1,0 +1,20 @@
+version: '3.2'
+
+services:
+
+  tests:
+    image: 'nekroze/containaruba:latest'
+    environment:
+      DAB_AUTOUPDATE: 'no'
+      DAB_REPO_PATH: /tmp/dab/dab
+      DAB_CONF_PATH: /tmp/dab/.config/dab
+      HOME: /tmp/dab
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/group:/etc/group:ro
+      - /tmp/dab/:/root
+      - /tmp/dab/:/tmp/dab
+
+  build:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
