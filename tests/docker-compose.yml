@@ -9,7 +9,7 @@ services:
     image: nekroze/dab:latest
 
   tests:
-    image: 'nekroze/containaruba:latest'
+    image: 'nekroze/containaruba:alpine'
     environment:
       DAB_AUTOUPDATE: 'no'
       DAB_WRAPPER_PATH: "${PWD}/dab"
