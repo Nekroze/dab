@@ -8,7 +8,9 @@ Feature: Subcommand: dab group
 	Scenario: Can group repossitories then start them together
 		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create three start`
 		And I successfully run `dab repo add four https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create four start`
 
 		When I run `dab group repos work three`
 
@@ -23,9 +25,7 @@ Feature: Subcommand: dab group
 		Then it should pass with:
 		"""
 		Executing three entrypoint start
-		three has no start entrypoint defined
 		Executing four entrypoint start
-		four has no start entrypoint defined
 		"""
 
 	Scenario: Can group repossitories and tools then start them together
@@ -65,7 +65,7 @@ Feature: Subcommand: dab group
 	Scenario: Can group groups and repos then start them together
 		Given I successfully run `dab services stop`
 		And I successfully run `dab repo add seven https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab group repos subset seven`
+		And I successfully run `dab group repos subset seven deploy`
 		And I successfully run `dab group services superset redis`
 
 		When I run `dab group groups superset subset`
@@ -76,6 +76,6 @@ Feature: Subcommand: dab group
 
 		Then it should pass with:
 		"""
-		Executing seven entrypoint start
+		Executing seven entrypoint deploy
 		"""
 		And I successfully run `docker top services_redis_1`

@@ -1,0 +1,31 @@
+#!/bin/sh
+# Description: Execute an entrypoint (defaults to start) for the given repo
+# Usage: <REPO_NAME> [<ENTRYPOINT_NAME>]
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -euf
+
+# shellcheck disable=SC1091
+. ./lib/config.sh
+# shellcheck disable=SC1091
+. ./lib/dab.sh
+
+[ -n "${1:-}" ] || fatality 'must provide a repo name'
+repo="$1"
+entry="${2:-start}"
+shift
+[ -n "${1:-}" ] && shift
+
+dab repo clone "$repo"
+
+inform "Executing $repo entrypoint $entry"
+
+entrypoint="$DAB_CONF_PATH/repo/$repo/entrypoint/$entry"
+if [ ! -x "$entrypoint" ]; then
+	warn "$entry is not an executable entrypoint shell script for $repo"
+	warn "You could write one to \$DAB_CONF_PATH/repo/$repo/entrypoint/$entry and make it executable with 'chmod +x'"
+	exit 0
+fi
+
+cd "$DAB_REPO_PATH/$repo"
+shellcheck "$entrypoint" || true
+sh "$entrypoint" "$@"

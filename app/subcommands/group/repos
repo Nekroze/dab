@@ -1,6 +1,6 @@
 #!/bin/sh
-# Description: Add to (or create a new) group the given repo as a dependency
-# Usage: <GROUP_NAME> <REPO_NAME>
+# Description: Add to (or create a new) group the given repo and entrypoint (defaults to start) as a dependency
+# Usage: <GROUP_NAME> <REPO_NAME> [<ENTRYPOINT_NAME>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -9,4 +9,4 @@ set -euf
 
 [ -n "${1:-}" ] || fatality 'must provide a group name to add too'
 [ -n "${2:-}" ] || fatality 'must provide a repo name to add as a dependency'
-config_add "group/$1/repos" "$2"
+config_add "group/$1/repos" "$2" "${3:-start}"

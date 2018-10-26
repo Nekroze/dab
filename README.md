@@ -78,16 +78,17 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 
 - Only depends on docker and a small wrapper script
 - Manage code repositories
+- Manage entrypoints into repositories eg. starting and stopping a project
 - Easy tool access like [CyberChef](https://gchq.github.io/CyberChef/)
 - Easy service access like [Redis](https://redis.io/)
 - Auto update of dab image
 - Setup of private lab network
 - Automatically collect logs to explore via [TICK][3] and [Logspout][4]
 - Automatically detect out of date wrapper script
-- Groups allow combining repositories, services, and tools to be orchestrated together
-- Shared base image, most all tools and services along with dab itself uses an alpine base image that is auto updated
-- Simple, thanks to the `subcommander.sh` dispatcher most subcommands are implemented in only a couple SLOC
-- Tree structured configuration that can be shared
+- Groups allow combining repositories, services, tools, and even groups to be orchestrated together
+- Shared base image, most all docker container dab uses utilize an alpine base image that is lean
+- Simple, thanks to the [subcommander](https://github.com/Nekroze/subcommander) dispatcher most subcommands are implemented in only a few SLOC
+- Tree structured configuration that can be shared (eg. via git or tar)
 - x509 PKI managed via [Vault][5] with transparent certificate renewal via [VaultBot][6]
 
 ## Contributing

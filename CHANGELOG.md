@@ -39,6 +39,10 @@ Are you ready to get STABLE!
 - listing services and tools will now display a dynamic username and password column
 - Test script now runs with dind by default unless `TEST_DOCKER` is set to `local`
 - Use [subcommander](https://github.com/Nekroze/subcommander)
+- Repos can no longer require services, dependencies are solely managed via groups
+- `dab repo entrypoint create` now requires an entrypoint name to be created
+- Deprecated `dab repo entrypoint start` and `dab repo entrypoint start`
+- Group repo dependencies can now have a second value on the same line denoting the entrypoint to run
 
 ### Added
 
@@ -66,6 +70,7 @@ Are you ready to get STABLE!
 - Adminer to tools
 - Kibana to tools
 - Subcommand aliases
+- `dab repo entrypoint run` to allow execution of any entrypoint
 
 ### Fixed
 

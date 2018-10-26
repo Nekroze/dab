@@ -17,9 +17,9 @@ maybe_post_chronograf_annotiation() {
 	fi
 	ns="$(date +%s)000000000"
 	values="text=\"dab $1\",start_time=${ns}i,modified_time_ns=${ns}i,type=\"dab execution\",deleted=false"
-	servicepose run --detach --rm influxdb sh -c "
-		influx -host services_influxdb_1 -execute 'CREATE DATABASE chronograf'
-		influx -host services_influxdb_1 -database chronograf -execute 'INSERT annotations,id=$(uuidgen) $values'
+	servicepose exec --detach influxdb sh -c "
+		influx -execute 'CREATE DATABASE chronograf'
+		influx -database chronograf -execute 'INSERT annotations,id=$(uuidgen) $values'
 	"
 }
 
