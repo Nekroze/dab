@@ -25,7 +25,7 @@ fi
 
 if vault_sealed; then
 	inform 'Unsealing Vault'
-	quietly vault unseal "$(vault_key)"
+	quietly vault operator unseal "$(vault_key)"
 fi
 
 silently vault login "$(vault_token)"
@@ -40,10 +40,10 @@ if ! vault_pki_enabled; then
 	cert="$DAB_CONF_PATH/pki/ca/certificate"
 	for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
 		inform "Installing CA Certificate in $(dirname "$db")"
-		quietly certutil -A -n "Dab PKI" -t "TCu,Cu,Tu" -i "$cert" -d "dbm:$(dirname "$db")"
+		quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "dbm:$(dirname "$db")"
 	done
 	for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
 		inform "Installing CA Certificate in $(dirname "$db")"
-		quietly certutil -A -n "Dab PKI" -t "TCu,Cu,Tu" -i "$cert" -d "sql:$(dirname "$db")"
+		quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "sql:$(dirname "$db")"
 	done
 fi
