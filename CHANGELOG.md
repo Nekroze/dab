@@ -65,6 +65,7 @@ Are you ready to get STABLE!
 - Nats to services
 - Adminer to tools
 - Kibana to tools
+- Subcommand aliases
 
 ### Fixed
 
@@ -85,8 +86,7 @@ Are you ready to get STABLE!
 - pki tests for vault `0.11.0` bug
 - pki ready vault initialization check
 - pki management of vault 0.11.4, earlier versions will no longer work
-
-### Changed
+- description missing the word execution
 
 ## 2018-09
 
