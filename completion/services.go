@@ -13,6 +13,7 @@ var services = []string{
 	"nats",
 	"postgres",
 	"redis",
+	"rsyslog",
 	"telegraf",
 	"vault",
 	"zookeeper",

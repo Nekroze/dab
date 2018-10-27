@@ -219,6 +219,20 @@ services:
     tmpfs:
       - /tmp
 
+  rsyslog:
+    build:
+      context: .
+      dockerfile: Dockerfile.rsyslog
+      args:
+        - "RSYSLOG_TAG=${DAB_SERVICES_RSYSLOG_TAG:-alpine}"
+    labels:
+      description: 'Sends log files to telegraf via rsyslog'
+    restart: on-failure
+    depends_on:
+      - telegraf
+    tmpfs:
+      - /tmp
+
 volumes:
   postgres:
   influxdb:

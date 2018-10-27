@@ -1,0 +1,7 @@
+FROM alpine:latest
+
+RUN apk add --no-cache rsyslog
+
+ENTRYPOINT ["/usr/sbin/rsyslogd"]
+
+COPY configs/rsyslog.conf /etc/rsyslog.conf
