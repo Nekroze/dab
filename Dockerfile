@@ -35,7 +35,7 @@ RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.s
 COPY ./completion/*.go ./
 RUN go get -d -v ./... \
  && go test ./... \
- && golangci-lint run --deadline '2m' --enable-all \
+ && golangci-lint run --deadline '2m' --enable-all --disable dupl,lll \
  && go build -o completion .
 
 
