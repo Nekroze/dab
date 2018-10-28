@@ -87,6 +87,7 @@ Are you ready to get STABLE!
 - pki ready vault initialization check
 - pki management of vault 0.11.4, earlier versions will no longer work
 - description missing the word execution
+- Updated completion
 
 ## 2018-09
 
