@@ -45,16 +45,16 @@ Feature: Subcommand: dab repo
 
 		When I successfully run `dab repo list`
 
-		Then it should pass with "REPO      |         STATUS"
-		And the output should contain "dotfiles3 | not downloaded"
-		And the output should contain "dotfiles4 |     downloaded"
+		Then the output should match /^REPO\s*|\s*STATUS/
+		And the output should match /^dotfiles3\s*|\s*not downloaded/
+		And the output should match /^dotfiles4\s*|\s*downloaded/
 
 	Scenario: Can set entrypoint to script
 		Given I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
 
-		When I run `dab repo entrypoint create dotfiles4`
+		When I run `dab repo entrypoint create dotfiles4 start`
 
-		Then it should pass with "Please edit $DAB_CONF_PATH/repo/dotfiles4/entrypoint/start"
+		Then it should pass with "repo/dotfiles4/entrypoint/start"
 
 	Scenario: Can put any command in an entrypoint start script
 		Given I successfully run `dab repo add dotfiles5 https://github.com/Nekroze/dotfiles.git`
@@ -64,46 +64,24 @@ Feature: Subcommand: dab repo
 		echo FOOBAR
 		"""
 
-		When I run `dab repo entrypoint start dotfiles5`
+		When I run `dab repo entrypoint run dotfiles5 start`
 
 		Then it should pass with "FOOBAR"
 
 	Scenario: Can put any command in an entrypoint start script
 		Given I successfully run `dab repo add dotfiles6 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint create dotfiles6`
+		And I run `dab repo entrypoint create dotfiles6 start`
 		And I successfully run `dab config add repo/dotfiles6/entrypoint/start echo FOOBAR`
 
-		When I run `dab repo entrypoint start dotfiles6`
+		When I run `dab repo entrypoint run dotfiles6 start`
 
 		Then it should pass with "FOOBAR"
 
 	Scenario: Can use custom arguments in entrypoints
 		Given I successfully run `dab repo add dotfiles7 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint create dotfiles7`
-		And I successfully run `dab config add repo/dotfiles7/entrypoint/start echo \$1`
-		And I successfully run `dab config add repo/dotfiles7/entrypoint/stop echo \$1`
+		And I run `dab repo entrypoint create dotfiles7 start`
+		And I successfully run `dab config add repo/dotfiles7/entrypoint/start echo '\"$1\"'`
 
-		When I run `dab repo entrypoint start dotfiles7 FOO`
+		When I run `dab repo entrypoint run dotfiles7 start FOO`
 
 		Then it should pass with "FOO"
-
-		When I run `dab repo entrypoint stop dotfiles7 BAR`
-
-		Then it should pass with "BAR"
-
-	Scenario: Can have one repo depend on another
-		Given I successfully run `dab repo add one https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo add two https://github.com/Nekroze/dotfiles.git`
-		And the directory "~/dab/two" does not exist
-
-		When I successfully run `dab repo require one two`
-
-		Then I run `dab repo entrypoint start one`
-		And it should pass with:
-		"""
-		Executing two entrypoint start
-		two has no start entrypoint defined
-		Executing one entrypoint start
-		one has no start entrypoint defined
-		"""
-		And the directory "~/dab/two/.git/" should exist

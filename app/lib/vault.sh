@@ -3,10 +3,12 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/dab.sh
+. ./lib/compose.sh
+# shellcheck disable=SC1091
+. ./lib/config.sh
 
 vault() {
-	dab services exec vault vault "$@"
+	servicepose exec -T vault vault "$@"
 }
 
 vault_init() {
@@ -20,7 +22,7 @@ vault_token() {
 		return 0
 	fi
 	vault_token_memoized="$(
-		dab config get pki/vault/init | jq -r .root_token
+		config_get pki/vault/init | jq -r .root_token
 	)"
 	echo "$vault_token_memoized"
 }
@@ -32,7 +34,7 @@ vault_key() {
 		return 0
 	fi
 	vault_key_memoized="$(
-		dab config get pki/vault/init | jq -r .unseal_keys_b64[0]
+		config_get pki/vault/init | jq -r .unseal_keys_b64[0]
 	)"
 	echo "$vault_key_memoized"
 }
@@ -64,5 +66,5 @@ vault_pki_enabled() {
 }
 
 vaultbot() {
-	dab tools run vaultbot "$@"
+	toolpose run vaultbot "$@"
 }

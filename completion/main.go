@@ -31,16 +31,25 @@ var dab = complete.Command{
 			Sub: complete.Commands{
 				"add": {Args: newGeneric(predictRepos, 1)}, "url": {Args: newGeneric(predictRepos, 1)}, "register": {Args: newGeneric(predictRepos, 1)},
 				"clone": {Args: newGeneric(predictRepos, 1)}, "download": {Args: newGeneric(predictRepos, 1)},
+				"list": {}, "check": {},
+				"fetch": {Args: newGeneric(predictRepos, 1)}, "update": {Args: newGeneric(predictRepos, 1)},
 				"entrypoint": {
 					Sub: map[string]complete.Command{
 						"create": {Args: newGeneric(predictRepos, 1)}, "new": {Args: newGeneric(predictRepos, 1)},
-						"start": {Args: newGeneric(predictRepos, 1)}, "up": {Args: newGeneric(predictRepos, 1)},
-						"stop": {Args: newGeneric(predictRepos, 1)}, "down": {Args: newGeneric(predictRepos, 1)},
+						"run": {Args: complete.PredictOr(
+							newGeneric(predictRepos, 1),
+							newGeneric(predictEntrypoint, 2),
+						)},
+						"exec": {Args: complete.PredictOr(
+							newGeneric(predictRepos, 1),
+							newGeneric(predictEntrypoint, 2),
+						)},
+						"script": {Args: complete.PredictOr(
+							newGeneric(predictRepos, 1),
+							newGeneric(predictEntrypoint, 2),
+						)},
 					},
 				},
-				"list": {}, "check": {},
-				"fetch": {Args: newGeneric(predictRepos, 1)}, "update": {Args: newGeneric(predictRepos, 1)},
-				"require": {Args: newGeneric(predictRepos, 1, 2)}, "requires": {Args: newGeneric(predictRepos, 1, 2)},
 			},
 		},
 		"group": {

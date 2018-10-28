@@ -18,7 +18,6 @@ services:
       - ../dab:/usr/bin/dab
     command:
       - '--order=random'
-      - '--retry=2'
 
   build:
     image: docker/compose:1.22.0
