@@ -7,4 +7,4 @@ set -euf
 . ./lib/dab.sh
 
 dab services destroy consul vault || true
-dab config set pki/vault/init
+dab config set pki

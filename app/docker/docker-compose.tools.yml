@@ -48,6 +48,7 @@ services:
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
+      LOG_LEVEL: error
     ports:
       - 8888
     healthcheck:
@@ -68,6 +69,7 @@ services:
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+      LOG_LEVEL: error
     ports:
       - 9092
     volumes:
@@ -231,13 +233,14 @@ services:
   pgadmin:
     image: "dpage/pgadmin4:${DAB_TOOLS_PGADMIN_TAG:-latest}"
     labels:
-      description: 'Postgres administration console, user=user@dab pass=admin'
+      description: 'Postgres administration console`user@dab`admin'
       com.centurylinklabs.watchtower.enable: 'true'
     environment:
       PGADMIN_DEFAULT_EMAIL: 'user@dab'
       PGADMIN_DEFAULT_PASSWORD: 'admin'
     networks:
       - services
+      - lab
     ports:
       - 80
     tmpfs:
@@ -263,6 +266,7 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
+      - lab
     environment:
       ADMINER_DEFAULT_SERVER: mysql
     ports:
