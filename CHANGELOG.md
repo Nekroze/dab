@@ -43,6 +43,9 @@ Are you ready to get STABLE!
 - `dab repo entrypoint create` now requires an entrypoint name to be created
 - Deprecated `dab repo entrypoint start` and `dab repo entrypoint start`
 - Group repo dependencies can now have a second value on the same line denoting the entrypoint to run
+- Reduced the noise in influxdb logs by disabling http and query logs
+- Remove all pki config keys (including keys and certs) when doing `dab pki destroy`
+- Added pgadmin and adminer to the lab network for access to lab containers
 
 ### Added
 
@@ -93,6 +96,7 @@ Are you ready to get STABLE!
 - pki management of vault 0.11.4, earlier versions will no longer work
 - description missing the word execution
 - Updated completion
+- Pgadmin username and password display
 
 ## 2018-09
 
