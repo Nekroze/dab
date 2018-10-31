@@ -49,6 +49,7 @@ Are you ready to get STABLE!
 - Use go 1.11 modules for completion binary, pins dependencies and improves docker build caching
 - Deprecated `compose-external-default-network.sh`
 - Reversed changelog output, newest changes are at the bottom
+- `dab config keys` can now take a config key to limit its output
 
 ### Added
 

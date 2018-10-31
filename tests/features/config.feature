@@ -30,6 +30,20 @@ Feature: Subcommand: dab config
 			| bar.foo | 42       |
 			| bar.foo | 42 barry |
 
+	Scenario: Can display a tree of config keys
+		Given I successfully run `dab config set flume/log foo`
+
+		When I run `dab config keys`
+
+		Then it should pass with "├── flume"
+
+	Scenario: Can display a tree of config keys at a specific namespace
+		Given I successfully run `dab config set boogie/nights 2`
+
+		When I run `dab config keys boogie`
+
+		Then it should pass with "└── nights"
+
 	Scenario Outline: Can add to a config value making a list
 		Config values can also be a list of values, represented by lines in a
 		file. Note setting will replace the list with the single new element.

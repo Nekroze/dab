@@ -1,9 +1,19 @@
 #!/bin/sh
 # Description: View all set config keys as a tree branching at a / in each key
+# Usage: [<KEY>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-cd "$DAB_CONF_PATH"
+# shellcheck disable=SC1091
+. ./lib/config.sh
+# shellcheck disable=SC1091
+. ./lib/output.sh
+
+path="$(config_path "${1:-}")"
+
+[ -d "$path" ] || fatality 'Provided config key is not a namespace or does not exist'
+
+cd "$path"
 # Remove first, last, and empty lines from tree output
 tree | sed \
 	-e '1 d' \
