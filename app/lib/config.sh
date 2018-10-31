@@ -6,7 +6,7 @@ set -euf
 . ./lib/output.sh
 
 config_get() {
-	path="$DAB_CONF_PATH/$1"
+	path="$(config_path "$1")"
 	[ ! -r "$path" ] || cat "$path"
 }
 

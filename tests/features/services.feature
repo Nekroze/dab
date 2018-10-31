@@ -22,7 +22,7 @@ Feature: Subcommand: dab services
 		Then it should pass with "Pulling"
 		And the output should contain "Building"
 
-	Scenario Outline: Can start and stop web based services
+	Scenario Outline: Can start and stop services
 		When I run `dab services start <SERVICE>`
 
 		Then the exit status should be 0
@@ -34,18 +34,17 @@ Feature: Subcommand: dab services
 		And it should fail with "is not running"
 
 		Examples:
-			| SERVICE       |
-			| influxdb      |
-			| telegraf      |
-			| elasticsearch |
-			| logspout      |
-			| redis         |
-			| postgres      |
-			| vault         |
-			| consul        |
-			| mysql         |
-			| memcached     |
-			| nats          |
+			| SERVICE   |
+			| influxdb  |
+			| telegraf  |
+			| logspout  |
+			| redis     |
+			| postgres  |
+			| vault     |
+			| consul    |
+			| mysql     |
+			| memcached |
+			| nats      |
 
 	Scenario Outline: Can select different service versions with environment variables
 		A non exhaustive list of services and versions that can be configured.
