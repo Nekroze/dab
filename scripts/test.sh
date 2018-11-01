@@ -2,9 +2,12 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
+git rev-parse HEAD || true
+git status || true
+
 export TEST_DOCKER="${TEST_DOCKER:-dind}"
 export COMPOSE_PROJECT_NAME='dab'
-export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.$TEST_DOCKER.yml"
+export COMPOSE_FILE="tests/docker-compose.yml:./tests/docker-compose.$TEST_DOCKER.yml"
 trap 'docker-compose stop' EXIT
 
 if [ "$TEST_DOCKER" = 'local' ]; then

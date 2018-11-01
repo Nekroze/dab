@@ -5,18 +5,29 @@ language: nix
 git:
   quiet: true
 
+sudo: required
+services:
+  - docker
+
 stages:
   - Danger
   - Nix
+  - Tests
 
 jobs:
   include:
 
     - stage: Danger
       name: Danger Checks
-      script: ./scripts/danger.sh
+      script: sh -x ./scripts/danger.sh
       cache: yarn
 
     - stage: Nix
       name: Nix Package
       script: nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'
+
+    - stage: Tests
+      name: Acceptance Tests
+      env:
+        - TEST_DOCKER=local
+      script: sh -x ./scripts/test.sh
