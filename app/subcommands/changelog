@@ -11,4 +11,4 @@ set -euf
 rev="${1:-2cd1ee8}"
 
 # shellcheck disable=SC2039
-echo -e "$(cat /LOG)" | sed "/$rev/q"
+echo -e "$(tac /LOG | sed "/$rev/q" | tac)"
