@@ -26,4 +26,4 @@ docker-compose build --force-rm tests
 docker-compose run --rm build
 
 # run tests container and pass any params to this script to cucumber.
-docker-compose run tests "$@"
+docker-compose run tests --order=random "$@"

@@ -87,7 +87,7 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 - Automatically detect out of date wrapper script
 - Groups allow combining repositories, services, tools, and even groups to be orchestrated together
 - Shared base image, most all docker container dab uses utilize an alpine base image that is lean
-- Simple, thanks to the [subcommander](https://github.com/Nekroze/subcommander) dispatcher most subcommands are implemented in only a few SLOC
+- Simple, thanks to the [subcommander][7] dispatcher most subcommands are implemented in only a few SLOC
 - Tree structured configuration that can be shared (eg. via git or tar)
 - x509 PKI managed via [Vault][5] with transparent certificate renewal via [VaultBot][6]
 
@@ -95,9 +95,30 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 
 If you would like to help hone dab into a better tool check out our [contributing][2] documentation.
 
+## Bill Of Materials
+
+The following projects are used to write dab:
+
+- [Subcommander][7]
+- [ContainAruba][8]
+- [docker-compose-gen][9]
+- [yq][10]
+- [jq][11]
+- [docker-compose][12]
+- [shellcheck][13]
+- [complete][14]
+
 [1]: https://github.com/Nekroze/dab/raw/master/dab
 [2]: https://github.com/Nekroze/dab/blob/master/CONTRIBUTING.md
 [3]: https://www.influxdata.com/time-series-platform/
 [4]: https://github.com/gliderlabs/logspout
 [5]: https://www.vaultproject.io/
 [6]: https://gitlab.com/msvechla/vaultbot
+[7]: https://github.com/Nekroze/subcommander
+[8]: https://github.com/Nekroze/containaruba
+[9]: https://github.com/Nekroze/docker-compose-gen
+[10]: https://github.com/kislyuk/yq
+[11]: https://stedolan.github.io/jq/
+[12]: https://github.com/docker/compose
+[13]: https://github.com/koalaman/shellcheck
+[14]: github.com/posener/complete

@@ -58,6 +58,10 @@ RUN git rev-parse HEAD > /VERSION \
  && git log --graph --pretty=format:'\e[0;31m%h\e[0m|^|%s \e[0;34m<%an>\e[0m' --abbrev-commit > /LOG
 
 
+# Used to pull in the docker-compose-gen binary
+FROM nekroze/docker-compose-gen:latest AS gen
+
+
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
 FROM alpine:latest AS main
@@ -76,7 +80,7 @@ RUN apk add --no-cache docker python3 ca-certificates \
 # Handy env var configs
 ENV DAB="/opt/dab" \
     PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
-    PATH="$PATH:/opt/dab/docker"
+    PATH="$PATH:/opt/dab/docker:/opt/dab/bin"
 
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent
@@ -87,6 +91,7 @@ ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /
 RUN chmod 755 /usr/bin/yq /usr/bin/subcommander
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
 COPY --from=completion /go/src/app/completion/completion /usr/bin/dab-completion
+COPY --from=gen /docker-compose-gen /usr/bin/docker-compose-gen
 COPY --from=versioning /VERSION /LOG /
 COPY ./app ./README.md ./LICENSE ./dab ./
 ENTRYPOINT ["/opt/dab/main.sh"]

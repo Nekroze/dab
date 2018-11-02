@@ -47,6 +47,7 @@ Are you ready to get STABLE!
 - Remove all pki config keys (including keys and certs) when doing `dab pki destroy`
 - Added pgadmin and adminer to the lab network for access to lab containers
 - Use go 1.11 modules for completion binary, pins dependencies and improves docker build caching
+- Deprecated `compose-external-default-network.sh`
 
 ### Added
 
@@ -75,6 +76,7 @@ Are you ready to get STABLE!
 - Kibana to tools
 - Subcommand aliases
 - `dab repo entrypoint run` to allow execution of any entrypoint
+- docker-compose-gen
 
 ### Fixed
 
