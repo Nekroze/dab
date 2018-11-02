@@ -46,6 +46,7 @@ Are you ready to get STABLE!
 - Reduced the noise in influxdb logs by disabling http and query logs
 - Remove all pki config keys (including keys and certs) when doing `dab pki destroy`
 - Added pgadmin and adminer to the lab network for access to lab containers
+- Use go 1.11 modules for completion binary, pins dependencies and improves docker build caching
 
 ### Added
 
