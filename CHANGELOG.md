@@ -48,6 +48,7 @@ Are you ready to get STABLE!
 - Added pgadmin and adminer to the lab network for access to lab containers
 - Use go 1.11 modules for completion binary, pins dependencies and improves docker build caching
 - Deprecated `compose-external-default-network.sh`
+- Reversed changelog output, newest changes are at the bottom
 
 ### Added
 

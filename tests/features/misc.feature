@@ -41,6 +41,6 @@ Feature: Docker entrypoint wrapper script works
 
 		Then it should pass with:
 		"""
-		* 80e2a77|^|Init <Taylor Nekroze Lawson>
-		* 2cd1ee8|^|Initial commit <Taylor "Nekroze" Lawson>
+		* 13782eb|↓|Use tests tag for tests image to match docker hub tags <Taylor Nekroze Lawson>
+		* 25276b8|↓|Improve docker caching <Taylor Nekroze Lawson>
 		"""

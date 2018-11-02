@@ -55,7 +55,7 @@ COPY ./.git ./
 RUN git rev-parse HEAD > /VERSION \
  && git clone https://github.com/Nekroze/dab.git \
  && cd dab \
- && git log --graph --pretty=format:'\e[0;31m%h\e[0m|^|%s \e[0;34m<%an>\e[0m' --abbrev-commit > /LOG
+ && git log --graph --pretty=format:'\e[0;31m%h\e[0m|↓|%s \e[0;34m<%an>\e[0m' --abbrev-commit | tac > /LOG
 
 
 # Used to pull in the docker-compose-gen binary
