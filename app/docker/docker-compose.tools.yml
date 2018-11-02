@@ -37,7 +37,7 @@ services:
   chronograf:
     image: "chronograf:${DAB_TOOLS_CHRONOGRAF_TAG:-alpine}"
     labels:
-      description: 'Chronograf metrics explorer from the TICK stack'
+      description: 'Chronograf metrics explorer from the TICK stack`influxdb'
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
       - kapacitor
@@ -62,7 +62,7 @@ services:
   kapacitor:
     image: "kapacitor:${DAB_TOOLS_KAPACITOR_TAG:-alpine}"
     labels:
-      description: 'Real-Time metrics processing from the TICK stack'
+      description: 'Real-Time metrics processing from the TICK stack`influxdb'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -148,7 +148,7 @@ services:
   sysdig:
     image: "sysdig/sysdig:${DAB_TOOLS_SYSDIG_TAG:-latest}"
     labels:
-      description: 'Universal system visibility tool with native support for containers'
+      description: 'Universal system visibility tool'
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
       - /dev:/host/dev
@@ -166,7 +166,7 @@ services:
       args:
         - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
-      description: 'The open platform for analytics and monitoring`admin`admin'
+      description: 'The open platform for analytics and monitoring``admin`admin'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -206,7 +206,7 @@ services:
       context: .
       dockerfile: Dockerfile.ntopng
     labels:
-      description: 'Monitor network interfaces, requires redis service'
+      description: 'Monitor network interfaces`redis'
     network_mode: host
     ports:
       - 3000
@@ -218,7 +218,7 @@ services:
   vaultbot:
     image: "msvechla/vaultbot:${DAB_TOOLS_VAULTBOT_TAG:-latest}"
     labels:
-      description: 'Automate interaction with Hashicorp Vault'
+      description: 'Automate interaction with Hashicorp Vault`vault'
       com.centurylinklabs.watchtower.enable: 'true'
     entrypoint:
       - ./vaultbot
@@ -233,7 +233,7 @@ services:
   pgadmin:
     image: "dpage/pgadmin4:${DAB_TOOLS_PGADMIN_TAG:-latest}"
     labels:
-      description: 'Postgres administration console`user@dab`admin'
+      description: 'Postgres administration console``user@dab`admin'
       com.centurylinklabs.watchtower.enable: 'true'
     environment:
       PGADMIN_DEFAULT_EMAIL: 'user@dab'
@@ -249,7 +249,7 @@ services:
   kafkacat:
     image: "confluentinc/cp-kafkacat:${DAB_TOOLS_KAFKACAT_TAG:-latest}"
     labels:
-      description: 'Lightweight kafka console consumer/producer'
+      description: 'Lightweight kafka console consumer/producer`kafka'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -276,7 +276,7 @@ services:
     image: "kibana:${DAB_TOOLS_KIBANA_TAG:-6.4.2}"
     restart: on-failure
     labels:
-      description: 'Explore and visualize elasticsearch data'
+      description: 'Explore and visualize elasticsearch data`elasticsearch'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services

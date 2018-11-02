@@ -6,7 +6,7 @@ Feature: Subcommand: dab tools
 		Containers can be fast... but not over
 		Australian internet.
 
-		Given the aruba exit timeout is 120 seconds
+		Given the aruba exit timeout is 300 seconds
 
 	Scenario: Can list all available tools
 		When I run `dab tools list`

@@ -44,3 +44,21 @@ Feature: Docker entrypoint wrapper script works
 		* 13782eb|↓|Use tests tag for tests image to match docker hub tags <Taylor Nekroze Lawson>
 		* 25276b8|↓|Improve docker caching <Taylor Nekroze Lawson>
 		"""
+
+	Scenario: Dab tip subcommand displays useful tips
+		With no custom tips defined
+
+		Given I successfully run `dab config set tips/custom`
+
+		When I run `dab tip`
+
+		Then it should pass with "[tips:dab]"
+
+	Scenario: Displays a tip periodically
+		With no custom tips defined
+
+		Given I successfully run `dab config set tips/custom`
+
+		When I run `dab config set tips/last`
+
+		Then it should pass with "[tips:dab]"
