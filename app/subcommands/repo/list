@@ -5,8 +5,6 @@ set -euf
 
 # shellcheck disable=SC1091
 . ./lib/update.sh
-# shellcheck disable=SC1091
-. ./lib/dab.sh
 
 dab repo fetch
 

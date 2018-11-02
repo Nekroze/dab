@@ -21,6 +21,4 @@ SUBCOMMANDS="$DAB/subcommands"
 
 export APPLICATION DESCRIPTION VERSION SUBCOMMANDS
 
-# shellcheck disable=SC1091
-. ./lib/dab.sh
 dab "$@"
