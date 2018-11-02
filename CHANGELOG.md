@@ -26,7 +26,7 @@ Are you ready to get STABLE!
 - Automatically install PKI CA certificate in browsers when possible
 - `tools list` and `services list` now have username and password columns for applicable services
 - When creating an entrypoint check if anything already exists before writing
-- Generate `tools list` and `services list` out dynamically from docker-compose files
+- Generate `tools list` and `services list` dynamically from docker-compose files
 - `dab group tool` is now `dab group tools`
 - `dab group repo` is now `dab group repos`
 - Disconnect containers before recreating `lab` and `services` networks then reconnect them
@@ -50,6 +50,7 @@ Are you ready to get STABLE!
 - Deprecated `compose-external-default-network.sh`
 - Reversed changelog output, newest changes are at the bottom
 - `dab config keys` can now take a config key to limit its output
+- Moved some hooks to post execution such as checking wrapper updates
 
 ### Added
 
@@ -79,6 +80,10 @@ Are you ready to get STABLE!
 - Subcommand aliases
 - `dab repo entrypoint run` to allow execution of any entrypoint
 - docker-compose-gen
+- Tips to be displayed hourly on dab usage
+- `REQUIRED SERVICES` column to `dab tools list` output to better indicate required services
+- `dab tip` subcommand
+- Added post execution hooks
 
 ### Fixed
 

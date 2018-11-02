@@ -23,14 +23,36 @@ maybe_post_chronograf_annotiation() {
 	"
 }
 
-hooks() {
+hour_in_seconds=3600
+tip_interval="$hour_in_seconds"
+should_display_tip() {
+	[ "${DAB_TIPS:-yes}" = 'yes' ] || return 1
+
+	last_tip="$(config_get "tips/last")"
+	[ -n "$last_tip" ] || return 0
+
+	now="$(date +%s)"
+	seconds_since_last_tip="$((now - last_tip))"
+	[ "$seconds_since_last_tip" -gt "$tip_interval" ]
+}
+
+maybe_display_tip() {
+	if should_display_tip; then
+		echo
+		config_set tips/last "$(date +%s)"
+		dab tip
+	fi
+}
+
+pre_hooks() {
+	trap post_hooks EXIT
+
 	quietly maybe_post_chronograf_annotiation "$*" || true
+
 	DAB_SERVICES_VAULT_TOKEN="$(vault_token)"
 	export DAB_SERVICES_VAULT_TOKEN
 
 	config_load_envs || true
-	maybe_notify_wrapper_update || true
-	maybe_update_completion || true
 
 	case "${1:-}" in
 	'-h' | '--help' | 'help' | 'network' | 'update')
@@ -41,4 +63,11 @@ hooks() {
 		quietly ensure_network || true
 		;;
 	esac
+
+	maybe_update_completion || true
+}
+
+post_hooks() {
+	maybe_display_tip || true
+	maybe_notify_wrapper_update || true
 }

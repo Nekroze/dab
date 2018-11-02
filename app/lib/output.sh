@@ -34,21 +34,25 @@ carelessly() {
 
 fatality() {
 	# shellcheck disable=SC2039
-	echo -e "${COLOR_RED}$*${COLOR_NC}" 1>&2
+	echo_color "$COLOR_RED" "$@" 1>&2
 	exit 1
 }
 
 inform() {
-	# shellcheck disable=SC2039
-	echo -e "${COLOR_CYAN}$*${COLOR_NC}"
+	echo_color "$COLOR_CYAN" "$@"
 }
 
 warn() {
-	# shellcheck disable=SC2039
-	echo -e "${COLOR_YELLOW}$*${COLOR_NC}"
+	echo_color "$COLOR_YELLOW" "$@" 1>&2
 }
 
 whisper() {
+	echo_color "$COLOR_LIGHT_GRAY" "$@"
+}
+
+echo_color() {
+	color="$1"
+	shift
 	# shellcheck disable=SC2039
-	echo -e "${COLOR_LIGHT_GRAY}$*${COLOR_NC}"
+	echo -e "${color}$*${COLOR_NC}"
 }

@@ -114,6 +114,7 @@ var dab = complete.Command{
 			},
 		},
 		"shell": {}, "sh": {}, "cmd": {},
+		"tip": {},
 		"update": {}, "upgrade": {},
 		"changelog": {}, "changes": {},
 	},

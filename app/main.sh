@@ -4,7 +4,7 @@ set -euf
 
 # shellcheck disable=SC1091
 . ./lib/hooks.sh
-hooks "$@"
+pre_hooks "$@"
 
 APPLICATION='dab'
 DESCRIPTION='The Developer Laboratory

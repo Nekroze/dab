@@ -6,7 +6,7 @@ Feature: Subcommand: dab services
 		Containers can be fast... but not over
 		Australian internet.
 
-		Given the aruba exit timeout is 120 seconds
+		Given the aruba exit timeout is 300 seconds
 
 	Scenario: Can list all available services
 		When I run `dab services list`
