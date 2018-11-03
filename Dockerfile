@@ -81,7 +81,7 @@ RUN apk add --no-cache docker python3 ca-certificates \
 # Handy env var configs
 ENV DAB="/opt/dab" \
     PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
-    PATH="$PATH:/opt/dab/docker:/opt/dab/bin"
+    PATH="$PATH:/opt/dab/bin"
 
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent
