@@ -12,6 +12,6 @@ set -euf
 [ -n "${1:-}" ] || fatality 'must provide a tool name'
 tool="$1"
 
-silently docker top "tools_${tool}_1" || fatality "$tool is not running"
+[ -n "$(toolpose top "$tool")" ] || fatality "$tool is not running"
 
 inform "$(get_tool_url "$tool")"

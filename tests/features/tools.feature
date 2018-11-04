@@ -23,18 +23,18 @@ Feature: Subcommand: dab tools
 		And the output should contain "Building"
 
 	Scenario Outline: Can start and stop web based tools
-		When I run `dab tools start <TOOL>`
-
-		Then it should pass matching:
+		Given I run `dab tools start <TOOL>`
+		And it should pass matching:
 		"""
 		^<TOOL> is available at https?://localhost:[0-9]+$
 		"""
-		And I successfully run `docker top tools_<TOOL>_1`
+		And I successfully run `docker ps`
+		And it should pass with "tools_<TOOL>_1"
 
 		When I successfully run `dab tools stop <TOOL>`
 
-		Then I run `docker top tools_<TOOL>_1`
-		And it should fail with "is not running"
+		Then I successfully run `docker ps`
+		And it should not pass with "tools_<TOOL>_1"
 
 		Examples:
 			| TOOL       |
@@ -68,17 +68,19 @@ Feature: Subcommand: dab tools
 
 	Scenario: Can stop all tools at once
 		Given I successfully run `dab tools start cyberchef`
+		And I successfully run `docker ps`
+		And it should pass with "tools_cyberchef_1"
 
 		When I run `dab tools stop`
 
-		Then I run `docker top tools_cyberchef_1`
-		And it should fail with "is not running"
+		Then I successfully run `docker ps`
+		And it should not pass with "tools_cyberchef_1"
 
 	Scenario: Can erase all tools and their state at once
 		Given I successfully run `dab tools start cyberchef`
 
 		When I run `dab tools destroy`
-		And it should pass with "Stopping tools_cyberchef_1 ... done"
+		And it should pass with "Stopping tools_cyberchef_1"
 
-		Then I run `docker top tools_cyberchef_1`
-		And it should fail with "No such container"
+		Then I successfully run `docker ps`
+		And it should not pass with "tools_cyberchef_1"

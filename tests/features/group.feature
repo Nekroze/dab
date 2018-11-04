@@ -60,7 +60,8 @@ Feature: Subcommand: dab group
 		"""
 		Executing six entrypoint start
 		"""
-		And I successfully run `docker top services_redis_1`
+		And I successfully run `docker ps`
+		And output should contain "services_redis_1"
 
 	Scenario: Can group groups and repos then start them together
 		Given I successfully run `dab services stop`
@@ -78,4 +79,5 @@ Feature: Subcommand: dab group
 		"""
 		Executing seven entrypoint deploy
 		"""
-		And I successfully run `docker top services_redis_1`
+		And I successfully run `docker ps`
+		And output should contain "services_redis_1"

@@ -8,4 +8,4 @@ set -euf
 . ./lib/compose.sh
 
 toolpose pull --include-deps "$@"
-toolpose build --pull --force-rm "$@"
+toolpose build --parallel --pull --force-rm "$@"

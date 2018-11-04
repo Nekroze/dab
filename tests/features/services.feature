@@ -23,15 +23,14 @@ Feature: Subcommand: dab services
 		And the output should contain "Building"
 
 	Scenario Outline: Can start and stop services
-		When I run `dab services start <SERVICE>`
-
-		Then the exit status should be 0
-		And I successfully run `docker top services_<SERVICE>_1`
+		Given I successfully run `dab services start <SERVICE>`
+		And I run `docker ps`
+		And it should pass with "services_<SERVICE>_1"
 
 		When I successfully run `dab services stop <SERVICE>`
 
-		Then I run `docker top services_<SERVICE>_1`
-		And it should fail with "is not running"
+		Then I successfully run `docker ps`
+		And it should not pass with "services_<SERVICE>_1"
 
 		Examples:
 			| SERVICE   |
@@ -67,13 +66,13 @@ Feature: Subcommand: dab services
 
 		When I run `dab services stop`
 
-		Then I run `docker top services_redis_1`
-		And it should fail with "is not running"
+		Then I successfully run `docker ps`
+		And it should not pass with "services_redis_1"
 
 	Scenario: Can erase all services and their state at once
 		Given I successfully run `dab services start redis`
 
 		When I run `dab services destroy`
 
-		Then I run `docker top services_redis_1`
-		And it should fail with "No such container"
+		Then I successfully run `docker ps`
+		And it should not pass with "services_redis_1"

@@ -8,4 +8,4 @@ set -euf
 . ./lib/compose.sh
 
 servicepose pull --include-deps "$@"
-servicepose build --pull --force-rm "$@"
+servicepose build --parallel --pull --force-rm "$@"

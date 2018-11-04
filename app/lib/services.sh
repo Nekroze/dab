@@ -2,16 +2,21 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
+# shellcheck disable=SC1091
+. ./lib/compose.sh
+
 get_service_port_random() {
-	docker ps --filter "name=services_$1_1" --format '{{ .Ports }}' |
+	id="$(service_to_id "$1")"
+	docker ps --filter "id=$id" --format '{{ .Ports }}' |
 		grep -Eo '0\.0\.0\.0\:[0-9]+' |
 		cut -d: -f2
 }
 
 get_service_port_host() {
-	mode="$(docker inspect "services_$1_1" --format '{{ .HostConfig.NetworkMode }}')"
+	id="$(service_to_id "$1")"
+	mode="$(docker inspect "$id" --format '{{ .HostConfig.NetworkMode }}')"
 	if [ "$mode" = "host" ]; then
-		docker inspect "services_$1_1" --format '{{ json .HostConfig.PortBindings }}' |
+		docker inspect "$id" --format '{{ json .HostConfig.PortBindings }}' |
 			jq keys | grep -Eo "[0-9]+" | head -n 1
 	fi
 }
@@ -32,18 +37,23 @@ get_service_url() {
 	fi
 }
 
-service_status() {
-	docker inspect "services_${1}_1" --format '{{ .State.Health.Status }}'
+container_health_status() {
+	docker inspect "$1" --format '{{ .State.Health.Status }}'
+}
+
+service_to_id() {
+	servicepose ps -q "$1"
 }
 
 await_service_healthy_timeout=60
 await_service_healthy_increment=5
 await_service_healthy() {
 	service="$1"
+	id="$(service_to_id "$service")"
 
 	timespent=0
 	waiting='false'
-	while [ "$(service_status "$service")" != "healthy" ]; do
+	while [ "$(container_health_status "$id")" != "healthy" ]; do
 		if ! "$waiting"; then
 			inform "Waiting for $service to become healthy"
 			waiting='true'
