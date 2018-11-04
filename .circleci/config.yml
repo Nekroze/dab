@@ -14,4 +14,4 @@ jobs:
           name: Acceptance Tests
           command: ./scripts/test.sh --order=random --retry=1
           environment:
-            TEST_DOCKER: local
+            TEST_DOCKER: dind
