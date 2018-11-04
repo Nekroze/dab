@@ -51,6 +51,8 @@ Are you ready to get STABLE!
 - Reversed changelog output, newest changes are at the bottom
 - `dab config keys` can now take a config key to limit its output
 - Moved some hooks to post execution such as checking wrapper updates
+- More robust tests
+- When updating services and tools images are now built in parallel
 
 ### Added
 

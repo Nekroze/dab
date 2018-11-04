@@ -12,7 +12,7 @@ set -euf
 . ./lib/update.sh
 
 maybe_post_chronograf_annotiation() {
-	if ! silently docker top services_influxdb_1; then
+	if [ -z "$(servicepose top influxdb)" ]; then
 		return 0
 	fi
 	ns="$(date +%s)000000000"
