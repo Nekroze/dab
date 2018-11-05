@@ -5,6 +5,6 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
-toolpose restart --timout 30 "$@"
+dpose tools restart --timout 30 "$@"

@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/output.sh
 
@@ -13,4 +13,4 @@ set -euf
 tool="$1"
 shift
 
-toolpose exec "$tool" "$@"
+dpose tools exec "$tool" "$@"

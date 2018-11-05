@@ -5,12 +5,8 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/config.sh
 # shellcheck disable=SC1091
-. ./lib/compose.sh
-# shellcheck disable=SC1091
-. ./lib/tools.sh
-# shellcheck disable=SC1091
 . ./lib/update.sh
 # shellcheck disable=SC1091
 . ./lib/vault.sh
 # shellcheck disable=SC1091
-. ./lib/services.sh
+. ./lib/docker.sh

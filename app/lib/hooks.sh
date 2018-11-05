@@ -3,7 +3,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/config.sh
 # shellcheck disable=SC1091
@@ -12,12 +12,12 @@ set -euf
 . ./lib/update.sh
 
 maybe_post_chronograf_annotiation() {
-	if [ -z "$(servicepose top influxdb)" ]; then
+	if [ -z "$(dpose services top influxdb)" ]; then
 		return 0
 	fi
 	ns="$(date +%s)000000000"
 	values="text=\"dab $1\",start_time=${ns}i,modified_time_ns=${ns}i,type=\"dab execution\",deleted=false"
-	servicepose exec --detach influxdb sh -c "
+	dpose services exec --detach influxdb sh -c "
 		influx -execute 'CREATE DATABASE chronograf'
 		influx -database chronograf -execute 'INSERT annotations,id=$(uuidgen) $values'
 	"
@@ -70,7 +70,7 @@ pre_hooks() {
 		;;
 	*)
 		maybe_selfupdate_dab || true
-		quietly ensure_network || true
+		quietly dpose lab up --no-start || true
 		;;
 	esac
 

@@ -5,11 +5,11 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
 if [ -n "${1:-}" ]; then
-	toolpose rm --stop -v -f "$@"
+	dpose tools rm --stop -v -f "$@"
 	docker volume rm "tools_$1"
 else
-	toolpose down --remove-orphans --volumes
+	dpose tools down --remove-orphans --volumes
 fi

@@ -5,13 +5,14 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/tools.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/output.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a tool name'
 tool="$1"
 
-[ -n "$(toolpose top "$tool")" ] || fatality "$tool is not running"
+[ -n "$(dpose tools top "$tool")" ] || fatality "$tool is not running"
 
-inform "$(get_tool_url "$tool")"
+id="$(compose_service_to_id tools "$tool")"
+inform "$(container_id_to_url "$id")"

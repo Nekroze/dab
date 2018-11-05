@@ -5,9 +5,9 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/output.sh
 
 [ $# -gt 0 ] || fatality 'must provide at least a tool name'
-toolpose run --rm "$@"
+dpose tools run --rm "$@"

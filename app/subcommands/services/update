@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
-servicepose pull --include-deps "$@"
-servicepose build --parallel --pull --force-rm "$@"
+dpose services pull --include-deps "$@"
+dpose services build --parallel --pull --force-rm "$@"
