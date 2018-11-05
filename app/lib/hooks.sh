@@ -44,10 +44,20 @@ maybe_display_tip() {
 	fi
 }
 
+sane_user() {
+	# this will only write to /etc/passwd when writable, by default it is not
+	# and most often it is bind mounted read only.
+	if ! silently whoami; then
+		echo "$DAB_USER:x:$DAB_UID:$DAB_GID:user:$HOME:/bin/sh" >>/etc/passwd
+	fi
+}
+
 pre_hooks() {
 	trap post_hooks EXIT
 
 	quietly maybe_post_chronograf_annotiation "$*" || true
+
+	sane_user
 
 	DAB_SERVICES_VAULT_TOKEN="$(vault_token)"
 	export DAB_SERVICES_VAULT_TOKEN

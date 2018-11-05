@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 Please indicate the change you have made in a section below entitled `YYYY-MM`.
 
+## 2018-11
+
+### Changed
+
+- Support a `DAB_UID` that is not in /etc/passwd without being an unknown user
+
 ## 2018-10
 
 Are you ready to get STABLE!
