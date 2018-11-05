@@ -5,7 +5,7 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
-toolpose pull --include-deps "$@"
-toolpose build --parallel --pull --force-rm "$@"
+dpose tools pull --include-deps "$@"
+dpose tools build --parallel --pull --force-rm "$@"

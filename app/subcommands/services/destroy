@@ -5,13 +5,13 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/output.sh
 
 if [ -n "${1:-}" ]; then
-	servicepose rm --stop -v -f "$@"
+	dpose services rm --stop -v -f "$@"
 	silently docker volume inspect "services_$1" && docker volume rm "services_$1"
 else
-	servicepose down --remove-orphans --volumes
+	dpose services down --remove-orphans --volumes
 fi

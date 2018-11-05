@@ -9,15 +9,13 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/vault.sh
 # shellcheck disable=SC1091
-. ./lib/services.sh
-# shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
 [ -n "${1:-}" ] || fatality 'must provide a fqdn name'
 fqdn="$1"
 role="$(echo "$fqdn" | sed 's/\./-/g')"
 
-await_service_healthy vault
+await_container_healthy "$(compose_service_to_id services vault)" vault
 
 vault write "pki_dab/roles/$role" \
 	allowed_domains="$fqdn" \
@@ -35,8 +33,8 @@ vaultbot --vault_token="$(vault_token)" \
 	--pki_cert_path="$pki_path/certificate" \
 	--pki_privkey_path="$pki_path/key" \
 	-y
-toolpose run --rm --entrypoint /bin/sh vaultbot -c "chown $DAB_UID:$DAB_GID $pki_path/*"
-toolpose run --rm --entrypoint /bin/sh vaultbot -c "chmod 644 $pki_path/*"
+dpose tools run --rm --entrypoint /bin/sh vaultbot -c "chown $DAB_UID:$DAB_GID $pki_path/*"
+dpose tools run --rm --entrypoint /bin/sh vaultbot -c "chmod 644 $pki_path/*"
 
 conf_path="\$DAB_CONF_PATH/pki/$fqdn"
 inform "$fqdn pem formatted certificate can be found at $conf_path/certificate"

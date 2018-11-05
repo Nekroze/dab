@@ -5,6 +5,6 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
-servicepose logs "$@"
+dpose services logs "$@"

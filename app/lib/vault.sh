@@ -3,12 +3,12 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/config.sh
 
 vault() {
-	servicepose exec -T vault vault "$@"
+	dpose services exec -T vault vault "$@"
 }
 
 vault_init() {
@@ -66,5 +66,5 @@ vault_pki_enabled() {
 }
 
 vaultbot() {
-	toolpose run vaultbot "$@"
+	dpose tools run vaultbot "$@"
 }

@@ -5,17 +5,16 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/output.sh
-# shellcheck disable=SC1091
-. ./lib/tools.sh
 
-toolpose up --remove-orphans -d "$@"
+dpose tools up --remove-orphans -d "$@"
 
 tool="${1:-}"
 # If there was no tool (eg when starting all) stop here
 [ -z "$tool" ] && exit 0
 
-url="$(get_tool_url "$tool")"
+id="$(compose_service_to_id tools "$tool")"
+url="$(container_id_to_url "$id")"
 [ -z "$url" ] || inform "$tool is available at ${COLOR_BLUE}$url${COLOR_NC}"

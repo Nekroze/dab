@@ -5,6 +5,6 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 
-netpose run shell "$@"
+dpose lab run --rm shell "$@"

@@ -11,6 +11,8 @@ Please indicate the change you have made in a section below entitled `YYYY-MM`.
 ### Changed
 
 - Support a `DAB_UID` that is not in /etc/passwd without being an unknown user
+- Consolidated several libs into into docker.sh lib file
+- When updating services and tools images are now built in parallel
 
 ## 2018-10
 
@@ -58,7 +60,6 @@ Are you ready to get STABLE!
 - `dab config keys` can now take a config key to limit its output
 - Moved some hooks to post execution such as checking wrapper updates
 - More robust tests
-- When updating services and tools images are now built in parallel
 
 ### Added
 

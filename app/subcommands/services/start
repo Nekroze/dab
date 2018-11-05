@@ -5,17 +5,16 @@
 set -euf
 
 # shellcheck disable=SC1091
-. ./lib/compose.sh
+. ./lib/docker.sh
 # shellcheck disable=SC1091
 . ./lib/output.sh
-# shellcheck disable=SC1091
-. ./lib/services.sh
 
-servicepose up --remove-orphans -d "$@"
+dpose services up --remove-orphans -d "$@"
 
 service="${1:-}"
 # If there was no service (eg when starting all) stop here
 [ -z "$service" ] && exit 0
 
-url="$(get_service_url "$service")"
+id="$(compose_service_to_id services "$service")"
+url="$(container_id_to_url "$id")"
 [ -z "$url" ] || inform "$service is available at ${COLOR_BLUE}$url${COLOR_NC}"
