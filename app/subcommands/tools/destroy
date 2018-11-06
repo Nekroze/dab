@@ -9,7 +9,7 @@ set -euf
 
 if [ -n "${1:-}" ]; then
 	dpose tools rm --stop -v -f "$@"
-	docker volume rm "tools_$1"
+	docker volume rm "dab_$1"
 else
 	dpose tools down --remove-orphans --volumes
 fi

@@ -11,7 +11,7 @@ set -euf
 
 if [ -n "${1:-}" ]; then
 	dpose services rm --stop -v -f "$@"
-	silently docker volume inspect "services_$1" && docker volume rm "services_$1"
+	docker volume rm "dab_$1"
 else
 	dpose services down --remove-orphans --volumes
 fi

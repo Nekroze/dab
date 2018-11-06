@@ -20,9 +20,9 @@ config_set() {
 		whisper "setting config key $key to $*"
 		mkdir -p "$(dirname "$path")"
 		echo "$@" >"$path"
-	elif [ -f "$path" ]; then
+	elif [ -e "$path" ]; then
 		whisper "deleting config key $key"
-		rm -f "$path"
+		rm -rf "$path"
 	fi
 }
 
