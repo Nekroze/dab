@@ -66,5 +66,5 @@ vault_pki_enabled() {
 }
 
 vaultbot() {
-	dpose tools run vaultbot "$@"
+	dpose tools run --rm vaultbot "$@"
 }

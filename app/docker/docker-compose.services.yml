@@ -3,6 +3,7 @@ version: '3.5'
 services:
 
   influxdb:
+    container_name: dab_influxdb
     image: "influxdb:${DAB_SERVICES_INFLUXDB_TAG:-alpine}"
     restart: on-failure
     labels:
@@ -23,6 +24,7 @@ services:
       - /tmp
 
   telegraf:
+    container_name: dab_telegraf
     build:
       context: .
       dockerfile: Dockerfile.telegraf
@@ -48,6 +50,7 @@ services:
       - /tmp
 
   logspout:
+    container_name: dab_logspout
     image: "gliderlabs/logspout:${DAB_SERVICES_LOGSPOUT_TAG:-latest}"
     restart: on-failure
     labels:
@@ -66,6 +69,7 @@ services:
       - /tmp
 
   consul:
+    container_name: dab_consul
     image: "consul:${DAB_SERVICES_CONSUL_TAG:-latest}"
     restart: on-failure
     labels:
@@ -95,6 +99,7 @@ services:
       - /tmp
 
   redis:
+    container_name: dab_redis
     image: "redis:${DAB_SERVICES_REDIS_TAG:-latest}"
     labels:
       description: 'In-memory data structure store'
@@ -111,6 +116,7 @@ services:
       - /tmp
 
   vault:
+    container_name: dab_vault
     build:
       context: .
       dockerfile: Dockerfile.vault
@@ -135,6 +141,7 @@ services:
       - /tmp
 
   postgres:
+    container_name: dab_postgres
     image: "postgres:${DAB_SERVICES_POSTGRES_TAG:-alpine}"
     labels:
       description: 'Object-relational database management system'
@@ -148,6 +155,7 @@ services:
       - /tmp
 
   elasticsearch:
+    container_name: dab_elasticsearch
     image: "docker.elastic.co/elasticsearch/elasticsearch:${DAB_SERVICES_ELASTICSEARCH_TAG:-6.4.2}"
     labels:
       description: 'Object-relational database management system'
@@ -165,6 +173,7 @@ services:
       - /tmp
 
   zookeeper:
+    container_name: dab_zookeeper
     image: "confluentinc/cp-zookeeper:${DAB_SERVICES_ZOOKEEPER_TAG:-latest}"
     labels:
       description: 'Distributed configuration service'
@@ -177,6 +186,7 @@ services:
       - /tmp
 
   kafka:
+    container_name: dab_kafka
     image: "confluentinc/cp-kafka:${DAB_SERVICES_KAFKA_TAG:-latest}"
     labels:
       description: 'Stream processing platform'
@@ -193,6 +203,7 @@ services:
       - /tmp
 
   mysql:
+    container_name: dab_mysql
     image: "mysql:${DAB_SERVICES_MYSQL_TAG:-latest}"
     labels:
       description: "Open Source RDBMS`root`${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
@@ -206,6 +217,7 @@ services:
       - /tmp
 
   nats:
+    container_name: dab_nats
     image: "nats:${DAB_SERVICES_NATS_TAG:-latest}"
     labels:
       description: 'Cloud native messaging system'
@@ -215,6 +227,7 @@ services:
       - /tmp
 
   memcached:
+    container_name: dab_memcached
     image: "memcached:${DAB_SERVICES_MEMCACHED_TAG:-alpine}"
     labels:
       description: 'Distributed memory object caching'
