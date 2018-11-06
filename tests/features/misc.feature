@@ -63,7 +63,7 @@ Feature: Docker entrypoint wrapper script works
 
 		Then it should pass with "[tips:dab]"
 
-	Scenario: Can set a UID unknown to the hosts /etc/passwd
+	Scenario: Can set a UID unknown to the host's /etc/passwd
 		Given  I set the environment variable "DAB_UID" to "1337"
 
 		When I run `dab shell whoami`

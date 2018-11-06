@@ -44,25 +44,21 @@ maybe_display_tip() {
 	fi
 }
 
-sane_user() {
-	# this will only write to /etc/passwd when writable, by default it is not
-	# and most often it is bind mounted read only.
-	if ! silently whoami; then
-		echo "$DAB_USER:x:$DAB_UID:$DAB_GID:user:$HOME:/bin/sh" >>/etc/passwd
-	fi
+generate_user() {
+	echo "$DAB_USER:x:$DAB_UID:$DAB_GID:user:$HOME:/bin/sh" >>/etc/passwd
 }
 
 pre_hooks() {
 	trap post_hooks EXIT
 
-	quietly maybe_post_chronograf_annotiation "$*" || true
+	quietly maybe_post_chronograf_annotiation "$*"
 
-	sane_user
+	generate_user
 
 	DAB_SERVICES_VAULT_TOKEN="$(vault_token)"
 	export DAB_SERVICES_VAULT_TOKEN
 
-	config_load_envs || true
+	config_load_envs
 
 	case "${1:-}" in
 	'-h' | '--help' | 'help' | 'network' | 'update')
@@ -74,10 +70,10 @@ pre_hooks() {
 		;;
 	esac
 
-	maybe_update_completion || true
+	maybe_update_completion
 }
 
 post_hooks() {
-	maybe_display_tip || true
-	maybe_notify_wrapper_update || true
+	maybe_display_tip
+	maybe_notify_wrapper_update
 }
