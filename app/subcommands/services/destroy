@@ -13,5 +13,5 @@ if [ -n "${1:-}" ]; then
 	dpose services rm --stop -v -f "$@"
 	docker volume rm "dab_$1"
 else
-	dpose services down --remove-orphans --volumes
+	dpose services down --volumes
 fi
