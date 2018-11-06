@@ -6,4 +6,4 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/docker.sh
 
-compose_to_services_data tools | column -s'`' -o' | ' -t -N 'TOOL,DESCRIPTION,REQUIRED SERVICES,USERNAME,PASSWORD' -R TOOL
+compose_to_services_data tools | column -s'`' -o' | ' -t -N TOOL,DESCRIPTION,USERNAME,PASSWORD -R TOOL

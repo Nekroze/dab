@@ -3,6 +3,7 @@ version: '3.5'
 services:
 
   cyberchef:
+    container_name: dab_cyberchef
     build:
       context: .
       dockerfile: Dockerfile.cyberchef
@@ -21,6 +22,7 @@ services:
       - /tmp
 
   portainer:
+    container_name: dab_portainer
     image: "portainer/portainer:${DAB_TOOLS_PORTAINER_TAG:-latest}"
     labels:
       description: 'Docker Management Web UI'
@@ -35,9 +37,10 @@ services:
       - /tmp
 
   chronograf:
+    container_name: dab_chronograf
     image: "chronograf:${DAB_TOOLS_CHRONOGRAF_TAG:-alpine}"
     labels:
-      description: 'Chronograf metrics explorer from the TICK stack`influxdb'
+      description: 'Chronograf metrics explorer from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
       - kapacitor
@@ -60,9 +63,10 @@ services:
       - /tmp
 
   kapacitor:
+    container_name: dab_kapacitor
     image: "kapacitor:${DAB_TOOLS_KAPACITOR_TAG:-alpine}"
     labels:
-      description: 'Real-Time metrics processing from the TICK stack`influxdb'
+      description: 'Real-Time metrics processing from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -83,6 +87,7 @@ services:
       - /tmp
 
   traefik:
+    container_name: dab_traefik
     image: "traefik:${DAB_TOOLS_TRAEFIK_TAG:-alpine}"
     labels:
       description: 'The Cloud Native Edge Router, docker reverse proxy'
@@ -105,7 +110,6 @@ services:
       - lab
       - default
       - services
-      - public
     healthcheck:
       test: 'wget --spider http://localhost:8080/ping || exit 1'
       interval: 1m
@@ -115,6 +119,7 @@ services:
       - /tmp
 
   ngrok:
+    container_name: dab_ngrok
     build:
       context: .
       dockerfile: Dockerfile.ngrok
@@ -124,8 +129,6 @@ services:
       - 4040
     depends_on:
       - traefik
-    networks:
-      - public
     healthcheck:
       test: 'wget --spider http://localhost:4040 || exit 1'
       interval: 1m
@@ -135,6 +138,7 @@ services:
       - /tmp
 
   watchtower:
+    container_name: dab_watchtower
     image: v2tec/watchtower:latest
     labels:
       description: 'Watches labelled container images for updates and applies them'
@@ -146,6 +150,7 @@ services:
       - /tmp
 
   sysdig:
+    container_name: dab_sysdig
     image: "sysdig/sysdig:${DAB_TOOLS_SYSDIG_TAG:-latest}"
     labels:
       description: 'Universal system visibility tool'
@@ -160,13 +165,14 @@ services:
       - /tmp
 
   grafana:
+    container_name: dab_grafana
     build:
       context: .
       dockerfile: Dockerfile.grafana
       args:
         - "GRAFANA_TAG=${DAB_TOOLS_GRAFANA_TAG:-latest}"
     labels:
-      description: 'The open platform for analytics and monitoring``admin`admin'
+      description: 'The open platform for analytics and monitoring`admin`admin'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -185,6 +191,7 @@ services:
       - /tmp
 
   serveo:
+    container_name: dab_serveo
     build:
       context: .
       dockerfile: Dockerfile.ssh
@@ -196,17 +203,16 @@ services:
       - '-o StrictHostKeyChecking=no'
       - '-R 80:traefik:80'
       - 'serveo.net'
-    networks:
-      - public
     tmpfs:
       - /tmp
 
   ntopng:
+    container_name: dab_ntopng
     build:
       context: .
       dockerfile: Dockerfile.ntopng
     labels:
-      description: 'Monitor network interfaces`redis'
+      description: 'Monitor network interfaces'
     network_mode: host
     ports:
       - 3000
@@ -216,9 +222,10 @@ services:
       - /tmp
 
   vaultbot:
+    container_name: dab_vaultbot
     image: "msvechla/vaultbot:${DAB_TOOLS_VAULTBOT_TAG:-latest}"
     labels:
-      description: 'Automate interaction with Hashicorp Vault`vault'
+      description: 'Automate interaction with Hashicorp Vault'
       com.centurylinklabs.watchtower.enable: 'true'
     entrypoint:
       - ./vaultbot
@@ -231,9 +238,10 @@ services:
       - /tmp
 
   pgadmin:
+    container_name: dab_pgadmin
     image: "dpage/pgadmin4:${DAB_TOOLS_PGADMIN_TAG:-latest}"
     labels:
-      description: 'Postgres administration console``user@dab`admin'
+      description: 'Postgres administration console`user@dab`admin'
       com.centurylinklabs.watchtower.enable: 'true'
     environment:
       PGADMIN_DEFAULT_EMAIL: 'user@dab'
@@ -247,9 +255,10 @@ services:
       - /tmp
 
   kafkacat:
+    container_name: dab_kafkacat
     image: "confluentinc/cp-kafkacat:${DAB_TOOLS_KAFKACAT_TAG:-latest}"
     labels:
-      description: 'Lightweight kafka console consumer/producer`kafka'
+      description: 'Lightweight kafka console consumer/producer'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -259,6 +268,7 @@ services:
     command: '-b kafka -L'
 
   adminer:
+    container_name: dab_adminer
     image: "adminer:${DAB_TOOLS_ADMINER_TAG:-latest}"
     restart: on-failure
     labels:
@@ -273,10 +283,11 @@ services:
       - 8080
 
   kibana:
+    container_name: dab_kibana
     image: "kibana:${DAB_TOOLS_KIBANA_TAG:-6.4.2}"
     restart: on-failure
     labels:
-      description: 'Explore and visualize elasticsearch data`elasticsearch'
+      description: 'Explore and visualize elasticsearch data'
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
@@ -290,7 +301,6 @@ volumes:
   grafana:
 
 networks:
-  public:
   services:
     external:
       name: services

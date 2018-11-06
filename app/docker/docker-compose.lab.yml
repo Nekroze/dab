@@ -2,6 +2,7 @@ version: '3.5'
 
 services:
   shell:
+    container_name: dab_shell
     image: alpine:latest
     networks:
       - lab

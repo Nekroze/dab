@@ -25,12 +25,12 @@ Feature: Subcommand: dab services
 	Scenario Outline: Can start and stop services
 		Given I successfully run `dab services start <SERVICE>`
 		And I run `docker ps`
-		And it should pass with "services_<SERVICE>_1"
+		And it should pass with "dab_<SERVICE>"
 
 		When I successfully run `dab services stop <SERVICE>`
 
 		Then I successfully run `docker ps`
-		And it should not pass with "services_<SERVICE>_1"
+		And it should not pass with "dab_<SERVICE>"
 
 		Examples:
 			| SERVICE   |
@@ -52,9 +52,9 @@ Feature: Subcommand: dab services
 
 		When I successfully run `dab services start <SERVICE>`
 
-		Then I run `docker ps --format '{{ .Image }}' --filter 'name=services_<SERVICE>_1'`
+		Then I run `docker ps --format '{{ .Image }}' --filter 'name=dab_<SERVICE>'`
 		And it should pass with "<VERSION>"
-		And I successfully run `dab services stop <SERVICE>`
+		And I successfully run `dab services destroy <SERVICE>`
 
 		Examples:
 			| SERVICE  | VAR                       | VERSION    |
@@ -67,7 +67,7 @@ Feature: Subcommand: dab services
 		When I run `dab services stop`
 
 		Then I successfully run `docker ps`
-		And it should not pass with "services_redis_1"
+		And it should not pass with "dab_redis"
 
 	Scenario: Can erase all services and their state at once
 		Given I successfully run `dab services start redis`
@@ -75,4 +75,4 @@ Feature: Subcommand: dab services
 		When I run `dab services destroy`
 
 		Then I successfully run `docker ps`
-		And it should not pass with "services_redis_1"
+		And it should not pass with "dab_redis"

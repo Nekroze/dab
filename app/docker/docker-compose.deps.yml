@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  chronograf:
+    depends_on:
+      - influxdb
+
+  kapacitor:
+    depends_on:
+      - influxdb
+
+  kibana:
+    depends_on:
+      - elasticsearch
+
+  ntopng:
+    depends_on:
+      - redis
+
+  vaultbot:
+    depends_on:
+      - vault

@@ -5,10 +5,12 @@ set -euf
 dpose() {
 	project="$1"
 	shift
-	docker-compose \
-		--file "docker/docker-compose.$project.yml" \
+	files="docker/docker-compose.$project.yml"
+	[ "$project" = 'tools' ] && files="$files:docker/docker-compose.services.yml:docker/docker-compose.deps.yml"
+	env COMPOSE_FILE="$files" \
+		COMPOSE_PROJECT_NAME=dab \
+		docker-compose \
 		--project-directory ./docker \
-		--project-name "$project" \
 		"$@"
 }
 

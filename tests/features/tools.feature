@@ -29,12 +29,12 @@ Feature: Subcommand: dab tools
 		^<TOOL> is available at https?://localhost:[0-9]+$
 		"""
 		And I successfully run `docker ps`
-		And it should pass with "tools_<TOOL>_1"
+		And it should pass with "dab_<TOOL>"
 
 		When I successfully run `dab tools stop <TOOL>`
 
 		Then I successfully run `docker ps`
-		And it should not pass with "tools_<TOOL>_1"
+		And it should not pass with "dab_<TOOL>"
 
 		Examples:
 			| TOOL       |
@@ -54,7 +54,7 @@ Feature: Subcommand: dab tools
 
 		When I successfully run `dab tools start <TOOL>`
 
-		Then I run `docker ps --format '{{ .Image }}' --filter 'name=tools_<TOOL>_1'`
+		Then I run `docker ps --format '{{ .Image }}' --filter 'name=dab_<TOOL>'`
 		And it should pass with "<VERSION>"
 		And I successfully run `dab tools stop <TOOL>`
 
@@ -69,18 +69,18 @@ Feature: Subcommand: dab tools
 	Scenario: Can stop all tools at once
 		Given I successfully run `dab tools start cyberchef`
 		And I successfully run `docker ps`
-		And it should pass with "tools_cyberchef_1"
+		And it should pass with "dab_cyberchef"
 
 		When I run `dab tools stop`
 
 		Then I successfully run `docker ps`
-		And it should not pass with "tools_cyberchef_1"
+		And it should not pass with "dab_cyberchef"
 
 	Scenario: Can erase all tools and their state at once
 		Given I successfully run `dab tools start cyberchef`
 
 		When I run `dab tools destroy`
-		And it should pass with "Stopping tools_cyberchef_1"
+		And it should pass with "Stopping dab_cyberchef"
 
 		Then I successfully run `docker ps`
-		And it should not pass with "tools_cyberchef_1"
+		And it should not pass with "dab_cyberchef"
