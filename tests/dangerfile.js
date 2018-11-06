@@ -10,30 +10,10 @@ const changedYarn = danger.git.modified_files.includes('package.json');
 const changedYarnLock = danger.git.modified_files.includes('yarn.lock');
 if (changedYarn && !changedYarnLock) {
 	fail('Changes were made to package.json, but not to yarn.lock\nPerhaps you need to run `yarn install`?')
-
 }
 
 // Changes to the dab wrapper script are to be avoided when possible.
 const changedWrapper = danger.git.modified_files.includes('dab');
 if (changedWrapper) {
 	warn('Changes to the dab wrapper script are to be avoided when possible.')
-}
-
-// Warn if changelog is not updated for non trivial patches.
-const changedChangelog = danger.git.modified_files.includes('CHANGELOG.md');
-if (!changedChangelog) {
-	warn('Please add a changelog entry for your changes')
-}
-
-// Warn if there are changes to app, but not tests
-const modifiedFiles = danger.git.modified_files
-const changesApp = modifiedFiles.filter(filepath => filepath.includes('app'));
-const changesSubcommands = changesApp.filter(filepath => filepath.includes('subcommands'));
-
-const appChanges = modifiedFiles.filter(filepath => filepath.includes('app'));
-const hasAppChanges = appChanges.length > 0;
-const testChanges = modifiedFiles.filter(filepath => filepath.includes('tests'));
-const hasTestChanges = appChanges.length > 0;
-if (hasAppChanges && !hasTestChanges) {
-	warn("There are changes to app , but not tests. That's OK as long as you're refactoring.");
 }

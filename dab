@@ -59,10 +59,7 @@ dArg \
 	-v "$HOME:$HOME" \
 	-e "HOME=$HOME"
 
-# Docker user and group lists access if it exists on the host.
-if [ -f /etc/passwd ]; then
-	cut -d':' -f 3 /etc/passwd | grep "^$DAB_UID$" >/dev/null 2>&1 && dArg -v '/etc/passwd:/etc/passwd:ro'
-fi
+# Docker group lists access if it exists on the host.
 [ -f /etc/group ] && dArg -v '/etc/group:/etc/group:ro'
 
 # Add the docker user explicitly to the groups dab has access too when
