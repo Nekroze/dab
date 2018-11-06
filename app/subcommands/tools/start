@@ -9,7 +9,7 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/output.sh
 
-dpose tools up --remove-orphans -d "$@"
+dpose tools up -d "$@"
 
 tool="${1:-}"
 # If there was no tool (eg when starting all) stop here
