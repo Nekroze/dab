@@ -38,7 +38,7 @@ RUN go get -d -v ./...
 # Test, lint, and build the shell completion binary.
 COPY ./completion/*.go ./
 
-RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll \
+RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits  \
  && go build -o completion . \
  && GO_ENABLED=0 GOOS=linux GOARCH=386 go build \
    -a -installsuffix cgo -ldflags='-w -s' -o completion -v \
@@ -69,7 +69,8 @@ FROM alpine:latest AS main
 RUN apk add --no-cache git
 
 # Misc tools required for scripts.
-RUN apk add --no-cache openssh tree util-linux jq nss-tools
+RUN apk add --no-cache openssh tree util-linux jq nss-tools multitail \
+ && echo "check_mail:0" >> /etc/multitail.conf
 
 # Docker and docker-compose are always required but take a while to install so
 # they are to be kept at a lower layer for caching.

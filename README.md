@@ -1,6 +1,6 @@
 # Dab
 
-[![GitHub license](https://img.shields.io/github/license/Nekroze/dab.svg)](https://github.com/Nekroze/dab/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/Nekroze/dab.svg)](https://github.com/Nekroze/dab/issues) [![GitHub stars](https://img.shields.io/github/stars/Nekroze/dab.svg)](https://github.com/Nekroze/dab/stargazers) [![Docker Image Size](https://images.microbadger.com/badges/image/nekroze/dab.svg)](https://microbadger.com/images/nekroze/dab "Get your own image badge on microbadger.com") [![CircleCI](https://circleci.com/gh/Nekroze/dab.svg?style=svg)](https://circleci.com/gh/Nekroze/dab) [![Build Status](https://travis-ci.org/Nekroze/dab.svg?branch=master)](https://travis-ci.org/Nekroze/dab)
+[![GitHub license](https://img.shields.io/github/license/Nekroze/dab.svg)](https://github.com/Nekroze/dab/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/Nekroze/dab.svg)](https://github.com/Nekroze/dab/stargazers) [![Docker Image Size](https://images.microbadger.com/badges/image/nekroze/dab.svg)](https://microbadger.com/images/nekroze/dab "Get your own image badge on microbadger.com") [![CircleCI](https://circleci.com/gh/Nekroze/dab.svg?style=svg)](https://circleci.com/gh/Nekroze/dab) [![Build Status](https://travis-ci.org/Nekroze/dab.svg?branch=master)](https://travis-ci.org/Nekroze/dab)
 
 The Developer lab.
 
