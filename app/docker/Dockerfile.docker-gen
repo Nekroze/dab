@@ -1,0 +1,7 @@
+ARG DOCKER_GEN_TAG=latest
+FROM "jwilder/docker-gen:$DOCKER_GEN_TAG"
+
+COPY ./configs/docker-gen /etc/docker-gen
+VOLUME /srv/gend
+
+CMD ["-config","/etc/docker-gen/docker-gen.cfg"]

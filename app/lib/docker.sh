@@ -7,6 +7,7 @@ dpose() {
 	shift
 	files="docker/docker-compose.$project.yml"
 	[ "$project" = 'tools' ] && files="$files:docker/docker-compose.services.yml:docker/docker-compose.deps.yml"
+	[ "$project" = 'services' ] && files="$files:docker/docker-compose.tools.yml:docker/docker-compose.deps.yml"
 	env COMPOSE_FILE="$files" \
 		COMPOSE_PROJECT_NAME=dab \
 		docker-compose \

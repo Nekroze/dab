@@ -25,11 +25,7 @@ services:
 
   telegraf:
     container_name: dab_telegraf
-    build:
-      context: .
-      dockerfile: Dockerfile.telegraf
-      args:
-        - "TELEGRAF_TAG=${DAB_SERVICES_TELEGRAF_TAG:-alpine}"
+    image: "telegraf:${DAB_SERVICES_TELEGRAF_TAG:-alpine}"
     labels:
       description: 'Metrics collection agent from the TICK stack'
     restart: on-failure
@@ -38,7 +34,9 @@ services:
       DAB_SERVICES_MYSQL_ROOT_PASSWORD: "${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
     depends_on:
       - influxdb
+      - docker-gen
     volumes:
+      - gend:/etc/telegraf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/run/utmp:/var/run/utmp:ro
     healthcheck:
@@ -236,6 +234,23 @@ services:
     tmpfs:
       - /tmp
 
+  docker-gen:
+    container_name: dab_docker-gen
+    build:
+      context: .
+      dockerfile: Dockerfile.docker-gen
+      args:
+        - "DOCKER_GEN_TAG=${DAB_SERVICES_DOCKER_GEN_TAG:-latest}"
+    labels:
+      description: 'Render files using live docker data'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - gend:/srv/gend
+    tmpfs:
+      - /tmp
+
 volumes:
   postgres:
   influxdb:
@@ -243,6 +258,7 @@ volumes:
   consul:
   vault:
   mysql:
+  gend:
 
 networks:
   default:
