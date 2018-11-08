@@ -12,13 +12,8 @@ DESCRIPTION='The Developer Laboratory
 Dab is a flexible tool for managing multiple interdependent projects and their orchestration execution, all while providing a friendly user experience and handy devops tools.
 '
 
-version_info() {
-	echo "Dab Version: $(cat /VERSION)"
-	docker info | grep -E '(Runtime(s)|Version|System|Architecture|Version):'
-}
-VERSION="$(version_info | grep -E '^\w(\w|\s)+:')"
 SUBCOMMANDS="$DAB/subcommands"
 
-export APPLICATION DESCRIPTION VERSION SUBCOMMANDS
+export APPLICATION DESCRIPTION SUBCOMMANDS
 
 dab "$@"
