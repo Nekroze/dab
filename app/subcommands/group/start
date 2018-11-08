@@ -21,8 +21,6 @@ run_with_dependencies() {
 	done <"$configpath"
 }
 
-run_with_dependencies 'dab services update' "group/$group_name/services"
-run_with_dependencies 'dab tools update' "group/$group_name/tools"
 run_with_dependencies 'dab group start' "group/$group_name/groups"
 run_with_dependencies 'dab services start' "group/$group_name/services"
 run_with_dependencies 'dab repo entrypoint run' "group/$group_name/repos"
