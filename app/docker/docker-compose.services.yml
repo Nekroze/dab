@@ -250,6 +250,21 @@ services:
     tmpfs:
       - /tmp
 
+  remote-syslog2:
+    container_name: dab_remote-syslog2
+    build:
+      context: .
+      dockerfile: Dockerfile.remote_syslog2
+    labels:
+      description: 'Ingests .log files placed in the docker volume named dab_logs'
+    restart: on-failure
+    depends_on:
+      - telegraf
+    volumes:
+      - logs:/srv/logs
+    tmpfs:
+      - /tmp
+
 volumes:
   postgres:
   influxdb:
@@ -258,6 +273,7 @@ volumes:
   vault:
   mysql:
   gend:
+  logs:
 
 networks:
   default:
