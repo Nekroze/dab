@@ -18,6 +18,8 @@ services:
       - ../dab:/usr/bin/dab
     command:
       - '--order=random'
+    tty: true
+    stdin_open: true
 
   build:
     image: docker/compose:1.22.0

@@ -61,10 +61,14 @@ Feature: Subcommand: dab config
 		<FIRST>
 		<SECOND>
 		"""
-		And I run `dab config get <KEY>`
-		And it should pass with:
+
+		When I successfully run `dab config get <KEY>`
+		Then the output should contain:
 		"""
 		<FIRST>
+		"""
+		And the output should contain:
+		"""
 		<SECOND>
 		"""
 
