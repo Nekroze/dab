@@ -134,7 +134,6 @@ services:
       - IPC_LOCK
     depends_on:
       - consul
-      - telegraf
     tmpfs:
       - /tmp
 
