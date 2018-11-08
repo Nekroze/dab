@@ -1,0 +1,10 @@
+#!/bin/sh
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -euf
+
+version_info() {
+	echo "Dab Version: $(cat /VERSION)"
+	docker info | grep -E '(Runtime(s)|Version|System|Architecture|Version):'
+}
+
+version_info | grep -E '^\w(\w|\s)+:'
