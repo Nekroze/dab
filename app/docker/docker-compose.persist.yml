@@ -1,6 +1,7 @@
 version: '3.5'
 
 services:
+
   shell:
     container_name: dab_shell
     image: alpine:latest
@@ -9,6 +10,9 @@ services:
       - services
     tmpfs:
       - /tmp
+
+volumes:
+  logs:
 
 networks:
   services:

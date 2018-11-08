@@ -8,6 +8,7 @@ services:
       - telegraf
       - logspout
       - remote-syslog2
+      - kapacitor
 
   kapacitor:
     depends_on:
@@ -24,3 +25,29 @@ services:
   vaultbot:
     depends_on:
       - vault
+
+  telegraf:
+    depends_on:
+      - influxdb
+      - docker-gen
+
+  logspout:
+    depends_on:
+      - telegraf
+
+  vault:
+    depends_on:
+      - consul
+
+  kafka:
+    depends_on:
+      - zookeeper
+
+  remote-syslog2:
+    depends_on:
+      - telegraf
+
+  ngrok:
+    depends_on:
+      - traefik
+

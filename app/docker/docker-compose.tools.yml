@@ -42,8 +42,6 @@ services:
     labels:
       description: 'Chronograf metrics explorer from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
-    depends_on:
-      - kapacitor
     networks:
       - services
     volumes:
@@ -127,8 +125,6 @@ services:
       description: 'Secure introspectable tunnels, points to traefik'
     ports:
       - 4040
-    depends_on:
-      - traefik
     healthcheck:
       test: 'wget --spider http://localhost:4040 || exit 1'
       interval: 1m

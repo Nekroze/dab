@@ -66,7 +66,7 @@ pre_hooks() {
 		;;
 	*)
 		maybe_selfupdate_dab || true
-		silently dpose lab up --no-start || true
+		silently dpose persist up --no-start || true
 		;;
 	esac
 
