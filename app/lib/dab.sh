@@ -5,8 +5,8 @@ set -euf
 # Allow scripts to use dab without spawning another container while skipping main
 # and executing subcommander directly. For consistency main uses this as well.
 dab() {
-	(
-		cd /opt/dab
-		subcommander "$@"
-	)
+	dir="$PWD"
+	cd "$DAB"
+	subcommander "$@"
+	cd "$dir"
 }

@@ -12,6 +12,6 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
           name: Acceptance Tests
-          command: ./scripts/test.sh --order=random --retry=1
+          command: script -qec './scripts/test.sh --order=random --retry=1'
           environment:
             TEST_DOCKER: local
