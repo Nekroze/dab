@@ -35,7 +35,6 @@ Feature: Subcommand: dab services
 		Examples:
 			| SERVICE   |
 			| influxdb  |
-			| telegraf  |
 			| logspout  |
 			| redis     |
 			| postgres  |
