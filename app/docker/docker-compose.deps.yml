@@ -5,6 +5,9 @@ services:
   chronograf:
     depends_on:
       - influxdb
+      - telegraf
+      - logspout
+      - remote-syslog2
 
   kapacitor:
     depends_on:

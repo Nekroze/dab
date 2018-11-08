@@ -16,6 +16,7 @@ var services = []string{
 	"telegraf",
 	"vault",
 	"zookeeper",
+	"remote-syslog2",
 }
 
 func predictServices(_ complete.Args) []string {

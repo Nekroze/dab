@@ -1,0 +1,9 @@
+hostname: dab
+
+files:
+  - /srv/logs/*.log
+
+destination:
+  host: telegraf
+  port: 6514
+  protocol: udp
