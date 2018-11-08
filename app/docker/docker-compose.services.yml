@@ -32,9 +32,6 @@ services:
     command: --quiet
     environment:
       DAB_SERVICES_MYSQL_ROOT_PASSWORD: "${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
-    depends_on:
-      - influxdb
-      - docker-gen
     volumes:
       - gend:/etc/telegraf
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -59,8 +56,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       syslog://telegraf:6514
-    depends_on:
-      - telegraf
     environment:
       INACTIVITY_TIMEOUT: 1m
     tmpfs:
@@ -132,8 +127,6 @@ services:
       VAULT_ADDR: 'http://127.0.0.1:8200'
     cap_add:
       - IPC_LOCK
-    depends_on:
-      - consul
     tmpfs:
       - /tmp
 
@@ -189,8 +182,6 @@ services:
       description: 'Stream processing platform'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
-    depends_on:
-      - zookeeper
     environment:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
@@ -258,8 +249,6 @@ services:
     labels:
       description: 'Ingests .log files placed in the docker volume named dab_logs'
     restart: on-failure
-    depends_on:
-      - telegraf
     volumes:
       - logs:/srv/logs
     tmpfs:
@@ -274,6 +263,8 @@ volumes:
   mysql:
   gend:
   logs:
+    external:
+      name: dab_logs
 
 networks:
   default:

@@ -27,8 +27,8 @@ services_containers="$(containers_on_network 'services')"
 action_containers_on_network "$lab_containers" 'lab' 'disconnect'
 action_containers_on_network "$services_containers" 'services' 'disconnect'
 
-dpose lab down --volumes
-dpose lab up --no-start
+dpose persist down --volumes
+dpose persist up --no-start
 
 action_containers_on_network "$lab_containers" 'lab' 'connect'
 action_containers_on_network "$services_containers" 'services' 'connect'
