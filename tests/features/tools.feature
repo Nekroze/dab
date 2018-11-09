@@ -84,3 +84,12 @@ Feature: Subcommand: dab tools
 
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_cyberchef"
+
+	Scenario: Can view the docker-compose config for a tool
+		When I run `dab tools config cyberchef`
+
+		Then it should pass with:
+		"""
+		labels:
+		  description:
+		"""
