@@ -32,11 +32,9 @@ WORKDIR $GOPATH/src/app/completion
 RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.12
 ENV GO111MODULE=on
 
-COPY ./go.mod ./go.sum ./
-RUN go get -d -v ./...
-
 # Test, lint, and build the shell completion binary.
 COPY ./completion/*.go ./
+COPY ./go.mod ./go.sum ./
 
 RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits  \
  && go build -o completion . \

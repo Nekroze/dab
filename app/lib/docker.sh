@@ -15,6 +15,12 @@ dpose() {
 		"$@"
 }
 
+compose_service_config() {
+	tmp="$(mktemp)"
+	dpose tools config >"$tmp"
+	yq read "$tmp" "services.$1"
+}
+
 compose_to_services_data() {
 	tmp="$(mktemp)"
 	docker-compose -f "docker/docker-compose.$1.yml" config >"$tmp"

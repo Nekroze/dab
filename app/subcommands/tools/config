@@ -1,0 +1,12 @@
+#!/bin/sh
+# Description: Display the docker-compose config for a tool
+# Usage: <TOOL_NAME>
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -euf
+
+# shellcheck disable=SC1091
+. ./lib/docker.sh
+
+[ -n "${1:-}" ] || fatality 'must provide a tool name'
+
+compose_service_config "$1"
