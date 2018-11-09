@@ -29,7 +29,7 @@ FROM golang:latest AS completion
 WORKDIR $GOPATH/src/app/completion
 
 # Install golangci-lint
-RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin latest
+RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.12
 ENV GO111MODULE=on
 
 COPY ./go.mod ./go.sum ./
