@@ -30,18 +30,7 @@ maybe_notify_wrapper_update() {
 		warn 'Dab wrapper script appears to have an update available!'
 	fi
 }
-maybe_selfupdate_repo() {
-	if should_selfupdate "repo/$1"; then
-		inform "checking $1 repo for updates"
-		(
-			cd "$DAB_REPO_PATH/$1"
-			out="$(git fetch)"
-			if echo "$out" | silently grep origin/master; then
-				inform "$1 repo has updates on origin/master!"
-			fi
-		)
-	fi
-}
+
 maybe_selfupdate_dab() {
 	if should_selfupdate; then
 		inform "self updating dab!"

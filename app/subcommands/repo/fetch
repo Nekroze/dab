@@ -9,7 +9,15 @@ set -eu
 . ./lib/update.sh
 
 set +f
+START_PATH="$PWD"
 for repo in "$DAB_CONF_PATH/repo/"*; do
 	name="$(basename "$repo" | sed "s@^$DAB_CONF_PATH@@")"
-	[ ! -d "$DAB_REPO_PATH/$name" ] || maybe_selfupdate_repo "$name"
+	if [ -d "$DAB_REPO_PATH/$name" ]; then
+		inform "checking $name repo for updates"
+		cd "$DAB_REPO_PATH/$name"
+		if git fetch | silently grep origin/master; then
+			inform "$name repo has updates on origin/master!"
+		fi
+	fi
 done
+cd "$START_PATH"
