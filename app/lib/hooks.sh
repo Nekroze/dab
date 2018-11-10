@@ -5,6 +5,8 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/docker.sh
 # shellcheck disable=SC1091
+. ./lib/hindsight.sh
+# shellcheck disable=SC1091
 . ./lib/config.sh
 # shellcheck disable=SC1091
 . ./lib/vault.sh
@@ -17,7 +19,7 @@ maybe_post_chronograf_annotiation() {
 	fi
 	ns="$(date +%s)000000000"
 	values="text=\"dab $1\",start_time=${ns}i,modified_time_ns=${ns}i,type=\"dab execution\",deleted=false"
-	dpose services exec --detach influxdb sh -c "
+	quietly dpose services exec --detach influxdb sh -c "
 		influx -execute 'CREATE DATABASE chronograf'
 		influx -database chronograf -execute 'INSERT annotations,id=$(uuidgen) $values'
 	"
@@ -48,32 +50,40 @@ generate_user() {
 	echo "$DAB_USER:x:$DAB_UID:$DAB_GID:user:$HOME:/bin/sh" >>/etc/passwd
 }
 
-pre_hooks() {
-	trap post_hooks EXIT
-
-	quietly maybe_post_chronograf_annotiation "$*"
-
-	generate_user
-
+load_vault_token() {
 	DAB_SERVICES_VAULT_TOKEN="$(vault_token)"
 	export DAB_SERVICES_VAULT_TOKEN
+}
 
+ensure_persistent_docker_objects() {
+	silently dpose persist up --no-start || true
+}
+
+pre_hooks() {
+	# shellcheck disable=SC2064
+	trap "post_hooks $*" EXIT
+
+	record_cmdline "$@"
+	load_vault_token
+	generate_user
 	config_load_envs
+	maybe_update_completion
+
+	maybe_post_chronograf_annotiation "$*"
 
 	case "${1:-}" in
-	'-h' | '--help' | 'help' | 'network' | 'update')
+	'version' | 'network' | 'update')
 		true
 		;;
 	*)
 		maybe_selfupdate_dab || true
-		silently dpose persist up --no-start || true
+		ensure_persistent_docker_objects
 		;;
 	esac
-
-	maybe_update_completion
 }
 
 post_hooks() {
 	maybe_display_tip
 	maybe_notify_wrapper_update
+	captain_hindsight "$@"
 }

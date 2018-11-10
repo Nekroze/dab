@@ -69,3 +69,15 @@ Feature: Docker entrypoint wrapper script works
 		When I run `dab shell whoami`
 
 		Then it should pass with "user"
+
+	Scenario: Captain Hindsight comes to the rescue when commands fail
+		When I run `dab services start unknown`
+
+		Then it should fail with:
+		"""
+		I'm sorry, it looks like the command 'dab services start unknown' failed.
+		"""
+		And the stderr should contain:
+		"""
+		If you believe this to due to a problem with Dab please file a bug report at https://github.com/Nekroze/dab/issues/new?template=bug_report.md
+		"""

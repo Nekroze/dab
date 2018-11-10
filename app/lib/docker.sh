@@ -85,5 +85,6 @@ await_container_healthy() {
 			fatality "$display did not become healthy within $await_container_healthy_timeout seconds"
 		fi
 	done
-	printf "\\n"
+	# shellcheck disable=SC1117
+	printf "\n"
 }
