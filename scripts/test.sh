@@ -23,7 +23,6 @@ docker-compose down --volumes
 
 # Pull/build the latest test images.
 docker-compose pull || true
-docker-compose build --force-rm tests
 
 # Start the docker in docker daemon, isolating it from the host.
 [ "$TEST_DOCKER" = 'local' ] || docker-compose up -d --remove-orphans docker
@@ -32,6 +31,4 @@ docker-compose build --force-rm tests
 docker-compose run --rm build
 
 # run tests container and pass any params to this script to cucumber.
-args="$*"
-[ -n "$args" ] || args='--order=random'
-docker-compose run tests $args
+docker-compose run tests "$@"

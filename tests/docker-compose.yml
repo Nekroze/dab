@@ -16,8 +16,6 @@ services:
     volumes:
       - ./features:/usr/src/app/features
       - ../dab:/usr/bin/dab
-    command:
-      - '--order=random'
     tty: true
     stdin_open: true
 

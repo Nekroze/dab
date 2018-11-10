@@ -1,4 +1,5 @@
 # vim: ts=4 sw=4 sts=4 noet
+@ci
 Feature: Docker entrypoint wrapper script works
 	The main dab entrypoint is actually a small posix complient shell script
 	that wraps docker and starts a container using the dab image for you.
