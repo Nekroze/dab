@@ -79,7 +79,6 @@ var dab = complete.Command{
 					newGeneric(predictServices, 2),
 				)},
 				"groups": {Args: newGeneric(predictGroups, 1, 2)}, "group": {Args: newGeneric(predictGroups, 1, 2)},
-				"update": {Args: newGeneric(predictGroups, 1)}, "upgrade": {Args: newGeneric(predictGroups, 1)},
 				"start": {Args: newGeneric(predictGroups, 1)},
 			},
 		},

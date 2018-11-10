@@ -3,6 +3,7 @@ package main
 import "github.com/posener/complete"
 
 var services = []string{
+	"ballerina",
 	"consul",
 	"elasticsearch",
 	"influxdb",
@@ -13,10 +14,10 @@ var services = []string{
 	"nats",
 	"postgres",
 	"redis",
+	"remote-syslog2",
 	"telegraf",
 	"vault",
 	"zookeeper",
-	"remote-syslog2",
 }
 
 func predictServices(_ complete.Args) []string {

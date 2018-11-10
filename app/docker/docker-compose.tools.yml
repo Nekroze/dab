@@ -290,6 +290,23 @@ services:
     ports:
       - 5601
 
+  ballerina:
+    container_name: dab_ballerina
+    image: "ballerina/ballerina-platform:${DAB_TOOLS_BALLERINA_TAG:-latest}"
+    labels:
+      description: 'IDE for a programming language and runtime co-designed to be agile and integration simple.'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    command:
+      - 'composer'
+      - '--host 0.0.0.0'
+    ports:
+      - 9091
+    volumes:
+      - "$DAB_REPO_PATH:/home/ballerina"
+    tmpfs:
+      - /tmp
+
 volumes:
   kapacitor:
   chronograf:
