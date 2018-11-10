@@ -21,7 +21,7 @@ if [ -t 1 ]; then
 fi
 
 # Pass current working directory through to a consistent location.
-dArg -v "$PWD:/pwd"
+dArg -e "HOST_PWD=$PWD" -v "$PWD:/pwd"
 
 # Pass the calling user in as DAB_USER
 export DAB_USER="${USER:-user}"
@@ -130,6 +130,7 @@ if [ -z "${DAB_WRAPPER_PATH:-}" ]; then
 		DAB_WRAPPER_PATH="$wrappercmd"
 	fi
 fi
+export DAB_WRAPPER_PATH
 [ -n "${DAB_WRAPPER_PATH:-}" ] && dArg -v "$DAB_WRAPPER_PATH:/tmp/wrapper"
 
 # Execute with all generated args and passing in all script params to the container.

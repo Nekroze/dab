@@ -3,7 +3,6 @@ package main
 import "github.com/posener/complete"
 
 var services = []string{
-	"ballerina",
 	"consul",
 	"elasticsearch",
 	"influxdb",
@@ -17,6 +16,7 @@ var services = []string{
 	"remote-syslog2",
 	"telegraf",
 	"vault",
+	"vyne",
 	"zookeeper",
 }
 

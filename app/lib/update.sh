@@ -28,6 +28,10 @@ maybe_notify_wrapper_update() {
 	fi
 	if [ "$(file_hash dab)" != "$(file_hash /tmp/wrapper)" ]; then
 		warn 'Dab wrapper script appears to have an update available!'
+		[ -n "${DAB_WRAPPER_PATH:-}" ] || return 0
+		warn 'Update example:'
+		warn "sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o $DAB_WRAPPER_PATH"
+		warn "sudo chmod 755 $DAB_WRAPPER_PATH"
 	fi
 }
 

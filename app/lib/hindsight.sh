@@ -27,10 +27,12 @@ captain_hindsight() {
 	case "$CMDLINE" in
 	'dab services'*)
 		echo_red "If the service is misbehaving perhaps try 'dab services update'"
+		echo_red "If you are unsure what the service is doing try 'dab services logs'"
 		echo_red "If the service has some bad data perhaps try 'dab services destroy'"
 		;;
 	'dab tools'*)
 		echo_red "If the service is misbehaving perhaps try 'dab tools update'"
+		echo_red "If you are unsure what the tool is doing try 'dab tools logs'"
 		echo_red "If the service has some bad data perhaps try 'dab tools destroy'"
 		;;
 	'dab pki issue'* | 'dab pki renew'*)
@@ -38,6 +40,7 @@ captain_hindsight() {
 		echo_red "If the pki has some bad data perhaps try 'dab pki destroy'"
 		;;
 	'dab pki ready'* | 'dab pki up'*)
+		echo_red "If the pki is not starting at all, perhaps investigate with 'dab services logs vaul'"
 		echo_red "If the pki is starting up properly perhaps try 'dab services restart vault'"
 		echo_red "If the pki has some bad data perhaps try 'dab pki destroy'"
 		;;
