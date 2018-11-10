@@ -48,6 +48,9 @@ Check the running service's statuses with 'dab services status'
 Check the running tools's statuses with 'dab tools status'
 Check the running service's logs with 'dab services logs'
 Check the running tools's logs with 'dab tools logs'
+Any .log files placed in the docker volume named dab_logs can be ingested for display via chronograf by running the remote_syslog2 service
+You can use docker-compose-gen in your entrypoint scripts to easily interface with Dab docker objects
+You can use multitail in your entrypoint scripts to display your logs, and in style
 "
 
 get_tip_corpus() {
