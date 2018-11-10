@@ -65,7 +65,7 @@ compose_service_to_id() {
 }
 
 await_container_healthy_timeout=60
-await_container_healthy_increment=5
+await_container_healthy_increment=2
 await_container_healthy() {
 	id="$1"
 	display="${2:-$1}"
@@ -79,9 +79,11 @@ await_container_healthy() {
 		fi
 
 		sleep "$await_container_healthy_increment"
+		printf .
 		timespent="$((timespent + await_container_healthy_increment))"
 		if [ "$timespent" -gt "$await_container_healthy_timeout" ]; then
 			fatality "$display did not become healthy within $await_container_healthy_timeout seconds"
 		fi
 	done
+	printf "\\n"
 }
