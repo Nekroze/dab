@@ -14,7 +14,7 @@ self_update_period="$day_in_seconds"
 should_selfupdate() {
 	[ "${DAB_AUTOUPDATE:-yes}" = 'yes' ] || return 1
 
-	last_updated="$(config_get "${1:-/}updates/last")"
+	last_updated="$(config_get 'updates/last')"
 	[ -n "$last_updated" ] || return 0
 
 	now="$(date +%s)"
