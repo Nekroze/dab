@@ -23,8 +23,8 @@ It is recommended you add the directory containing the [dab script][1] to your s
 Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
 
 ```bash
- $ sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o /usr/bin/dab
- $ sudo chmod 755 /usr/bin/dab
+ $ sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o /usr/local/bin/dab
+ $ sudo chmod 755 /usr/local/bin/dab
 ```
 
 After this the `dab` command should be available in your shell:

@@ -4,6 +4,7 @@ import "github.com/posener/complete"
 
 var tools = []string{
 	"adminer",
+	"ballerina",
 	"chronograf",
 	"cyberchef",
 	"grafana",
@@ -17,7 +18,6 @@ var tools = []string{
 	"sysdig",
 	"traefik",
 	"vaultbot",
-	"vyne",
 	"watchtower",
 }
 
