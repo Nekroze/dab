@@ -17,6 +17,7 @@ var tools = []string{
 	"sysdig",
 	"traefik",
 	"vaultbot",
+	"vyne",
 	"watchtower",
 }
 

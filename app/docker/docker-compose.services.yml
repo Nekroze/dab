@@ -254,6 +254,20 @@ services:
     tmpfs:
       - /tmp
 
+  vyne:
+    container_name: dab_vyne
+    image: "vyneco/vyne:${DAB_SERVICES_VYNE_TAG:-latest}"
+    labels:
+      description: 'A platform for automating integration between services'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    ports:
+      - 9022
+    environment:
+      PROFILE: 'embedded-discovery'
+    tmpfs:
+      - /tmp
+
 volumes:
   postgres:
   influxdb:
