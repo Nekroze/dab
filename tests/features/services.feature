@@ -8,12 +8,14 @@ Feature: Subcommand: dab services
 
 		Given the aruba exit timeout is 300 seconds
 
+	@ci
 	Scenario: Can list all available services
 		When I run `dab services list`
 
 		Then it should pass with "SERVICE"
 		And the output should contain "DESCRIPTION"
 
+	@ci
 	Scenario: Can update all services at once
 		Given the aruba exit timeout is 3600 seconds
 
@@ -22,7 +24,18 @@ Feature: Subcommand: dab services
 		Then it should pass with "Pulling"
 		And the output should contain "Building"
 
-	Scenario Outline: Can start and stop services
+	@ci
+	Scenario: Can start and stop a service
+		Given I successfully run `dab services start influxdb`
+		And I run `docker ps`
+		And it should pass with "dab_influxdb"
+
+		When I successfully run `dab services stop influxdb`
+
+		Then I successfully run `docker ps`
+		And it should not pass with "dab_influxdb"
+
+	Scenario Outline: Can start and stop various services
 		Given I successfully run `dab services start <SERVICE>`
 		And I run `docker ps`
 		And it should pass with "dab_<SERVICE>"
@@ -60,6 +73,7 @@ Feature: Subcommand: dab services
 			| influxdb | DAB_SERVICES_INFLUXDB_TAG | 1.5-alpine |
 			| postgres | DAB_SERVICES_POSTGRES_TAG | 9.4-alpine |
 
+	@ci
 	Scenario: Can stop all services at once
 		Given I successfully run `dab services start redis`
 
@@ -68,6 +82,7 @@ Feature: Subcommand: dab services
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_redis"
 
+	@ci
 	Scenario: Can erase all services and their state at once
 		Given I successfully run `dab services start redis`
 
@@ -76,6 +91,7 @@ Feature: Subcommand: dab services
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_redis"
 
+	@ci
 	Scenario: Can view the docker-compose config for a service
 		When I run `dab services config vault`
 

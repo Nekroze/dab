@@ -11,7 +11,7 @@ jobs:
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
-          name: Acceptance Tests
-          command: script -qec './scripts/test.sh --order=random --retry=1'
+          name: Slower Tests
+t          command: script -qec './scripts/test.sh --tags=@ci --order=random'
           environment:
             TEST_DOCKER: local

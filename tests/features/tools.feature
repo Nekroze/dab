@@ -8,6 +8,7 @@ Feature: Subcommand: dab tools
 
 		Given the aruba exit timeout is 300 seconds
 
+	@ci
 	Scenario: Can list all available tools
 		When I run `dab tools list`
 
@@ -66,6 +67,7 @@ Feature: Subcommand: dab tools
 			| chronograf | DAB_TOOLS_CHRONOGRAF_TAG | alpine     |
 			| traefik    | DAB_TOOLS_TRAEFIK_TAG    | v1.7       |
 
+	@ci
 	Scenario: Can stop all tools at once
 		Given I successfully run `dab tools start cyberchef`
 		And I successfully run `docker ps`
@@ -76,6 +78,7 @@ Feature: Subcommand: dab tools
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_cyberchef"
 
+	@ci
 	Scenario: Can erase all tools and their state at once
 		Given I successfully run `dab tools start cyberchef`
 
@@ -85,6 +88,7 @@ Feature: Subcommand: dab tools
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_cyberchef"
 
+	@ci
 	Scenario: Can view the docker-compose config for a tool
 		When I run `dab tools config cyberchef`
 

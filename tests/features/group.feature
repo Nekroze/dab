@@ -1,4 +1,5 @@
 # vim: ts=4 sw=4 sts=4 noet
+@ci
 Feature: Subcommand: dab group
 	The group subcommand manages groups of services, repostories, and tools.
 
