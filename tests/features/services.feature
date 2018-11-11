@@ -46,16 +46,24 @@ Feature: Subcommand: dab services
 		And it should not pass with "dab_<SERVICE>"
 
 		Examples:
-			| SERVICE   |
-			| influxdb  |
-			| logspout  |
-			| redis     |
-			| postgres  |
-			| vault     |
-			| consul    |
-			| mysql     |
-			| memcached |
-			| nats      |
+			| SERVICE        |
+			| consul         |
+			| docker-gen     |
+			| elasticsearch  |
+			| influxdb       |
+			| kafka          |
+			| logspout       |
+			| memcached      |
+			| mysql          |
+			| nats           |
+			| postgres       |
+			| redis          |
+			| remote-syslog2 |
+			| telegraf       |
+			| vault          |
+			| vyne           |
+			| watchtower     |
+			| zookeeper      |
 
 	Scenario Outline: Can select different service versions with environment variables
 		A non exhaustive list of services and versions that can be configured.
