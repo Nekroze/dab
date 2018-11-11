@@ -8,6 +8,7 @@ Feature: Subcommand: dab network
 
 		Given the aruba exit timeout is 60 seconds
 
+	@smoke
 	Scenario: Network is ensured to exist
 		When I successfully run `dab -h`
 

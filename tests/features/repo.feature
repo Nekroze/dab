@@ -78,6 +78,7 @@ Feature: Subcommand: dab repo
 
 		Then it should pass with "FOOBAR"
 
+	@smoke
 	Scenario: Can use custom arguments in entrypoints
 		Given I successfully run `dab repo add dotfiles7 https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint create dotfiles7 start`

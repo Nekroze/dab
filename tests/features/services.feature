@@ -8,7 +8,7 @@ Feature: Subcommand: dab services
 
 		Given the aruba exit timeout is 300 seconds
 
-	@ci
+	@ci @smoke
 	Scenario: Can list all available services
 		When I run `dab services list`
 
@@ -99,7 +99,7 @@ Feature: Subcommand: dab services
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_redis"
 
-	@ci
+	@ci @smoke
 	Scenario: Can view the docker-compose config for a service
 		When I run `dab services config vault`
 

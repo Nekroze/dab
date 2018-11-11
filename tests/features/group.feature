@@ -6,7 +6,8 @@ Feature: Subcommand: dab group
 	Background:
 		Given the aruba exit timeout is 60 seconds
 
-	Scenario: Can group repossitories then start them together
+	@smoke
+	Scenario: Can group repositories then start them together
 		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint create three start`
@@ -29,7 +30,7 @@ Feature: Subcommand: dab group
 		Executing four entrypoint start
 		"""
 
-	Scenario: Can group repossitories and tools then start them together
+	Scenario: Can group repositories and tools then start them together
 		Given I successfully run `dab tools stop`
 		And I successfully run `dab repo add five https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `dab group repos sidehustle five`

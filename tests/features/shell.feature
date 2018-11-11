@@ -1,5 +1,5 @@
 # vim: ts=4 sw=4 sts=4 noet
-@ci
+@ci @smoke
 Feature: Subcommand: dab shell
 	The shell subcommand gives access to the dab environment from which all
 	scripts are executed, this is mostly for debug purposes.

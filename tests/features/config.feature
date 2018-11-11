@@ -5,6 +5,7 @@ Feature: Subcommand: dab config
 	keys are any word or sequence of words (for namespacing) delimited by a
 	forward slash, eg. `foo/bar` would store the url for the dab repository.
 
+	@smoke
 	Scenario Outline: Can set and retrieve config values
 		Config values can be altered and retrieved with set and get respectively.
 
@@ -45,6 +46,7 @@ Feature: Subcommand: dab config
 
 		Then it should pass with "└── nights"
 
+	@smoke
 	Scenario Outline: Can add to a config value making a list
 		Config values can also be a list of values, represented by lines in a
 		file. Note setting will replace the list with the single new element.
@@ -114,6 +116,7 @@ Feature: Subcommand: dab config
 		added bloof to config key shleembop which now contains 1 value(s)
 		"""
 
+	@smoke
 	Scenario Outline: Can erase config items with an empty set
 		By not giving a value to assign to a key that key will be deleted.
 

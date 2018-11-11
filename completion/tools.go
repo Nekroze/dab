@@ -4,6 +4,7 @@ import "github.com/posener/complete"
 
 var tools = []string{
 	"adminer",
+	"ansible",
 	"ballerina",
 	"chronograf",
 	"cyberchef",

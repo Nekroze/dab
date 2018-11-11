@@ -295,11 +295,36 @@ services:
     tmpfs:
       - /tmp
 
+  ansible:
+    container_name: dab_ansible
+    build:
+      context: .
+      dockerfile: Dockerfile.ansible
+      args:
+        - "ANSIBLE_VERSION=${DAB_TOOLS_ANSIBLE_TAG:-2.7.1}"
+    labels:
+      description: 'Automated configuration management'
+    restart: never
+    environment:
+      - HOME
+    user: "$DAB_UID:$DAB_GID"
+    volumes:
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+      - "$HOST_PWD:/ansible/playbooks"
+      - logs:/var/log/ansible
+    working_dir: "$HOST_PWD"
+    tmpfs:
+      - /tmp
+
 volumes:
   kapacitor:
   chronograf:
   portainer:
   grafana:
+  logs:
+    external:
+      name: dab_logs
 
 networks:
   services:
