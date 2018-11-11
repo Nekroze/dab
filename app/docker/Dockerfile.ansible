@@ -1,0 +1,28 @@
+FROM alpine:latest
+
+RUN apk add --no-cache --virtual build-dependencies \
+      gcc musl-dev libffi-dev openssl-dev python-dev \
+ && apk add --no-cache \
+      bash curl tar openssh-client sshpass git python py-boto py-dateutil \
+      py-httplib2 py-jinja2 py-paramiko py-pip py-yaml ca-certificates \
+ && pip install python-keyczar docker-py
+
+RUN mkdir -p /etc/ansible /ansible/playbooks \
+ && echo "[local]" >> /etc/ansible/hosts \
+ && echo "localhost" >> /etc/ansible/hosts
+WORKDIR /ansible/playbooks
+
+ARG ANSIBLE_VERSION=2.7.1
+ENV ANSIBLE_VERSION="${ANSIBLE_VERSION}" \
+    ANSIBLE_GATHERING=smart \
+    ANSIBLE_HOST_KEY_CHECKING=false \
+    ANSIBLE_RETRY_FILES_ENABLED=false \
+    ANSIBLE_ROLES_PATH=/ansible/playbooks/roles \
+    PYTHONPATH=/ansible/lib \
+    PATH=/ansible/bin:$PATH \
+    ANSIBLE_LIBRARY=/ansible/library
+
+RUN pip install ansible=="${ANSIBLE_VERSION}" \
+  && apk del build-dependencies
+
+ENTRYPOINT ["/usr/bin/ansible-playbook"]

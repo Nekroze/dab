@@ -8,7 +8,7 @@ Feature: Subcommand: dab tools
 
 		Given the aruba exit timeout is 300 seconds
 
-	@ci
+	@ci @smoke
 	Scenario: Can list all available tools
 		When I run `dab tools list`
 
@@ -52,6 +52,18 @@ Feature: Subcommand: dab tools
 			| portainer  |
 			| traefik    |
 
+	Scenario Outline: Can use cli tools through dab
+		A non exhaustive list of tools that allow direct execution of their respective applications.
+
+		When I run `dab tools run <TOOL> -h`
+
+		Then the exit status should be 0
+
+		Examples:
+			| TOOL     |
+			| ansible  |
+			| kafkacat |
+
 	Scenario Outline: Can select different tool versions with environment variables
 		A non exhaustive list of tools and versions that can be configured.
 
@@ -92,7 +104,7 @@ Feature: Subcommand: dab tools
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_cyberchef"
 
-	@ci
+	@ci @smoke
 	Scenario: Can view the docker-compose config for a tool
 		When I run `dab tools config cyberchef`
 

@@ -30,8 +30,8 @@ The lab network can be rebuilt with 'dab network recreate' with little ill effec
 Repository entry points might use \$DAB_UID and \$DAB_GID environment variables when running docker containers with bind mounts to prevent permissions issues
 You can set environment variables for all users of your config by setting for example the 'enironment/FOO' config key which defined the \$FOO environment variable
 You may specify custom tips specific to your config by adding to the 'tips/custom' config key one tip per line
-You may specify specific versions of services by setting an environment variable such as \$DAB_SERVICES_VAULT_TAG to a valid docker tag for the vault docker image for example
-You may specify specific versions of tools by setting an environment variable such as \$DAB_SERVICES_KIBANA_TAG to a valid docker tag for the kibana docker image for example
+You may specify specific versions of services by setting an environment variable such as \$DAB_SERVICES_VAULT_TAG to a valid docker tag for the vault docker image, for example, and it will be used after it is updated
+You may specify specific versions of tools by setting an environment variable such as \$DAB_SERVICES_KIBANA_TAG to a valid docker tag for the kibana docker image, for example, and it will be used after it is updated
 Dab provides tab completion for bash, zsh, and fish which is automatically updated. For more information try 'dab completion'
 Groups are a collection of other groups, services, repositories, and tools that get started in that order
 Group dependencies are in First In First Out (FIFO) order making the top of the list the first to run
