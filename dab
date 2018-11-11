@@ -112,6 +112,18 @@ if [ "${DAB_DEV_MOUNT:-yes}" = 'yes' ] && [ -x "$PWD/app/main.sh" ]; then
 	dArg -v "$PWD/app:/opt/dab:ro"
 fi
 
+# Attempt to mount this script into the container, if it can be found.
+if [ -z "${DAB_WRAPPER_PATH:-}" ]; then
+	wrapperlink="$(readlink -f "$0" || true)"
+	wrappercmd="$(command -v "$0" || true)"
+	if [ -e "$wrapperlink" ]; then
+		export DAB_WRAPPER_PATH="$wrapperlink"
+	elif [ -n "$wrappercmd" ] && [ -f "$wrappercmd" ]; then
+		export DAB_WRAPPER_PATH="$wrappercmd"
+	fi
+fi
+[ -n "${DAB_WRAPPER_PATH:-}" ] && dArg -v "$DAB_WRAPPER_PATH:/tmp/wrapper"
+
 # Passthrough all defined non empty DAB_* environment variables.
 dArg "$(
 	env |
@@ -119,19 +131,6 @@ dArg "$(
 		awk '{ print "-e " $1; }' |
 		tr '\n' ' '
 )"
-
-# Attempt to mount this script into the container, if it can be found.
-if [ -z "${DAB_WRAPPER_PATH:-}" ]; then
-	wrapperlink="$(readlink -f "$0" || true)"
-	wrappercmd="$(command -v "$0" || true)"
-	if [ -e "$wrapperlink" ]; then
-		DAB_WRAPPER_PATH="$wrapperlink"
-	elif [ -n "$wrappercmd" ] && [ -f "$wrappercmd" ]; then
-		DAB_WRAPPER_PATH="$wrappercmd"
-	fi
-fi
-export DAB_WRAPPER_PATH
-[ -n "${DAB_WRAPPER_PATH:-}" ] && dArg -v "$DAB_WRAPPER_PATH:/tmp/wrapper"
 
 # Execute with all generated args and passing in all script params to the container.
 # shellcheck disable=SC2086

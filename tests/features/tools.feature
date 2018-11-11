@@ -39,14 +39,18 @@ Feature: Subcommand: dab tools
 
 		Examples:
 			| TOOL       |
+			| adminer    |
+			| ballerina  |
+			| chronograf |
 			| cyberchef  |
 			| grafana    |
 			| kapacitor  |
-			| portainer  |
-			| chronograf |
-			| traefik    |
-			| adminer    |
+			| kibana     |
+			| ngrok      |
+			| ntopng     |
 			| pgadmin    |
+			| portainer  |
+			| traefik    |
 
 	Scenario Outline: Can select different tool versions with environment variables
 		A non exhaustive list of tools and versions that can be configured.

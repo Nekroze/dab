@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/posener/complete"
-)
+import "github.com/posener/complete"
 
 var dab = complete.Command{
 	Sub: complete.Commands{
@@ -91,6 +89,7 @@ var dab = complete.Command{
 				"logs": {Args: newGeneric(predictTools, 1)}, "log": {Args: newGeneric(predictTools, 1)},
 				"restart": {Args: newGeneric(predictTools, 1)},
 				"run":     {Args: newGeneric(predictTools, 1)},
+				"config":  {Args: newGeneric(predictTools, 1)},
 				"start":   {Args: newGeneric(predictTools, 1)}, "up": {Args: newGeneric(predictTools, 1)},
 				"status": {Args: newGeneric(predictTools, 1)}, "ps": {Args: newGeneric(predictTools, 1)},
 				"stop": {Args: newGeneric(predictTools, 1)}, "down": {Args: newGeneric(predictTools, 1)},
@@ -106,6 +105,7 @@ var dab = complete.Command{
 				"logs": {Args: newGeneric(predictServices, 1)}, "log": {Args: newGeneric(predictServices, 1)},
 				"restart": {Args: newGeneric(predictServices, 1)},
 				"run":     {Args: newGeneric(predictServices, 1)},
+				"config":  {Args: newGeneric(predictServices, 1)},
 				"start":   {Args: newGeneric(predictServices, 1)}, "up": {Args: newGeneric(predictServices, 1)},
 				"status": {Args: newGeneric(predictServices, 1)}, "ps": {Args: newGeneric(predictServices, 1)},
 				"stop": {Args: newGeneric(predictServices, 1)}, "down": {Args: newGeneric(predictServices, 1)},

@@ -2,6 +2,18 @@ version: '3.5'
 
 services:
 
+  watchtower:
+    container_name: dab_watchtower
+    image: v2tec/watchtower:latest
+    labels:
+      description: 'Watches labelled container images for updates and applies them'
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --label-enable
+    tmpfs:
+      - /tmp
+
   influxdb:
     container_name: dab_influxdb
     image: "influxdb:${DAB_SERVICES_INFLUXDB_TAG:-alpine}"
