@@ -317,6 +317,21 @@ services:
     tmpfs:
       - /tmp
 
+  xsstrike:
+    container_name: dab_xsstrike
+    build:
+      context: .
+      dockerfile: Dockerfile.xsstrike
+      args:
+        - "XSSTRIKE_VERSION=${DAB_TOOLS_XSSTRIKE_VERSION:-3.0.3}"
+    networks:
+       - lab
+    labels:
+      description: 'Advanced XSS detection suite'
+    restart: never
+    tmpfs:
+      - /tmp
+
 volumes:
   kapacitor:
   chronograf:

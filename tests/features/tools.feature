@@ -63,6 +63,7 @@ Feature: Subcommand: dab tools
 			| TOOL     |
 			| ansible  |
 			| kafkacat |
+			| xsstrike |
 
 	Scenario Outline: Can select different tool versions with environment variables
 		A non exhaustive list of tools and versions that can be configured.
