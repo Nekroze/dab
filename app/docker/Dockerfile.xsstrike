@@ -1,0 +1,17 @@
+FROM alpine:latest
+
+RUN apk add --no-cache ca-certificates python3 git \
+ && update-ca-certificates
+
+ARG XSSTRIKE_VERSION=3.0.3
+ENV XSSTRIKE_VERSION=${XSSTRIKE_VERSION}
+
+RUN mkdir -p /opt \
+ && git clone https://github.com/s0md3v/XSStrike.git /opt/xsstrike \
+ && cd /opt/xsstrike \
+ && git checkout ${XSSTRIKE_VERSION} \
+ && chmod +x xsstrike.py
+
+RUN pip3 install -r /opt/xsstrike/requirements.txt
+
+ENTRYPOINT ["/opt/xsstrike/xsstrike.py"]

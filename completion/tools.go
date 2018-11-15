@@ -20,6 +20,7 @@ var tools = []string{
 	"traefik",
 	"vaultbot",
 	"watchtower",
+	"xsstrike",
 }
 
 func predictTools(_ complete.Args) []string {
