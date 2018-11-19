@@ -27,7 +27,7 @@ Feature: Subcommand: dab tools
 		Given I run `dab tools start <TOOL>`
 		And it should pass matching:
 		"""
-		^<TOOL> is available at https?://localhost:[0-9]+$
+		^<TOOL> is available at https?://([0-9]+\.){3}[0-9]+:[0-9]+$
 		"""
 		And I successfully run `docker ps`
 		And it should pass with "dab_<TOOL>"

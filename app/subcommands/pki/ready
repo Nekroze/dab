@@ -16,7 +16,7 @@ config_add .gitignore /pki
 dab services start vault
 
 # Await the docker health check to indicate the vault api is ready
-await_container_healthy "$(compose_service_to_id services vault)" vault
+await_container_healthy "$(ishmael find dab vault)" vault
 
 if ! vault_initialized; then
 	inform 'Initializing Vault...'

@@ -15,7 +15,7 @@ set -euf
 fqdn="$1"
 role="$(echo "$fqdn" | sed 's/\./-/g')"
 
-await_container_healthy "$(compose_service_to_id services vault)" vault
+await_container_healthy "$(ishmael find dab vault)" vault
 
 vault write "pki_dab/roles/$role" \
 	allowed_domains="$fqdn" \

@@ -14,6 +14,6 @@ At present dab does...
 
 The current behaviour is insufficient because...
 
-### Describe the way you think it behave
+### Describe the way you think it should behave
 
 A clear and concise description of how dab should be changed.

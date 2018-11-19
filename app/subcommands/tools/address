@@ -12,7 +12,5 @@ set -euf
 [ -n "${1:-}" ] || fatality 'must provide a tool name'
 tool="$1"
 
-[ -n "$(dpose tools top "$tool")" ] || fatality "$tool is not running"
-
-id="$(compose_service_to_id tools "$tool")"
-inform "$(container_id_to_url "$id")"
+msgfmt="${COLOR_CYAN}$tool is available at ${COLOR_BLUE}%s${COLOR_NC}\\n"
+compose_service_to_urls tools "$tool" | xargs printf "$msgfmt"

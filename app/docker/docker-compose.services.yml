@@ -82,7 +82,7 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - consul:/consul/data
-    ports:
+    expose:
       - 8500
     environment:
       CONSUL_LOCAL_CONFIG: >
@@ -108,6 +108,7 @@ services:
     image: "redis:${DAB_SERVICES_REDIS_TAG:-latest}"
     labels:
       description: 'In-memory data structure store'
+      exposing: 'tcp'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     healthcheck:
@@ -115,6 +116,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    expose:
+      - 6379
     ports:
       - '16379:6379'
     tmpfs:
@@ -147,6 +150,7 @@ services:
     image: "postgres:${DAB_SERVICES_POSTGRES_TAG:-alpine}"
     labels:
       description: 'Object-relational database management system'
+      exposing: 'tcp'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     environment:
@@ -207,6 +211,7 @@ services:
     image: "mysql:${DAB_SERVICES_MYSQL_TAG:-latest}"
     labels:
       description: "Open Source RDBMS`root`${DAB_SERVICES_MYSQL_ROOT_PASSWORD:-root}"
+      exposing: 'tcp'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     environment:
@@ -231,6 +236,7 @@ services:
     image: "memcached:${DAB_SERVICES_MEMCACHED_TAG:-alpine}"
     labels:
       description: 'Distributed memory object caching'
+      exposing: 'tcp'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     tmpfs:
@@ -273,7 +279,7 @@ services:
       description: 'A platform for automating integration between services'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
-    ports:
+    expose:
       - 9022
     environment:
       PROFILE: 'embedded-discovery'
