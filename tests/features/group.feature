@@ -45,7 +45,7 @@ Feature: Subcommand: dab group
 		"""
 		Executing five entrypoint start
 		"""
-		And the output should contain "cyberchef is available at http://localhost:"
+		And the output should contain "cyberchef is available at http://"
 
 	Scenario: Can group repositories and services then start them together
 		Given I successfully run `dab services stop`

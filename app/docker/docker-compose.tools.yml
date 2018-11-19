@@ -11,7 +11,7 @@ services:
         - "NGINX_TAG=${DAB_TOOLS_NGINX_TAG:-alpine}"
     labels:
       description: 'The Cyber Swiss Army Knife'
-    ports:
+    expose:
       - 80
     healthcheck:
       test: 'wget --spider http://localhost || exit 1'
@@ -27,7 +27,7 @@ services:
     labels:
       description: 'Docker Management Web UI'
       com.centurylinklabs.watchtower.enable: 'true'
-    ports:
+    expose:
       - 9000
     command: -H unix:///var/run/docker.sock
     volumes:
@@ -50,7 +50,7 @@ services:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
       LOG_LEVEL: error
-    ports:
+    expose:
       - 8888
     healthcheck:
       test: 'wget --spider http://localhost:8888/ || exit 1'
@@ -72,7 +72,7 @@ services:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
       LOG_LEVEL: error
-    ports:
+    expose:
       - 9092
     volumes:
       - kapacitor:/var/lib/kapacitor
@@ -100,7 +100,7 @@ services:
       - --tracing.backend=zipkin
       - --tracing.zipkin
       - --tracing.zipkin.httpendpoint=http://telegraf:9411/api/v1/spans
-    ports:
+    expose:
       - 80
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -123,7 +123,7 @@ services:
       dockerfile: Dockerfile.ngrok
     labels:
       description: 'Secure introspectable tunnels, points to traefik'
-    ports:
+    expose:
       - 4040
     healthcheck:
       test: 'wget --spider http://localhost:4040 || exit 1'
@@ -164,7 +164,7 @@ services:
       - grafana:/var/lib/grafana
     environment:
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
-    ports:
+    expose:
       - 3000
     healthcheck:
       test: 'wget --spider http://localhost:3000/api || exit 1'
@@ -198,7 +198,7 @@ services:
     labels:
       description: 'Monitor network interfaces'
     network_mode: host
-    ports:
+    expose:
       - 3000
     restart: on-failure
     command: --redis localhost:16379
@@ -233,7 +233,7 @@ services:
     networks:
       - services
       - lab
-    ports:
+    expose:
       - 80
     tmpfs:
       - /tmp
@@ -263,7 +263,7 @@ services:
       - lab
     environment:
       ADMINER_DEFAULT_SERVER: mysql
-    ports:
+    expose:
       - 8080
 
   kibana:
@@ -275,7 +275,7 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     networks:
       - services
-    ports:
+    expose:
       - 5601
 
   ballerina:
@@ -288,7 +288,7 @@ services:
     command:
       - 'composer'
       - '--host 0.0.0.0'
-    ports:
+    expose:
       - 9091
     volumes:
       - "$DAB_REPO_PATH:/home/ballerina"

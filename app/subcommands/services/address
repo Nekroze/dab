@@ -12,7 +12,5 @@ set -euf
 [ -n "${1:-}" ] || fatality 'must provide a service name'
 service="$1"
 
-[ -n "$(dpose services top "$service")" ] || fatality "$service is not running"
-
-id="$(compose_service_to_id services "$service")"
-inform "$(container_id_to_url "$id")"
+msgfmt="${COLOR_CYAN}$service is available at ${COLOR_BLUE}%s${COLOR_NC}\\n"
+compose_service_to_urls services "$service" | xargs printf "$msgfmt"

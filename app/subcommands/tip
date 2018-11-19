@@ -9,7 +9,7 @@ set -euf
 TIPS="
 Tips can be disabled by setting the environment variable \$DAB_TIPS to 'no'
 Use 'dab repo list' to see which repositories are not on origin/master
-Try 'dab tools portainer' to manage and monitor docker containers in your browser
+Try 'dab tools start portainer' to manage and monitor docker containers in your browser
 Did you know the dab configuration is a tree structure, run 'dab config keys' to explore it
 You can explore the dab container with 'dab shell' which is helpful for testing commands
 You can explore the dab lab network with 'dab network shell'

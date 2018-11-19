@@ -15,6 +15,4 @@ tool="${1:-}"
 # If there was no tool (eg when starting all) stop here
 [ -z "$tool" ] && exit 0
 
-id="$(compose_service_to_id tools "$tool")"
-url="$(container_id_to_url "$id")"
-[ -z "$url" ] || inform "$tool is available at ${COLOR_BLUE}$url${COLOR_NC}"
+dab tools address "$tool"

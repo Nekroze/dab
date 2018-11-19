@@ -14,8 +14,9 @@ shift
 [ -n "${1:-}" ] && shift
 
 dab repo clone "$repo"
-
-inform "Executing $repo entrypoint $entry"
+suffix="$*"
+[ -n "$suffix" ] && suffix=" $suffix"
+inform "Executing $repo entrypoint $entry$suffix"
 
 entrypoint="$DAB_CONF_PATH/repo/$repo/entrypoint/$entry"
 if [ ! -x "$entrypoint" ]; then

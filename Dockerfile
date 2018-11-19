@@ -29,7 +29,7 @@ FROM golang:latest AS completion
 WORKDIR $GOPATH/src/app/completion
 
 # Install golangci-lint
-RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.12
+RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.12.2
 ENV GO111MODULE=on
 
 # Test, lint, and build the shell completion binary.
@@ -38,8 +38,8 @@ COPY ./go.mod ./go.sum ./
 
 RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits  \
  && go build -o completion . \
- && GO_ENABLED=0 GOOS=linux GOARCH=386 go build \
-   -a -installsuffix cgo -ldflags='-w -s' -o completion -v \
+ && CGO_ENABLED=0 GOOS=linux GOARCH=386 go build \
+   -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion -v \
    .
 
 
@@ -59,6 +59,8 @@ RUN git rev-parse HEAD > /VERSION \
 # Used to pull in the docker-compose-gen binary
 FROM nekroze/docker-compose-gen:latest AS gen
 
+# Used to pull in the ishmael binary
+FROM nekroze/ishmael:latest AS ishmael
 
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
@@ -90,8 +92,9 @@ ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /
 RUN chmod 755 /usr/bin/yq /usr/bin/subcommander \
  && chmod 666 /etc/passwd
 COPY --from=shellcheck /bin/shellcheck /usr/bin/
-COPY --from=completion /go/src/app/completion/completion /usr/bin/dab-completion
-COPY --from=gen /docker-compose-gen /usr/bin/docker-compose-gen
+COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
+COPY --from=ishmael /app /usr/bin/ishmael
+COPY --from=gen /app /usr/bin/docker-compose-gen
 COPY --from=versioning /VERSION /LOG /
 COPY ./app ./README.md ./LICENSE ./dab ./
 ENTRYPOINT ["/opt/dab/main.sh"]
