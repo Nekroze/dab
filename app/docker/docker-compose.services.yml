@@ -135,8 +135,8 @@ services:
     restart: on-failure
     healthcheck:
       test: 'netstat -tulpn | grep 0.0.0.0:8200'
-      interval: 30s
-      timeout: 10s
+      interval: 15s
+      timeout: 5s
       retries: 3
     environment:
       VAULT_ADDR: 'http://127.0.0.1:8200'
