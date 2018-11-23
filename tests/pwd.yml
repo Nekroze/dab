@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  installer:
+    image: alpine:latest
+    working_dir: /host/usr/bin
+    restart: always
+    command: |
+      sh -c "set -eufx
+      trap 'sleep 1800' EXIT
+      wget https://raw.githubusercontent.com/Nekroze/dab/master/dab
+      chmod 755 dab
+      docker pull nekroze/dab:latest
+      "
+    volumes:
+      - /usr/bin:/host/usr/bin
