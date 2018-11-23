@@ -4,6 +4,8 @@
 
 The Developer lab.
 
+[![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)][15]
+
 Dab is a flexible tool for managing multiple interdependent projects and their orchestration, all while providing a friendly user experience and handy devops tools.
 
 ## Usage
@@ -17,6 +19,10 @@ You need only have docker installed and any POSIX compliant shell to run the wra
 If you do not need to build the docker image yourself and just want to use dab, the [dab script][1] we just executed is all that is needed and can be used from (or moved to) any location.
 
 It is recommended you add the directory containing the [dab script][1] to your shell's `PATH` environment variable.
+
+### Demoing
+
+If you are not yet sure if Dab is right for you, [Play With Docker (PWD)][15] will allow you to spin up a temporary cloud server with Dab available. You will be presented with a terminal containing the latest version of Dab ready to use.
 
 ### Installing
 
@@ -121,4 +127,5 @@ The following projects are used to write dab:
 [11]: https://stedolan.github.io/jq/
 [12]: https://github.com/docker/compose
 [13]: https://github.com/koalaman/shellcheck
-[14]: github.com/posener/complete
+[14]: https://github.com/posener/complete
+[15]: http://play-with-docker.com/?stack=https://raw.githubusercontent.com/Nekroze/dab/master/tests/pwd.yml

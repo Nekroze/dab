@@ -60,7 +60,7 @@ RUN git rev-parse HEAD > /VERSION \
 FROM nekroze/docker-compose-gen:latest AS gen
 
 # Used to pull in the ishmael binary
-FROM nekroze/ishmael:latest AS ishmael
+FROM nekroze/ishmael:v1.2.1 AS ishmael
 
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
