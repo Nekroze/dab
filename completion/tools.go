@@ -9,6 +9,7 @@ var tools = []string{
 	"chronograf",
 	"cyberchef",
 	"grafana",
+	"huginn",
 	"kafkacat",
 	"kapacitor",
 	"ngrok",

@@ -304,7 +304,6 @@ services:
         - "ANSIBLE_VERSION=${DAB_TOOLS_ANSIBLE_TAG:-2.7.1}"
     labels:
       description: 'Automated configuration management'
-    restart: never
     environment:
       - HOME
     user: "$DAB_UID:$DAB_GID"
@@ -328,7 +327,22 @@ services:
        - lab
     labels:
       description: 'Advanced XSS detection suite'
-    restart: never
+    tmpfs:
+      - /tmp
+
+  huginn:
+    container_name: dab_huginn
+    image: "huginn/huginn:${DAB_TOOLS_HUGINN_TAG:-latest}"
+    networks:
+      - services
+    depends_on:
+      - postgres
+    labels:
+      description: 'Create agents that monitor and act on your behalf`admin`password'
+    environment:
+      DATABASE_ADAPTER: postgresql
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: postgres
     tmpfs:
       - /tmp
 

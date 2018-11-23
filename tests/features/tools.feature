@@ -44,6 +44,7 @@ Feature: Subcommand: dab tools
 			| chronograf |
 			| cyberchef  |
 			| grafana    |
+			| huginn     |
 			| kapacitor  |
 			| kibana     |
 			| ngrok      |
