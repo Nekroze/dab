@@ -8,9 +8,7 @@ set -euf
 dpose() {
 	project="$1"
 	shift
-	files="docker/docker-compose.$project.yml"
-	[ "$project" = 'tools' ] && files="$files:docker/docker-compose.services.yml:docker/docker-compose.deps.yml"
-	[ "$project" = 'services' ] && files="$files:docker/docker-compose.tools.yml:docker/docker-compose.deps.yml"
+	files="$DAB/docker/docker-compose.$project.yml"
 	env COMPOSE_FILE="$files" \
 		COMPOSE_PROJECT_NAME=dab \
 		docker-compose \
@@ -19,14 +17,14 @@ dpose() {
 }
 
 compose_service_config() {
-	tmp="$(mktemp)"
-	dpose tools config >"$tmp"
-	yq read "$tmp" "services.$1"
+	project="$1"
+	service="$2"
+	yq read "$DAB/docker/docker-compose.$project.yml" "services.$service"
 }
 
 compose_to_services_data() {
 	tmp="$(mktemp)"
-	docker-compose -f "docker/docker-compose.$1.yml" config >"$tmp"
+	dpose "$1" config >"$tmp"
 	yq read "$tmp" services -j |
 		jq 'to_entries[] | "\(.key)`\(.value.labels.description)"' -r
 }

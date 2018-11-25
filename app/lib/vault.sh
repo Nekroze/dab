@@ -8,7 +8,7 @@ set -euf
 . ./lib/config.sh
 
 vault() {
-	dpose services exec -T vault vault "$@"
+	dpose apps exec -T vault vault "$@"
 }
 
 vault_init() {
@@ -66,5 +66,5 @@ vault_pki_enabled() {
 }
 
 vaultbot() {
-	dpose tools run --rm vaultbot "$@"
+	dpose apps run --rm vaultbot "$@"
 }

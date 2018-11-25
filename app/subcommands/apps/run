@@ -1,0 +1,13 @@
+#!/bin/sh
+# Description: Run a command in a new instance of given app's container
+# Usage: <APP_NAME> [<CMD>...]
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -euf
+
+# shellcheck disable=SC1091
+. ./lib/docker.sh
+# shellcheck disable=SC1091
+. ./lib/output.sh
+
+[ $# -gt 0 ] || fatality 'must provide at least a app name'
+dpose apps run --rm "$@"

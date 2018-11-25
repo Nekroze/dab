@@ -16,11 +16,10 @@ You can explore the dab lab network with 'dab network shell'
 You do not need to do anything to ensure you are using the latest version of dab, but can trigger an update with 'dab update'
 Each repository can have any number of entrypoints defined
 Repository entry points can take parameters for extra customizability
-Services are backround applications that your repositories may want to build upon, see what is availale with 'dab services list'
+Services are backround applications that your repositories may want to build upon, see what is availale with 'dab apps list'
 Tools provide helpful interfaces for accomplishing devops tasks, see what is available with 'dab tools list'
-Any git repository can be managed and orchestrated by Dab, even if it does not need to start a service
-When a group depends on a repositry you can give an additional parameter after name to customize the enrypoint that will be executed
-Services and Tools persist data by default where appropriate, if you want to wipe data try 'dab tools destroy' or 'dab services destroy'
+Any git repository can be managed and orchestrated by Dab, even if it does not need to start an app
+Services and Tools persist data by default where appropriate, if you want to wipe data try 'dab tools destroy' or 'dab apps destroy'
 A public key infrastructure (pki) and secrets management engine backed by Hashicorp Vault and Consul is provided that persists across reboots
 The public key infrastructure (pki) is able to issue x509 certificates suitable for HTTPS that are only renewed when neccesary
 The public key infrastructure (pki) will generate a certificate authority only once (unless destroyed) and automatically install it into all local browsers
@@ -30,25 +29,20 @@ The lab network can be rebuilt with 'dab network recreate' with little ill effec
 Repository entry points might use \$DAB_UID and \$DAB_GID environment variables when running docker containers with bind mounts to prevent permissions issues
 You can set environment variables for all users of your config by setting for example the 'enironment/FOO' config key which defined the \$FOO environment variable
 You may specify custom tips specific to your config by adding to the 'tips/custom' config key one tip per line
-You may specify specific versions of services by setting an environment variable such as \$DAB_SERVICES_VAULT_TAG to a valid docker tag for the vault docker image, for example, and it will be used after it is updated
-You may specify specific versions of tools by setting an environment variable such as \$DAB_SERVICES_KIBANA_TAG to a valid docker tag for the kibana docker image, for example, and it will be used after it is updated
+You may specify specific versions of apps by setting an environment variable such as \$DAB_APPS_VAULT_TAG to a valid docker tag for the vault docker image, for example, and it will be used after it is updated
 Dab provides tab completion for bash, zsh, and fish which is automatically updated. For more information try 'dab completion'
-Groups are a collection of other groups, services, repositories, and tools that get started in that order
+Groups are a collection of other groups and repository entrypoints
 Group dependencies are in First In First Out (FIFO) order making the top of the list the first to run
 To view the history of dab run 'dab changelog'
 Every subcommand accepts '-h' or '--help' or just 'help' to display usage information
 Every subcommand accepts '-v' or '--version' or just 'version' to display version and machine information
 Should you wish to wipe your public key infrustructure and certificate authority and start fresh you may run 'dab pki destroy'
 x509 Certificates are stored in the dab config for example the key 'pki/ca/certificate' for the certificate authority
-If you are running the built in influxdb service then all dab runs will be recorded as metric annotations
-Tools and Services can be updated to their latest image with 'dab tools update' and 'dab services update' respectively
-When a group is started all services and tools it depends on are first checked for updates
-Some Tools require specific services to be running, if so they will display it in 'dab tools list'
-Check the running service's statuses with 'dab services status'
-Check the running tools's statuses with 'dab tools status'
-Check the running service's logs with 'dab services logs'
-Check the running tools's logs with 'dab tools logs'
-Any .log files placed in the docker volume named dab_logs can be ingested for display via chronograf by running the remote_syslog2 service
+If you are running the dab managed influxdb service then all dab runs will be recorded as metric annotations
+Tools and Services can be updated to their latest image with 'dab tools update' and 'dab apps update' respectively
+Check a running app's status with 'dab apps status'
+Check a running app's logs with 'dab apps logs'
+Any .log files placed in the docker volume named dab_logs can be ingested for display via chronograf by running the remote_syslog2 app
 You can use docker-compose-gen in your entrypoint scripts to easily interface with Dab docker objects
 You can use multitail in your entrypoint scripts to display your logs, and in style
 "
