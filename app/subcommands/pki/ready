@@ -13,7 +13,7 @@ export DAB_PKI_CA_TTL="${DAB_PKI_CA_TTL:-8760h}"
 config_add .gitignore /pki
 
 # Hashicorp Vault is the pki backend for generation, storage, and renewal.
-dab services start vault
+dab apps start vault
 
 # Await the docker health check to indicate the vault api is ready
 await_container_healthy "$(ishmael find dab vault)" vault

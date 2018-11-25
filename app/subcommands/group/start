@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: Start a group's services, then repos, and then tools (where defined), in FIFO order
+# Description: Start a group's dependenant groups, then repo entrypoints, in FIFO order
 # Usage: <GROUP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
@@ -22,6 +22,4 @@ run_with_dependencies() {
 }
 
 run_with_dependencies 'dab group start' "group/$group_name/groups"
-run_with_dependencies 'dab services start' "group/$group_name/services"
 run_with_dependencies 'dab repo entrypoint run' "group/$group_name/repos"
-run_with_dependencies 'dab tools start' "group/$group_name/tools"

@@ -1,9 +1,0 @@
-#!/bin/sh
-# Description: List available tools
-# vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
-
-# shellcheck disable=SC1091
-. ./lib/docker.sh
-
-compose_to_services_data tools | column -s'`' -o' | ' -t -N TOOL,DESCRIPTION,USERNAME,PASSWORD -R TOOL

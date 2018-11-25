@@ -6,8 +6,8 @@ services:
     container_name: dab_shell
     image: alpine:latest
     networks:
+      - default
       - lab
-      - services
     tmpfs:
       - /tmp
 
@@ -15,8 +15,8 @@ volumes:
   logs:
 
 networks:
-  services:
-    name: services
+  default:
+    name: dab_apps
   lab:
     name: lab
     driver_opts:

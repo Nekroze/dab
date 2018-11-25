@@ -20,8 +20,7 @@ Feature: Subcommand: dab network
 		Then it should pass with "bin"
 
 	Scenario: Can recreate the lab network
-		Given I successfully run `dab tools destroy`
-		And I successfully run `dab services destroy`
+		Given I successfully run `dab apps destroy`
 
 		When I successfully run `dab network recreate`
 

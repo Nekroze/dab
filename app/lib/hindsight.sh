@@ -25,23 +25,18 @@ captain_hindsight() {
 	echo_red "I'm sorry, it looks like the command '$CMDLINE' failed."
 
 	case "$CMDLINE" in
-	'dab services'*)
-		echo_red "If the service is misbehaving perhaps try 'dab services update'"
-		echo_red "If you are unsure what the service is doing try 'dab services logs'"
-		echo_red "If the service has some bad data perhaps try 'dab services destroy'"
-		;;
-	'dab tools'*)
-		echo_red "If the service is misbehaving perhaps try 'dab tools update'"
-		echo_red "If you are unsure what the tool is doing try 'dab tools logs'"
-		echo_red "If the service has some bad data perhaps try 'dab tools destroy'"
+	'dab apps'*)
+		echo_red "If the app is misbehaving perhaps try 'dab apps update <APP_NAME>' and start it up again"
+		echo_red "If you are unsure what the app is doing try 'dab apps logs <APP_NAME>'"
+		echo_red "If the app has some bad data perhaps try 'dab apps destroy <APP_NAME>' and start it up again"
 		;;
 	'dab pki issue'* | 'dab pki renew'*)
 		echo_red "If the pki is misbehaving perhaps try 'dab pki ready'"
 		echo_red "If the pki has some bad data perhaps try 'dab pki destroy'"
 		;;
 	'dab pki ready'* | 'dab pki up'*)
-		echo_red "If the pki is not starting at all, perhaps investigate with 'dab services logs vaul'"
-		echo_red "If the pki is starting up properly perhaps try 'dab services restart vault'"
+		echo_red "If the pki is not starting at all, perhaps investigate with 'dab apps logs vault'"
+		echo_red "If the pki is starting up properly perhaps try 'dab apps restart vault'"
 		echo_red "If the pki has some bad data perhaps try 'dab pki destroy'"
 		;;
 	'dab config'*)

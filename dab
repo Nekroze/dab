@@ -64,6 +64,7 @@ dArg \
 # have docker access.
 if [ -r /etc/group ]; then
 	docker_gid="$(grep '^docker:' /etc/group | cut -d: -f3)"
+	export DAB_DOCKER_GID="$docker_gid"
 	if [ -n "$docker_gid" ]; then
 		export DAB_DOCKER_GID="$docker_gid"
 		dArg --group-add "$docker_gid"
