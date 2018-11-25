@@ -48,7 +48,7 @@ compose_service_to_urls() {
 	service="$2"
 	scheme="$(get_compose_service_label_value "$project" "$service" exposing http)"
 	id="$(ishmael find dab "$service" || fatality "$service is not running")"
-	ishmael address "$id" | xargs printf "$scheme://%s\\n"
+	ishmael address "$id" | xargs --no-run-if-empty printf "$scheme://%s\\n"
 }
 
 await_container_healthy_timeout=60

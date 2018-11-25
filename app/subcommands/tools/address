@@ -13,4 +13,4 @@ set -euf
 tool="$1"
 
 msgfmt="${COLOR_CYAN}$tool is available at ${COLOR_BLUE}%s${COLOR_NC}\\n"
-compose_service_to_urls tools "$tool" | xargs printf "$msgfmt"
+compose_service_to_urls tools "$tool" | xargs --no-run-if-empty printf "$msgfmt"
