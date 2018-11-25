@@ -7,5 +7,5 @@ set -euf
 # shellcheck disable=SC1091
 . ./lib/docker.sh
 
-dpose services pull --include-deps "$@"
+dpose services pull --include-deps "$@" || true
 dpose services build --parallel --pull --force-rm "$@"
