@@ -13,4 +13,4 @@ set -euf
 service="$1"
 
 msgfmt="${COLOR_CYAN}$service is available at ${COLOR_BLUE}%s${COLOR_NC}\\n"
-compose_service_to_urls services "$service" | xargs printf "$msgfmt"
+compose_service_to_urls services "$service" | xargs --no-run-if-empty printf "$msgfmt"
