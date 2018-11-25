@@ -3,7 +3,7 @@
 set -euf
 
 # Some static values to get us started.
-image='nekroze/dab:latest'
+image="${DAB_IMAGE:-${DAB_IMAGE_NAMESPACE:-nekroze}/${DAB_IMAGE_NAME:-dab}:${DAB_IMAGE_TAG:-latest}}"
 docker_args='--hostname dab --rm --tmpfs /run,/tmp'
 
 # just a little helper to keep things readable when declaring parameters to be
