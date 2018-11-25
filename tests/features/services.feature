@@ -50,6 +50,7 @@ Feature: Subcommand: dab services
 			| consul         |
 			| docker-gen     |
 			| elasticsearch  |
+			| fn             |
 			| influxdb       |
 			| kafka          |
 			| logspout       |
