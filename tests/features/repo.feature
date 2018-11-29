@@ -87,3 +87,11 @@ Feature: Subcommand: dab repo
 		When I run `dab repo entrypoint run dotfiles7 start FOO`
 
 		Then it should pass with "FOO"
+
+	Scenario: Can list entrypoints
+		Given I successfully run `dab repo add dotfiles8 https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create dotfiles8 bubbahotep`
+
+		When I run `dab repo entrypoint list dotfiles8`
+
+		Then it should pass with "bubbahotep"

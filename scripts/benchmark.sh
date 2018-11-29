@@ -1,8 +1,10 @@
 #!/bin/sh
+# This script will allow you to benchmark the uncomitted/unbuilt changes to a
+# dab subcommand against the last built version
 set -euf
 
 subcmd="$*"
-[ -n "$subcmd" ] || subcmd='shell echo 1'
+[ -n "$subcmd" ] || subcmd='shell true'
 
 prep='true'
 echo "$subcmd" | grep -v pki >/dev/null 2>&1 || prep='dab pki destroy'
