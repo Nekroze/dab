@@ -7,7 +7,7 @@ Feature: Subcommand: dab shell
 	Scenario: Can pass through commands to the shell
 		When I run `dab shell ls`
 
-		Then it should pass with "main.sh"
+		Then it should pass with "README.md"
 
 	Scenario: All DAB_ env vars are passed into the dab container
 		Given I set the environment variable "DAB_CUSTOM_VAR" to "FOOBAR"

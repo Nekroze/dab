@@ -3,8 +3,8 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib/update.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/update.sh"
 
 dab repo fetch
 

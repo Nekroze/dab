@@ -2,8 +2,8 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib/output.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/output.sh"
 
 config_get() {
 	path="$(config_path "$1")"

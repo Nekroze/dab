@@ -2,16 +2,16 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib/docker.sh
-# shellcheck disable=SC1091
-. ./lib/hindsight.sh
-# shellcheck disable=SC1091
-. ./lib/config.sh
-# shellcheck disable=SC1091
-. ./lib/vault.sh
-# shellcheck disable=SC1091
-. ./lib/update.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/docker.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/hindsight.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/config.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/vault.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/update.sh"
 
 maybe_post_chronograf_annotiation() {
 	if [ -z "$(ishmael alive "$(ishmael find dab influxdb)")" ]; then
@@ -60,16 +60,21 @@ ensure_persistent_docker_objects() {
 }
 
 pre_hooks() {
+	if [ -f /tmp/hooked ]; then
+		return 0
+	else
+		touch /tmp/hooked
+	fi
+
 	# shellcheck disable=SC2064
 	trap "post_hooks $*" EXIT
 
-	record_cmdline "$@"
 	load_vault_token
 	generate_user
 	config_load_envs
-	maybe_update_completion
+	maybe_update_completion &
 
-	maybe_post_chronograf_annotiation "$*"
+	maybe_post_chronograf_annotiation "$*" &
 
 	case "${1:-}" in
 	'version' | 'network' | 'update')
@@ -83,7 +88,7 @@ pre_hooks() {
 }
 
 post_hooks() {
+	captain_hindsight "$@"
 	maybe_display_tip
 	maybe_notify_wrapper_update
-	captain_hindsight "$@"
 }

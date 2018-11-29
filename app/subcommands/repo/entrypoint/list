@@ -6,7 +6,7 @@ set -euf
 
 [ -n "${1:-}" ] || fatality 'must provide a repo name'
 
-# shellcheck disable=SC1091
-. ./lib/config.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/config.sh"
 
 carelessly dab config tree "repo/$1/entrypoint"

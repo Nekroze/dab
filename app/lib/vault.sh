@@ -2,10 +2,10 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib/docker.sh
-# shellcheck disable=SC1091
-. ./lib/config.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/docker.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/config.sh"
 
 vault() {
 	dpose apps exec -T vault vault "$@"

@@ -5,26 +5,20 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-dab_errored() {
-	[ "${LAST_EXIT:-0}" -ne 0 ]
-}
-
-record_cmdline() {
-	CMDLINE="$(echo "dab $*" | sed -e 's/[[:space:]]*$//')"
-	export CMDLINE
-}
-
 echo_red() {
 	echo_color "$COLOR_RED" "$@" 1>&2
 }
 
 captain_hindsight() {
-	dab_errored || return 0
-	[ -n "$*" ] || return 0
+	# shellcheck disable=SC2181
+	[ $? -ne 0 ] || return 0 # Exit status code was 0
+	[ -n "$*" ] || return 0  # Exit if the cmdline was empty
+	cmdline="dab $*"
 
-	echo_red "I'm sorry, it looks like the command '$CMDLINE' failed."
+	echo
+	echo_red "I'm sorry, it looks like the command '$cmdline' failed."
 
-	case "$CMDLINE" in
+	case "$cmdline" in
 	'dab apps'*)
 		echo_red "If the app is misbehaving perhaps try 'dab apps update <APP_NAME>' and start it up again"
 		echo_red "If you are unsure what the app is doing try 'dab apps logs <APP_NAME>'"
