@@ -6,7 +6,7 @@ I would first like to thank you for considering contributing to Dab.
 
 Looking top down, the entry point for each run is the [dab script](./dab) which is a POSIX compliant shell script that uses only standard GNU tools (eg. grep) to generate the appropriate [docker][1] [run][2] command to run the dab [docker image][3] which stores the rest of the application. This allows for a predictable environment in which dab can run while also removing the need to manage any dependencies dab may have, other than [docker][1] of cause.
 
-Only the [app directory](./app) will end up in the docker image wherein main.sh will be executed to handle input, usually distributing parameters to one of the scripts in the [subcommands directory](./app/subcommands/) via [subcommander](./app/subcommander.sh) to do the real work.
+Only the [app directory](./app) will end up in the docker image wherein subcommander will be executed to handle input, usually distributing parameters to one of the scripts in the [subcommands directory](./app/subcommands/) via [subcommander](./app/subcommander.sh) to do the real work.
 
 All scripts should be POSIX compliant and run under `set -e` to ensure errors are not ignored.
 

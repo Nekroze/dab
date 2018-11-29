@@ -110,7 +110,7 @@ else
 fi
 
 # Mount app dir if it is there for faster dev cycles.
-if [ "${DAB_DEV_MOUNT:-yes}" = 'yes' ] && [ -x "$PWD/app/main.sh" ]; then
+if [ "${DAB_DEV_MOUNT:-yes}" = 'yes' ] && [ -x "$PWD/app/bin/dab" ]; then
 	dArg -v "$PWD/app:/opt/dab:ro"
 fi
 

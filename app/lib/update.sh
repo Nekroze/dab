@@ -2,8 +2,8 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib/config.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/config.sh"
 
 FILE_HASH_ALGO=md5
 file_hash() {

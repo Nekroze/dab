@@ -4,12 +4,12 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-# shellcheck disable=SC1091
-. ./lib/output.sh
-# shellcheck disable=SC1091
-. ./lib/vault.sh
-# shellcheck disable=SC1091
-. ./lib/docker.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/output.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/vault.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/docker.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide a fqdn name'
 fqdn="$1"

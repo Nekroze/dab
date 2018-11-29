@@ -3,10 +3,10 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck disable=SC1091
-. ./lib/output.sh
-# shellcheck disable=SC1091
-. ./lib/update.sh
+# shellcheck disable=SC1090
+. "$DAB/lib/output.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/update.sh"
 
 set +f
 START_PATH="$PWD"

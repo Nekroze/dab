@@ -83,6 +83,13 @@ ENV DAB="/opt/dab" \
     PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
     PATH="$PATH:/opt/dab/bin"
 
+# subcommander env vars
+ENV APPLICATION="dab" \
+    SUBCOMMANDS="/opt/dab/subcommands" \
+    HOOK="/opt/dab/bin/pre-hook" \
+    DESCRIPTION="The Developer Laboratory\n\n\
+Dab is a flexible tool for managing multiple interdependent projects and their orchestration execution, all while providing a friendly user experience and handy devops tools."
+
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent
 # and predictable.
@@ -97,7 +104,7 @@ COPY --from=ishmael /app /usr/bin/ishmael
 COPY --from=gen /app /usr/bin/docker-compose-gen
 COPY --from=versioning /VERSION /LOG /
 COPY ./app ./README.md ./LICENSE ./dab ./
-ENTRYPOINT ["/opt/dab/main.sh"]
+ENTRYPOINT ["/usr/bin/subcommander"]
 
 LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.name="dab" \
