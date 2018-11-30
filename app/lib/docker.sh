@@ -19,7 +19,7 @@ dpose() {
 compose_service_config() {
 	project="$1"
 	service="$2"
-	yq read "$DAB/docker/docker-compose.$project.yml" "services.$service"
+	yq read "$DAB/docker/docker-compose.$project.yml" "services.$service" | highlight --syntax yaml -O xterm256
 }
 
 compose_to_services_data() {
