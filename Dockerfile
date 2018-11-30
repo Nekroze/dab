@@ -66,17 +66,15 @@ FROM nekroze/ishmael:v1.2.1 AS ishmael
 # maximizing docker cache utilization.
 FROM alpine:latest AS main
 
-RUN apk add --no-cache git
-
-# Misc tools required for scripts.
-RUN apk add --no-cache openssh tree util-linux jq nss-tools multitail \
- && echo "check_mail:0" >> /etc/multitail.conf
-
 # Docker and docker-compose are always required but take a while to install so
 # they are to be kept at a lower layer for caching.
-RUN apk add --no-cache docker python3 ca-certificates \
+RUN apk add --no-cache docker python3 \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
  && pip3 install docker-compose
+
+# Misc tools required for scripts.
+RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight \
+ && echo "check_mail:0" >> /etc/multitail.conf
 
 # Handy env var configs
 ENV DAB="/opt/dab" \
