@@ -87,8 +87,7 @@ ENV DAB="/opt/dab" \
 ENV APPLICATION="dab" \
     SUBCOMMANDS="/opt/dab/subcommands" \
     HOOK="/opt/dab/bin/pre-hook" \
-    DESCRIPTION="The Developer Laboratory\n\n\
-Dab is a flexible tool for managing multiple interdependent projects and their orchestration execution, all while providing a friendly user experience and handy devops tools."
+    DESCRIPTION="The Developer Laboratory (Dab) is a flexible tool for managing multiple interdependent projects and their orchestration execution, all while providing a friendly user experience and handy devops tools."
 
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent
