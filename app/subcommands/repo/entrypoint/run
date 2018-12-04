@@ -26,5 +26,5 @@ if [ ! -x "$entrypoint" ]; then
 fi
 
 cd "$DAB_REPO_PATH/$repo"
-shellcheck "$entrypoint" || true
+shellcheck --shell sh --color "$entrypoint" || true
 sh "$entrypoint" "$@"

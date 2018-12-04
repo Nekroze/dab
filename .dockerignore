@@ -1,6 +1,7 @@
 /app/subcommands/template.sh
-/tests
 /default.nix
-!/tests/features
+/tests/docker-compose.*
+/tests/*.js
+/tests/pwd.yml
 *.log
 /completion/completion

@@ -29,6 +29,13 @@ services:
     volumes:
       - sock:/var/run
 
+  tourist:
+    depends_on:
+      - docker
+    volumes:
+      - sock:/var/run
+      - data:/root
+
 volumes:
   data:
   sock:

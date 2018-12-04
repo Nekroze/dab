@@ -12,7 +12,7 @@ services:
     image: 'nekroze/containaruba:alpine'
     environment:
       DAB_AUTOUPDATE: 'no'
-      DAB_WRAPPER_PATH: "${PWD}/dab"
+      DAB_WRAPPER_PATH: "${PWD:-/usr/bin}/dab"
     volumes:
       - ./features:/usr/src/app/features
       - ../dab:/usr/bin/dab
@@ -25,3 +25,16 @@ services:
     working_dir: /opt/dab/tests
     volumes:
       - ../:/opt/dab:ro
+
+  tourist:
+    build:
+      context: ../
+      dockerfile: tests/Dockerfile.tourist
+    container_name: tourist
+    hostname: tourist
+    volumes:
+        - ../dab:/usr/bin/dab:ro
+        - ../app:/tmp/out
+        - ../tests/tour.sh:/root/.tour.sh
+    environment:
+      DAB_AUTOUPDATE: 'no'

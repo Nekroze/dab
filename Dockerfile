@@ -7,7 +7,10 @@ WORKDIR /mnt
 # Copy in the whole project for analysis.
 COPY ./ ./
 
-RUN shellcheck --shell sh --color dab $(find . -name '*.sh' -type f)
+RUN shellcheck --shell sh --color \
+      dab app/bin/dab \
+      $(find . -name '*.sh' -type f) \
+      $(find app/subcommands -type f)
 
 
 # Second analysis stage runs shfmt to ensure a consistent style.
@@ -70,7 +73,8 @@ FROM alpine:latest AS main
 # they are to be kept at a lower layer for caching.
 RUN apk add --no-cache docker python3 \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
- && pip3 install docker-compose
+ && pip3 install docker-compose asciinema \
+ && rm -rf ~/.cache
 
 # Misc tools required for scripts.
 RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight \
@@ -85,7 +89,7 @@ ENV DAB="/opt/dab" \
 ENV APPLICATION="dab" \
     SUBCOMMANDS="/opt/dab/subcommands" \
     HOOK="/opt/dab/bin/pre-hook" \
-    DESCRIPTION="The Developer Laboratory (Dab) is a flexible tool for managing multiple interdependent projects and their orchestration execution, all while providing a friendly user experience and handy devops tools."
+    DESCRIPTION="The Developer Laboratory (Dab) is a flexible tool for managing multiple interdependent projects and their orchestration/execution, all while providing a friendly user experience and handy devops tools."
 
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent

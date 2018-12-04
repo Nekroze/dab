@@ -674,7 +674,7 @@ services:
       context: .
       dockerfile: Dockerfile.dive
       args:
-        - "DIVE_VERSION=${DAB_APPS_DIVE_VERSION:-0.3.0}"
+        - "DIVE_VERSION=${DAB_APPS_DIVE_VERSION:-0.4.1}"
     labels:
       description: 'A tool for exploring each layer in a docker image'
     volumes:
