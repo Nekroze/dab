@@ -34,6 +34,7 @@ var dab = complete.Command{
 				"entrypoint": {
 					Sub: map[string]complete.Command{
 						"create": {Args: newGeneric(predictRepos, 1)}, "new": {Args: newGeneric(predictRepos, 1)},
+						"list": {Args: newGeneric(predictRepos, 1)}, "available": {Args: newGeneric(predictRepos, 1)},
 						"run": {Args: complete.PredictOr(
 							newGeneric(predictRepos, 1),
 							newGeneric(predictEntrypoint, 2),
