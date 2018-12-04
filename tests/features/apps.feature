@@ -15,7 +15,7 @@ Feature: Subcommand: dab apps
 		Then it should pass with "NAME"
 		And the output should contain "DESCRIPTION"
 
-	@ci
+	@ci @announce-output
 	Scenario: Can update all apps at once
 		Given the aruba exit timeout is 3600 seconds
 
@@ -150,8 +150,4 @@ Feature: Subcommand: dab apps
 	Scenario: Can view the docker-compose config for a app
 		When I run `dab apps config vault`
 
-		Then it should pass with:
-		"""
-		labels:
-		  description:
-		"""
+		Then it should pass with "description:"

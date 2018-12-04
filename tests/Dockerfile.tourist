@@ -1,0 +1,38 @@
+FROM python:2-slim
+
+RUN apt-get update \
+ && apt-get install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     gnupg2 \
+     software-properties-common \
+ && curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
+ && add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) \
+   stable" \
+ && apt-get update \
+ && apt-get install --reinstall -y \
+     docker-ce \
+     tmux \
+     xterm \
+     python3-pip \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN pip2 install PyYAML spielbash \
+ && pip3 install "asciinema==1.4.0"
+
+WORKDIR /root
+
+COPY scripts/generate-tour.sh /usr/bin/gentour
+
+RUN echo "set -g status off" > /root/.tmux.conf \
+ && echo "set -g default-command bash" >> /root/.tmux.conf \
+ && echo 'export PS1="\[\e[35m\]\\$\[\e[m\] "' >> /etc/profile \
+ && echo "gentour /root/.tour.sh >> /root/.tour.yml" >> /entry.sh \
+ && echo "spielbash --script=/root/.tour.yml --output=/tmp/out/tour.asciinema.json" >> /entry.sh \
+ && chmod +x /entry.sh
+
+ENTRYPOINT ["/bin/sh","-e","-c"]
+CMD ["/entry.sh"]

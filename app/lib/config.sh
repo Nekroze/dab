@@ -34,7 +34,7 @@ config_chmod() {
 	key="$1"
 	mode="$2"
 	chmod "$mode" "$(config_path "$key")"
-	whisper "change $key mode to $mode"
+	whisper "$key mode changed to $mode"
 }
 
 config_add() {
