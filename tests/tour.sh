@@ -29,6 +29,7 @@ dab apps destroy portainer
 # The app config can also be displayed to see how it works
 dab apps config redis
 # In the config redis version is set with $DAB_APPS_REDIS_TAG
+# Any environment variable prefixed with DAB_ will be passed into dab
 # We can change this to any tag for the official redis image, for example
 export DAB_APPS_REDIS_TAG=4-alpine
 # There are many apps available to give you a jump start today

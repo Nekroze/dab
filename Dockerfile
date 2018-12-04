@@ -65,9 +65,29 @@ FROM nekroze/docker-compose-gen:latest AS gen
 # Used to pull in the ishmael binary
 FROM nekroze/ishmael:v1.2.1 AS ishmael
 
+# Stage some files here so that the final image has less layers
+FROM alpine AS prep
+
+ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
+ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /usr/bin/subcommander
+RUN chmod 755 /usr/bin/yq /usr/bin/subcommander
+
+COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
+COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
+COPY --from=ishmael /app /usr/bin/ishmael
+COPY --from=gen /app /usr/bin/docker-compose-gen
+
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
 FROM alpine:latest AS main
+
+LABEL org.label-schema.schema-version="1.0" \
+      org.label-schema.name="dab" \
+      org.label-schema.description="The Developer Lab" \
+      org.label-schema.usage="/opt/dab/README.md" \
+      org.label-schema.url="https://github.com/Nekroze/dab" \
+      org.label-schema.vcs-url="https://github.com/Nekroze/dab.git" \
+      org.label-schema.vendor="Taylor 'Nekroze' Lawson <https://keybase.io/nekroze>"
 
 # Docker and docker-compose are always required but take a while to install so
 # they are to be kept at a lower layer for caching.
@@ -78,39 +98,33 @@ RUN apk add --no-cache docker python3 \
 
 # Misc tools required for scripts.
 RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight \
- && echo "check_mail:0" >> /etc/multitail.conf
+ && echo "check_mail:0" >> /etc/multitail.conf \
+ && chmod 666 /etc/passwd
 
-# Handy env var configs
-ENV DAB="/opt/dab" \
-    PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
-    PATH="$PATH:/opt/dab/bin"
-
-# subcommander env vars
-ENV APPLICATION="dab" \
-    SUBCOMMANDS="/opt/dab/subcommands" \
-    HOOK="/opt/dab/bin/pre-hook" \
-    DESCRIPTION="The Developer Laboratory (Dab) is a flexible tool for managing multiple interdependent projects and their orchestration/execution, all while providing a friendly user experience and handy devops tools."
+# Handy env var configs and subcommander env vars
+ENV \
+  DAB="/opt/dab" \
+  PS1="\[\e[33m\]\A\[\e[m\] @ \[\e[36m\]\h\[\e[m\] \[\e[35m\]\\$\[\e[m\] " \
+  PATH="$PATH:/opt/dab/bin" \
+  APPLICATION="dab" \
+  SUBCOMMANDS="/opt/dab/subcommands" \
+  HOOK="/opt/dab/bin/pre-hook" \
+  DESCRIPTION="The Developer Laboratory (Dab) is a flexible tool for managing multiple interdependent projects and their orchestration/execution, all while providing a friendly user experience and handy devops tools."
 
 # Move just the app directory from the dab repository (along with some other
 # file from previous layers) and execute from there to keep paths consistent
 # and predictable.
-WORKDIR /opt/dab
-ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
-ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /usr/bin/subcommander
-RUN chmod 755 /usr/bin/yq /usr/bin/subcommander \
- && chmod 666 /etc/passwd
-COPY --from=shellcheck /bin/shellcheck /usr/bin/
-COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
-COPY --from=ishmael /app /usr/bin/ishmael
-COPY --from=gen /app /usr/bin/docker-compose-gen
+COPY --from=prep \
+  /usr/bin/yq \
+  /usr/bin/subcommander \
+  /usr/bin/shellcheck \
+  /usr/bin/dab-completion \
+  /usr/bin/ishmael \
+  /usr/bin/docker-compose-gen \
+  /usr/bin/
 COPY --from=versioning /VERSION /LOG /
-COPY ./app ./README.md ./LICENSE ./dab ./
-ENTRYPOINT ["/usr/bin/subcommander"]
 
-LABEL org.label-schema.schema-version="1.0" \
-      org.label-schema.name="dab" \
-      org.label-schema.description="The Developer Lab" \
-      org.label-schema.usage="/opt/dab/README.md" \
-      org.label-schema.url="https://github.com/Nekroze/dab" \
-      org.label-schema.vcs-url="https://github.com/Nekroze/dab.git" \
-      org.label-schema.vendor="Taylor 'Nekroze' Lawson <https://keybase.io/nekroze>"
+WORKDIR /opt/dab
+COPY ./app ./README.md ./LICENSE ./dab ./
+
+ENTRYPOINT ["/usr/bin/subcommander"]

@@ -18,6 +18,7 @@ docker-compose build tourist
 docker-compose run --rm tourist 'docker pull nekroze/containaruba:alpine'
 apps="$(grep -E 'dab apps \w+ \w+' tests/tour.sh | awk -vORS=' ' '{ print $4; }' | uniq)"
 docker-compose run --rm tourist "dab apps update vault vaultbot consul $apps"
+docker-compose run --rm tourist 'rm -rf ~/.config/dab'
 
 # Record tour
 docker-compose run --rm tourist
