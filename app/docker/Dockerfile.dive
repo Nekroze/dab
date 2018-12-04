@@ -1,13 +1,5 @@
-FROM golang:latest AS build
+FROM centos:latest
 
-ARG DIVE_VERSION=0.3.0
-ENV PROJECT=github.com/wagoodman/dive
-RUN go get -d -v "${PROJECT}/..." \
- && cd "$GOPATH/src/${PROJECT}" \
- && git checkout "v${DIVE_VERSION}" \
- && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-    -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dive -v .
-
-FROM scratch AS final
-COPY --from=build /usr/bin/dive /dive
-ENTRYPOINT ["/dive"]
+ARG DIVE_VERSION=0.4.1
+RUN yum install -y "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.rpm"
+ENTRYPOINT ["/usr/local/bin/dive"]
