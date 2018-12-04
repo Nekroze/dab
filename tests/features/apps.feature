@@ -15,7 +15,7 @@ Feature: Subcommand: dab apps
 		Then it should pass with "NAME"
 		And the output should contain "DESCRIPTION"
 
-	@ci @announce-output
+	@ci
 	Scenario: Can update all apps at once
 		Given the aruba exit timeout is 3600 seconds
 
@@ -103,6 +103,7 @@ Feature: Subcommand: dab apps
 		Examples:
 			| APP      |
 			| ansible  |
+			| dive     |
 			| fn       |
 			| kafkacat |
 			| xsstrike |
