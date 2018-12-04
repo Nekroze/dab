@@ -8,7 +8,7 @@ WORKDIR /mnt
 COPY ./ ./
 
 RUN shellcheck --shell sh --color \
-      dab app/bin/dab \
+      dab app/bin/* \
       $(find . -name '*.sh' -type f) \
       $(find app/subcommands -type f)
 
@@ -36,13 +36,12 @@ RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.s
 ENV GO111MODULE=on
 
 # Test, lint, and build the shell completion binary.
-COPY ./completion/*.go ./
-COPY ./go.mod ./go.sum ./
+COPY ./completion ./
 
 RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits  \
  && go build -o completion . \
  && CGO_ENABLED=0 GOOS=linux GOARCH=386 go build \
-   -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion -v \
+   -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion \
    .
 
 
