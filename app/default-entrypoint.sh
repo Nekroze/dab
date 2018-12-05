@@ -9,3 +9,4 @@ export COMPOSE_FILE
 # docker-compose up
 # make test
 # dab apps start redis
+# envsubst < ./kubernetes.yml | kubectl apply -f -
