@@ -61,20 +61,27 @@ RUN git rev-parse HEAD > /VERSION \
 # Used to pull in the docker-compose-gen binary
 FROM nekroze/docker-compose-gen:latest AS gen
 
+
 # Used to pull in the ishmael binary
 FROM nekroze/ishmael:v1.2.1 AS ishmael
 
+
 # Stage some files here so that the final image has less layers
-FROM alpine AS prep
+FROM alpine:latest AS prep
+
+RUN apk add --no-cache curl gettext
 
 ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
 ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /usr/bin/subcommander
-RUN chmod 755 /usr/bin/yq /usr/bin/subcommander
+WORKDIR /usr/bin
+RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" \
+ && chmod 755 /usr/bin/yq /usr/bin/subcommander /usr/bin/kubectl
 
 COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
 COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
 COPY --from=ishmael /app /usr/bin/ishmael
 COPY --from=gen /app /usr/bin/docker-compose-gen
+
 
 # Selected alpine for a small base image that many other images also use
 # maximizing docker cache utilization.
@@ -96,7 +103,7 @@ RUN apk add --no-cache docker python3 \
  && rm -rf ~/.cache
 
 # Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight \
+RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl \
  && echo "check_mail:0" >> /etc/multitail.conf \
  && chmod 666 /etc/passwd
 
@@ -120,6 +127,8 @@ COPY --from=prep \
   /usr/bin/dab-completion \
   /usr/bin/ishmael \
   /usr/bin/docker-compose-gen \
+  /usr/bin/kubectl \
+  /usr/bin/envsubst \
   /usr/bin/
 COPY --from=versioning /VERSION /LOG /
 
