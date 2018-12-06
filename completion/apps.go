@@ -40,6 +40,10 @@ var apps = []string{
 	"watchtower",
 	"xsstrike",
 	"zookeeper",
+	"minio",
+	"couchdb",
+	"kafka-rest",
+	"kafka-topics-ui",
 }
 
 func predictApps(_ complete.Args) []string {

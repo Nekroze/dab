@@ -690,7 +690,6 @@ services:
   selenium:
     container_name: dab_selenium
     image: "selenium/standalone-${DAB_APPS_SELENIUM_VARIANT:-firefox}:${DAB_APPS_SELENIUM_TAG:-latest}"
-    restart: always
     depends_on:
       - postgres
     labels:
@@ -704,6 +703,84 @@ services:
     expose:
       - 4444
       - 5900
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+  kafka-topics-ui:
+    container_name: dab_kafka-topics-ui
+    image: "landoop/kafka-topics-ui:${DAB_APPS_KAFKA_TOPICS_UI_TAG:-latest}"
+    labels:
+      description: 'Web interface for inspecting Kafka topics'
+      com.centurylinklabs.watchtower.enable: 'true'
+    environment:
+      KAFKA_REST_PROXY_URL: 'http://kafka-rest:8082'
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
+      PROXY: 'true'
+    depends_on:
+      - kafka
+      - kafka-rest
+    expose:
+      - 8000
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+  kafka-rest:
+    container_name: dab_kafka-rest
+    image: "confluentinc/cp-kafka-rest:${DAB_APPS_KAFKA_REST_TAG:-latest}"
+    labels:
+      description: 'RESTful http api for Kafka'
+      com.centurylinklabs.watchtower.enable: 'true'
+    environment:
+      ACCESS_CONTROL_ALLOW_ORIGIN_DEFAULT: '*'
+      KAFKA_REST_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_REST_HOST_NAME: 'kafka-rest'
+      KAFKA_REST_LISTENERS: 'http://kafka-rest:8082'
+      KAFKA_REST_CONSUMER_REQUEST_TIMEOUT_MS: '30000'
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
+    depends_on:
+      - kafka
+      - zookeeper
+    expose:
+      - 8082
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+  couchdb:
+    container_name: dab_couchdb
+    image: "couchdb:${DAB_APPS_COUCHDB_TAG:-latest}"
+    labels:
+      description: 'JSON Document NOSQL Database'
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - 'couchdb:/usr/local/var/lib/couchdb'
+    expose:
+      - 5984
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+  minio:
+    container_name: dab_minio
+    image: "minio/minio:${DAB_APPS_MINIO_TAG:-latest}"
+    labels:
+      description: 'S3 compatible object storage server`${DAB_APPS_MINIO_ACCESS_KEY:-access}`${DAB_APPS_MINIO_SECRET_KEY:-secretkey}'
+      com.centurylinklabs.watchtower.enable: 'true'
+    command:
+      - server
+      - /data
+    environment:
+      MINIO_ACCESS_KEY: "${DAB_APPS_MINIO_ACCESS_KEY:-access}"
+      MINIO_SECRET_KEY: "${DAB_APPS_MINIO_SECRET_KEY:-secretkey}"
+    volumes:
+      - minio:/data
+    expose:
+      - 9000
+    restart: on-failure
+    tmpfs:
+      - /tmp
 
 volumes:
   chronograf:
@@ -716,6 +793,8 @@ volumes:
   portainer:
   postgres:
   vault:
+  couchdb:
+  minio:
   logs:
     external:
       name: dab_logs
