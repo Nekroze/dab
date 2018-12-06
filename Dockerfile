@@ -69,13 +69,15 @@ FROM nekroze/ishmael:v1.2.1 AS ishmael
 # Stage some files here so that the final image has less layers
 FROM alpine:latest AS prep
 
-RUN apk add --no-cache curl gettext
+RUN apk add --no-cache curl gettext bash openssl
 
 ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
 ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /usr/bin/subcommander
+ADD https://raw.githubusercontent.com/helm/helm/master/scripts/get /bin/get-helm
 WORKDIR /usr/bin
 RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" \
- && chmod 755 /usr/bin/yq /usr/bin/subcommander /usr/bin/kubectl
+ && chmod 755 /usr/bin/yq /usr/bin/subcommander /usr/bin/kubectl /bin/get-helm \
+ && env HELM_INSTALL_DIR=/usr/bin get-helm
 
 COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
 COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
@@ -129,6 +131,7 @@ COPY --from=prep \
   /usr/bin/docker-compose-gen \
   /usr/bin/kubectl \
   /usr/bin/envsubst \
+  /usr/bin/helm \
   /usr/bin/
 COPY --from=versioning /VERSION /LOG /
 
