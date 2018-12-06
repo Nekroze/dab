@@ -105,9 +105,10 @@ RUN apk add --no-cache docker python3 \
  && rm -rf ~/.cache
 
 # Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl \
+RUN apk add --no-cache dash git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl \
  && echo "check_mail:0" >> /etc/multitail.conf \
- && chmod 666 /etc/passwd
+ && chmod 666 /etc/passwd \
+ && cp -f /usr/bin/dash /bin/sh
 
 # Handy env var configs and subcommander env vars
 ENV \
