@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: Execute an entrypoint (defaults to start) for the given repo
+# Description: Execute an entrypoint for the given repo
 # Usage: <REPO_NAME> [<ENTRYPOINT_NAME>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
@@ -8,8 +8,9 @@ set -euf
 . "$DAB/lib/config.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide a repo name'
+[ -n "${2:-}" ] || fatality 'must provide a entrypoint name'
 repo="$1"
-entry="${2:-start}"
+entry="$2"
 shift
 [ -n "${1:-}" ] && shift
 
