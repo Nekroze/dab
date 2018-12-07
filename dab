@@ -2,6 +2,8 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] wrapper $*"
+
 # Some static values to get us started.
 image="${DAB_IMAGE:-${DAB_IMAGE_NAMESPACE:-nekroze}/${DAB_IMAGE_NAME:-dab}:${DAB_IMAGE_TAG:-latest}}"
 docker_args='--hostname dab --rm --tmpfs /run,/tmp --network host'
@@ -134,6 +136,10 @@ dArg "$(
 		tr '\n' ' '
 )"
 
+[ "${DAB_DEBUG:-false}" = 'false' ] || set -x
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] docker run $*"
 # Execute with all generated args and passing in all script params to the container.
 # shellcheck disable=SC2086
 docker run $docker_args "$image" "$@"
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] docker run $*"
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] wrapper $*"

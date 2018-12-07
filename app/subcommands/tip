@@ -16,13 +16,13 @@ You can explore the dab lab network with 'dab network shell'
 You do not need to do anything to ensure you are using the latest version of dab, but can trigger an update with 'dab update'
 Each repository can have any number of entrypoints defined
 Repository entry points can take parameters for extra customizability
-Apps provide ready to use services and tools for accomplishing devops tasks, see what is available with 'dab apps list'
+Apps provide helpful interfaces or services for accomplishing DevOps tasks, see what is available with 'dab apps list'
 Any git repository can be managed and orchestrated by Dab, even if it does not need to start an app
-Services and Tools persist data by default where appropriate, if you want to wipe data try 'dab apps destroy <APP_NAME>'
+Apps persist data by default where appropriate, if you want to wipe data try 'dab apps destroy <APP_NAME>'
 A public key infrastructure (pki) and secrets management engine backed by Hashicorp Vault and Consul is provided that persists across reboots
 The public key infrastructure (pki) is able to issue x509 certificates suitable for HTTPS that are only renewed when neccesary
 The public key infrastructure (pki) will generate a certificate authority only once (unless destroyed) and automatically install it into all local browsers
-Most Services and Tools have docker health checks so you can see at a glance if dependencies are behaving correctly
+Most apps Dab provides have docker health checks so you can see at a glance if dependencies are behaving correctly
 Dab creates a customizable lab network, any container's your repositories starts should connect to it for instrumentation and tooling
 The lab network can be rebuilt with 'dab network recreate' with little ill effect as all containers are first detached then reattached to the new network
 Repository entry points might use \$DAB_UID and \$DAB_GID environment variables when running docker containers with bind mounts to prevent permissions issues

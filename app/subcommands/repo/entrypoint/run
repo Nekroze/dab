@@ -29,3 +29,4 @@ fi
 cd "$DAB_REPO_PATH/$repo"
 shellcheck --shell sh --color "$entrypoint" || true
 sh "$entrypoint" "$@"
+inform "Completed $repo entrypoint $entry$suffix"

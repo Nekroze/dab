@@ -36,12 +36,14 @@ maybe_notify_wrapper_update() {
 }
 
 maybe_selfupdate_dab() {
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] maybe_selfupdate_dab"
 	if should_selfupdate; then
 		inform "self updating dab!"
 		config_set updates/last "$(date +%s)"
 		docker pull "${DAB_IMAGE:-${DAB_IMAGE_NAMESPACE:-nekroze}/${DAB_IMAGE_NAME:-dab}:${DAB_IMAGE_TAG:-latest}}"
 		/tmp/wrapper changelog "$(cut -c -7 </VERSION)"
 	fi
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] maybe_selfupdate_dab"
 }
 
 maybe_update_completion() {

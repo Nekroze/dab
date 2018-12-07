@@ -138,4 +138,4 @@ COPY --from=versioning /VERSION /LOG /
 WORKDIR /opt/dab
 COPY ./app ./README.md ./LICENSE ./dab ./
 
-ENTRYPOINT ["/usr/bin/subcommander"]
+ENTRYPOINT ["/opt/dab/bin/dab"]
