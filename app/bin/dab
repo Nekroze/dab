@@ -4,5 +4,7 @@ set -euf
 
 dir="$PWD"
 cd "$DAB"
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] subcommander $*"
 subcommander "$@"
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] subcommander $*"
 cd "$dir"

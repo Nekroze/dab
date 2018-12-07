@@ -60,6 +60,7 @@ ensure_persistent_docker_objects() {
 }
 
 pre_hooks() {
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] pre_hooks $*"
 	if [ -f /tmp/hooked ]; then
 		return 0
 	else
@@ -85,6 +86,7 @@ pre_hooks() {
 		ensure_persistent_docker_objects
 		;;
 	esac
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] pre_hooks $*"
 }
 
 post_hooks() {

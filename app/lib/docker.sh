@@ -6,6 +6,7 @@ set -euf
 . "$DAB/lib/output.sh"
 
 dpose() {
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] dpose $*"
 	project="$1"
 	shift
 	files="$DAB/docker/docker-compose.$project.yml"
@@ -14,6 +15,7 @@ dpose() {
 		docker-compose \
 		--project-directory ./docker \
 		"$@"
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose $*"
 }
 
 compose_service_config() {
