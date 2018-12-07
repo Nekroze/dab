@@ -1,6 +1,7 @@
 ## vim: cc=78
 # Hi! I will be your tour guide to The Developer Laboratory
 # You can call me Clippy     Just kidding!
+# This tour can be paused at any time with the space bar
 set -e
 # This will exit if any commands fail, everything I show you works!
 
