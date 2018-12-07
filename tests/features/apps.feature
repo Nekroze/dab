@@ -8,7 +8,7 @@ Feature: Subcommand: dab apps
 
 		Given the aruba exit timeout is 300 seconds
 
-	@ci @smoke
+	@smoke
 	Scenario: Can list all available apps
 		When I run `dab apps list`
 
@@ -147,7 +147,7 @@ Feature: Subcommand: dab apps
 		Then I successfully run `docker ps`
 		And it should not pass with "dab_redis"
 
-	@ci @smoke
+	@smoke
 	Scenario: Can view the docker-compose config for a app
 		When I run `dab apps config vault`
 

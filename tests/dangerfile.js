@@ -17,3 +17,10 @@ const changedWrapper = danger.git.modified_files.includes('dab');
 if (changedWrapper) {
 	warn('Changes to the dab wrapper script are to be avoided when possible.')
 }
+
+// Changes to the tour script without re-rendering the tour should be blocked.
+const changedTourScript = danger.git.modified_files.includes('tour.sh');
+const changedTour = danger.git.modified_files.includes('tour.asciinema.json');
+if (changedTourScript && !changedTour) {
+	fail('You must re-render the tour with `./scripts/render-tour.sh` when changing `tour.sh`.')
+}

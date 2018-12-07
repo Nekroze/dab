@@ -3,13 +3,16 @@ jobs:
   build:
     machine: true
     steps:
+
       - checkout
+
       - run:
           name: Install Docker Compose
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
+
       - run:
           name: Profile
           command: script -qec './scripts/test.sh'
@@ -18,8 +21,15 @@ jobs:
             TEST_TAGS: '@profiling'
 
       - run:
-          name: Slower Tests
+          name: Smoke Tests
           command: script -qec './scripts/test.sh'
           environment:
             TEST_DOCKER: local
-            TEST_TAGS: '@ci'
+            TEST_TAGS: '@smoke and not @profiling'
+
+      - run:
+          name: Acceptance Tests
+          command: script -qec './scripts/test.sh'
+          environment:
+            TEST_DOCKER: local
+            TEST_TAGS: '@ci and not @smoke'

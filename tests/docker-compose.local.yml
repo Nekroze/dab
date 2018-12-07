@@ -3,7 +3,6 @@ version: '3.2'
 services:
 
   tests:
-    image: 'nekroze/containaruba:latest'
     environment:
       DAB_AUTOUPDATE: 'no'
       DAB_REPO_PATH: /tmp/dab/dab
