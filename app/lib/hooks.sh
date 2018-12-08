@@ -71,7 +71,7 @@ pre_hooks() {
 	trap "post_hooks $*" EXIT
 
 	load_vault_token
-	generate_user
+	generate_user &
 	config_load_envs
 	maybe_update_completion &
 
@@ -83,7 +83,7 @@ pre_hooks() {
 		;;
 	*)
 		maybe_selfupdate_dab || true
-		ensure_persistent_docker_objects
+		ensure_persistent_docker_objects &
 		;;
 	esac
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] pre_hooks $*"
