@@ -22,27 +22,25 @@ should_selfupdate() {
 	[ "$seconds_since_last_update" -gt "$self_update_period" ]
 }
 
-maybe_notify_wrapper_update() {
-	if [ ! -f /tmp/wrapper ] || [ ! -f dab ]; then
+maybe_update_wrapper() {
+	if [ "${DAB_AUTOUPDATE_WRAPPER:-yes}" = 'no' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
 		return 0
-	fi
-	if [ "$(file_hash dab)" != "$(file_hash /tmp/wrapper)" ]; then
-		warn 'Dab wrapper script appears to have an update available!'
-		[ -n "${DAB_WRAPPER_PATH:-}" ] || return 0
-		warn 'Update example:'
-		warn "sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o $DAB_WRAPPER_PATH"
-		warn "sudo chmod 755 $DAB_WRAPPER_PATH"
+	elif [ "$(file_hash "$DAB/dab")" != "$(file_hash /tmp/wrapper)" ]; then
+		cat "$DAB/dab" >/tmp/wrapper
+		warn "Dab wrapper script at $DAB_WRAPPER_PATH was updated!"
 	fi
 }
 
 maybe_selfupdate_dab() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] maybe_selfupdate_dab"
-	if should_selfupdate; then
-		inform "self updating dab!"
-		config_set updates/last "$(date +%s)"
-		docker pull "${DAB_IMAGE:-${DAB_IMAGE_NAMESPACE:-nekroze}/${DAB_IMAGE_NAME:-dab}:${DAB_IMAGE_TAG:-latest}}"
-		/tmp/wrapper changelog "$(cut -c -7 </VERSION)"
-	fi
+	should_selfupdate || return 0
+
+	warn "self updating dab!"
+	config_set updates/last "$(date +%s)"
+
+	docker pull "${DAB_IMAGE:-${DAB_IMAGE_NAMESPACE:-nekroze}/${DAB_IMAGE_NAME:-dab}:${DAB_IMAGE_TAG:-latest}}"
+	/tmp/wrapper changelog "$(cut -c -7 </VERSION)"
+
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] maybe_selfupdate_dab"
 }
 
