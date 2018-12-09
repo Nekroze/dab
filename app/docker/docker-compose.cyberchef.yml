@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  cyberchef:
+    container_name: dab_cyberchef
+    build:
+      context: .
+      dockerfile: Dockerfile.cyberchef
+      args:
+        - "NGINX_TAG=${DAB_APPS_NGINX_TAG:-alpine}"
+    labels:
+      description: 'The Cyber Swiss Army Knife'
+    expose:
+      - 80
+    healthcheck:
+      test: 'wget --spider http://localhost || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

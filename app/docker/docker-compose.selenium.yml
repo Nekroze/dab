@@ -1,0 +1,28 @@
+version: '3.5'
+
+services:
+
+  selenium:
+    container_name: dab_selenium
+    image: "selenium/standalone-${DAB_APPS_SELENIUM_VARIANT:-firefox}:${DAB_APPS_SELENIUM_TAG:-latest}"
+    labels:
+      description: 'Browser automation``secret'
+      com.centurylinklabs.watchtower.enable: 'true'
+    shm_size: '2gb'
+    environment:
+      START_XVFB: 'true'
+    networks:
+      - lab
+    expose:
+      - 4444
+      - 5900
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

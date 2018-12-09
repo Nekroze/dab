@@ -6,4 +6,4 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
 
-compose_to_services_data apps | column -s'`' -o' | ' -t -N NAME,DESCRIPTION,USERNAME,PASSWORD -R NAME
+compose_to_apps_data | column -s'`' -o' | ' -t -N NAME,DESCRIPTION,USERNAME,PASSWORD -R NAME

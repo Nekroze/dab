@@ -25,7 +25,7 @@ Feature: Subcommand: dab pki
 		And I copy the file "~/.config/dab/pki/ca/certificate" to "~/.config/dab/pki/ca/certificate.original"
 		And I successfully run `dab pki issue git.test.lan`
 
-		When I successfully run `dab apps stop`
+		When I successfully run `dab apps stop vault`
 		And I successfully run `dab pki ready`
 		And I successfully run `dab pki issue git.test.lan`
 

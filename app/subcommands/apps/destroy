@@ -1,6 +1,6 @@
 #!/bin/sh
-# Description: Destroy containers and volumes for a specific (or all if none given) app
-# Usage: [<APP_NAME>]
+# Description: Destroy containers and volumes for a specific app
+# Usage: <APP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -9,9 +9,7 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-if [ -n "${1:-}" ]; then
-	dpose apps rm --stop -v -f "$@"
-	carelessly docker volume rm "dab_$1"
-else
-	dpose apps down --volumes
-fi
+[ -n "${1:-}" ] || fatality 'must provide an app name'
+
+dpose "$1" rm --stop -v -f
+carelessly dpose "$1" down --volumes

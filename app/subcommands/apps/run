@@ -9,5 +9,5 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-[ $# -gt 0 ] || fatality 'must provide at least a app name'
-dpose apps run --rm "$@"
+[ -n "${1:-}" ] || fatality 'must provide an app name'
+dpose "$1" run --rm "$@"

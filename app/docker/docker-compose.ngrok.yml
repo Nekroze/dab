@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+
+  ngrok:
+    container_name: dab_ngrok
+    build:
+      context: .
+      dockerfile: Dockerfile.ngrok
+    labels:
+      description: 'Secure introspectable tunnels, points to traefik'
+    depends_on:
+      - traefik
+    expose:
+      - 4040
+    networks:
+      - default
+      - lab
+    healthcheck:
+      test: 'wget --spider http://localhost:4040 || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

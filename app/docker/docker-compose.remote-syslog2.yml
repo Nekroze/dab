@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+
+  remote-syslog2:
+    container_name: dab_remote-syslog2
+    build:
+      context: .
+      dockerfile: Dockerfile.remote_syslog2
+    labels:
+      description: 'Ingests .log files placed in the docker volume named dab_logs'
+    depends_on:
+      - telegraf
+    restart: on-failure
+    volumes:
+      - logs:/srv/logs
+    tmpfs:
+      - /tmp
+
+volumes:
+  logs:
+    external:
+      name: dab_logs
+
+networks:
+  default:
+    name: dab_apps

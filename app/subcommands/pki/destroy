@@ -3,5 +3,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
-dab apps destroy consul vault || true
+dab apps destroy vault || true
+dab apps destroy consul || true
 dab config set pki

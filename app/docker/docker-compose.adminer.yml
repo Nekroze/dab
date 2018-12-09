@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  adminer:
+    container_name: dab_adminer
+    image: "adminer:${DAB_APPS_ADMINER_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'Database manager with a small footprint'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - default
+      - lab
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    expose:
+      - 8080
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

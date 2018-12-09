@@ -1,0 +1,38 @@
+version: '3.5'
+
+services:
+
+  chronograf:
+    container_name: dab_chronograf
+    image: "chronograf:${DAB_APPS_CHRONOGRAF_TAG:-alpine}"
+    labels:
+      description: 'Chronograf metrics explorer from the TICK stack'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - influxdb
+      - telegraf
+      - logspout
+      - remote-syslog2
+      - kapacitor
+    volumes:
+      - chronograf:/var/lib/chronograf
+    environment:
+      INFLUXDB_URL: http://influxdb:8086
+      KAPACITOR_URL: http://kapacitor:9092
+      LOG_LEVEL: error
+    expose:
+      - 8888
+    healthcheck:
+      test: 'wget --spider http://localhost:8888/ || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+volumes:
+  chronograf:
+
+networks:
+  default:
+    name: dab_apps

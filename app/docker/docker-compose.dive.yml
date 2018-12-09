@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+
+  dive:
+    container_name: dab_dive
+    build:
+      context: .
+      dockerfile: Dockerfile.dive
+      args:
+        - "DIVE_VERSION=${DAB_APPS_DIVE_VERSION:-0.4.1}"
+    labels:
+      description: 'A tool for exploring each layer in a docker image'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

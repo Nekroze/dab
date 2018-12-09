@@ -1,0 +1,34 @@
+version: '3.5'
+
+services:
+
+  kapacitor:
+    container_name: dab_kapacitor
+    image: "kapacitor:${DAB_APPS_KAPACITOR_TAG:-alpine}"
+    labels:
+      description: 'Real-Time metrics processing from the TICK stack'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - influxdb
+    environment:
+      KAPACITOR_HOSTNAME: kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+      LOG_LEVEL: error
+    expose:
+      - 9092
+    volumes:
+      - kapacitor:/var/lib/kapacitor
+    healthcheck:
+      test: 'wget --spider http://localhost:9092/kapacitor/v1/ping || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+volumes:
+  kapacitor:
+
+networks:
+  default:
+    name: dab_apps

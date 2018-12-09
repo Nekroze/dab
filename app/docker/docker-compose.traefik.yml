@@ -1,0 +1,42 @@
+version: '3.5'
+
+services:
+
+  traefik:
+    container_name: dab_traefik
+    image: "traefik:${DAB_APPS_TRAEFIK_TAG:-alpine}"
+    labels:
+      description: 'The Cloud Native Edge Router, docker reverse proxy'
+      com.centurylinklabs.watchtower.enable: 'true'
+    command:
+      - --ping
+      - --web
+      - --api
+      - --docker
+      - --accesslog
+      - --tracing
+      - --tracing.backend=zipkin
+      - --tracing.zipkin
+      - --tracing.zipkin.httpendpoint=http://telegraf:9411/api/v1/spans
+    expose:
+      - 80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - default
+      - lab
+    healthcheck:
+      test: 'wget --spider http://localhost:8080/ping || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab
+

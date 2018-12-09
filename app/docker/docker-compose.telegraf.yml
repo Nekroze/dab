@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  telegraf:
+    container_name: dab_telegraf
+    image: "telegraf:${DAB_APPS_TELEGRAF_TAG:-alpine}"
+    labels:
+      description: 'Metrics collection agent from the TICK stack'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - influxdb
+      - docker-gen
+    restart: on-failure
+    command: --quiet
+    environment:
+      DAB_APPS_MYSQL_ROOT_PASSWORD: "${DAB_APPS_MYSQL_ROOT_PASSWORD:-root}"
+    volumes:
+      - gend:/etc/telegraf
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/utmp:/var/run/utmp:ro
+    healthcheck:
+      test: 'wget --spider http://localhost:8086/ping || exit 1'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+volumes:
+  gend:
+
+networks:
+  default:
+    name: dab_apps

@@ -16,13 +16,18 @@ Feature: Subcommand: dab apps
 		And the output should contain "DESCRIPTION"
 
 	@ci
-	Scenario: Can update all apps at once
+	Scenario Outline: Can update apps
 		Given the aruba exit timeout is 3600 seconds
 
-		When I run `dab apps update`
+		When I run `dab apps update <APP>`
 
 		Then it should pass with "Pulling"
 		And the output should contain "Building"
+
+		Examples:
+			| APP      |
+			| vault    |
+			| vaultbot |
 
 	@ci
 	Scenario: Can start and stop a app
@@ -128,24 +133,6 @@ Feature: Subcommand: dab apps
 			| portainer  | DAB_APPS_PORTAINER_TAG  | 1.19.2     |
 			| postgres   | DAB_APPS_POSTGRES_TAG   | 9.4-alpine |
 			| traefik    | DAB_APPS_TRAEFIK_TAG    | v1.7       |
-
-	@ci
-	Scenario: Can stop all apps at once
-		Given I successfully run `dab apps start redis`
-
-		When I run `dab apps stop`
-
-		Then I successfully run `docker ps`
-		And it should not pass with "dab_redis"
-
-	@ci
-	Scenario: Can erase all apps and their state at once
-		Given I successfully run `dab apps start redis`
-
-		When I run `dab apps destroy`
-
-		Then I successfully run `docker ps`
-		And it should not pass with "dab_redis"
 
 	@smoke
 	Scenario: Can view the docker-compose config for a app

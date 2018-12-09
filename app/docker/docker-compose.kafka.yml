@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  kafka:
+    container_name: dab_kafka
+    image: "confluentinc/cp-kafka:${DAB_APPS_KAFKA_TAG:-latest}"
+    labels:
+      description: 'Stream processing platform'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - zookeeper
+    restart: on-failure
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

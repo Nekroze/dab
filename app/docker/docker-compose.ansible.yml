@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+
+  ansible:
+    container_name: dab_ansible
+    build:
+      context: .
+      dockerfile: Dockerfile.ansible
+      args:
+        - "ANSIBLE_VERSION=${DAB_APPS_ANSIBLE_VERSION:-2.7.1}"
+    labels:
+      description: 'Automated configuration management'
+    environment:
+      - HOME
+    user: "$DAB_UID:$DAB_GID"
+    volumes:
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+      - "$HOST_PWD:/ansible/playbooks"
+      - logs:/var/log/ansible
+    working_dir: "$HOST_PWD"
+    tmpfs:
+      - /tmp
+
+volumes:
+  logs:
+    external:
+      name: dab_logs
+
+networks:
+  default:
+    name: dab_apps

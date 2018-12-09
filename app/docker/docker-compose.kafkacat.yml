@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  kafkacat:
+    container_name: dab_kafkacat
+    image: "confluentinc/cp-kafkacat:${DAB_APPS_KAFKACAT_TAG:-latest}"
+    labels:
+      description: 'Lightweight kafka console consumer/producer'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - default
+      - lab
+    entrypoint:
+      - /usr/local/bin/kafkacat
+    command: '-b kafka -L'
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

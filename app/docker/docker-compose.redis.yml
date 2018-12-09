@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+
+  redis:
+    container_name: dab_redis
+    image: "redis:${DAB_APPS_REDIS_TAG:-latest}"
+    labels:
+      description: 'In-memory data structure store'
+      exposing: 'tcp'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    healthcheck:
+      test: 'redis-cli ping'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    expose:
+      - 6379
+    ports:
+      - '16379:6379'
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

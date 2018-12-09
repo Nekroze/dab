@@ -64,21 +64,19 @@ Now whenever we start this repo, or a repo that depends upon this one, the `test
  $ dab repo entrypoint start containaruba
 ```
 
-### Using tools and services
+### Using dockerized apps
 
-There is an ever growing selection of tools and services dab provides (checkout `dab tools list` and `dab services list`) for recording metrics, databases, etc.
+There is an ever growing selection of tools and services dab provides (checkout `dab apps list`) for recording metrics, databases, etc.
 
 ```bash
- $ dab tools start grafana
- $ dab tools start ntopng
- $ dab services start redis
+ $ dab apps start grafana
+ $ dab apps start ntopng
+ $ dab apps start redis
 ```
 
 ### Updating
 
-Dab has a self updating mechanism in that it will pull the latest version of the dab image when dab is next executed a day or more after the last time it checked. So generally you do not have to do anything at all to stay up to date with the latest features, bug fixes, and security improvements.
-
-The [dab script][1] wrapper has been designed to reduce the requirement to update it when new features are added to dab, however it may be necessary to do so on occasion and can be accomplished simply by downloading the latest version of the file and replace the existing one on your machine. Executing the install steps again should suffice.
+Dab has a self updating mechanism in that it will pull the latest version of the dab image when dab is next executed a day or more after the last time it checked. So generally you do not have to do anything at all to stay up to date with the latest features, bug fixes, and security improvements. This new image will update the wrapper script if necessary.
 
 ### Features
 
@@ -90,8 +88,8 @@ The [dab script][1] wrapper has been designed to reduce the requirement to updat
 - Auto update of dab image
 - Setup of private lab network
 - Automatically collect logs to explore via [TICK][3] and [Logspout][4]
-- Automatically detect out of date wrapper script
-- Groups allow combining repositories, services, tools, and even groups to be orchestrated together
+- Automatically update out of date wrapper script
+- Groups allow combining repositories, and even groups to be orchestrated together
 - Shared base image, most all docker container dab uses utilize an alpine base image that is lean
 - Simple, thanks to the [subcommander][7] dispatcher most subcommands are implemented in only a few SLOC
 - Tree structured configuration that can be shared (eg. via git or tar)

@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  vaultbot:
+    container_name: dab_vaultbot
+    image: "msvechla/vaultbot:${DAB_APPS_VAULTBOT_TAG:-latest}"
+    labels:
+      description: 'Automate interaction with Hashicorp Vault'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - vault
+    entrypoint:
+      - ./vaultbot
+      - '--vault_addr=http://vault:8200'
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

@@ -19,7 +19,7 @@ maybe_post_chronograf_annotiation() {
 	fi
 	ns="$(date +%s)000000000"
 	values="text=\"dab $1\",start_time=${ns}i,modified_time_ns=${ns}i,type=\"dab execution\",deleted=false"
-	quietly dpose services exec --detach influxdb sh -c "
+	quietly dpose influxdb exec --detach influxdb sh -c "
 		influx -execute 'CREATE DATABASE chronograf'
 		influx -database chronograf -execute 'INSERT annotations,id=$(uuidgen) $values'
 	"
@@ -56,7 +56,7 @@ load_vault_token() {
 }
 
 ensure_persistent_docker_objects() {
-	silently dpose persist up --no-start || true
+	silently dpose shell up --no-start || true
 }
 
 pre_hooks() {
@@ -71,7 +71,7 @@ pre_hooks() {
 	trap "post_hooks $*" EXIT
 
 	load_vault_token
-	generate_user &
+	generate_user
 	config_load_envs
 	maybe_update_completion &
 
@@ -79,7 +79,7 @@ pre_hooks() {
 
 	case "${1:-}" in
 	'version' | 'network' | 'update')
-		true
+		true # this prevents doing certain actions on trivial subcommands
 		;;
 	*)
 		maybe_selfupdate_dab || true
@@ -90,7 +90,7 @@ pre_hooks() {
 }
 
 post_hooks() {
-	captain_hindsight "$@"
+	captain_hindsight "$@" # captain hindsight must be first because it captures the exit code
 	maybe_display_tip
 	maybe_notify_wrapper_update
 }

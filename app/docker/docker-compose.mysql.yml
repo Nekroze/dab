@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  mysql:
+    container_name: dab_mysql
+    image: "mysql:${DAB_APPS_MYSQL_TAG:-latest}"
+    labels:
+      description: "Open Source RDBMS`root`${DAB_APPS_MYSQL_ROOT_PASSWORD:-root}"
+      exposing: 'tcp'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DAB_APPS_MYSQL_ROOT_PASSWORD:-root}"
+    volumes:
+      - mysql:/var/lib/mysql
+    tmpfs:
+      - /tmp
+
+volumes:
+  mysql:
+
+networks:
+  default:
+    name: dab_apps

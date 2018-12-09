@@ -8,8 +8,7 @@ set -e
 # Installing Dab is just downloading a tiny wrapper script
 whereis dab
 # Here it has been done for us but the process is easy, promise
-# The wrapper is manually updated rarely, Dab will say when
-# Next time you run Dab after 24 hours it will update its image
+# Next time you run Dab after 24 hours it will update its image and wrapper
 # You can disable this by setting $DAB_AUTOUPDATE=no
 
 # The Dab CLI puts a tree of subcommands at your disposal
@@ -25,7 +24,7 @@ dab apps start portainer
 # Portainer is now accessible at the above URL
 # Apps can easily be stopped to save resources
 dab apps stop portainer
-# Some services have state (data) that can be wiped
+# Some apps have state (data) that can be wiped
 dab apps destroy portainer
 # The app config can also be displayed to see how it works
 dab apps config redis

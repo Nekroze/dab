@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  portainer:
+    container_name: dab_portainer
+    image: "portainer/portainer:${DAB_APPS_PORTAINER_TAG:-latest}"
+    labels:
+      description: 'Docker Management Web UI'
+      com.centurylinklabs.watchtower.enable: 'true'
+    expose:
+      - 9000
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+    tmpfs:
+      - /tmp
+
+volumes:
+  portainer:
+
+networks:
+  default:
+    name: dab_apps

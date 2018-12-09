@@ -4,9 +4,10 @@ services:
 
   shell:
     container_name: dab_shell
-    image: alpine:latest
+    image: 'alpine:latest'
+    labels:
+      description: 'Simple shell attached to the lab docker network'
     networks:
-      - default
       - lab
     tmpfs:
       - /tmp
@@ -15,8 +16,6 @@ volumes:
   logs:
 
 networks:
-  default:
-    name: dab_apps
   lab:
     name: lab
     driver_opts:

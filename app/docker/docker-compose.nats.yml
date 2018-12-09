@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+
+  nats:
+    container_name: dab_nats
+    image: "nats:${DAB_APPS_NATS_TAG:-latest}"
+    labels:
+      description: 'Cloud native messaging system'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

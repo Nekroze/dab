@@ -12,7 +12,6 @@ rev="${1:-2cd1ee8}"
 
 [ -z "${1:-}" ] || inform '↓ Previous version'
 
-# shellcheck disable=SC2039
-echo -e "$(tac /LOG | sed "/$rev/q" | tac)"
+printf '%b' "$(tac /LOG | sed "/$rev/q" | tac)"
 
 [ -z "${1:-}" ] || inform '↑ New version'

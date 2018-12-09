@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: Enter a shell in a container on the lab network
+# Description: Access a shell in a container on the lab and apps network
 # Usage: [<CMD>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
@@ -7,4 +7,4 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
 
-dpose persist run --rm shell "$@"
+dpose shell run --rm shell "$@"

@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  xsstrike:
+    container_name: dab_xsstrike
+    build:
+      context: .
+      dockerfile: Dockerfile.xsstrike
+      args:
+        - "XSSTRIKE_VERSION=${DAB_APPS_XSSTRIKE_VERSION:-3.0.3}"
+    networks:
+       - lab
+    labels:
+      description: 'Advanced XSS detection suite'
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

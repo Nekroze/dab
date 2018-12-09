@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+
+  vault:
+    container_name: dab_vault
+    build:
+      context: .
+      dockerfile: Dockerfile.vault
+      args:
+        - "VAULT_TAG=${DAB_APPS_VAULT_TAG:-latest}"
+    labels:
+      description: 'Store, manage, and generate secrets with Hashicorp Vault``${DAB_APPS_VAULT_TOKEN:-}'
+    depends_on:
+      - consul
+    restart: on-failure
+    healthcheck:
+      test: 'netstat -tulpn | grep 0.0.0.0:8200'
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    environment:
+      VAULT_ADDR: 'http://127.0.0.1:8200'
+    cap_add:
+      - IPC_LOCK
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+
+  influxdb:
+    container_name: dab_influxdb
+    image: "influxdb:${DAB_APPS_INFLUXDB_TAG:-alpine}"
+    restart: on-failure
+    labels:
+      description: 'Time series database from the TICK stack'
+      com.centurylinklabs.watchtower.enable: 'true'
+    environment:
+      INFLUXDB_DATA_QUERY_LOG_ENABLED: 'false'
+      INFLUXDB_HTTP_LOG_ENABLED: 'false'
+      INFLUXDB_HTTP_PPROF_ENABLED: 'false'
+    volumes:
+      - influxdb:/var/lib/influxdb
+    healthcheck:
+      test: 'wget --spider http://localhost:8086/ping || exit 1'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+volumes:
+  influxdb:
+
+networks:
+  default:
+    name: dab_apps

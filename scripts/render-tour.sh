@@ -16,8 +16,10 @@ docker-compose build tourist
 
 # Ensure output will not be filled/slowed with progress indicators
 docker-compose run --rm tourist 'docker pull nekroze/containaruba:alpine'
-apps="$(grep -E 'dab apps \w+ \w+' tests/tour.sh | awk -vORS=' ' '{ print $4; }' | uniq)"
-docker-compose run --rm tourist "dab apps update vault vaultbot consul $apps"
+docker-compose run --rm tourist "dab apps update vaultbot"
+for app in $(grep -E 'dab apps \w+ \w+' tests/tour.sh | awk -vORS=' ' '{ print $4; }' | uniq); do
+	docker-compose run --rm tourist "dab apps update $app"
+done
 docker-compose run --rm tourist 'rm -rf ~/.config/dab'
 
 # Record tour
