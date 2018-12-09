@@ -1,6 +1,6 @@
 #!/bin/sh
-# Description: Start the container for a given app, or all apps if none is given
-# Usage: [<APP_NAME>]
+# Description: Start the container(s) for the given app
+# Usage: <APP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -9,10 +9,7 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-dpose apps up -d "$@"
+[ -n "${1:-}" ] || fatality 'must provide an app name'
 
-app="${1:-}"
-# If there was no app (eg when starting all) stop here
-[ -z "$app" ] && exit 0
-
-dab apps address "$app"
+dpose "$1" up --detach "$@"
+dab apps address "$1"

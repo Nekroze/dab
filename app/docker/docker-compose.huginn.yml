@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+
+  huginn:
+    container_name: dab_huginn
+    image: "huginn/huginn:${DAB_APPS_HUGINN_TAG:-latest}"
+    restart: always
+    depends_on:
+      - postgres
+    labels:
+      description: 'Create agents that monitor and act on your behalf`admin`password'
+      com.centurylinklabs.watchtower.enable: 'true'
+    environment:
+      DATABASE_ADAPTER: postgresql
+      DATABASE_HOST: postgres
+      DATABASE_USERNAME: postgres
+
+networks:
+  default:
+    name: dab_apps

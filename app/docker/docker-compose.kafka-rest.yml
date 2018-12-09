@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+
+  kafka-rest:
+    container_name: dab_kafka-rest
+    image: "confluentinc/cp-kafka-rest:${DAB_APPS_KAFKA_REST_TAG:-latest}"
+    labels:
+      description: 'RESTful http api for Kafka'
+      com.centurylinklabs.watchtower.enable: 'true'
+    environment:
+      ACCESS_CONTROL_ALLOW_ORIGIN_DEFAULT: '*'
+      KAFKA_REST_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_REST_HOST_NAME: 'kafka-rest'
+      KAFKA_REST_LISTENERS: 'http://kafka-rest:8082'
+      KAFKA_REST_CONSUMER_REQUEST_TIMEOUT_MS: '30000'
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
+    depends_on:
+      - kafka
+      - zookeeper
+    expose:
+      - 8082
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

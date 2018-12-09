@@ -1,0 +1,34 @@
+version: '3.5'
+
+services:
+
+  grafana:
+    container_name: dab_grafana
+    build:
+      context: .
+      dockerfile: Dockerfile.grafana
+      args:
+        - "GRAFANA_TAG=${DAB_APPS_GRAFANA_TAG:-latest}"
+    labels:
+      description: 'The open platform for analytics and monitoring`admin`admin'
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - grafana:/var/lib/grafana
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+    expose:
+      - 3000
+    healthcheck:
+      test: 'wget --spider http://localhost:3000/api || exit 1'
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+volumes:
+  grafana:
+
+networks:
+  default:
+    name: dab_apps

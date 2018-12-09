@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  kafka-topics-ui:
+    container_name: dab_kafka-topics-ui
+    image: "landoop/kafka-topics-ui:${DAB_APPS_KAFKA_TOPICS_UI_TAG:-latest}"
+    labels:
+      description: 'Web interface for inspecting Kafka topics'
+      com.centurylinklabs.watchtower.enable: 'true'
+    environment:
+      KAFKA_REST_PROXY_URL: 'http://kafka-rest:8082'
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
+      PROXY: 'true'
+    depends_on:
+      - kafka
+      - kafka-rest
+    expose:
+      - 8000
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

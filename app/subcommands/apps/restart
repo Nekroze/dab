@@ -1,10 +1,12 @@
 #!/bin/sh
-# Description: Restart the running instance of the given app, or all apps if none is given
-# Usage: [<APP_NAME>]
+# Description: Restart the running instance of the given app
+# Usage: <APP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
 # shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
 
-dpose apps restart "$@"
+[ -n "${1:-}" ] || fatality 'must provide an app name'
+
+dpose "$1" restart "$1"

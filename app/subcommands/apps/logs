@@ -1,10 +1,11 @@
 #!/bin/sh
-# Description: Display logs for a given app, or all apps if none is given
-# Usage: [<APP_NAME>]
+# Description: Display logs for one or more apps
+# Usage: <APP_NAME>...
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
 # shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
 
-dpose apps logs "$@"
+[ -n "${1:-}" ] || fatality 'must provide at least one app name'
+dpose "$1" logs "$@"

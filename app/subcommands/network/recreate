@@ -21,14 +21,17 @@ action_containers_on_network() {
 	done
 }
 
-lab_containers="$(containers_on_network 'lab')"
-services_containers="$(containers_on_network 'services')"
+lab_network='lab'
+app_network='dab_default'
 
-action_containers_on_network "$lab_containers" 'lab' 'disconnect'
-action_containers_on_network "$services_containers" 'services' 'disconnect'
+lab_containers="$(containers_on_network "$lab_network")"
+apps_containers="$(containers_on_network "$app_network")"
 
-dpose persist down --volumes
-dpose persist up --no-start
+action_containers_on_network "$lab_containers" "$lab_network" disconnect
+action_containers_on_network "$apps_containers" "$app_network" disconnect
 
-action_containers_on_network "$lab_containers" 'lab' 'connect'
-action_containers_on_network "$services_containers" 'services' 'connect'
+dpose shell down --volumes
+dpose shell up --no-start
+
+action_containers_on_network "$lab_containers" "$lab_network" connect
+action_containers_on_network "$apps_containers" "$app_network" connect

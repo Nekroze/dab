@@ -22,7 +22,7 @@ fi
 docker-compose down --volumes
 
 # Pull/build the latest test images.
-docker-compose pull || true
+docker-compose pull tests || true
 
 # Start the docker in docker daemon, isolating it from the host.
 [ "$TEST_DOCKER" = 'local' ] || docker-compose up -d --remove-orphans docker

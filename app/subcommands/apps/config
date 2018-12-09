@@ -7,6 +7,6 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
 
-[ -n "${1:-}" ] || fatality 'must provide a app name'
+[ -n "${1:-}" ] || fatality 'must provide an app name'
 
-compose_service_config apps "$1"
+compose_app_config "$1"

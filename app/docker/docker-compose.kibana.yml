@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+
+  kibana:
+    container_name: dab_kibana
+    image: "kibana:${DAB_APPS_KIBANA_VERSION:-6.4.2}"
+    restart: on-failure
+    labels:
+      description: 'Explore and visualize elasticsearch data'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - elasticsearch
+    expose:
+      - 5601
+
+networks:
+  default:
+    name: dab_apps

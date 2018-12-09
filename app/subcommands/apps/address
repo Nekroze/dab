@@ -9,8 +9,8 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-[ -n "${1:-}" ] || fatality 'must provide a app name'
+[ -n "${1:-}" ] || fatality 'must provide an app name'
 app="$1"
 
 msgfmt="${COLOR_CYAN}$app is available at ${COLOR_BLUE}%s${COLOR_NC}\\n"
-compose_service_to_urls apps "$app" | xargs --no-run-if-empty printf "$msgfmt"
+get_app_urls "$app" | xargs --no-run-if-empty printf "$msgfmt"

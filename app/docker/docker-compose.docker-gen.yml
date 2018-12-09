@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+
+  docker-gen:
+    container_name: dab_docker-gen
+    build:
+      context: .
+      dockerfile: Dockerfile.docker-gen
+      args:
+        - "DOCKER_GEN_TAG=${DAB_APPS_DOCKER_GEN_TAG:-latest}"
+    labels:
+      description: 'Render files using live docker data'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - gend:/srv/gend
+    tmpfs:
+      - /tmp
+
+volumes:
+  gend:
+
+networks:
+  default:
+    name: dab_apps

@@ -37,7 +37,6 @@ carelessly() {
 }
 
 fatality() {
-	# shellcheck disable=SC2039
 	echo_color "$COLOR_RED" "$@" 1>&2
 	exit 1
 }
@@ -57,6 +56,5 @@ whisper() {
 echo_color() {
 	color="$1"
 	shift
-	# shellcheck disable=SC2039
-	echo -e "${color}$*${COLOR_NC}"
+	printf '%b\n' "${color}$*${COLOR_NC}"
 }

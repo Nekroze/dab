@@ -18,14 +18,15 @@ dab apps start vault
 # Await the docker health check to indicate the vault api is ready
 await_container_healthy "$(ishmael find dab vault)" vault
 
-if ! vault_initialized; then
+if ! vault_initialized || [ -z "$(vault_key)" ]; then
 	inform 'Initializing Vault...'
 	dab config set pki/vault/init "$(vault_init)"
 fi
 
 if vault_sealed; then
 	inform 'Unsealing Vault'
-	quietly vault operator unseal "$(vault_key)"
+	key="$(vault_key)"
+	quietly vault operator unseal "$key"
 fi
 
 silently vault login "$(vault_token)"

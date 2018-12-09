@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  logspout:
+    container_name: dab_logspout
+    image: "gliderlabs/logspout:${DAB_APPS_LOGSPOUT_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'Log routing for Docker container logs, points to tick'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - telegraf
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command:
+      syslog://telegraf:6514
+    environment:
+      INACTIVITY_TIMEOUT: 1m
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

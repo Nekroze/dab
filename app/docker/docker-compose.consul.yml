@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+
+  consul:
+    container_name: dab_consul
+    image: "consul:${DAB_APPS_CONSUL_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'Services discovery and key value store'
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - consul:/consul/data
+    expose:
+      - 8500
+    environment:
+      CONSUL_LOCAL_CONFIG: >
+        {
+          "datacenter": "${DAB_INSTANCE_NAME:-dab}",
+          "skip_leave_on_interrupt": true,
+          "addresses": {
+            "http": "0.0.0.0",
+            "dns": "0.0.0.0"
+          }
+        }
+    command: agent -server -bootstrap -ui
+    healthcheck:
+      test: 'wget --spider http://localhost:8500/v1/status/leader || exit 1'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    tmpfs:
+      - /tmp
+
+volumes:
+  consul:
+
+networks:
+  default:
+    name: dab_apps

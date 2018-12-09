@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+
+  fn:
+    container_name: dab_fn
+    build:
+      context: .
+      dockerfile: Dockerfile.fn
+      args:
+        - "FN_VERSION=${DAB_APPS_FN_VERSION:-0.5.29}"
+    labels:
+      description: 'Open Source, Container-native, Serverless platform'
+    environment:
+      HOME:
+      FN_DOCKER_NETWORKS: 'lab'
+    command: start
+    user: "${DAB_UID}:${DAB_DOCKER_GID}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+    working_dir: "$HOST_PWD"
+    restart: on-failure
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

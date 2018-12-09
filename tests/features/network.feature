@@ -10,7 +10,12 @@ Feature: Subcommand: dab network
 
 	@smoke
 	Scenario: Network is ensured to exist
-		When I successfully run `dab -h`
+		The network is ensured to exist in the background of each dab run.
+		Sometimes dab does not run quick enough to allow this to complete so
+		here I execute a slightly slower than normal command to allow CI enough
+		time to create it.
+
+		When I successfully run `dab apps list`
 
 		Then I successfully run `docker network inspect lab`
 
@@ -20,8 +25,6 @@ Feature: Subcommand: dab network
 		Then it should pass with "bin"
 
 	Scenario: Can recreate the lab network
-		Given I successfully run `dab apps destroy`
-
 		When I successfully run `dab network recreate`
 
 		Then I successfully run `docker network inspect lab`

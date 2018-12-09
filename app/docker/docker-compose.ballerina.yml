@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  ballerina:
+    container_name: dab_ballerina
+    image: "ballerina/ballerina-platform:${DAB_APPS_BALLERINA_TAG:-latest}"
+    labels:
+      description: 'IDE and language designed to make integration simple.'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    command:
+      - 'composer'
+      - '--host 0.0.0.0'
+    expose:
+      - 9091
+    volumes:
+      - "$DAB_REPO_PATH:/home/ballerina"
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

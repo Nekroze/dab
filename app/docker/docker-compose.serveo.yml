@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  serveo:
+    container_name: dab_serveo
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    labels:
+      description: 'Expose local servers to the internet'
+    entrypoint:
+      - /usr/bin/ssh
+    command:
+      - '-o StrictHostKeyChecking=no'
+      - '-R 80:traefik:80'
+      - 'serveo.net'
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
