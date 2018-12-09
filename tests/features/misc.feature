@@ -17,13 +17,12 @@ Feature: Docker entrypoint wrapper script works
 
 		Then it should pass with "Usage:"
 
-	Scenario: Warns user when wrapper is out of date with image wrapper
+	Scenario: Warns user when wrapper is automatically updated
 		Given I successfully run `dab -h`
 		And the output should not contain:
 		"""
-		Dab wrapper script appears to have an update available!
+		dab was updated!
 		"""
-		And I copy the file "/usr/bin/dab" to "/usr/bin/dab.original"
 		And I append to "/usr/bin/dab" with:
 		"""
 		# simulated change indicating wrapper is out of date
@@ -33,9 +32,12 @@ Feature: Docker entrypoint wrapper script works
 
 		Then the output should contain:
 		"""
-		Dab wrapper script appears to have an update available!
+		dab was updated!
 		"""
-		And I copy the file "/usr/bin/dab.original" to "/usr/bin/dab"
+		And the file "/usr/bin/dab" should not contain:
+		"""
+		# simulated change indicating wrapper is out of date
+		"""
 
 	Scenario: Can view the full changelog
 		When I run `dab changelog`

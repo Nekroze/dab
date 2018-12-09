@@ -83,6 +83,7 @@ pre_hooks() {
 		;;
 	*)
 		maybe_selfupdate_dab || true
+		maybe_update_wrapper
 		ensure_persistent_docker_objects &
 		;;
 	esac
@@ -92,5 +93,4 @@ pre_hooks() {
 post_hooks() {
 	captain_hindsight "$@" # captain hindsight must be first because it captures the exit code
 	maybe_display_tip
-	maybe_notify_wrapper_update
 }

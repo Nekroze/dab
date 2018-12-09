@@ -4,9 +4,8 @@
 set -euf
 
 # shellcheck disable=SC1090
-. "$DAB/lib/output.sh"
-# shellcheck disable=SC1090
 . "$DAB/lib/update.sh"
 
 export self_update_period=10
 maybe_selfupdate_dab
+maybe_update_wrapper

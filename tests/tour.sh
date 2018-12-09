@@ -2,7 +2,7 @@
 # Hi! I will be your tour guide to The Developer Laboratory
 # You can call me Clippy     Just kidding!
 # This tour can be paused at any time with the space bar
-set -e
+export PS1='\[\e[35m\]\\$\[\e[m\] ' && set -e
 # This will exit if any commands fail, everything I show you works!
 
 # Installing Dab is just downloading a tiny wrapper script
