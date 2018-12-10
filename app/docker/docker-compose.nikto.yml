@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+
+  nikto:
+    container_name: dab_nikto
+    image: 'frapsoft/nikto:latest'
+    labels:
+      description: 'Web server security scanner'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - default
+      - lab
+    tmpfs:
+      - /tmp
+
+networks:
+  lab:
+    external:
+      name: lab
+  default:
+    name: dab_apps
