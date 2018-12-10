@@ -7,6 +7,18 @@ Feature: Subcommand: dab group
 		Given the aruba exit timeout is 60 seconds
 
 	@smoke
+	Scenario: Can list defined groups
+		Given I successfully run `dab repo add one https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab group repos mylist one deploy`
+
+		When I run `dab group list`
+
+		Then it should pass with exactly:
+		"""
+		mylist
+		"""
+
+	@smoke
 	Scenario: Can group repositories then start them together
 		Given I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint create three start`
@@ -21,7 +33,7 @@ Feature: Subcommand: dab group
 
 		Then it should pass with "contains 2 value(s)"
 
-		When I run `dab group start work `
+		When I run `dab group start work`
 
 		Then it should pass with:
 		"""
@@ -32,7 +44,7 @@ Feature: Subcommand: dab group
 		"""
 
 	Scenario: Can group groups and repos then start them together
-		And I successfully run `dab repo add seven https://github.com/Nekroze/dotfiles.git`
+		Given I successfully run `dab repo add seven https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `dab group repos subset seven deploy`
 
 		When I run `dab group groups superset subset`
