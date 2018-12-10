@@ -23,6 +23,7 @@ var apps = []string{
 	"mysql",
 	"nats",
 	"ngrok",
+	"nikto",
 	"ntopng",
 	"pgadmin",
 	"portainer",
