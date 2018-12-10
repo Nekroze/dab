@@ -1,0 +1,9 @@
+#!/bin/sh
+# Description: List all defined groups
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -eu
+
+set +f
+for dir in "$DAB_CONF_PATH"/group/*; do
+	basename "$dir"
+done
