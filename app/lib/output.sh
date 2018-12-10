@@ -38,6 +38,7 @@ carelessly() {
 
 fatality() {
 	echo_color "$COLOR_RED" "$@" 1>&2
+	touch /tmp/fatality
 	exit 1
 }
 

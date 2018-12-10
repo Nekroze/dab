@@ -74,11 +74,11 @@ Feature: Docker entrypoint wrapper script works
 		Then it should pass with "user"
 
 	Scenario: Captain Hindsight comes to the rescue when commands fail
-		When I run `dab apps start unknown`
+		When I run `dab shell false`
 
 		Then it should fail with:
 		"""
-		I'm sorry, it looks like the command 'dab apps start unknown' failed.
+		I'm sorry, it looks like the command 'dab shell false' failed.
 		"""
 		And the stderr should contain:
 		"""
