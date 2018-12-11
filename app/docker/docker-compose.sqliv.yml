@@ -1,0 +1,22 @@
+version: '3.5'
+
+services:
+
+  sqliv:
+    container_name: dab_sqliv
+    build:
+      context: .
+      dockerfile: Dockerfile.sqliv
+    networks:
+       - lab
+    labels:
+      description: 'Massive SQL injection vulnerability scanner'
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+RUN apk add --no-cache ca-certificates alpine-sdk python2 python2-dev libxslt-dev libxml2-dev py-pip git \
+ && update-ca-certificates
+
+RUN git clone https://github.com/the-robot/sqliv.git /opt/sqliv \
+ && pip2 install -r /opt/sqliv/requirements.txt
+
+ENTRYPOINT ["/usr/bin/python2","/opt/sqliv/sqliv.py"]
+CMD -h
