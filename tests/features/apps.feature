@@ -111,8 +111,9 @@ Feature: Subcommand: dab apps
 			| dive     |
 			| fn       |
 			| kafkacat |
-			| xsstrike |
 			| nikto    |
+			| sqliv    |
+			| xsstrike |
 
 	Scenario Outline: Can select different app versions with environment variables
 		A non exhaustive list of apps and versions that can be configured.
