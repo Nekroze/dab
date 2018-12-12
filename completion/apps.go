@@ -24,6 +24,7 @@ var apps = []string{
 	"logspout",
 	"memcached",
 	"minio",
+	"mitmproxy",
 	"mysql",
 	"nats",
 	"ngrok",

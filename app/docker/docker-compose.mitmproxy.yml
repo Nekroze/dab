@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  mitmproxy:
+    container_name: dab_mitmproxy
+    image: "mitmproxy/mitmproxy:${DAB_APPS_MITMPROXY_TAG:-latest}"
+    labels:
+      description: 'HTTP debuging swiss-army knife, connect and go to http://mitm.it to load certs'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    volumes:
+      - "$HOME/.mitmproxy:/home/mitmproxy/.mitmproxy"
+    networks:
+      - lab
+    expose:
+      - 8080
+      - 8081
+    command: mitmweb --web-iface 0.0.0.0 --ssl-insecure
+    tmpfs:
+      - /tmp
+
+networks:
+  lab:
+    external:
+      name: lab

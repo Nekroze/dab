@@ -99,6 +99,7 @@ Feature: Subcommand: dab apps
 			| vyne           |
 			| watchtower     |
 			| zookeeper      |
+			| mitmproxy      |
 
 	Scenario Outline: Can use cli apps through dab
 		When I run `dab apps run <APP> -h`
