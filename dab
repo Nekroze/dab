@@ -18,7 +18,7 @@ dArg() {
 
 # If we are in a tty (interactive terminal environment) then run the dab
 # container in one too.
-if [ -t 1 ]; then
+if [ -t 0 ]; then
 	dArg --tty --interactive
 fi
 
