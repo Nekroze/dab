@@ -38,9 +38,7 @@ Feature: Subcommand: dab group
 		Then it should pass with:
 		"""
 		Executing three entrypoint start
-		Completed three entrypoint start
 		Executing four entrypoint start
-		Completed four entrypoint start
 		"""
 
 	Scenario: Can group groups and repos then start them together
