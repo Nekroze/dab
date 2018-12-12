@@ -1,6 +1,6 @@
 #!/bin/sh
 # Description: Run a command in the running instance of the given app
-# Usage: <APP_NAME> <CMD>...
+# Usage: <APP_NAME> [<CMD>...]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -13,4 +13,4 @@ set -euf
 app="$1"
 shift
 
-dpose "$app" exec "$app" "$@"
+dpose "$app" exec "$app" "${@:-/bin/sh}"
