@@ -13,7 +13,7 @@ Feature: Subcommand: dab group
 
 		When I run `dab group list`
 
-		Then it should pass with exactly:
+		Then it should pass with:
 		"""
 		mylist
 		"""
