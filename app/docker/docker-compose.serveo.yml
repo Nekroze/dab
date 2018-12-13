@@ -10,14 +10,20 @@ services:
     labels:
       description: 'Expose local servers to the internet'
     entrypoint:
-      - /usr/bin/ssh
+      - /usr/bin/autossh
+    depends_on:
+      - mitmproxy
     command:
+      - '-M 0'
       - '-o StrictHostKeyChecking=no'
-      - '-R 80:traefik:80'
+      - '-R 80:mitmproxy:8080'
       - 'serveo.net'
     tmpfs:
       - /tmp
+    tty: true
+    stdin_open: true
 
 networks:
   default:
-    name: dab_apps
+    external:
+      name: lab
