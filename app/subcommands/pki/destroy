@@ -3,6 +3,19 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
+# shellcheck disable=SC1090
+. "$DAB/lib/output.sh"
+
 dab apps destroy vault || true
 dab apps destroy consul || true
 dab config set pki
+
+for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
+	silently certutil -D -n "Dab PKI" -d "dbm:$(dirname "$db")" || continue
+	inform "Uninstalled CA Certificate from $(dirname "$db")"
+done
+
+for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
+	silently certutil -D -n "Dab PKI" -d "sql:$(dirname "$db")" || continue
+	inform "Uninstalled CA Certificate from $(dirname "$db")"
+done
