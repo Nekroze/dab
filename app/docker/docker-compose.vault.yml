@@ -21,6 +21,8 @@ services:
       retries: 3
     environment:
       VAULT_ADDR: 'http://127.0.0.1:8200'
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH:ro"
     cap_add:
       - IPC_LOCK
     tmpfs:
