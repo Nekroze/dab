@@ -17,7 +17,7 @@ RUN shellcheck --shell sh --color \
 FROM golang:latest AS shfmt
 
 # Install shfmt https://github.com/mvdan/sh
-RUN go get -v mvdan.cc/sh/cmd/shfmt/...
+RUN go get mvdan.cc/sh/cmd/shfmt
 
 # Copy in the whole project for analysis.
 COPY ./ ./
