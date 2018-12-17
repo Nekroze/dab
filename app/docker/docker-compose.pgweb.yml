@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  pgweb:
+    container_name: dab_pgweb
+    image: "sosedoff/pgweb:${DAB_APPS_PGWEB_TAG:-latest}"
+    labels:
+      description: 'Web based postgresql data explorer'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    expose:
+      - 8081
+    environment:
+      DATABASE_URL: 'postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable'
+    depends_on:
+      - postgres
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
