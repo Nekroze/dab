@@ -18,6 +18,10 @@ dab --help
 # They can all take 'help', '--help', or '-h' for usage info
 dab shell help
 # This shell is the exact one all subcommands run from
+# As such we can use it to prototype scripts if neccesary
+# Lets have a look at the environment variables available to us
+dab shell "env | awk '{ if (\$1 ~ /^DAB.*/) print \$1 }'"
+# Note the path vars that are always defined DAB DAB_CONF_PATH DAB_REPO_PATH
 
 # Dab provides various apps that you may find useful
 dab apps start portainer
