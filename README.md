@@ -1,12 +1,38 @@
 # Dab
 
-[![GitHub license](https://img.shields.io/github/license/Nekroze/dab.svg)](https://github.com/Nekroze/dab/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/Nekroze/dab.svg)](https://github.com/Nekroze/dab/stargazers) [![Docker Image Size](https://images.microbadger.com/badges/image/nekroze/dab.svg)](https://microbadger.com/images/nekroze/dab "Get your own image badge on microbadger.com") [![CircleCI](https://circleci.com/gh/Nekroze/dab.svg?style=svg)](https://circleci.com/gh/Nekroze/dab) [![Build Status](https://travis-ci.org/Nekroze/dab.svg?branch=master)](https://travis-ci.org/Nekroze/dab)
+[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![GitHub license](https://img.shields.io/github/license/Nekroze/dab.svg)](https://github.com/Nekroze/dab/blob/master/LICENSE)
+[![CircleCI](https://circleci.com/gh/Nekroze/dab.svg?style=shield)](https://circleci.com/gh/Nekroze/dab)
+[![Build Status](https://travis-ci.org/Nekroze/dab.svg?branch=master)](https://travis-ci.org/Nekroze/dab)
 
-The Developer lab.
+> The Developer lab.
 
 [![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)][15]
 
 Dab is a flexible tool for managing multiple interdependent projects and their orchestration, all while providing a friendly user experience and handy devops tools.
+
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Install
+
+Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
+
+```bash
+ $ sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o /usr/local/bin/dab
+ $ sudo chmod 755 /usr/local/bin/dab
+```
+
+After this the `dab` command should be available in your shell:
+
+```bash
+ $ dab completion
+```
 
 ## Usage
 
@@ -23,23 +49,6 @@ It is recommended you add the directory containing the [dab script][1] to your s
 ### Demoing
 
 If you are not yet sure if Dab is right for you, [Play With Docker (PWD)][15] will allow you to spin up a temporary cloud server with Dab available. You will be presented with a terminal containing the latest version of Dab ready to use.
-
-### Installing
-
-Simply download the [dab wrapper script][1] to somewhere in your `PATH` environment variable, for example:
-
-```bash
- $ sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o /usr/local/bin/dab
- $ sudo chmod 755 /usr/local/bin/dab
-```
-
-After this the `dab` command should be available in your shell:
-
-```bash
- $ dab completion --help
-```
-
-By the way, installing completion via the instructions given by the last command is highly recommended.
 
 ### Setting up a project
 
@@ -127,3 +136,19 @@ The following projects are used to write dab:
 [13]: https://github.com/koalaman/shellcheck
 [14]: https://github.com/posener/complete
 [15]: http://play-with-docker.com/?stack=https://raw.githubusercontent.com/Nekroze/dab/master/tests/pwd.yml
+
+## Maintainers
+
+[@Nekroze](https://github.com/Nekroze)
+
+## Contributing
+
+See [the contributing file](contributing.md)!
+
+PRs accepted.
+
+Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
+
+## License
+
+GPLv3 © 2018 Taylor Lawson
