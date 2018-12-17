@@ -14,7 +14,7 @@ set -euf
 . "$DAB/lib/update.sh"
 
 maybe_post_chronograf_annotiation() {
-	if [ -z "$(ishmael alive "$(ishmael find dab influxdb)")" ]; then
+	if [ -z "$(ishmael alive dab_influxdb)" ]; then
 		return 0
 	fi
 	ns="$(date +%s)000000000"

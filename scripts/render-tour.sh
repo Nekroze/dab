@@ -5,7 +5,7 @@ set -eufx
 export TEST_DOCKER='dind'
 export COMPOSE_PROJECT_NAME='dab'
 export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.$TEST_DOCKER.yml"
-trap 'docker-compose stop' EXIT
+trap 'docker-compose down' EXIT
 
 # Start the docker in docker daemon, isolating it from the host.
 docker-compose up -d --remove-orphans docker
