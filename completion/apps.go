@@ -31,6 +31,7 @@ var apps = []string{
 	"nikto",
 	"ntopng",
 	"pgadmin",
+	"pgweb",
 	"portainer",
 	"postgres",
 	"redis",
