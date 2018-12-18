@@ -37,19 +37,23 @@ if ! vault_pki_enabled; then
 	vault write pki_dab/config/urls issuing_certificates='http://vault:8200/v1/pki_dab'
 	vault secrets tune -max-lease-ttl="$DAB_PKI_CA_TTL" pki_dab
 	ca_cert="$(carelessly vault write -format=json -field=certificate pki_dab/root/generate/internal common_name=dab ttl="$DAB_PKI_CA_TTL")"
-	dab config set pki/ca/certificate "$(echo "$ca_cert" | jq -r)"
+	config_set pki/ca/certificate "$(echo "$ca_cert" | jq -r)"
+	config_chmod pki/ca/certificate 640
 
 	inform 'Enabling Vault PKI Exported Intermediary'
 	vault secrets enable -path=pki_dab_int pki
 	vault write pki_dab_int/config/urls issuing_certificates='http://vault:8200/v1/pki_dab_int'
 	vault secrets tune -max-lease-ttl="$DAB_PKI_CA_TTL" pki_dab_int
 	int_csr="$(vault write -format=json pki_dab_int/intermediate/generate/exported common_name=dab_int ttl="$DAB_PKI_CA_TTL")"
-	dab config set pki/int/key "$(echo "$int_csr" | jq -r .data.private_key)"
-	dab config set pki/int/csr "$(echo "$int_csr" | jq -r .data.csr)"
+	config_set pki/int/key "$(echo "$int_csr" | jq -r .data.private_key)"
+	config_chmod pki/int/key 640
+	quietly config_set pki/int/csr "$(echo "$int_csr" | jq -r .data.csr)"
 	int_cert="$(carelessly vault write -format=json -field=certificate pki_dab/root/sign-intermediate csr="@$DAB_CONF_PATH/pki/int/csr" ttl="$DAB_PKI_CA_TTL")"
-	dab config set pki/int/certificate "$(echo "$int_cert" | jq -r)"
+	quietly config_set pki/int/csr
+	config_set pki/int/certificate "$(echo "$int_cert" | jq -r)"
+	config_chmod pki/int/certificate 640
 	mkdir -p ~/.mitmproxy
-	cat "$DAB_CONF_PATH/pki/int/certificate" "$DAB_CONF_PATH/pki/int/key" >~/.mitmproxy/mitmproxy-ca.pem
+	cat "$DAB_CONF_PATH/pki/int/certificate" "$DAB_CONF_PATH/pki/int/key" >"$DAB_CONF_PATH/pki/int/bundle"
 
 	cert="$DAB_CONF_PATH/pki/ca/certificate"
 	for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
@@ -60,4 +64,11 @@ if ! vault_pki_enabled; then
 		silently certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "sql:$(dirname "$db")" || continue
 		inform "Installed CA Certificate into $(dirname "$db")"
 	done
+
+	if [ ! -f ~/.mitmproxy/mitmproxy-ca.pem ] || [ -w ~/.mitmproxy/mitmproxy-ca.pem ]; then
+		cp "$DAB_CONF_PATH/pki/int/bundle" "$HOME/.mitmproxy/mitmproxy-ca.pem"
+	else
+		warn "Could not install Intermediate CA for mitmproxy"
+		warn "Please copy $DAB_CONF_PATH/pki/int/bundle to $HOME/.mitmproxy/mitmproxy-ca.pem"
+	fi
 fi
