@@ -19,12 +19,14 @@ Feature: Subcommand: dab network
 
 		Then I successfully run `docker network inspect lab`
 
-	Scenario: Can run command in shell
-		When I run `dab network shell ls /`
-
-		Then it should pass with "bin"
-
 	Scenario: Can recreate the lab network
 		When I successfully run `dab network recreate`
 
 		Then I successfully run `docker network inspect lab`
+
+	Scenario: Can run command in shell
+		Given I successfully run `dab network recreate`
+
+		When I run `dab network shell ls /`
+
+		Then it should pass with "bin"

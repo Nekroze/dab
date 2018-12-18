@@ -16,7 +16,7 @@ services:
     restart: on-failure
     healthcheck:
       test: 'netstat -tulpn | grep 0.0.0.0:8200'
-      interval: 15s
+      interval: 10s
       timeout: 5s
       retries: 3
     environment:

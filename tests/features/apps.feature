@@ -64,9 +64,7 @@ Feature: Subcommand: dab apps
 			| huginn     |
 			| kapacitor  |
 			| kibana     |
-			| ngrok      |
 			| ntopng     |
-			| pgadmin    |
 			| portainer  |
 			| traefik    |
 
