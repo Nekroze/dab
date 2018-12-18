@@ -20,5 +20,6 @@ services:
       - /tmp
 
 networks:
-  default:
-    name: dab_apps
+  lab:
+    external:
+      name: lab
