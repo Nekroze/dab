@@ -7,6 +7,12 @@ export COMPOSE_PROJECT_NAME='dab'
 export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.$TEST_DOCKER.yml"
 trap 'docker-compose stop' EXIT
 
+if ! command -v docker-compose; then
+	wget -O /usr/local/bin/docker-compose "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)"
+	chmod +x /usr/local/bin/docker-compose
+	export PATH="$PATH:/usr/local/bin"
+fi
+
 echo
 echo Docker Compose Config
 echo

@@ -5,5 +5,6 @@ workflow "Tests" {
 
 action "GitHub Action for Docker" {
   uses = "actions/docker/cli@76ff57a"
-  args = "./scripts/test.sh"
+  args = "./scripts/docker-dind-wrapper.sh ./scripts/docker-compose-wrapper.sh ./scripts/test.sh"
+  runs = "/bin/sh"
 }
