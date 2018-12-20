@@ -19,7 +19,13 @@ services:
       retries: 3
     tmpfs:
       - /tmp
+    networks:
+      - default
+      - lab
 
 networks:
   default:
     name: dab_apps
+  lab:
+    external:
+      name: lab

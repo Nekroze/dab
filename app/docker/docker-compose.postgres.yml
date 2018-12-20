@@ -14,6 +14,9 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres:/var/lib/postgresql/data/pgdata
+    networks:
+      - default
+      - lab
     tmpfs:
       - /tmp
 
@@ -23,3 +26,6 @@ volumes:
 networks:
   default:
     name: dab_apps
+  lab:
+    external:
+      name: lab

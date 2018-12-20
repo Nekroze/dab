@@ -16,6 +16,9 @@ services:
       - mysql:/var/lib/mysql
     tmpfs:
       - /tmp
+    networks:
+      - default
+      - lab
 
 volumes:
   mysql:
@@ -23,3 +26,6 @@ volumes:
 networks:
   default:
     name: dab_apps
+  lab:
+    external:
+      name: lab
