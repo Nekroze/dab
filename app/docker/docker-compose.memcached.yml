@@ -12,7 +12,13 @@ services:
     restart: on-failure
     tmpfs:
       - /tmp
+    networks:
+      - default
+      - lab
 
 networks:
   default:
     name: dab_apps
+  lab:
+    external:
+      name: lab

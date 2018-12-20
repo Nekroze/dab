@@ -21,6 +21,9 @@ services:
     restart: on-failure
     tmpfs:
       - /tmp
+    networks:
+      - default
+      - lab
 
 volumes:
   minio:
@@ -28,3 +31,6 @@ volumes:
 networks:
   default:
     name: dab_apps
+  lab:
+    external:
+      name: lab

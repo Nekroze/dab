@@ -22,6 +22,9 @@ services:
       retries: 3
     tmpfs:
       - /tmp
+    networks:
+      - default
+      - lab
 
 volumes:
   influxdb:
@@ -29,3 +32,6 @@ volumes:
 networks:
   default:
     name: dab_apps
+  lab:
+    external:
+      name: lab
