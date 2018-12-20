@@ -24,9 +24,9 @@ for dir in "$DAB_CONF_PATH"/repo/*; do
 	uptodate=''
 	if [ "$status" != 'not downloaded' ]; then
 		if check_repo_is_up_to_date "$repo"; then
-			uptodate='✓'
+			uptodate='\e[0;32m✓\e[0m'
 		else
-			uptodate='✗'
+			uptodate='\e[0;31m✗\e[0m'
 		fi
 	fi
 
@@ -34,4 +34,4 @@ for dir in "$DAB_CONF_PATH"/repo/*; do
 done
 set -f
 
-echo "$repo_data" | column -s':' -o' | ' -t -N REPO,STATUS,UPTODATE -R status
+printf '%b\n' "$(echo "$repo_data" | column -s':' -o' | ' -t -N REPO,STATUS,UPTODATE -R status)"
