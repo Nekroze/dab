@@ -11,7 +11,7 @@ services:
   tests:
     image: 'nekroze/containaruba:alpine'
     environment:
-      DAB_AUTOUPDATE: 'no'
+      DAB_AUTOUPDATE: 'false'
       DAB_WRAPPER_PATH: "${PWD:-/usr/bin}/dab"
     volumes:
       - ./features:/usr/src/app/features
@@ -37,4 +37,4 @@ services:
       - ../app:/tmp/out
       - ../tests/tour.sh:/root/.tour.sh
     environment:
-      DAB_AUTOUPDATE: 'no'
+      DAB_AUTOUPDATE: 'false'
