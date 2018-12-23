@@ -28,7 +28,7 @@ maybe_post_chronograf_annotiation() {
 hour_in_seconds=3600
 tip_interval="$hour_in_seconds"
 should_display_tip() {
-	[ "${DAB_TIPS:-yes}" = 'yes' ] || return 1
+	[ "${DAB_TIPS:-true}" = 'true' ] || return 1
 
 	last_tip="$(config_get "tips/last")"
 	[ -n "$last_tip" ] || return 0

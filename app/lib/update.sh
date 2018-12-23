@@ -12,7 +12,7 @@ file_hash() {
 day_in_seconds=86400
 self_update_period="$day_in_seconds"
 should_selfupdate() {
-	[ "${DAB_AUTOUPDATE:-yes}" = 'yes' ] || return 1
+	[ "${DAB_AUTOUPDATE:-true}" = 'true' ] || return 1
 
 	last_updated="$(config_get 'updates/last')"
 	[ -n "$last_updated" ] || return 0
@@ -23,7 +23,7 @@ should_selfupdate() {
 }
 
 maybe_update_wrapper() {
-	if [ "${DAB_AUTOUPDATE_WRAPPER:-yes}" = 'no' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
+	if [ "${DAB_AUTOUPDATE_WRAPPER:-true}" = 'false' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
 		return 0
 	elif [ "$(file_hash "$DAB/dab")" != "$(file_hash /tmp/wrapper)" ]; then
 		cat "$DAB/dab" >/tmp/wrapper
