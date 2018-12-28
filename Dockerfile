@@ -57,15 +57,6 @@ RUN git rev-parse HEAD > /VERSION \
  && cd dab \
  && git log --graph --pretty=format:'\e[0;31m%h\e[0m|↓|%s \e[0;34m<%an>\e[0m' --abbrev-commit | tac > /LOG
 
-
-# Used to pull in the docker-compose-gen binary
-FROM nekroze/docker-compose-gen:latest AS gen
-
-
-# Used to pull in the ishmael binary
-FROM nekroze/ishmael:v1.2.1 AS ishmael
-
-
 # Stage some files here so that the final image has less layers
 FROM alpine:latest AS prep
 
@@ -81,8 +72,8 @@ RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -
 
 COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
 COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
-COPY --from=ishmael /app /usr/bin/ishmael
-COPY --from=gen /app /usr/bin/docker-compose-gen
+COPY --from=nekroze/ishmael:v1.2.1 /app /usr/bin/ishmael
+COPY --from=nekroze/docker-compose-gen:latest /app /usr/bin/docker-compose-gen
 
 
 # Selected alpine for a small base image that many other images also use
