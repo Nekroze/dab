@@ -13,7 +13,7 @@ services:
       - lab
     entrypoint:
       - /usr/local/bin/kafkacat
-    command: '-b kafka -L'
+    command: "-b ${DAB_APPS_KAFKACAT_TARGET:-kafka} -L"
 
 networks:
   default:

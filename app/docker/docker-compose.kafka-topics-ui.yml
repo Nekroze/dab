@@ -10,7 +10,7 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     environment:
       KAFKA_REST_PROXY_URL: 'http://kafka-rest:8082'
-      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_REST_BOOTSTRAP_SERVERS: "PLAINTEXT://${DAB_APPS_KAFKA_REST_TARGET_KAFKA:-kafka}:9092"
       PROXY: 'true'
     depends_on:
       - kafka
