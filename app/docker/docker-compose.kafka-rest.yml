@@ -10,11 +10,11 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     environment:
       ACCESS_CONTROL_ALLOW_ORIGIN_DEFAULT: '*'
-      KAFKA_REST_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_REST_ZOOKEEPER_CONNECT: "${DAB_APPS_KAFKA_REST_TARGET_ZOOKEEPER:-zookeeper}:2181"
       KAFKA_REST_HOST_NAME: 'kafka-rest'
       KAFKA_REST_LISTENERS: 'http://kafka-rest:8082'
       KAFKA_REST_CONSUMER_REQUEST_TIMEOUT_MS: '30000'
-      KAFKA_REST_BOOTSTRAP_SERVERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_REST_BOOTSTRAP_SERVERS: "PLAINTEXT://${DAB_APPS_KAFKA_REST_TARGET_KAFKA:-kafka}:9092"
     depends_on:
       - kafka
       - zookeeper
