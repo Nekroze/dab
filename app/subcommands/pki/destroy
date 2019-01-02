@@ -6,8 +6,7 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-dab apps destroy vault || true
-dab apps destroy consul || true
+dab apps destroy vault
 dab config set pki
 
 for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
