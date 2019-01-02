@@ -112,7 +112,7 @@ else
 fi
 
 # Mount app dir if it is there for faster dev cycles.
-if [ "${DAB_DEV_MOUNT:-true}" = 'false' ] && [ -x "$PWD/app/bin/dab" ]; then
+if [ "${DAB_DEV_MOUNT:-true}" = 'true' ] && [ -f "$PWD/app/bin/dab" ]; then
 	dArg -v "$PWD/app:/opt/dab:ro"
 fi
 

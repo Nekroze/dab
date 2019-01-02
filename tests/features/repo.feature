@@ -95,3 +95,18 @@ Feature: Subcommand: dab repo
 		When I run `dab repo entrypoint list dotfiles8`
 
 		Then it should pass with "bubbahotep"
+
+	Scenario: Can clone multiple repos at once
+		Given a file named "~/.config/dab/repo/dotfiles9/url" with:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
+		And a file named "~/.config/dab/repo/dotfiles10/url" with:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
+
+		When I run `dab repo clone dotfiles10 dotfiles9`
+
+		Then the directory "~/dab/dotfiles9/.git/" should exist
+		And the directory "~/dab/dotfiles10/.git/" should exist
