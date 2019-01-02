@@ -11,5 +11,4 @@ set -euf
 
 [ -n "${1:-}" ] || fatality 'must provide an app name'
 
-dpose "$1" rm --stop -v -f
-carelessly dpose "$1" down --volumes
+dpose "$1" down --volumes
