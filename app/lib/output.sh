@@ -37,7 +37,7 @@ carelessly() {
 }
 
 fatality() {
-	echo_color "$COLOR_RED" "$@" 1>&2
+	error "$@"
 	touch /tmp/fatality
 	exit 1
 }
@@ -48,6 +48,10 @@ inform() {
 
 warn() {
 	echo_color "$COLOR_YELLOW" "$@" 1>&2
+}
+
+error() {
+	echo_color "$COLOR_RED" "$@" 1>&2
 }
 
 whisper() {
