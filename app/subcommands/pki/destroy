@@ -18,4 +18,4 @@ for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
 	silently certutil -D -n "Dab PKI" -d "sql:$(dirname "$db")" || continue
 	inform "Uninstalled CA Certificate from $(dirname "$db")"
 done
-rm -rf ~/.mitmproxy || warn "Could not remove old intermediate CA from $HOME/.mitmproxy"
+rm -rf ~/.mitmproxy || warn "Please delete $HOME/.mitmproxy containing the old intermediate Certificate Authority"
