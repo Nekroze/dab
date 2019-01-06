@@ -25,9 +25,13 @@ should_selfupdate() {
 maybe_update_wrapper() {
 	if [ "${DAB_AUTOUPDATE_WRAPPER:-true}" = 'false' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
 		return 0
-	elif [ "$(file_hash "$DAB/dab")" != "$(file_hash /tmp/wrapper)" ]; then
-		cat "$DAB/dab" >/tmp/wrapper
-		warn "Dab wrapper script at $DAB_WRAPPER_PATH was updated!"
+	elif [ -r /tmp/wrapper ] && [ -r "$DAB/dab" ] && [ "$(file_hash "$DAB/dab")" != "$(file_hash /tmp/wrapper)" ]; then
+		if cat "$DAB/dab" >/tmp/wrapper ; then
+			warn "Dab wrapper script at $DAB_WRAPPER_PATH was updated!"
+		else
+			error "Dab wrapper script at $DAB_WRAPPER_PATH could NOT be automatically updated!"
+			warn "Please execute 'sudo curl https://raw.githubusercontent.com/Nekroze/dab/master/dab -o $DAB_WRAPPER_PATH' to do so manually"
+		fi
 	fi
 }
 
