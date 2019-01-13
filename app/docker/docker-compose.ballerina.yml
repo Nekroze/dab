@@ -9,15 +9,13 @@ services:
       description: 'IDE and language designed to make integration simple.'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    network_mode: host
     command:
       - 'composer'
-      - '--host 0.0.0.0'
-    expose:
-      - 9091
+    ports:
+      - '9091:9091'
     volumes:
-      - "$DAB_REPO_PATH:/home/ballerina"
-    tmpfs:
-      - /tmp
+      - "$DAB_REPO_PATH:$DAB_REPO_PATH"
 
 networks:
   default:

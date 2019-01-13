@@ -21,8 +21,6 @@ services:
     expose:
       - 8082
     restart: on-failure
-    tmpfs:
-      - /tmp
 
 networks:
   default:

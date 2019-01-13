@@ -12,8 +12,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: WARN
-    tmpfs:
-      - /tmp
 
 networks:
   default:
