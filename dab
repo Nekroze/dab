@@ -118,7 +118,11 @@ fi
 
 # Attempt to mount this script into the container, if it can be found.
 if [ -z "${DAB_WRAPPER_PATH:-}" ]; then
-	wrapperlink="$(readlink -f "$0" || true)"
+	if [ "$(uname -s || true)" != 'Linux' ]; then
+		wrapperlink="$(readlink "$0" || true)"
+	else
+		wrapperlink="$(readlink -f "$0" || true)"
+	fi
 	wrappercmd="$(command -v "$0" || true)"
 	if [ -e "$wrapperlink" ]; then
 		export DAB_WRAPPER_PATH="$wrapperlink"
