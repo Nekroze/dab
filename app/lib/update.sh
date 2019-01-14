@@ -81,7 +81,9 @@ get_uncommitted_changes_in_repo() {
 }
 
 check_repo_is_up_to_date() {
-	repo="$1"
-	[ -z "$(get_commits_differing_from_master_in_repo "$repo")" ]
-	[ -z "$(get_uncommitted_changes_in_repo "$repo")" ]
+	[ -z "$(get_commits_differing_from_master_in_repo "$1")" ]
+}
+
+check_repo_is_clean() {
+	[ -z "$(get_uncommitted_changes_in_repo "$1")" ]
 }
