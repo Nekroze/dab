@@ -91,8 +91,13 @@ if [ -n "${SSH_AUTH_SOCK:-}" ]; then
 		-e "SSH_AUTH_SOCK=$socket"
 fi
 
-# Attempt work out how we connect to docker for passthrough.
-local_docker_socket='/var/run/docker.sock'
+# Attempt to work out how we connect to docker for passthrough.
+if [ "$(uname -s || true)" != 'Linux' ]; then
+	local_docker_socket="$(readlink '/var/run/docker.sock' || true)"
+else
+	local_docker_socket="$(readlink -f '/var/run/docker.sock' || true)"
+fi
+
 if [ -e "$local_docker_socket" ]; then
 	dArg -v "$local_docker_socket:$local_docker_socket"
 elif [ -n "${DOCKER_HOST:-}" ]; then
