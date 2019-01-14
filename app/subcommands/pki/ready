@@ -57,11 +57,11 @@ if ! vault_pki_enabled; then
 
 	cert="$DAB_CONF_PATH/pki/ca/certificate"
 	for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
-		silently certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "dbm:$(dirname "$db")" || continue
+		quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "dbm:$(dirname "$db")" || continue
 		inform "Installed CA Certificate into $(dirname "$db")"
 	done
 	for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
-		silently certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "sql:$(dirname "$db")" || continue
+		quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "sql:$(dirname "$db")" || continue
 		inform "Installed CA Certificate into $(dirname "$db")"
 	done
 
