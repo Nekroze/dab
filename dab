@@ -57,6 +57,10 @@ dArg \
 dArg \
 	-v "$HOME:$HOME" \
 	-e "HOME=$HOME"
+##OSX does not have /home
+if echo "$HOME" | grep -q '/home'; then
+	dArg -v "$HOME:/home/$USER"
+fi
 
 # Docker group lists access if it exists on the host.
 [ -f /etc/group ] && dArg -v '/etc/group:/etc/group:ro'
