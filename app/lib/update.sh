@@ -13,6 +13,7 @@ day_in_seconds=86400
 self_update_period="$day_in_seconds"
 should_selfupdate() {
 	[ "${DAB_AUTOUPDATE:-true}" = 'true' ] || return 1
+	[ "${DAB_AUTOUPDATE_IMAGE:-true}" = 'true' ] || return 1
 
 	last_updated="$(config_get 'updates/last')"
 	[ -n "$last_updated" ] || return 0
@@ -23,7 +24,7 @@ should_selfupdate() {
 }
 
 maybe_update_wrapper() {
-	if [ "${DAB_AUTOUPDATE_WRAPPER:-true}" = 'false' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
+	if [ "${DAB_AUTOUPDATE:-true}" = 'false' ] || [ "${DAB_AUTOUPDATE_WRAPPER:-true}" = 'false' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
 		return 0
 	elif [ -r /tmp/wrapper ] && [ -r "$DAB/dab" ] && [ "$(file_hash "$DAB/dab")" != "$(file_hash /tmp/wrapper)" ]; then
 		if cat "$DAB/dab" >/tmp/wrapper; then
@@ -53,7 +54,7 @@ maybe_update_completion() {
 	dst="$HOME/.dab-completion"
 	if [ -x "$dst" ] && silently diff "$src" "$dst"; then
 		return 0
-	elif [ "${DAB_AUTOUPDATE_COMPLETION:-}" != 'false' ]; then
+	elif [ "${DAB_AUTOUPDATE:-true}" != 'false' ] || [ "${DAB_AUTOUPDATE_COMPLETION:-}" != 'false' ]; then
 		cp "$src" "$dst"
 	fi
 }

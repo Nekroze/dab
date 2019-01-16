@@ -18,7 +18,8 @@ Feature: Docker entrypoint wrapper script works
 		Then it should pass with "Usage:"
 
 	Scenario: Warns user when wrapper is automatically updated
-		Given I successfully run `dab -h`
+		Given I set the environment variable "DAB_AUTOUPDATE" to "true"
+		And I successfully run `dab -h`
 		And the output should not contain:
 		"""
 		dab was updated!
@@ -38,6 +39,7 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		# simulated change indicating wrapper is out of date
 		"""
+		And I set the environment variable "DAB_AUTOUPDATE" to "false"
 
 	Scenario: Can view the full changelog
 		When I run `dab changelog`

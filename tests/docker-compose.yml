@@ -12,6 +12,7 @@ services:
     image: 'nekroze/containaruba:alpine'
     environment:
       DAB_AUTOUPDATE: 'false'
+      DAB_AUTOUPDATE_IMAGE: 'false'
       DAB_WRAPPER_PATH: "${PWD:-/usr/bin}/dab"
     volumes:
       - ./features:/usr/src/app/features
