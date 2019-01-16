@@ -4,7 +4,6 @@ services:
 
   tests:
     environment:
-      DAB_AUTOUPDATE: 'false'
       DAB_REPO_PATH: /tmp/dab/dab
       DAB_CONF_PATH: /tmp/dab/.config/dab
       HOME: /tmp/dab
