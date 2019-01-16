@@ -7,5 +7,5 @@ set -euf
 . "$DAB/lib/update.sh"
 
 export self_update_period=10
-maybe_selfupdate_dab
+DAB_AUTOUPDATE=true maybe_selfupdate_dab
 maybe_update_wrapper
