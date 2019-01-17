@@ -141,6 +141,7 @@ The following projects are used to write dab:
 [14]: https://github.com/posener/complete
 [15]: http://play-with-docker.com/?stack=https://raw.githubusercontent.com/Nekroze/dab/master/tests/pwd.yml
 [16]: https://github.com/Nekroze/dabux
+[17]: https://nekroze.github.io/DabUX/
 
 ## Maintainers
 
