@@ -13,6 +13,9 @@ services:
       - docker-gen
     restart: on-failure
     command: --quiet
+    networks:
+      - default
+      - lab
     environment:
       DAB_APPS_MYSQL_ROOT_PASSWORD: "${DAB_APPS_MYSQL_ROOT_PASSWORD:-root}"
     volumes:
@@ -33,3 +36,7 @@ volumes:
 networks:
   default:
     name: dab_apps
+  lab:
+     external:
+       name: lab
+ 
