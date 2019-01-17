@@ -28,6 +28,10 @@ jobs:
             TEST_TAGS: '@ci and not @smoke'
 
       - run:
+          name: UX Regression Tests
+          command: script -qec './scripts/ux-test.sh'
+
+      - run:
           name: Profile
           command: script -qec './scripts/test.sh'
           environment:

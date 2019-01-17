@@ -87,6 +87,10 @@ There is an ever growing selection of tools and services dab provides (checkout 
 
 Dab has a self updating mechanism in that it will pull the latest version of the dab image when dab is next executed a day or more after the last time it checked. So generally you do not have to do anything at all to stay up to date with the latest features, bug fixes, and security improvements. This new image will update the wrapper script if necessary.
 
+### Watching and Learning
+
+The [Dab UX][16] project stores user experience tests that should almost always be added to and not modified or removed. This allows for a stable command line interface with a clear notification if that interface changes in the form of changes to that project. Each version of Dab itself is tested against the current tests in [Dab UX][16] before released to ensure no regression. These tests are also used to generate the [Dab UX Website][17] where you can learn more about what Dab can do for you.
+
 ### Features
 
 - Only depends on docker and a small wrapper script
@@ -136,6 +140,7 @@ The following projects are used to write dab:
 [13]: https://github.com/koalaman/shellcheck
 [14]: https://github.com/posener/complete
 [15]: http://play-with-docker.com/?stack=https://raw.githubusercontent.com/Nekroze/dab/master/tests/pwd.yml
+[16]: https://github.com/Nekroze/dabux
 
 ## Maintainers
 
