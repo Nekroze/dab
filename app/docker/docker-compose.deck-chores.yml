@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+
+  deck-chores:
+    container_name: dab_deck-chores
+    image: "funkyfuture/deck-chores:${DAB_APPS_DECK_CHORES_LABEL:-latest}"
+    network_mode: none
+    restart: always
+    labels:
+      description: 'Job scheduler for Docker, configured via container labels'
+      com.centurylinklabs.watchtower.enable: 'true'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    tmpfs:
+      - /tmp

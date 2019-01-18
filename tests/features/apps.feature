@@ -81,14 +81,17 @@ Feature: Subcommand: dab apps
 		Examples:
 			| APP            |
 			| consul         |
+			| deck-chores    |
 			| docker-gen     |
 			| elasticsearch  |
 			| influxdb       |
 			| kafka          |
 			| logspout       |
 			| memcached      |
+			| mitmproxy      |
 			| mysql          |
 			| nats           |
+			| openvas        |
 			| postgres       |
 			| redis          |
 			| remote-syslog2 |
@@ -97,7 +100,6 @@ Feature: Subcommand: dab apps
 			| vyne           |
 			| watchtower     |
 			| zookeeper      |
-			| mitmproxy      |
 
 	Scenario Outline: Can use cli apps through dab
 		When I run `dab apps run <APP> -h`
