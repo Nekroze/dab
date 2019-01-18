@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+
+  openvas:
+    container_name: dab_openvas
+    image: "mikesplain/openvas:${DAB_APPS_OPENVAS_TAG:-latest}"
+    labels:
+      description: "Vulnerability scanning framework`admin`${DAB_APPS_OPENVAS_PASSWORD:-admin}"
+      exposing: 'https'
+      com.centurylinklabs.watchtower.enable: 'true'
+      deck-chores.dump.command: sh -c "greenbone-nvt-sync; openvasmd --rebuild --progress"
+      deck-chores.dump.interval: daily
+    restart: on-failure
+    network_mode: host
+    expose:
+        - 443
+    environment:
+      PUBLIC_HOSTNAME: localhost
+      OV_PASSWORD: "${DAB_APPS_OPENVAS_PASSWORD:-admin}"
+    depends_on:
+      - deck-chores
+    volumes:
+      - openvas-mgr:/var/lib/openvas/mgr
+    tmpfs:
+      - /tmp
+
+volumes:
+  openvas-mgr:
