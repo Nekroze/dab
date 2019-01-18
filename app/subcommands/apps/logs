@@ -8,4 +8,4 @@ set -euf
 . "$DAB/lib/docker.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide at least one app name'
-dpose "$1" logs "$@"
+dpose "$1" logs -f "$@"
