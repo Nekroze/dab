@@ -14,6 +14,7 @@ var apps = []string{
 	"dive",
 	"elasticsearch",
 	"fn",
+	"gaia",
 	"grafana",
 	"huginn",
 	"influxdb",
