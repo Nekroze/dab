@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+
+  gaia:
+    container_name: dab_gaia
+    image: "gaiapipeline/gaia:${DAB_APPS_GAIA_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'Build powerful pipelines in any programming language. '
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - default
+      - lab
+    volumes:
+      - gaia:/data
+    expose:
+      - 8080
+    tmpfs:
+      - /tmp
+
+volumes:
+  gaia:
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab
