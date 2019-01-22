@@ -1,6 +1,6 @@
 #!/bin/sh
-# Description: Stop the container for the given app, or all apps if none is given
-# Usage: <APP_NAME>
+# Description: Stop the container(s) for the given app(s), or all apps if none is given
+# Usage: <APP_NAME>...
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -8,4 +8,4 @@ set -euf
 . "$DAB/lib/docker.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide an app name'
-dpose "$1" stop --timeout 30 "$@"
+dpose_all stop --timeout 30 "$@"

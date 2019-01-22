@@ -1,6 +1,6 @@
 #!/bin/sh
-# Description: Destroy containers and volumes for a specific app
-# Usage: <APP_NAME>
+# Description: Destroy containers and volumes for one or all apps if none is specified.
+# Usage: [<APP_NAME>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
@@ -9,6 +9,8 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-[ -n "${1:-}" ] || fatality 'must provide an app name'
-
-dpose "$1" down --volumes
+if [ -n "${1:-}" ]; then
+	dpose "$1" down --volumes
+elif query_user "Are you sure you would like to destroy data and containers for all apps?"; then
+	dpose_all down --volumes
+fi

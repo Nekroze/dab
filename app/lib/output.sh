@@ -63,3 +63,20 @@ echo_color() {
 	shift
 	printf '%b\n' "${color}$*${COLOR_NC}"
 }
+
+query_user() {
+	if ! [ -t 1 ]; then
+		return 0
+	fi
+	message="${1:-Are you sure you would like to proceed?}"
+
+	while true; do
+		# shellcheck disable=SC2039
+		read -r -p "$message " yn
+		case $yn in
+		[Yy]*) return 0 ;;
+		[Nn]*) return 1 ;;
+		*) echo "Please answer yes or no." ;;
+		esac
+	done
+}

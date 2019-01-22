@@ -5,6 +5,14 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
+dpose_all() {
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] dpose_all $*"
+	env COMPOSE_PROJECT_NAME=dab \
+		COMPOSE_FILE="$(find "$DAB/docker" -type f -name 'docker-compose.*.yml' | tr '\n' ':' | sed 's/:$//')" \
+		docker-compose --project-directory "$DAB/docker" "$@"
+	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose_all $*"
+}
+
 dpose() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] dpose $*"
 	app="$1"
