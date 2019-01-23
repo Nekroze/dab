@@ -1,0 +1,16 @@
+clair:
+
+  database:
+    type: pgsql
+    options:
+      # PostgreSQL Connection string
+      # https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
+      source: host=postgres port=5432 user=postgres sslmode=disable statement_timeout=60000
+
+  api:
+    # v3 grpc/RESTful API server address
+    addr: "0.0.0.0:6060"
+
+    # Health server address
+    # This is an unencrypted endpoint useful for load balancers to check to healthiness of the clair server.
+    healthaddr: "0.0.0.0:6061"

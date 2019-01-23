@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  clair:
+    container_name: dab_clair
+    build:
+      context: .
+      dockerfile: Dockerfile.clair
+      args:
+        - "CLAIR_TAG=${DAB_APPS_CLAIR_TAG:-latest}"
+    labels:
+      description: 'Vulnerability Static Analysis for Containers'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    depends_on:
+      - postgres
+    expose:
+      - 6060
+      - 6061
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
