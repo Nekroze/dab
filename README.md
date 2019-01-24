@@ -34,6 +34,8 @@ After this the `dab` command should be available in your shell:
  $ dab completion
 ```
 
+If you are an OSX user you will want to set the `DAB_GID` environment variable to `0` to avoid docker access issues and the `DAB_AUTOUPDATE_COMPLETION` environment variable to false as completion is only supported on Linux out of the box.
+
 ## Usage
 
 You need only have docker installed and any POSIX compliant shell to run the wrapper scripts and get going with dab. This will start the dab container and forward all arguments into it:
