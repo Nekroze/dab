@@ -75,8 +75,6 @@ pre_hooks() {
 	config_load_envs
 	maybe_update_completion &
 
-	maybe_post_chronograf_annotiation "$*" &
-
 	case "${1:-}" in
 	'version' | 'network' | 'update')
 		true # this prevents doing certain actions on trivial subcommands
