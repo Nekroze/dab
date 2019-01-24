@@ -8,4 +8,3 @@ set -euf
 
 export self_update_period=10
 DAB_AUTOUPDATE=true maybe_selfupdate_dab
-maybe_update_wrapper
