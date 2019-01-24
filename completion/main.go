@@ -63,6 +63,7 @@ var dab = complete.Command{
 				)},
 				"groups": {Args: newGeneric(predictGroups, 1, 2)}, "group": {Args: newGeneric(predictGroups, 1, 2)},
 				"start": {Args: newGeneric(predictGroups, 1)},
+				"run":   {Args: newGeneric(predictGroups, 1)},
 			},
 		},
 		"apps": {
