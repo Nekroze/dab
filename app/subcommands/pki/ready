@@ -4,73 +4,78 @@
 set -euf
 
 # shellcheck disable=SC1090
-. "$DAB/lib/vault.sh"
+. "$DAB/lib/config.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/docker.sh"
 
-export DAB_PKI_CA_TTL="${DAB_PKI_CA_TTL:-8760h}"
+if [ -f "$DAB_CONF_PATH/pki/ca/cfssl/csr" ]; then
+	exit 0
+fi
 
 # The 'pki' config namespace will contain machine specific secrets so it should
 # be ignored if the config is shared via a tool like git.
 config_add .gitignore /pki
 
-# Hashicorp Vault is the pki backend for generation, storage, and renewal.
-dab apps start vault
+# Create CFSSL config files for CA
+mkdir -p "$DAB_CONF_PATH/pki/ca/cfssl"
 
-# Await the docker health check to indicate the vault api is ready
-await_container_healthy "$(ishmael find dab vault)" vault
+echo "
+{
+  'CN': 'dab_$DAB_USER',
+  'key': {
+    'algo': 'rsa',
+    'size': 2048
+  },
+  'names': [
+    {
+      'O': 'Dab $USER'
+    }
+  ]
+}
+" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/ca/cfssl/csr"
 
-if ! vault_initialized || [ -z "$(vault_key)" ]; then
-	inform 'Initializing Vault...'
-	dab config set pki/vault/init "$(vault_init)"
-fi
+echo "
+{
+  'signing': {
+    'default': {
+      'expiry': '8760h',
+      'usages': [
+         'signing',
+         'key encipherment',
+         'server auth',
+         'client auth'
+       ]
+     }
+  }
+}
+" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/ca/cfssl/ca"
 
-if vault_sealed; then
-	inform 'Unsealing Vault'
-	key="$(vault_key)"
-	quietly vault operator unseal "$key"
-fi
+# Generate the CA
+dpose cfssl run --entrypoint /bin/sh --rm cfssl -c \
+	"cfssl gencert -initca '$DAB_CONF_PATH/pki/ca/cfssl/csr' | cfssljson -bare ca"
 
-silently vault login "$(vault_token)"
+mv "$DAB_CONF_PATH/pki/ca-key.pem" "$DAB_CONF_PATH/pki/ca/key"
+mv "$DAB_CONF_PATH/pki/ca.pem" "$DAB_CONF_PATH/pki/ca/certificate"
+mv "$DAB_CONF_PATH/pki/ca.csr" "$DAB_CONF_PATH/pki/ca/csr"
+cat "$DAB_CONF_PATH/pki/ca/certificate" "$DAB_CONF_PATH/pki/ca/key" >"$DAB_CONF_PATH/pki/ca/bundle"
 
-if ! vault_pki_enabled; then
-	inform 'Enabling Vault PKI'
-	vault secrets enable -path=pki_dab pki
-	vault write pki_dab/config/urls issuing_certificates='http://vault:8200/v1/pki_dab'
-	vault secrets tune -max-lease-ttl="$DAB_PKI_CA_TTL" pki_dab
-	ca_cert="$(carelessly vault write -format=json -field=certificate pki_dab/root/generate/internal common_name="dab_$DAB_USER" ttl="$DAB_PKI_CA_TTL")"
-	config_set pki/ca/certificate "$(echo "$ca_cert" | jq -r)"
-	config_chmod pki/ca/certificate 640
+# Inject the CA into browsers or other cert databases on the local machine
+cacert="$DAB_CONF_PATH/pki/ca/certificate"
+for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
+	inform "Installing CA Certificate into $(dirname "$db")"
+	quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cacert" -d "dbm:$(dirname "$db")" || continue
+done
+for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
+	inform "Installing CA Certificate into $(dirname "$db")"
+	quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cacert" -d "sql:$(dirname "$db")" || continue
+done
 
-	inform 'Enabling Vault PKI Exported Intermediary'
-	vault secrets enable -path=pki_dab_int pki
-	vault write pki_dab_int/config/urls issuing_certificates='http://vault:8200/v1/pki_dab_int'
-	vault secrets tune -max-lease-ttl="$DAB_PKI_CA_TTL" pki_dab_int
-	int_csr="$(vault write -format=json pki_dab_int/intermediate/generate/exported common_name=dab_int ttl="$DAB_PKI_CA_TTL")"
-	config_set pki/int/key "$(echo "$int_csr" | jq -r .data.private_key)"
-	config_chmod pki/int/key 640
-	quietly config_set pki/int/csr "$(echo "$int_csr" | jq -r .data.csr)"
-	int_cert="$(carelessly vault write -format=json -field=certificate pki_dab/root/sign-intermediate csr="@$DAB_CONF_PATH/pki/int/csr" ttl="$DAB_PKI_CA_TTL")"
-	quietly config_set pki/int/csr
-	config_set pki/int/certificate "$(echo "$int_cert" | jq -r)"
-	config_chmod pki/int/certificate 640
+if [ ! -f ~/.mitmproxy/mitmproxy-ca.pem ] || [ ! -f ~/.mitmproxy/mitmproxy-ca-cert.pem ]; then
 	mkdir -p ~/.mitmproxy
-	cat "$DAB_CONF_PATH/pki/int/certificate" "$DAB_CONF_PATH/pki/int/key" >"$DAB_CONF_PATH/pki/int/bundle"
-
-	cert="$DAB_CONF_PATH/pki/ca/certificate"
-	for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
-		inform "Installing CA Certificate into $(dirname "$db")"
-		quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "dbm:$(dirname "$db")" || continue
-	done
-	for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
-		inform "Installing CA Certificate into $(dirname "$db")"
-		quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cert" -d "sql:$(dirname "$db")" || continue
-	done
-
-	if [ ! -f ~/.mitmproxy/mitmproxy-ca.pem ] || [ ! -f ~/.mitmproxy/mitmproxy-ca-cert.pem ]; then
-		cp "$DAB_CONF_PATH/pki/int/bundle" "$HOME/.mitmproxy/mitmproxy-ca.pem"
-		cp "$DAB_CONF_PATH/pki/ca/certificate" "$HOME/.mitmproxy/mitmproxy-ca-cert.pem"
-	else
-		warn "Could not install Intermediate CA for mitmproxy"
-		warn "Please copy $DAB_CONF_PATH/pki/int/bundle to $HOME/.mitmproxy/mitmproxy-ca.pem"
-		warn "Please copy $DAB_CONF_PATH/pki/ca/certificate to $HOME/.mitmproxy/mitmproxy-ca-cert.pem"
-	fi
+	cp "$DAB_CONF_PATH/pki/ca/certificate" "$HOME/.mitmproxy/mitmproxy-ca.pem"
+	cp "$DAB_CONF_PATH/pki/ca/certificate" "$HOME/.mitmproxy/mitmproxy-ca-cert.pem"
+else
+	warn "Could not install Intermediate CA for mitmproxy"
+	warn "Please copy $DAB_CONF_PATH/pki/int/bundle to $HOME/.mitmproxy/mitmproxy-ca.pem"
+	warn "Please copy $DAB_CONF_PATH/pki/ca/certificate to $HOME/.mitmproxy/mitmproxy-ca-cert.pem"
 fi

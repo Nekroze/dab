@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: Issue/renew a wildcard tls certificate for the given domain name
+# Description: Issue a wildcard tls certificate for the given domain name
 # Usage: <FQDN>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
@@ -7,35 +7,49 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 # shellcheck disable=SC1090
-. "$DAB/lib/vault.sh"
-# shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
 
-[ -n "${1:-}" ] || fatality 'must provide a fqdn name'
+[ -n "${1:-}" ] || fatality 'must provide a Fully Qualified Domain Name'
 fqdn="$1"
-role="$(echo "$fqdn" | sed 's/\./-/g')"
 
-await_container_healthy "$(ishmael find dab vault)" vault
+if [ -d "$DAB_CONF_PATH/pki/$fqdn/cfssl/csr" ]; then
+	exit 0
+fi
 
-vault write "pki_dab/roles/$role" \
-	allowed_domains="$fqdn" \
-	allow_bare_domains=true \
-	allow_subdomains=true
+dab pki ready
 
-pki_path="$DAB_CONF_PATH/pki/$fqdn"
-mkdir -p "$pki_path"
-vaultbot --vault_token="$(vault_token)" \
-	--pki_mount=pki_dab \
-	--pki_role_name="$role" \
-	--pki_common_name="$fqdn" \
-	--pki_alt_names="*.$fqdn" \
-	--pki_ttl="${DAB_PKI_TTL:-168h}" \
-	--pki_cert_path="$pki_path/certificate" \
-	--pki_privkey_path="$pki_path/key" \
-	-y
-dpose vaultbot run --rm --entrypoint /bin/sh vaultbot -c "chown $DAB_UID:$DAB_GID $pki_path/*"
-dpose vaultbot run --rm --entrypoint /bin/sh vaultbot -c "chmod 644 $pki_path/*"
+mkdir -p "$DAB_CONF_PATH/pki/$fqdn/cfssl"
+echo "
+{
+  'CN': '$fqdn',
+  'hosts': [
+	'$fqdn',
+	'*.$fqdn'
+  ],
+  'key': {
+    'algo': 'rsa',
+    'size': 2048
+  },
+  'names': [
+    {
+      'O': 'Dab $DAB_USER'
+    }
+  ]
+}
+" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/$fqdn/cfssl/csr"
 
-conf_path="\$DAB_CONF_PATH/pki/$fqdn"
-inform "$fqdn pem formatted certificate can be found at $conf_path/certificate"
-inform "$fqdn pem formatted private key can be found at $conf_path/key"
+# Allows concurrent certificate issuance without colliding
+tmpid="$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13)"
+
+# Generate the certificate
+dpose cfssl run --entrypoint /bin/sh --rm cfssl -c \
+	"cfssl gencert -ca '$DAB_CONF_PATH/pki/ca/certificate' -ca-key '$DAB_CONF_PATH/pki/ca/key' -config '$DAB_CONF_PATH/pki/ca/cfssl/ca' '$DAB_CONF_PATH/pki/$fqdn/cfssl/csr' | cfssljson -bare $tmpid"
+
+mv "$DAB_CONF_PATH/pki/$tmpid-key.pem" "$DAB_CONF_PATH/pki/$fqdn/key"
+mv "$DAB_CONF_PATH/pki/$tmpid.pem" "$DAB_CONF_PATH/pki/$fqdn/certificate"
+mv "$DAB_CONF_PATH/pki/$tmpid.csr" "$DAB_CONF_PATH/pki/$fqdn/csr"
+cat "$DAB_CONF_PATH/pki/$fqdn/certificate" "$DAB_CONF_PATH/pki/$fqdn/key" >"$DAB_CONF_PATH/pki/$fqdn/bundle"
+
+inform "$fqdn pem formatted certificate can be found at $DAB_CONF_PATH/pki/$fqdn/certificate"
+inform "$fqdn pem formatted private key can be found at $DAB_CONF_PATH/pki/$fqdn/key"
+inform "$fqdn pem formatted key & cert bundle can be found at $DAB_CONF_PATH/pki/$fqdn/bundle"

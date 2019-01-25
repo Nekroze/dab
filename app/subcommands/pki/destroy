@@ -1,12 +1,11 @@
 #!/bin/sh
-# Description: Destroy the vault's persistent storage and reset the pki
+# Description: Destroy all persistent objects, certs are delete and removed from browsers
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
 # shellcheck disable=SC1090
 . "$DAB/lib/output.sh"
 
-dab apps destroy vault
 dab config set pki
 
 for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do

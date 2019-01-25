@@ -9,8 +9,6 @@ set -euf
 # shellcheck disable=SC1090
 . "$DAB/lib/config.sh"
 # shellcheck disable=SC1090
-. "$DAB/lib/vault.sh"
-# shellcheck disable=SC1090
 . "$DAB/lib/update.sh"
 
 maybe_post_chronograf_annotiation() {
@@ -50,11 +48,6 @@ generate_user() {
 	echo "$DAB_USER:x:$DAB_UID:$DAB_GID:user:$HOME:/bin/sh" >>/etc/passwd
 }
 
-load_vault_token() {
-	DAB_SERVICES_VAULT_TOKEN="$(vault_token)"
-	export DAB_SERVICES_VAULT_TOKEN
-}
-
 ensure_persistent_docker_objects() {
 	silently dpose shell up --no-start || true
 }
@@ -70,7 +63,6 @@ pre_hooks() {
 	# shellcheck disable=SC2064
 	trap "post_hooks $*" EXIT
 
-	load_vault_token
 	generate_user
 	config_load_envs
 	maybe_update_completion &
