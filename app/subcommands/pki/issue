@@ -19,8 +19,8 @@ fi
 dab pki ready
 
 mkdir -p "$DAB_CONF_PATH/pki/$fqdn/cfssl"
-echo "
-{
+
+echo "{
   'CN': '$fqdn',
   'hosts': [
 	'$fqdn',
@@ -35,8 +35,7 @@ echo "
       'O': 'Dab $DAB_USER'
     }
   ]
-}
-" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/$fqdn/cfssl/csr"
+}" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/$fqdn/cfssl/csr"
 
 # Allows concurrent certificate issuance without colliding
 tmpid="$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13)"

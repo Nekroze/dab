@@ -15,12 +15,13 @@ fi
 # The 'pki' config namespace will contain machine specific secrets so it should
 # be ignored if the config is shared via a tool like git.
 config_add .gitignore /pki
+config_add .ignore /pki
 
 # Create CFSSL config files for CA
 mkdir -p "$DAB_CONF_PATH/pki/ca/cfssl"
 
-echo "
-{
+# CA configuration
+echo "{
   'CN': 'dab_$DAB_USER',
   'key': {
     'algo': 'rsa',
@@ -31,24 +32,22 @@ echo "
       'O': 'Dab $USER'
     }
   ]
-}
-" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/ca/cfssl/csr"
+}" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/ca/cfssl/csr"
 
-echo "
-{
-  'signing': {
-    'default': {
-      'expiry': '8760h',
-      'usages': [
-         'signing',
-         'key encipherment',
-         'server auth',
-         'client auth'
+# Certificate issuance policy
+echo '{
+  "signing": {
+    "default": {
+      "expiry": "8760h",
+      "usages": [
+         "signing",
+         "key encipherment",
+         "server auth",
+         "client auth"
        ]
      }
   }
-}
-" | sed s/"'"/'"'/g >"$DAB_CONF_PATH/pki/ca/cfssl/ca"
+}' >"$DAB_CONF_PATH/pki/ca/cfssl/ca"
 
 # Generate the CA
 dpose cfssl run --entrypoint /bin/sh --rm cfssl -c \
