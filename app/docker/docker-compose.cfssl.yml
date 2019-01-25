@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+
+  cfssl:
+    container_name: dab_cfssl
+    image: "cfssl/cfssl:${DAB_APPS_CFSSL_TAG:-latest}"
+    labels:
+      description: "Cloudflare's PKI and TLS toolkit"
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    network_mode: none
+    user: "$DAB_UID:$DAB_GID"
+    volumes:
+      - "$DAB_CONF_PATH/pki:$DAB_CONF_PATH/pki"
+    working_dir: "$DAB_CONF_PATH/pki"
+    tmpfs:
+      - /tmp
