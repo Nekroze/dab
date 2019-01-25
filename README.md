@@ -108,7 +108,7 @@ The [Dab UX][16] project stores user experience tests that should almost always 
 - Shared base image, most all docker container dab uses utilize an alpine base image that is lean
 - Simple, thanks to the [subcommander][7] dispatcher most subcommands are implemented in only a few SLOC
 - Tree structured configuration that can be shared (eg. via git or tar)
-- x509 PKI managed via [Vault][5] with transparent certificate renewal via [VaultBot][6]
+- Managed x509 PKI
 
 ## Contributing
 
