@@ -30,8 +30,6 @@ captain_hindsight() {
 		echo_red "If the pki has some bad data perhaps try 'dab pki destroy'"
 		;;
 	'dab pki ready'* | 'dab pki up'*)
-		echo_red "If the pki is not starting at all, perhaps investigate with 'dab apps logs vault'"
-		echo_red "If the pki is starting up properly perhaps try 'dab apps restart vault'"
 		echo_red "If the pki has some bad data perhaps try 'dab pki destroy'"
 		;;
 	'dab config'*)
