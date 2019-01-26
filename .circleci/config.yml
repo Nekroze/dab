@@ -20,6 +20,9 @@ jobs:
             TEST_DOCKER: local
             TEST_TAGS: '@smoke and not @profiling'
 
+      - store_test_results:
+          path: /tmp/dab/test_results
+
       - run:
           name: Acceptance Tests
           command: script -qec './scripts/test.sh'
@@ -27,9 +30,15 @@ jobs:
             TEST_DOCKER: local
             TEST_TAGS: '@ci and not @smoke'
 
+      - store_test_results:
+          path: /tmp/dab/test_results
+
       - run:
           name: UX Regression Tests
           command: script -qec './scripts/ux-test.sh'
+
+      - store_test_results:
+          path: /tmp/dab/test_results
 
       - run:
           name: Profile
@@ -37,3 +46,6 @@ jobs:
           environment:
             TEST_DOCKER: local
             TEST_TAGS: '@profiling'
+
+      - store_test_results:
+          path: /tmp/dab/test_results

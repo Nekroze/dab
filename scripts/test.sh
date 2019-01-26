@@ -15,7 +15,7 @@ echo
 
 if [ "$TEST_DOCKER" = 'local' ]; then
 	[ -d /tmp/dab ] && sudo rm -rf /tmp/dab
-	mkdir -p /tmp/dab
+	mkdir -p /tmp/dab/test_results
 fi
 
 # Cleanup first
