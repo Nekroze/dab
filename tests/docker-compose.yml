@@ -17,6 +17,7 @@ services:
     volumes:
       - ./features:/usr/src/app/features
       - ../dab:/usr/bin/dab
+      - /tmp/dab/test_results:/output
     tty: true
     stdin_open: true
 
