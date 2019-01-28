@@ -87,12 +87,11 @@ export DAB_CONF_PATH="${DAB_CONF_PATH:-$HOME/.config/dab}"
 mkdir -p "$DAB_CONF_PATH" || true # try ensure it is owned by this user
 dArg -v "$DAB_CONF_PATH:$DAB_CONF_PATH"
 
-# Pass through ssh agent socket or mount ~/.ssh directory.
+# Pass through ssh agent socket if available.
 if [ -n "${SSH_AUTH_SOCK:-}" ]; then
-	socket='/var/run/ssh-agent'
 	dArg \
-		-v "$SSH_AUTH_SOCK:$socket" \
-		-e "SSH_AUTH_SOCK=$socket"
+		-v "$SSH_AUTH_SOCK:$SSH_AUTH_SOCK" \
+		-e 'SSH_AUTH_SOCK'
 fi
 
 # Attempt work out how we connect to docker for passthrough.
