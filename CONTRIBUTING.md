@@ -2,6 +2,8 @@
 
 I would first like to thank you for considering contributing to Dab.
 
+I suggest hitting that fork button if you are reading this. I find it best to make any changes in a new branch and opening a pull request from your fork's custom branch to the master branch of the [upstream repository][3]. Pull requests (and any new changes to your fork's custom branch) are automatically tested in the cloud via CircleCI with results displayed in the pull request.
+
 ## Architecture
 
 Looking top down, the starting point for each run is the [dab wrapper script](./dab) which is a POSIX compliant shell script that uses only standard GNU tools (eg. grep) to generate the appropriate [docker][1] [run][2] command to run the Dab [docker image][3] which stores the rest of the application. This allows for a predictable environment in which Dab can run while also removing the need to manage any dependencies Dab may have, other than [docker][1] obviously.
@@ -34,9 +36,9 @@ Additionally, to run the suite of regression tests execute:
  $ ./scripts/test.sh
 ```
 
-By default it will run with docker in docker so not to affect your normal use of Dab, this is however very slow. If you feel adventurous you can set `TEST_DOCKER` environment variable to `local` before running the `./scripts/test.sh` script to run on your machines local docker instance which should be much faster.
+By default it will run on your machine directly, this is fast but interacts with your local docker volumes potentially causing loss of data you may want to keep eg. postgres app data. Another method is to use docker in docker so as not to affect your normal use of Dab, this is however much slower. This is configured by setting the `TEST_DOCKER` environment variable to `dind` before running the `./scripts/test.sh` script.
 
-You may also pass a specific tag selection of feature file path relative to the `tests` directory.
+You may also pass a specific tag selection or feature file path relative to the `tests` directory.
 
 [1]: https://docker.com
 [2]: https://docs.docker.com/engine/reference/run

@@ -2,7 +2,7 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-export TEST_DOCKER="${TEST_DOCKER:-dind}"
+export TEST_DOCKER="${TEST_DOCKER:-local}"
 export COMPOSE_PROJECT_NAME='dab'
 export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.$TEST_DOCKER.yml"
 trap 'docker-compose stop' EXIT
