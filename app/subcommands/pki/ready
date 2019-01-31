@@ -71,7 +71,7 @@ done
 
 if [ ! -f ~/.mitmproxy/mitmproxy-ca.pem ] || [ ! -f ~/.mitmproxy/mitmproxy-ca-cert.pem ]; then
 	mkdir -p ~/.mitmproxy
-	cp "$DAB_CONF_PATH/pki/ca/certificate" "$HOME/.mitmproxy/mitmproxy-ca.pem"
+	cp "$DAB_CONF_PATH/pki/ca/bundle" "$HOME/.mitmproxy/mitmproxy-ca.pem"
 	cp "$DAB_CONF_PATH/pki/ca/certificate" "$HOME/.mitmproxy/mitmproxy-ca-cert.pem"
 else
 	warn "Could not install Intermediate CA for mitmproxy"
