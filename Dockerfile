@@ -62,12 +62,11 @@ FROM alpine:latest AS prep
 
 RUN apk add --no-cache curl gettext bash openssl
 
-ADD https://github.com/mikefarah/yq/releases/download/2.1.1/yq_linux_amd64 /usr/bin/yq
 ADD https://raw.githubusercontent.com/Nekroze/subcommander/master/subcommander /usr/bin/subcommander
 ADD https://raw.githubusercontent.com/helm/helm/master/scripts/get /bin/get-helm
 WORKDIR /usr/bin
 RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" \
- && chmod 755 /usr/bin/yq /usr/bin/subcommander /usr/bin/kubectl /bin/get-helm \
+ && chmod 755 /usr/bin/subcommander /usr/bin/kubectl /bin/get-helm \
  && env HELM_INSTALL_DIR=/usr/bin get-helm
 
 COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
@@ -97,6 +96,7 @@ RUN apk add --no-cache docker python3 \
 
 # Misc tools required for scripts.
 RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl entr \
+ && pip3 install yq \
  && echo "check_mail:0" >> /etc/multitail.conf \
  && chmod 666 /etc/passwd
 
@@ -114,7 +114,6 @@ ENV \
 # file from previous layers) and execute from there to keep paths consistent
 # and predictable.
 COPY --from=prep \
-  /usr/bin/yq \
   /usr/bin/subcommander \
   /usr/bin/shellcheck \
   /usr/bin/dab-completion \
