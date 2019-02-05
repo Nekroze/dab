@@ -30,20 +30,9 @@ compose_app_config() {
 }
 
 compose_to_apps_data() {
-	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] compose_to_apps_data $*"
-	files=""
-	# shellcheck disable=SC2044
-	for file in $(find "$DAB/docker" -name 'docker-compose.*.yml'); do
-		files="$files:$file"
-	done
-
 	tmp="$(mktemp)"
-	env COMPOSE_PROJET_NAME=dab \
-		COMPOSE_FILE="$(echo "$files" | cut -c2-)" \
-		docker-compose --project-directory "$DAB/docker" config >"$tmp"
-	yq read "$tmp" services -j |
-		jq 'to_entries[] | "\(.key)`\(.value.labels.description)"' -r
-	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] compose_to_apps_data  $*"
+	env DAB_PROFILING=false dpose_all config config >"$tmp"
+	yq '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' -r <"$tmp"
 }
 
 get_docker_compose_files_for_app() {
@@ -61,7 +50,7 @@ get_app_dependencies() {
 	file="$DAB/docker/docker-compose.$app.yml"
 	[ -f "$file" ] || return 0
 
-	val="$(yq read "$file" "services.$app.depends_on")"
+	val="$(yq ".services.$app.depends_on" <"$file")"
 	[ "$val" != "null" ] || return 0
 	echo "$val" | awk '{ print $2 }'
 }
@@ -70,7 +59,7 @@ get_app_label_value() {
 	app="$1"
 	label="$2"
 	default="${3:-}"
-	val="$(yq read "$DAB/docker/docker-compose.$app.yml" "services.$app.labels.$label")"
+	val="$(yq ".services.$app.labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
 	[ "$val" != "null" ] || val="$default"
 	[ -z "$val" ] || echo "$val"
 }
