@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     machine: true
@@ -22,6 +22,10 @@ jobs:
 
       - store_test_results:
           path: /tmp/dab/test_results
+      - run:
+          name: Clear test results
+          when: on_fail
+          command: rm -rf /tmp/dab/test_results || true
 
       - run:
           name: Acceptance Tests
@@ -32,6 +36,10 @@ jobs:
 
       - store_test_results:
           path: /tmp/dab/test_results
+      - run:
+          name: Clear test results
+          when: on_fail
+          command: rm -rf /tmp/dab/test_results || true
 
       - run:
           name: UX Regression Tests
@@ -39,6 +47,10 @@ jobs:
 
       - store_test_results:
           path: /tmp/dab/test_results
+      - run:
+          name: Clear test results
+          when: on_fail
+          command: rm -rf /tmp/dab/test_results || true
 
       - run:
           name: Profile
