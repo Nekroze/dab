@@ -30,9 +30,14 @@ compose_app_config() {
 }
 
 compose_to_apps_data() {
+	PROFILING="${DAB_PROFILING:-false}"
+	export DAB_PROFILING=false
+
 	tmp="$(mktemp)"
-	env DAB_PROFILING=false dpose_all config config >"$tmp"
-	yq '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' -r <"$tmp"
+	dpose_all config >"$tmp"
+	yq -r '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' <"$tmp"
+
+	export DAB_PROFILING="$PROFILING"
 }
 
 get_docker_compose_files_for_app() {
@@ -50,16 +55,17 @@ get_app_dependencies() {
 	file="$DAB/docker/docker-compose.$app.yml"
 	[ -f "$file" ] || return 0
 
-	val="$(yq ".services.$app.depends_on" <"$file")"
+	val="$(yq -r ".services.$app.depends_on" <"$file")"
 	[ "$val" != "null" ] || return 0
-	echo "$val" | awk '{ print $2 }'
+
+	echo "$val" | sed -e '1d' -e '$d' | cut -d '"' -f 2
 }
 
 get_app_label_value() {
 	app="$1"
 	label="$2"
 	default="${3:-}"
-	val="$(yq ".services.$app.labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
+	val="$(yq -r ".services.$app.labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
 	[ "$val" != "null" ] || val="$default"
 	[ -z "$val" ] || echo "$val"
 }
