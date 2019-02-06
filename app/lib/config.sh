@@ -56,7 +56,7 @@ config_load_envs() {
 	[ -d "$envs" ] || return 0
 	for file in "$envs"/*; do
 		name="$(basename "$file")"
-		export "$name=$(config_get "environment/$name")"
+		export "$name=$(config_get "environment/$name" | envsubst)"
 	done
 	set -f
 }
