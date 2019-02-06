@@ -11,6 +11,7 @@ services:
     environment:
       discovery.type: 'single-node'
       bootstrap.memory_lock: 'true'
+      xpack.security.enabled: 'false'
       ES_JAVA_OPTS: '-Xms512m -Xmx512m'
     healthcheck:
       test: 'curl -fsSL "http://localhost:9200/_cat/health?h=status" | grep green'
