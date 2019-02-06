@@ -156,3 +156,10 @@ Feature: Subcommand: dab config
 		When I run `dab shell echo \$SOME_ENV`
 
 		Then it should pass with "toshi"
+
+	Scenario: Can set environment variables with config that contain environment variables
+		Given I successfully run `dab config set environment/SOME_ENV '${USER}123'`
+
+		When I run `dab shell echo \$SOME_ENV`
+
+		Then it should pass with "user123"
