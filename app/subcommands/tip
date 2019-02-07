@@ -45,6 +45,7 @@ Any .log files placed in the docker volume named dab_logs can be ingested for di
 You can use docker-compose-gen in your entrypoint scripts to easily interface with Dab docker objects
 You can use multitail in your entrypoint scripts to display your logs, and in style
 If you want to dig into the messages on Dab's Kafka topics, try 'dab apps start kafka-topics-ui' for a handy web interface
+If you wish to preserve any environmental variables while using dab with sudo, you can run dab like so 'sudo -E dab foo bar'
 "
 
 get_tip_corpus() {

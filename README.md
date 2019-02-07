@@ -48,6 +48,11 @@ If you do not need to build the docker image yourself and just want to use dab, 
 
 It is recommended you add the directory containing the [dab script][1] to your shell's `PATH` environment variable.
 
+If you want to execute `dab` with `sudo` and retain set environmental variables, you can use the following to execute dab:
+```bash
+ $ sudo -E dab --help
+```
+
 ## Stable Updates Stream
 
 The latest image is built off of the ever changing master branch. While all efforts are made to keep the UI and behaviour stable, you may wish to use the `stable` docker tag (and thus git branch) which receives periodic merges from the master branch.
