@@ -110,3 +110,14 @@ Feature: Subcommand: dab repo
 
 		Then the directory "~/dab/dotfiles9/.git/" should exist
 		And the directory "~/dab/dotfiles10/.git/" should exist
+
+	Scenario: Can list repositories url
+		Given I successfully run `dab repo add dotfiles11 https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab repo add dotfiles12 https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab config add repo/dotfiles12/website www.dotfiles12.test.website`
+
+		When I successfully run `dab repo list`
+
+		Then the output should match /^REPO\s*|.*|\s*URL$/
+		And the output should match /^dotfiles11\s*|.*|\s*$/
+		And the output should match /^dotfiles12\s*|.*|\swww\.dotfiles12\.test\.website$/
