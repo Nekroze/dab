@@ -25,14 +25,13 @@ fi
 # Pass current working directory through to a consistent location.
 dArg -e "HOST_PWD=$PWD" -v "$PWD:/pwd"
 
-# Pass the calling user in as DAB_USER
-export DAB_USER="${USER:-user}"
-
-# UID and GID passthrough/customization.  This will prevent most common docker
+# UID and GID passthrough/customization. This will prevent most common docker
 # issues with volume mounting directories owned by or running as a different
 # user. Also allows customizable permissions if you want to make a user group
 # for dab on your machine to restrict its access more granularly, and provide
 # security by not running as root.
+[ -z "${SUDO_UID:-}" ] || DAB_UID="$SUDO_UID"
+[ -z "${SUDO_GID:-}" ] || DAB_GID="$SUDO_GID"
 # shellcheck disable=SC2039
 if [ -z "${DAB_UID:-}" ]; then
 	if [ -n "${UID:-}" ]; then
@@ -49,17 +48,28 @@ if [ -z "${DAB_GID:-}" ]; then
 	fi
 fi
 export DAB_UID DAB_GID
+# Pass the calling user in as DAB_USER
+export DAB_USER="${SUDO_USER:-${USER:-user}}"
 dArg \
 	--user "$DAB_UID:$DAB_GID" \
-	-e USER="${USER:-user}"
+	-e USER="$DAB_USER"
 
-# Home passthrough.
+# Home passthrough. Detects sudo usage and attempts to mount to the lower
+# privileged user's home.
+if [ -n "${SUDO_USER:-}" ]; then
+	if [ -d "/home/$SUDO_USER" ]; then
+		HOME="/home/$SUDO_USER"
+	elif [ -d "/Users/$SUDO_USER" ]; then
+		HOME="/Users/$SUDO_USER"
+	fi
+fi
+
 dArg \
 	-v "$HOME:$HOME" \
 	-e "HOME=$HOME"
 ##OSX does not have /home
-if echo "$HOME" | grep -q '/home'; then
-	dArg -v "$HOME:/home/$USER"
+if echo "$HOME" | grep -qv '/home'; then
+	dArg -v "$HOME:/home/$DAB_USER"
 fi
 
 # Docker group lists access if it exists on the host.
