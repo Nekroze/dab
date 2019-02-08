@@ -48,7 +48,9 @@ If you want to dig into the messages on Dab's Kafka topics, try 'dab apps start 
 "
 
 get_tip_corpus() {
-	echo "$TIPS" | sed '/^\s*$/d' | awk '{ print "[tips:dab] " $0 }'
+	if [ "${DAB_TIPS_BUILTIN:-true}" = 'true' ]; then
+		echo "$TIPS" | sed '/^\s*$/d' | awk '{ print "[tips:dab] " $0 }'
+	fi
 	config_get tips/custom | sed '/^\s*$/d' | awk '{ print "[tips:custom] " $0 }'
 }
 

@@ -59,6 +59,26 @@ Feature: Docker entrypoint wrapper script works
 
 		Then it should pass with "[tips:dab]"
 
+	Scenario: Tips can be disabled
+
+		Given I set the environment variable "DAB_TIPS" to "false"
+
+		When I run `dab config set tips/last`
+
+		Then stdout should not contain "[tips:dab]"
+
+	Scenario: Customer tips can be defined
+
+		Given I set the environment variable "DAB_TIPS_BUILTIN" to "false"
+
+		And I set the environment variable "DAB_TIPS" to "true"
+
+		And I successfully run `dab config set tips/custom "My cool tip"`
+
+		When I run `dab config set tips/last` 
+
+		Then the stdout should contain "My cool tip"
+
 	Scenario: Displays a tip periodically
 		With no custom tips defined
 
