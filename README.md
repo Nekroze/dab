@@ -48,6 +48,17 @@ If you do not need to build the docker image yourself and just want to use dab, 
 
 It is recommended you add the directory containing the [dab script][1] to your shell's `PATH` environment variable.
 
+## Stable Updates Stream
+
+The latest image is built off of the ever changing master branch. While all efforts are made to keep the UI and behaviour stable, you may wish to use the `stable` docker tag (and thus git branch) which receives periodic merges from the master branch.
+
+You can control the image to be used with the `DAB_IMAGE_TAG` environment variable like so:
+
+```bash
+export DAB_IMAGE_TAG=stable
+```
+
+
 ### Demoing
 
 If you are not yet sure if Dab is right for you, [Play With Docker (PWD)][15] will allow you to spin up a temporary cloud server with Dab available. You will be presented with a terminal containing the latest version of Dab ready to use.
