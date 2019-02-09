@@ -1,6 +1,27 @@
 version: 2.1
+
+workflows:
+  version: 2
+  'Review & Test':
+    jobs:
+      - 'Danger Automated Code Review'
+      - 'Feature Testing'
+      - 'UX Regression Testing'
+
 jobs:
-  build:
+  'Danger Automated Code Review':
+    docker:
+        - image: circleci/node:latest
+    steps:
+
+      - checkout
+
+      - run:
+          name: Danger
+          command: ./scripts/danger.sh
+
+
+  'Feature Testing':
     machine: true
     steps:
 
@@ -40,6 +61,19 @@ jobs:
           name: Clear test results
           when: on_fail
           command: rm -rf /tmp/dab/test_results || true
+
+  'UX Regression Testing':
+    machine: true
+    steps:
+
+      - checkout
+
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
           name: UX Regression Tests
