@@ -84,7 +84,7 @@ jobs:
       - run:
           name: Clear test results
           when: on_fail
-          command: rm -rf /tmp/dab/test_results || true
+          command: rm -rf /tmp/dabux/test_results || true
 
       - run:
           name: Profile
