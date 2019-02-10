@@ -95,7 +95,7 @@ RUN apk add --no-cache docker python3 \
  && rm -rf ~/.cache
 
 # Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl entr \
+RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl entr postgresql-client \
  && pip3 install yq \
  && echo "check_mail:0" >> /etc/multitail.conf \
  && chmod 666 /etc/passwd
