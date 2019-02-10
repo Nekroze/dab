@@ -76,6 +76,10 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
+          name: Build Image 
+          command: ./scripts/build.sh
+
+      - run:
           name: UX Regression Tests
           command: script -qec './scripts/ux-test.sh'
 
