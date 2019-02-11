@@ -30,3 +30,10 @@ Feature: Subcommand: dab network
 		When I run `dab network shell ls /`
 
 		Then it should pass with "bin"
+
+	Scenario: Provides an HTTP proxy into the network
+		When I run `dab network proxy`
+
+		Then the exit status should be 0
+		And the output should contain ":8080"
+		And the output should contain ":8081"

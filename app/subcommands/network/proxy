@@ -1,0 +1,34 @@
+#!/bin/sh
+# Description: Start a proxy server providing clients access to the lab network
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -euf
+
+# shellcheck disable=SC1090
+. "$DAB/lib/docker.sh"
+
+# Ensure the pki is ready
+dab pki ready
+
+# Ensure the pki ready setup the mitmproxy certs
+ready='true'
+if ! diff "$DAB_CONF_PATH/pki/ca/bundle" ~/.mitmproxy/mitmproxy-ca.pem; then
+	error 'The contents of ~/.mitmproxy/mitmproxy-ca.pem must match the config key pki/ca/bundle'
+	ready='false'
+fi
+if ! diff "$DAB_CONF_PATH/pki/ca/certificate" ~/.mitmproxy/mitmproxy-ca-cert.pem; then
+	error 'The contents of ~/.mitmproxy/mitmproxy-ca-cert.pem must match the config key pki/ca/certificate'
+	ready='false'
+fi
+"$ready" || fatality 'Your machine is not ready to start the proxy!'
+
+# Start mitmproxy and ensure it is healthy
+dpose 'mitmproxy' up --detach || fatality 'Failed to start mitmproxy app!'
+inform 'Waiting for mitmproxy to be healthy'
+ishmael healthy --wait 30 dab_mitmproxy
+
+# Display information on using the proxy
+addresses="$(ishmael address dab_mitmproxy)"
+echo
+inform "Please point your HTTP proxy client at http://$(echo "$addresses" | grep ':8080')"
+inform "To view/replay requests via the dashboard go to http://$(echo "$addresses" | grep ':8081')"
+inform "To expose this proxy to the internet start the preconfigured serveo app with 'dab apps start serveo'"
