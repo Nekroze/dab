@@ -9,6 +9,11 @@ services:
       description: 'HTTP debuging swiss-army knife, connect and go to http://mitm.it to load certs'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    healthcheck:
+      test: 'wget --quiet --tries=1 --spider http://localhost:8081'
+      interval: 10s
+      timeout: 5s
+      retries: 3
     volumes:
       - "$HOME/.mitmproxy:/home/mitmproxy/.mitmproxy"
     networks:
