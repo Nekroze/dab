@@ -12,9 +12,22 @@ set -euf
 for repo in "$@"; do
 	url="$(config_get "repo/$repo/url")"
 	[ -n "$url" ] || fatality "url for repo $repo is unknown"
-	repopath="$DAB_REPO_PATH/$repo"
-	[ ! -d "$repopath" ] || return 0
 
-	mkdir -p "$DAB_REPO_PATH"
-	git clone "$url" "$repopath"
+	[ -d "$DAB_REPO_PATH/$repo" ] || git clone "$url" "$DAB_REPO_PATH/$repo"
+
+	if [ -d "$DAB_CONF_PATH/repo/$repo/remotes/" ]; then
+		cd "$DAB_REPO_PATH/$repo"
+		# shellcheck disable=SC2044
+		for remkey in $(find "$DAB_CONF_PATH/repo/$repo/remotes/" -type f -maxdepth 1); do
+			[ ! -d "$remkey" ] || continue
+			remname="$(basename "$remkey")"
+			remurl="$(config_get "repo/$repo/remotes/$remname")"
+			inform "configuring $repo remote $remname to $remurl"
+			if git remote | grep -qE "^$remname$"; then
+				git remote set-url "$remname" "$remurl"
+			else
+				git remote add "$remname" "$remurl"
+			fi
+		done
+	fi
 done

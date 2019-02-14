@@ -121,3 +121,22 @@ Feature: Subcommand: dab repo
 		Then the output should match /^REPO\s*|.*|\s*URL$/
 		And the output should match /^dotfiles11\s*|.*|\s*$/
 		And the output should match /^dotfiles12\s*|.*|\swww\.dotfiles12\.test\.website$/
+
+	Scenario: Can preconfigure repository remotes
+		Given a file named "~/.config/dab/repo/dotfiles13/url" with:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
+		And the directory "~/dab/dotfiles13/.git/" should not exist
+		And I successfully run `dab config set repo/dotfiles13/remotes/upstream 1b59f40e-75c8-4c0c-bede-f5462ae15373`
+
+		When I run `dab repo clone dotfiles13`
+
+		Then stderr should not contain anything
+		And stdout should contain "configuring dotfiles13 remote upstream"
+		And the exit status should be 0
+		And the file "~/dab/dotfiles13/.git/config" should contain:
+		"""
+		[remote "upstream"]
+			url = 1b59f40e-75c8-4c0c-bede-f5462ae15373
+		"""
