@@ -76,7 +76,7 @@ get_uncommitted_changes_in_repo() {
 	(
 		if [ -d "$repopath" ]; then
 			cd "$repopath"
-			git status -s || true
+			git status --porcelain || true
 		fi
 	)
 }
