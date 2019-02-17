@@ -4,6 +4,16 @@ I would first like to thank you for considering contributing to Dab.
 
 I suggest hitting that fork button if you are reading this. I find it best to make any changes in a new branch and opening a pull request from your fork's custom branch to the master branch of the [upstream repository][3]. Pull requests (and any new changes to your fork's custom branch) are automatically tested in the cloud via CircleCI with results displayed in the pull request.
 
+## Community Structure
+
+This project's original Author is [Taylor Lawson][7] (aka @Nekroze) who is the also currently the Owner (aka Administrator) of the project's [Upstream][8] repository.
+
+The following users are also Maintainers of the [Upstream][8] project allowing them to review and accept Pull Requests to the `master` or `stable` branches:
+- @Nekroze
+- @grke
+
+Contributions to Dab itself however can be done by anyone with a github account, simply fork the repository so that you have full access to your own copy where you can create a new branch for your changes, following [GitHub Flow][9] to keep the process clean and simple.
+
 ## Architecture
 
 Looking top down, the starting point for each run is the [dab wrapper script](./dab) which is a POSIX compliant shell script that uses only standard GNU tools (eg. grep) to generate the appropriate [docker][1] [run][2] command to run the Dab [docker image][3] which stores the rest of the application. This allows for a predictable environment in which Dab can run while also removing the need to manage any dependencies Dab may have, other than [docker][1] obviously.
@@ -46,3 +56,6 @@ You may also pass a specific tag selection or feature file path relative to the 
 [4]: https://github.com/mvdan/sh
 [5]: https://github.com/charlierudolph/cucumber_lint
 [6]: https://hub.docker.com/r/nekroze/subcommander
+[7]: https://keybase.io/nekroze
+[8]: https://github.com/Nekroze/dab
+[9]: https://guides.github.com/introduction/flow/
