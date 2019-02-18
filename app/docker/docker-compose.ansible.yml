@@ -12,13 +12,15 @@ services:
     labels:
       description: 'Automated configuration management'
     environment:
-      - HOME
       - DAB_GID
       - DAB_UID
       - DAB_USER
       - DAB_DOCKER_GID
+      - DAB_CONF_PATH
+      - DAB_REPO_PATH
     volumes:
-      - "$HOME:$HOME"
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
+      - "$DAB_REPO_PATH:$DAB_REPO_PATH"
       - "$HOST_PWD:$HOST_PWD"
       - "$HOST_PWD:/ansible/playbooks"
       - /var/run/docker.sock:/var/run/docker.sock
