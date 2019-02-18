@@ -13,7 +13,6 @@ services:
       description: 'Automated configuration management'
     environment:
       - HOME
-    user: "$DAB_UID:$DAB_DOCKER_GID"
     volumes:
       - "$HOME:$HOME"
       - "$HOST_PWD:$HOST_PWD"
