@@ -4,7 +4,12 @@ services:
 
   postgres:
     container_name: dab_postgres
-    image: "postgres:${DAB_APPS_POSTGRES_TAG:-alpine}"
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+      args:
+        - "POSTGRES_TAG=${DAB_APPS_POSTGRES_TAG:-latest}"
+        - "LOCALE=${DAB_APPS_POSTGRES_LOCALE:-en_US}"
     labels:
       description: 'Object-relational database management system'
       exposing: 'tcp'
@@ -14,6 +19,8 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres:/var/lib/postgresql/data/pgdata
+      - "$DAB_CONF_PATH/apps/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
+    command: "${DAB_APPS_POSTGRES_FLAGS:-}"
     networks:
       - default
       - lab

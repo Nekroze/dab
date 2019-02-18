@@ -1,0 +1,6 @@
+ARG POSTGRES_TAG=latest
+FROM "postgres:$POSTGRES_TAG"
+
+ARG LOCALE="en_US"
+RUN localedef -i "${LOCALE}" -c -f UTF-8 -A /usr/share/locale/locale.alias "${LOCALE}.UTF-8"
+ENV LANG ="${LOCALE}"
