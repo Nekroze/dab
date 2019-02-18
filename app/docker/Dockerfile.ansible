@@ -4,8 +4,8 @@ RUN apk add --no-cache --virtual build-dependencies \
       gcc musl-dev libffi-dev openssl-dev python-dev \
  && apk add --no-cache \
       bash curl tar openssh-client sshpass git python py-boto py-dateutil \
-      py-httplib2 py-jinja2 py-paramiko py-pip py-yaml ca-certificates \
- && pip install python-keyczar docker-py
+      py-httplib2 py-jinja2 py-paramiko py-pip py-yaml ca-certificates docker-compose \
+ && pip install python-keyczar
 
 RUN mkdir -p /etc/ansible /ansible/playbooks \
  && echo "[local]" >> /etc/ansible/hosts \
