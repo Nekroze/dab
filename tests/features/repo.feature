@@ -140,3 +140,14 @@ Feature: Subcommand: dab repo
 		[remote "upstream"]
 			url = 1b59f40e-75c8-4c0c-bede-f5462ae15373
 		"""
+
+	Scenario: Can clone a repository and any submodules
+		Given the directory "~/dab/dotfiles14/.git/" should not exist
+
+		When I successfully run `dab repo add dotfiles14 https://github.com/Nekroze/dotfiles.git`
+
+		Then the directory "~/dab/dotfiles14/.git" should exist
+
+		And the directory "~/dab/dotfiles14/.git/modules/dotfiles" should exist
+
+		And the file "~/dab/dotfiles14/dotfiles/.git" should exist
