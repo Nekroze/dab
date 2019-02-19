@@ -56,3 +56,18 @@ Feature: Subcommand: dab group
 		Executing seven entrypoint deploy
 		"""
 		And I successfully run `docker ps`
+
+	Scenario: Can add entrypoint to group with aditional arguments
+		Given I successfully run `dab repo add eight https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create eight start`
+
+		When I run `dab group repos args eight start --test-arg -D 1`
+
+		Then it should pass with "contains 1 value(s)"
+
+		When I run `dab group start args`
+
+		Then it should pass with:
+		"""
+		Executing eight entrypoint start --test-arg -D 1
+		"""

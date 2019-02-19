@@ -9,5 +9,8 @@ set -euf
 
 [ -n "${1:-}" ] || fatality 'must provide a group name to add too'
 [ -n "${2:-}" ] || fatality 'must provide a repo name to add as a dependency'
-[ -n "${3:-}" ] || fatality 'must provide a entrypoiny name to be run'
-config_add "group/$1/repos" "$2" "$3"
+[ -n "${3:-}" ] || fatality 'must provide a entrypoint name to be run'
+group_name="$1"
+shift
+
+config_add "group/${group_name}/repos" "$@"
