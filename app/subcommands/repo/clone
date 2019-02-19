@@ -13,7 +13,7 @@ for repo in "$@"; do
 	url="$(config_get "repo/$repo/url")"
 	[ -n "$url" ] || fatality "url for repo $repo is unknown"
 
-	[ -d "$DAB_REPO_PATH/$repo" ] || git clone "$url" "$DAB_REPO_PATH/$repo"
+	[ -d "$DAB_REPO_PATH/$repo" ] || git clone --recursive "$url" "$DAB_REPO_PATH/$repo"
 
 	if [ -d "$DAB_CONF_PATH/repo/$repo/remotes/" ]; then
 		cd "$DAB_REPO_PATH/$repo"
