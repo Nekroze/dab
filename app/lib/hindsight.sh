@@ -37,5 +37,5 @@ captain_hindsight() {
 		;;
 	esac
 
-	error 'If you believe this to due to a problem with Dab please file a bug report at https://github.com/Nekroze/dab/issues/new?template=bug_report.md'
+	error 'If you believe this to due to a problem with Dab please file a bug report at https://github.com/Nekroze/dab/issues/new?template=bug_report.md or come have a chat with the good folks at https://gitter.im/developer-lab who are eager to help'
 }

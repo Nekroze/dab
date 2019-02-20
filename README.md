@@ -4,6 +4,7 @@
 [![GitHub license](https://img.shields.io/github/license/Nekroze/dab.svg)](https://github.com/Nekroze/dab/blob/master/LICENSE)
 [![CircleCI](https://circleci.com/gh/Nekroze/dab.svg?style=shield)](https://circleci.com/gh/Nekroze/dab)
 [![Build Status](https://travis-ci.org/Nekroze/dab.svg?branch=master)](https://travis-ci.org/Nekroze/dab)
+[![Gitter chat](https://badges.gitter.im/Nekroze/dab.png)](https://gitter.im/developer-lab)
 
 > The Developer lab.
 
@@ -143,8 +144,28 @@ The following projects are used to write dab:
 - [shellcheck][13]
 - [complete][14]
 
-[1]: https://github.com/Nekroze/dab/raw/master/dab
-[2]: https://github.com/Nekroze/dab/blob/master/CONTRIBUTING.md
+## Maintainers
+
+- [@Nekroze](https://github.com/Nekroze)
+- [@grke](https://github.com/grke)
+- [@slt](https://github.com/slt)
+- [@Lachlan-S](https://github.com/Lachlan-S)
+- [@tommymcguiver](https://github.com/tommymcguiver)
+
+## Contributing
+
+See [the contributing file][2]!
+
+Pull Requests accepted without corresponding issues provided they are well explained and reasoned.
+
+Small note: If editing the README, please conform to the [standard-readme][19] specification.
+
+## License
+
+[GPLv3 © 2018 Taylor Lawson][18]
+
+[1]: dab
+[2]: CONTRIBUTING.md
 [3]: https://www.influxdata.com/time-series-platform/
 [4]: https://github.com/gliderlabs/logspout
 [5]: https://www.vaultproject.io/
@@ -160,19 +181,5 @@ The following projects are used to write dab:
 [15]: http://play-with-docker.com/?stack=https://raw.githubusercontent.com/Nekroze/dab/master/tests/pwd.yml
 [16]: https://github.com/Nekroze/dabux
 [17]: https://nekroze.github.io/DabUX/
-
-## Maintainers
-
-[@Nekroze](https://github.com/Nekroze)
-
-## Contributing
-
-See [the contributing file](contributing.md)!
-
-PRs accepted.
-
-Small note: If editing the README, please conform to the [standard-readme](https://github.com/RichardLitt/standard-readme) specification.
-
-## License
-
-GPLv3 © 2018 Taylor Lawson
+[18]: LICENSE
+[19]: https://github.com/RichardLitt/standard-readme
