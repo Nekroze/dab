@@ -27,7 +27,7 @@ EOF
 		msg="$(echo "$line" | cut -c3-)"
 		cat <<EOF
   - name: Message - $msg
-    line: $msg
+    action: "$line"
 EOF
 		;;
 	*)
