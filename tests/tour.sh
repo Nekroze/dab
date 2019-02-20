@@ -2,7 +2,7 @@
 # Hi! I will be your tour guide to The Developer Laboratory
 # You can call me Clippy     Just kidding!
 # This tour can be paused at any time with the space bar
-export PS1='\[\e[35m\]\\$\[\e[m\] ' && set -e
+set -e
 # This will exit if any commands fail, everything I show you works!
 
 # Installing Dab is just downloading a tiny wrapper script
@@ -101,7 +101,7 @@ dab group groups TestThenStartCluster TestAllProjects
 # This can be difficult but Dab makes it really simple
 # To make life easy Dab sets up a Public Key Infrastructure for you
 dab pki ready
-# This uses vault from the apps to create a CA certificate
+# This uses apps to create a Certificate Authority
 # This certificate will persist for your config's lifetime
 cat ~/.config/dab/pki/ca/certificate
 # This is a standard PEM encoded X509 CA certificate
@@ -111,8 +111,8 @@ dab pki issue web.example.com
 # This same command can renew the certificate when it expires
 # Then you can use the certificate in your entrypoints for SSL
 dab config get pki/web.example.com/key
-# The PKI is backed by vault and can be erased at any time
+# The PKI is stored in the dab config and can be erased at any time
 dab pki destroy
-# The next time you ready the vault it will be brand new
+# The next time you ready the PKI it will be brand new
 
 # Interested in Dab? Head to https://github.com/Nekroze/dab
