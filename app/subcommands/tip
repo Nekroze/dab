@@ -46,6 +46,8 @@ You can use docker-compose-gen in your entrypoint scripts to easily interface wi
 You can use multitail in your entrypoint scripts to display your logs, and in style
 If you want to dig into the messages on Dab's Kafka topics, try 'dab apps start kafka-topics-ui' for a handy web interface
 If you wish to preserve any environmental variables while using dab with sudo, you can run dab like so 'sudo -E dab foo bar'
+Thought of something you wish dab could do for you? file a Feature Request at https://github.com/Nekroze/dab/issues/new?template=feature_request.md
+Think dab could do something better than it does now? file a Change Request at https://github.com/Nekroze/dab/issues/new?template=change_request.md
 "
 
 get_tip_corpus() {
