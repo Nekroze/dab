@@ -50,6 +50,19 @@ Feature: Subcommand: dab repo
 		And the output should match /^dotfiles3\s*|\s*not downloaded/
 		And the output should match /^dotfiles4\s*|\s*downloaded/
 
+	Scenario: Can filter listed repositories
+		Given a file named "~/.config/dab/repo/dotfiles3/url" with:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
+		And the directory "~/dab/dotfiles3/.git/" should not exist
+		And I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
+
+		When I successfully run `dab repo list downloaded`
+
+		Then the output should match /^REPO\s*|\s*STATUS/
+		And the output should match /^dotfiles4\s*|\s*downloaded/
+
 	Scenario: Can set entrypoint to script
 		Given I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
 

@@ -3,6 +3,8 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -euf
 
+filter="${1:-all}"
+
 # shellcheck disable=SC1090
 . "$DAB/lib/update.sh"
 
@@ -41,7 +43,13 @@ for dir in "$DAB_CONF_PATH"/repo/*; do
 
 	url="$(dab config get repo/"$repo"/website)"
 
-	repo_row "$repo" "$status" "${clean:-}" "${uptodate:-}" "$url"
+	if [ "$filter" = "all" ]; then
+		repo_row "$repo" "$status" "${clean:-}" "${uptodate:-}" "$url"
+	fi
+
+	if [ "$filter" = "$status" ]; then
+		repo_row "$repo" "$status" "${clean:-}" "${uptodate:-}" "$url"
+	fi
 done
 set -f
 
