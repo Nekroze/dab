@@ -51,4 +51,4 @@ colorize_table() {
 		-e 's/✗/\\e[0;31m✗\\e[0m/g'
 }
 
-printf '%b\n' "$(echo "$repo_data" | column -s'\`' -o' | ' -t -N REPO,STATUS,CLEAN,UPTODATE,URL -R status | colorize_table)"
+printf '%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,STATUS,CLEAN,UPTODATE,URL -R status | colorize_table)"
