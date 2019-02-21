@@ -1,5 +1,9 @@
 version: 2.1
 
+notify:
+  webhooks:
+    - url: 'https://webhooks.gitter.im/e/cc6aefa009b39156b845'
+
 workflows:
   version: 2
   'Review & Test':
