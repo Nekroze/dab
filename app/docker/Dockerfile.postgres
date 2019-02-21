@@ -3,4 +3,6 @@ FROM "postgres:$POSTGRES_TAG"
 
 ARG LOCALE="en_US"
 RUN localedef -i "${LOCALE}" -c -f UTF-8 -A /usr/share/locale/locale.alias "${LOCALE}.UTF-8"
-ENV LANG ="${LOCALE}"
+ENV LANG="${LOCALE}" \
+    LC_ALL="${LOCALE}.UTF-8" \
+    LC_CTYPE="${LOCALE}.UTF-8"
