@@ -16,6 +16,7 @@ var dab = complete.Command{
 			Sub: complete.Commands{
 				"destroy": {}, "delete": {},
 				"shell": {}, "sh": {}, "cmd": {},
+				"recreate": {}, "up": {}, "rebuild": {},
 				"proxy": {},
 			},
 		},
