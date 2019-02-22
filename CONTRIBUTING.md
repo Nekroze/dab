@@ -48,14 +48,38 @@ Additionally, to run the suite of regression tests execute:
 
 By default it will run on your machine directly, this is fast but interacts with your local docker volumes potentially causing loss of data you may want to keep eg. postgres app data. Another method is to use docker in docker so as not to affect your normal use of Dab, this is however much slower. This is configured by setting the `TEST_DOCKER` environment variable to `dind` before running the `./scripts/test.sh` script.
 
-You may also pass a specific tag selection or feature file path relative to the `tests` directory.
+You may also pass a specific tag selection or feature file path relative to the `tests` directory for example to run the scenario defined on line 21 of the `misc.feature` file of tests you can run the following:
+
+```bash
+ $ ./scripts/test.sh features/misc.feature:21
+```
+
+## Design
+
+This section documents some of the design decisions and trade-offs that have been made as a way to explain past decisions and guide in the future.
+
+The subcommands are laid out in a [directory and file tree structure](app/subcommands) that [Subcommander][6] uses to automatically generate the shape of the application. This means that creating new subcommands is as simple as creating a script in the right place or a directory for a namespace, without also having to keep some map of commands to files that risks drifting and becoming incorrect.
+
+Dockerized apps are defined one at a time as a docker-compose file in the [docker](app/docker) directory where the name of the app is extracted from the filename, so `docker-compose.postgres.yml` means that an app called postgres is then made available. Apps should have at least the `description` label defined which is used to generate the output of `dab apps list` and may contain a backtick to separate columns should you need to provide a default username and password for the app. Apps should not bind to a specific host port as this can cause conflicts, instead they should simply `expose` any ports they listen on which will make them displayed to the user thanks to `ishmael address` which prefixes each address with the value of the containers `exposing` label or `http` schema if not defined.
+
+Completion is handled by "the completion binary" which is a go based application defined in the [completion](completion) directory. The subcommands must be manually defined to match the [subcommands directory tree](app/subcommands), other files in the [completion](completion) directory defined functions or static lists for generating completions on various arguments to subcommands. For example [apps.go](completion/apps.go) defines an array of each app that must be added to when a new app is added to dab. For an example of arguments to subcommands [repos.go](completion/repos.go) defines functions to find all defined repos in the users dab config and suggest them for completion to the subcommands that can take them.
+
+Functionality shared across subcommands should be placed in a library file to be sourced from the [libraries dir](app/lib) however if the functionality is only used by one subcommand then it should exist within the subcommand script itself to keep the definition close to the usage.
+
+## Maintainers
+
+AKA Collaborators in GitHub parlance, these users have the ability to review and accept pull requests to the master and stable branches. This section describes some of the process they will go through when considering a pull request.
+
+Each Pull Request should contain the minimum number of commits (each commit being one logical change (meaning no implementing commit plus 2 fix commits, squash them into one) with sufficiently descriptive short (first line of) commit messages suitable to be read on their own in the `dab changelog` or `dab update` output.
+
+When merging a Pull Request the drop-down will be used to select "Rebase and Merge" instead of any of the other options to avoid creating merge commits complicating the git graph used in the `dab changelog` or `dab update` output.
 
 [1]: https://docker.com
 [2]: https://docs.docker.com/engine/reference/run
 [3]: https://hub.docker.com/r/nekroze/dab
 [4]: https://github.com/mvdan/sh
 [5]: https://github.com/charlierudolph/cucumber_lint
-[6]: https://hub.docker.com/r/nekroze/subcommander
+[6]: https://github.com/Nekroze/subcommander
 [7]: https://keybase.io/nekroze
 [8]: https://github.com/Nekroze/dab
 [9]: https://guides.github.com/introduction/flow/
