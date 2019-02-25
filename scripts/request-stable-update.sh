@@ -5,5 +5,5 @@ set -euf
 curl \
 	-X POST \
 	-u "$PR_GITHUB_API_USER:$PR_GITHUB_API_TOKEN" \
-	-d '{"title": "Update Stable Branch","head": "master","base": "stable"}' \
+	-d '{"title": "Update Stable Branch","head": "master","base": "stable","maintainer_can_modify": true,"body": "Pull patches from master over to stable."}' \
 	https://api.github.com/repos/Nekroze/dab/pulls
