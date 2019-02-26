@@ -10,8 +10,8 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     shm_size: '2gb'
     environment:
-      - "START_XVFB=true"
-      - "TZ=${DAB_APPS_SELENIUM_TZ:-UTC}"
+      START_XVFB: 'true'
+      TZ: '${DAB_APPS_SELENIUM_TZ:-UTC}'
     networks:
       - lab
     expose:
