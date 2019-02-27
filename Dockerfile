@@ -14,7 +14,7 @@ RUN shellcheck --shell sh --color \
 
 
 # Second analysis stage runs shfmt to ensure a consistent style.
-FROM golang:latest AS shfmt
+FROM golang:1.12 AS shfmt
 
 # Install shfmt https://github.com/mvdan/sh
 RUN go get mvdan.cc/sh/cmd/shfmt
@@ -28,7 +28,7 @@ RUN shfmt -d -ln=posix -s .
 
 
 # Third stage for compiling shell completion binary.
-FROM golang:latest AS completion
+FROM golang:1.12 AS completion
 WORKDIR $GOPATH/src/app/completion
 
 # Install golangci-lint
