@@ -32,7 +32,7 @@ FROM golang:latest AS completion
 WORKDIR $GOPATH/src/app/completion
 
 # Install golangci-lint
-RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.12.2
+RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.15.0
 ENV GO111MODULE=on
 
 # Test, lint, and build the shell completion binary.
