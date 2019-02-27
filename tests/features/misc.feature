@@ -116,6 +116,17 @@ Feature: Docker entrypoint wrapper script works
 		"""
 		And the file "~/.dab-completion" should exist
 
+    Scenario: Umask inside the dab container can be customized via environment variable
+		When I run `dab shell umask`
+
+		Then it should pass with "0022"
+
+		Given I set the environment variable "DAB_UMASK" to "0042"
+
+		When I run `dab shell umask`
+
+		Then it should pass with "0042"
+
 	@profiling @announce-output
 	Scenario: Can profile major events in a dab execution
 		Given  I set the environment variable "DAB_PROFILING" to "true"
