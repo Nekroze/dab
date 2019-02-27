@@ -5,3 +5,5 @@
 /tests/pwd.yml
 *.log
 /completion/completion
+/.circleci
+/.github

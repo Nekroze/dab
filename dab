@@ -145,6 +145,9 @@ if [ -z "${DAB_WRAPPER_PATH:-}" ]; then
 fi
 [ -n "${DAB_WRAPPER_PATH:-}" ] && dArg -v "$DAB_WRAPPER_PATH:/tmp/wrapper"
 
+# Pass through host OS type.
+dArg -e DAB_HOST_UNAME="$(uname)"
+
 # Passthrough all defined non empty DAB_* environment variables.
 dArg "$(
 	env |

@@ -107,6 +107,15 @@ Feature: Docker entrypoint wrapper script works
 		If you believe this to due to a problem with Dab please file a bug report at https://github.com/Nekroze/dab/issues/new?template=bug_report.md
 		"""
 
+    Scenario: Completion binary can be attained for installation
+		When I run `dab completion`
+
+		Then it should pass with:
+		"""
+		To install shell completion please execute the following command:
+		"""
+		And the file "~/.dab-completion" should exist
+
 	@profiling @announce-output
 	Scenario: Can profile major events in a dab execution
 		Given  I set the environment variable "DAB_PROFILING" to "true"

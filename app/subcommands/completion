@@ -11,6 +11,6 @@ inform 'The shell completion binary has been placed in your home directory.'
 inform 'To install shell completion please execute the following command:'
 inform "$HOME/.dab-completion -install"
 inform
-inform 'Should this binary fail to work on your machine (eg. OSX) you can compile it anew with:'
+inform 'Should this binary fail to work on your platform you can compile it like so:'
 inform 'go get github.com/Nekroze/dab/completion'
 inform 'completion -install'
