@@ -63,6 +63,8 @@ pre_hooks() {
 	# shellcheck disable=SC2064
 	trap "post_hooks $*" EXIT
 
+	[ -n "${DAB_UMASK:-}" ] && umask "$DAB_UMASK"
+
 	generate_user
 	config_load_envs
 	maybe_update_completion &
