@@ -2,8 +2,6 @@
 # Prevents broken images from being created.
 FROM koalaman/shellcheck-alpine:stable AS shellcheck
 
-WORKDIR /mnt
-
 # Copy in the whole project for analysis.
 COPY ./ ./
 
@@ -35,14 +33,16 @@ WORKDIR $GOPATH/src/app/completion
 RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.15.0
 ENV GO111MODULE=on
 
-# Test, lint, and build the shell completion binary.
+# lint and build the shell completion binary for supported platforms.
 COPY ./completion ./
 
-RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits  \
- && go build -o completion . \
- && CGO_ENABLED=0 GOOS=linux GOARCH=386 go build \
-   -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion \
-   .
+RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits
+
+ENV CGO_ENABLED=0 \
+    GOARCH=386
+    
+RUN GOOS=linux go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-linux .
+RUN GOOS=darwin go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-darwin .
 
 
 # This phase generates versioning artifacts from git.
@@ -70,7 +70,7 @@ RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -
  && env HELM_INSTALL_DIR=/usr/bin get-helm
 
 COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
-COPY --from=completion /usr/bin/dab-completion /usr/bin/dab-completion
+COPY --from=completion /usr/bin/dab-completion* /usr/bin/
 COPY --from=nekroze/ishmael:v1.2.2 /app /usr/bin/ishmael
 COPY --from=nekroze/docker-compose-gen:latest /app /usr/bin/docker-compose-gen
 
@@ -116,7 +116,7 @@ ENV \
 COPY --from=prep \
   /usr/bin/subcommander \
   /usr/bin/shellcheck \
-  /usr/bin/dab-completion \
+  /usr/bin/dab-completion* \
   /usr/bin/ishmael \
   /usr/bin/docker-compose-gen \
   /usr/bin/kubectl \

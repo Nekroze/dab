@@ -50,7 +50,9 @@ maybe_selfupdate_dab() {
 }
 
 maybe_update_completion() {
-	src='/usr/bin/dab-completion'
+	src='/usr/bin/dab-completion-linux'
+	[ "$DAB_HOST_UNAME" = "Darwin" ] && src='/usr/bin/dab-completion-darwin'
+
 	dst="$HOME/.dab-completion"
 	if [ -x "$dst" ] && silently diff "$src" "$dst"; then
 		return 0
