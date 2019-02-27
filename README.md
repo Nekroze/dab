@@ -127,6 +127,28 @@ The [Dab UX][16] project stores user experience tests that should almost always 
 - Tree structured configuration that can be shared (eg. via git or tar)
 - Managed x509 PKI
 
+## Customization
+
+Dab supports various means of customization primarily through environment variables.
+
+Any exported environment variable starting with `DAB_` will be passed into any dab container by the wrapper. You can also set environment variables without altering your shell(s) by writing to the dab config. For example any file in the config directory (defaults to `~/.config/dab` but customizable via the `$DAB_CONF_PATH` environment variable) under a directory called `environment` (so `~/.config/dab/environment` by default) will be loaded as Dab starts into env vars where the filename is the name of the env var and the contents of the file its value.
+
+Once you are passing in environment variables they can be used to tweak a great many knobs. For example most dockerized apps can have their version changed or their settings altered, try `dab apps config` to explore your options.
+
+The following is an (incomplete) list of environment variables dab knows about and what they do:
+
+- `DAB_UMASK` Change the umask of the process running in a dab container.
+- `DAB_UID` Change the user id (uid) running in the dab container.
+- `DAB_GID` Change the group id (gid) running in the dab container.
+- `DAB_USER` Change the user name running in the dab container.
+- `DAB_AUTOUPDATE` can be set to either `'true'` or `'false'` to enable or disable all auto updating.
+- `DAB_AUTOUPDATE_WRAPPER` can be set to either `'true'` or `'false'` to enable or disable wrapper auto updating.
+- `DAB_AUTOUPDATE_COMPLETION` can be set to either `'true'` or `'false'` to enable or disable completion auto updating.
+- `DAB_TIPS` can be set to either `'true'` or `'false'` to enable or disable once hourly tips
+- `DAB_TIPS_BUILTIN` can be set to either `'true'` or `'false'` to enable or disable the builtin set of tips
+- `DAB_PROFILING` if set to `true` the time at the start and stop of major functions is displayed
+- `DAB_DEBUG` if set to `true` then every thing dab executes is displayed before hand via `set -x`
+
 ## Contributing
 
 If you would like to help hone dab into a better tool check out our [contributing][2] documentation.
