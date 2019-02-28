@@ -7,6 +7,8 @@ set -euf
 . "$DAB/lib/config.sh"
 # shellcheck disable=SC1090
 . "$DAB/lib/docker.sh"
+# shellcheck disable=SC1090
+. "$DAB/lib/pki.sh"
 
 if [ -f "$DAB_CONF_PATH/pki/ca/cfssl/csr" ]; then
 	exit 0
@@ -60,13 +62,17 @@ cat "$DAB_CONF_PATH/pki/ca/certificate" "$DAB_CONF_PATH/pki/ca/key" >"$DAB_CONF_
 
 # Inject the CA into browsers or other cert databases on the local machine
 cacert="$DAB_CONF_PATH/pki/ca/certificate"
-for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
-	inform "Installing CA Certificate into $(dirname "$db")"
-	quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cacert" -d "dbm:$(dirname "$db")" || continue
-done
-for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
-	inform "Installing CA Certificate into $(dirname "$db")"
-	quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cacert" -d "sql:$(dirname "$db")" || continue
+nssdb_inject() {
+	fname=$(basename "$1")
+	scheme=sql
+	[ "$fname" = 'cert8.db' ] && scheme=dbm
+	quietly certutil -A -n "Dab PKI" -t "TC,C,T" -i "$cacert" -d "$scheme:$(dirname "$1")"
+	inform "Installed CA Certificate into $1"
+
+}
+
+for nssdb in $(find_nssdbs); do
+	carelessly nssdb_inject "$nssdb"
 done
 
 if [ ! -f ~/.mitmproxy/mitmproxy-ca.pem ] || [ ! -f ~/.mitmproxy/mitmproxy-ca-cert.pem ]; then

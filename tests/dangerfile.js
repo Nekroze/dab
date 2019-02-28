@@ -5,6 +5,11 @@ if (danger.github.pr.body.length < 2) {
 	fail('Please include a description of your PR changes.')
 }
 
+const prTemplateText = 'Describe the changes and any reasoning behind them that is relevant here.';
+if (danger.github.pr.body.toLowerCase().includes(prTemplateText)) {
+	fail('Please edit the Pull Request body to fill in and replace the template text as appropriate')
+}
+
 // Ensure yarn lock file is up to date.
 const changedYarn = danger.git.modified_files.includes('package.json');
 const changedYarnLock = danger.git.modified_files.includes('yarn.lock');

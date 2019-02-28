@@ -4,17 +4,21 @@
 set -euf
 
 # shellcheck disable=SC1090
-. "$DAB/lib/output.sh"
+. "$DAB/lib/pki.sh"
 
 dab config set pki
 
-for db in $(carelessly find "$HOME" -name 'cert8.db' -type f); do
-	silently certutil -D -n "Dab PKI" -d "dbm:$(dirname "$db")" || continue
-	inform "Uninstalled CA Certificate from $(dirname "$db")"
+nssdb_clean() {
+	fname=$(basename "$1")
+	scheme=sql
+	[ "$fname" = 'cert8.db' ] && scheme=dbm
+	silently certutil -D -n "Dab PKI" -d "$scheme:$(dirname "$1")"
+	inform "Uninstalled CA Certificate from $1"
+
+}
+
+for nssdb in $(find_nssdbs); do
+	carelessly nssdb_clean "$nssdb"
 done
 
-for db in $(carelessly find "$HOME" -name 'cert9.db' -type f); do
-	silently certutil -D -n "Dab PKI" -d "sql:$(dirname "$db")" || continue
-	inform "Uninstalled CA Certificate from $(dirname "$db")"
-done
 rm -rf ~/.mitmproxy || warn "Please delete $HOME/.mitmproxy containing the old intermediate Certificate Authority"
