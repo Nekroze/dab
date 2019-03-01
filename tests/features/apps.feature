@@ -116,6 +116,32 @@ Feature: Subcommand: dab apps
 			| sqliv    |
 			| xsstrike |
 
+	Scenario Outline: Can start service apps on standard ports
+		Given I successfully run `dab apps start <APP>`
+		And I successfully run `docker inspect dab_<APP> -f="{{range $p, $conf := .Config.ExposedPorts}}{{println $p}}{{end}}"`
+		And it should pass matching:
+		"""
+		^<PORT>/tcp
+		"""
+		And I successfully run `dab apps stop <APP>`
+
+		Examples:
+			| APP           | PORT  |
+			| burrow        | 8000  |
+			| elasticsearch | 9200  |
+			| elasticsearch | 9300  |
+			| influxdb      | 8086  |
+			| kafka         | 9092  |
+			| mysql         | 3306  |
+			| mysql         | 33060 |
+			| postgres      | 5432  |
+			| redis         | 6379  |
+			| zookeeper     | 2181  |
+			| zookeeper     | 2888  |
+			| zookeeper     | 3888  |
+			| selenium      | 4444  |
+			| selenium      | 5900  |
+
 	Scenario Outline: Can select different app versions with environment variables
 		A non exhaustive list of apps and versions that can be configured.
 
