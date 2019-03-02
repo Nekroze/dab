@@ -7,9 +7,15 @@ notify:
 workflows:
   version: 2
 
-  'Review & Test':
+  'Static Analysis':
     jobs:
       - 'Danger Automated Code Review'
+      - 'Shfmt'
+      - 'Shellcheck'
+      - 'GolangCI-Lint'
+
+  'Test Suite':
+    jobs:
       - 'Feature Testing'
       - 'UX Regression Testing'
 
@@ -26,11 +32,58 @@ workflows:
                 - master
 
 jobs:
+
+  Shellcheck:
+    docker:
+      - image: koalaman/shellcheck-alpine:stable 
+    steps:
+      - checkout
+
+      - run:
+          name: check
+          command: ./scripts/shellcheck.sh
+
+  Shfmt:
+    docker:
+      - image: golang:1.12
+    steps:
+      - checkout
+
+      - run:
+          name: install
+          command: go get mvdan.cc/sh/cmd/shfmt
+
+      - run:
+          name: check
+          command: shfmt -d -ln=posix -s .
+
+  GolangCI-Lint:
+    docker:
+      - image: golang:1.12
+    steps:
+      - checkout
+
+      - run:
+          name: install
+          command: |
+              curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.15.0
+
+      - run:
+          name: get deps
+          command: go mod download
+          environment:
+            GO111MODULE: 'on'
+
+      - run:
+          name: check
+          command: |
+              cd completion && golangci-lint run --deadline 4m --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits
+
+
   'Danger Automated Code Review':
     docker:
-        - image: circleci/node:latest
+      - image: circleci/node:latest
     steps:
-
       - checkout
 
       - run:
@@ -93,12 +146,10 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
-          name: Build Image 
-          command: ./scripts/build.sh
-
-      - run:
           name: UX Regression Tests
-          command: script -qec './scripts/ux-test.sh'
+          command: |
+              ./scripts/build.sh
+              script -qec './scripts/ux-test.sh'
 
       - store_test_results:
           path: /tmp/dab/test_results
@@ -109,7 +160,9 @@ jobs:
 
       - run:
           name: Profile
-          command: script -qec './scripts/test.sh'
+          command: |
+              ./scripts/build.sh
+              script -qec './scripts/test.sh'
           environment:
             TEST_DOCKER: local
             TEST_TAGS: '@profiling'

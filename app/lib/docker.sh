@@ -1,8 +1,7 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/output.sh
 . "$DAB/lib/output.sh"
 
 dpose_all() {

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Can be given dab subcommands to generate a CPU Flamegraph for using linux
 # perf_events
-set -euf
+set -eu
 
 subcmd="$*"
 [ -n "$subcmd" ] || subcmd='shell true'

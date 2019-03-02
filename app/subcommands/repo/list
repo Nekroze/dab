@@ -1,9 +1,9 @@
 #!/bin/sh
 # Description: List all repositories
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/update.sh
 . "$DAB/lib/update.sh"
 
 dab repo fetch
@@ -14,7 +14,6 @@ repo_row() {
 $1\`$2\`$3\`$4\`$5"
 }
 
-set +f
 for dir in "$DAB_CONF_PATH"/repo/*; do
 	repo="$(basename "$dir")"
 
@@ -43,7 +42,6 @@ for dir in "$DAB_CONF_PATH"/repo/*; do
 
 	repo_row "$repo" "$status" "${clean:-}" "${uptodate:-}" "$url"
 done
-set -f
 
 colorize_table() {
 	cat | sed \

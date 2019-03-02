@@ -1,7 +1,7 @@
 #!/bin/sh
 # This script will allow you to benchmark the uncomitted/unbuilt changes to a
 # dab subcommand against the last built version
-set -euf
+set -eu
 
 subcmd="$*"
 [ -n "$subcmd" ] || subcmd='shell true'

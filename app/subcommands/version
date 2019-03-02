@@ -1,7 +1,7 @@
 #!/bin/sh
 # Description: Display dab and system version information
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
 version_info() {
 	echo "Dab Version: $(cat /VERSION)"
