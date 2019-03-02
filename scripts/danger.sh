@@ -3,7 +3,7 @@
 
 # You can test danger locally against a pull request, for example:
 # ./scripts/danger.sh pr https://github.com/Nekroze/dab/pull/20
-set -euf
+set -eu
 
 cd tests
 

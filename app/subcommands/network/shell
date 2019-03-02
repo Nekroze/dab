@@ -2,9 +2,9 @@
 # Description: Access a shell in a container on the lab and apps network
 # Usage: [<CMD>]
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 
 dpose shell run --rm shell "$@"

@@ -1,9 +1,9 @@
 #!/bin/sh
 # Description: Start a proxy server providing clients access to the lab network
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 
 # Ensure the pki is ready

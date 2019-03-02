@@ -1,8 +1,7 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/output.sh
 . "$DAB/lib/output.sh"
 
 config_get() {
@@ -51,12 +50,11 @@ config_add() {
 }
 
 config_load_envs() {
-	set +f
 	envs="$(config_path 'environment')"
 	[ -d "$envs" ] || return 0
+
 	for file in "$envs"/*; do
 		name="$(basename "$file")"
 		export "$name=$(config_get "environment/$name" | envsubst)"
 	done
-	set -f
 }

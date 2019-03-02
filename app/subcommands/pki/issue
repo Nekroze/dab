@@ -2,11 +2,11 @@
 # Description: Issue a wildcard tls certificate for the given domain name
 # Usage: <FQDN>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/output.sh
 . "$DAB/lib/output.sh"
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide a Fully Qualified Domain Name'

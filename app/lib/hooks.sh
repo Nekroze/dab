@@ -1,14 +1,13 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/output.sh
 . "$DAB/lib/docker.sh"
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/hindsight.sh
 . "$DAB/lib/hindsight.sh"
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/update.sh
 . "$DAB/lib/update.sh"
 
 maybe_post_chronograf_annotiation() {

@@ -2,9 +2,9 @@
 # Description: Clone a known repo (or list of them) by name
 # Usage: <REPO_NAME>...
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide at least one repo name paramater'

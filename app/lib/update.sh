@@ -1,8 +1,7 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
 
 FILE_HASH_ALGO=md5
@@ -66,7 +65,7 @@ get_commits_differing_from_master_in_repo() {
 	repopath="$DAB_REPO_PATH/$repo"
 	(
 		if [ -d "$repopath" ]; then
-			cd "$repopath"
+			cd "$repopath" || return
 			git rev-list --left-right "$(git rev-parse HEAD)...${DAB_DEFAULT_REMOTE:-origin}/master"
 		fi
 	)
@@ -77,7 +76,7 @@ get_uncommitted_changes_in_repo() {
 	repopath="$DAB_REPO_PATH/$repo"
 	(
 		if [ -d "$repopath" ]; then
-			cd "$repopath"
+			cd "$repopath" || return
 			git status --porcelain || true
 		fi
 	)

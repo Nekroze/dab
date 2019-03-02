@@ -2,9 +2,9 @@
 # Description: Update the image for the given app
 # Usage: <APP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide an app name'

@@ -1,6 +1,6 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
 export COMPOSE_PROJECT_NAME='dab'
 export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.${TEST_DOCKER:-local}.yml"

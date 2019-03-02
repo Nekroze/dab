@@ -6,7 +6,7 @@ services:
     working_dir: /host/usr/bin
     restart: always
     command: |
-      sh -c "set -eufx
+      sh -c "set -eux
       trap 'sleep 1800' EXIT
       wget https://raw.githubusercontent.com/Nekroze/dab/master/dab
       chmod 755 dab

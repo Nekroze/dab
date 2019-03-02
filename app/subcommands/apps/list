@@ -1,9 +1,9 @@
 #!/bin/sh
 # Description: List available apps
 # vim: ft=sh ts=4 sw=4 sts=4 noet
-set -euf
+set -eu
 
-# shellcheck disable=SC1090
+# shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 
 compose_to_apps_data | column -s'`' -o' | ' -t -N NAME,DESCRIPTION,USERNAME,PASSWORD -R NAME

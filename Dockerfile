@@ -1,42 +1,15 @@
-# First two stages are for testing shell script syntax and format.
-# Prevents broken images from being created.
-FROM koalaman/shellcheck-alpine:stable AS shellcheck
-
-# Copy in the whole project for analysis.
-COPY ./ ./
-
-RUN shellcheck --shell sh --color \
-      dab app/bin/* \
-      $(find . -name '*.sh' -type f) \
-      $(find app/subcommands -type f)
-
-
-# Second analysis stage runs shfmt to ensure a consistent style.
-FROM golang:1.12 AS shfmt
-
-# Install shfmt https://github.com/mvdan/sh
-RUN go get mvdan.cc/sh/cmd/shfmt
-
-# Copy in the whole project for analysis.
-COPY ./ ./
-
-# display diffs of any files that do not conform to a posix compliant
-# simplified style.
-RUN shfmt -d -ln=posix -s .
-
-
-# Third stage for compiling shell completion binary.
+# Stage for compiling shell completion binary.
 FROM golang:1.12 AS completion
+
 WORKDIR $GOPATH/src/app/completion
 
-# Install golangci-lint
-RUN curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.15.0
+# Install deps at a lower layer for caching.
 ENV GO111MODULE=on
+COPY ./completion/go.* ./
+RUN go mod download
 
 # lint and build the shell completion binary for supported platforms.
 COPY ./completion ./
-
-RUN golangci-lint run --deadline '2m' --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits
 
 ENV CGO_ENABLED=0 \
     GOARCH=386
@@ -69,7 +42,7 @@ RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -
  && chmod 755 /usr/bin/subcommander /usr/bin/kubectl /bin/get-helm \
  && env HELM_INSTALL_DIR=/usr/bin get-helm
 
-COPY --from=shellcheck /bin/shellcheck /usr/bin/shellcheck
+COPY --from=koalaman/shellcheck-alpine:stable  /bin/shellcheck /usr/bin/shellcheck
 COPY --from=completion /usr/bin/dab-completion* /usr/bin/
 COPY --from=nekroze/ishmael:v1.2.2 /app /usr/bin/ishmael
 COPY --from=nekroze/docker-compose-gen:latest /app /usr/bin/docker-compose-gen
