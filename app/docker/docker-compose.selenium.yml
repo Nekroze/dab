@@ -17,6 +17,8 @@ services:
     expose:
       - 4444
       - 5900
+    ports:
+      - 5900
     restart: on-failure
     tmpfs:
       - /tmp

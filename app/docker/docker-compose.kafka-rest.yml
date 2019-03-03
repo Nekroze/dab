@@ -20,6 +20,8 @@ services:
       - zookeeper
     expose:
       - 8082
+    ports:
+      - 8082
     restart: on-failure
 
 networks:

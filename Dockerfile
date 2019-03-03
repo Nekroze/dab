@@ -44,7 +44,7 @@ RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -
 
 COPY --from=koalaman/shellcheck-alpine:stable  /bin/shellcheck /usr/bin/shellcheck
 COPY --from=completion /usr/bin/dab-completion* /usr/bin/
-COPY --from=nekroze/ishmael:v1.2.2 /app /usr/bin/ishmael
+COPY --from=nekroze/ishmael:v1.3.0 /app /usr/bin/ishmael
 COPY --from=nekroze/docker-compose-gen:latest /app /usr/bin/docker-compose-gen
 
 

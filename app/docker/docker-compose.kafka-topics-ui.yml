@@ -17,6 +17,8 @@ services:
       - kafka-rest
     expose:
       - 8000
+    ports:
+      - 8000
     restart: on-failure
     tmpfs:
       - /tmp

@@ -18,6 +18,8 @@ services:
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
     expose:
       - 3000
+    ports:
+      - 3000
     healthcheck:
       test: 'wget --spider http://localhost:3000/api || exit 1'
       interval: 1m

@@ -13,6 +13,8 @@ services:
       description: 'The Cyber Swiss Army Knife'
     expose:
       - 80
+    ports:
+      - 80
     healthcheck:
       test: 'wget --spider http://localhost || exit 1'
       interval: 1m

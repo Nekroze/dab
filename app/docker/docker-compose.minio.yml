@@ -18,6 +18,8 @@ services:
       - minio:/data
     expose:
       - 9000
+    ports:
+      - 9000
     restart: on-failure
     tmpfs:
       - /tmp

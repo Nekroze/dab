@@ -1,5 +1,5 @@
 #!/bin/sh
-# Description: Displays the address of any apps exposed by the app
+# Description: Displays the addresses of any exposed/published ports
 # Usage: <APP_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu

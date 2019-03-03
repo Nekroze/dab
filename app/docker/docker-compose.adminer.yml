@@ -16,6 +16,8 @@ services:
       ADMINER_DEFAULT_SERVER: mysql
     expose:
       - 8080
+    ports:
+      - 8080
 
 networks:
   default:
