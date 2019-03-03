@@ -14,6 +14,7 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - grafana:/var/lib/grafana
+      - "$DAB_CONF_PATH/apps/grafana/etc/grafana/provisioning:/etc/grafana/provisioning:ro"
     environment:
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
     expose:
