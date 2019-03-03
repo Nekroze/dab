@@ -13,6 +13,8 @@ services:
       - consul:/consul/data
     expose:
       - 8500
+    ports:
+      - 8500
     environment:
       CONSUL_LOCAL_CONFIG: >
         {

@@ -11,6 +11,8 @@ services:
     restart: on-failure
     expose:
       - 9022
+    ports:
+      - 9022
     environment:
       PROFILE: 'embedded-discovery'
     tmpfs:

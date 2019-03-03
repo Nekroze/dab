@@ -16,6 +16,8 @@ services:
       LOG_LEVEL: error
     expose:
       - 9092
+    ports:
+      - 9092
     volumes:
       - kapacitor:/var/lib/kapacitor
     healthcheck:

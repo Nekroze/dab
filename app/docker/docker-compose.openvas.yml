@@ -14,7 +14,9 @@ services:
     restart: on-failure
     network_mode: host
     expose:
-        - 443
+      - 443
+    ports:
+      - 443
     environment:
       PUBLIC_HOSTNAME: localhost
       OV_PASSWORD: "${DAB_APPS_OPENVAS_PASSWORD:-admin}"

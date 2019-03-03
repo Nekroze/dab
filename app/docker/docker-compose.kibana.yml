@@ -13,6 +13,8 @@ services:
       - elasticsearch
     expose:
       - 5601
+    ports:
+      - 5601
 
 networks:
   default:

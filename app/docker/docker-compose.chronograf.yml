@@ -22,6 +22,8 @@ services:
       LOG_LEVEL: error
     expose:
       - 8888
+    ports:
+      - 8888
     healthcheck:
       test: 'wget --spider http://localhost:8888/ || exit 1'
       interval: 1m

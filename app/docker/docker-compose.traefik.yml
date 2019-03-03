@@ -20,6 +20,8 @@ services:
       - --tracing.zipkin.httpendpoint=http://telegraf:9411/api/v1/spans
     expose:
       - 80
+    ports:
+      - 80
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     healthcheck:
