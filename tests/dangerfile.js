@@ -10,6 +10,21 @@ if (danger.github.pr.body.toLowerCase().includes(prTemplateText)) {
 	fail('Please edit the Pull Request body to fill in and replace the template text as appropriate')
 }
 
+const iBugTemplateText = "1. Go to '....'";
+if (danger.github.pr.body.toLowerCase().includes(iBugTemplateText)) {
+	fail('Please edit the Issue body to fill in the replication steps as appropriate')
+}
+
+const iChangeTemplateText = "A clear and concise description of how dab should be changed.";
+if (danger.github.pr.body.toLowerCase().includes(iChangeTemplateText)) {
+	fail('Please edit the Issue body to fill in the change request as appropriate')
+}
+
+const iFeatureTemplateText = "A clear and concise description of what you want to happen.";
+if (danger.github.pr.body.toLowerCase().includes(iFeatureTemplateText)) {
+	fail('Please edit the Issue body to fill in the feature request as appropriate')
+}
+
 // Ensure yarn lock file is up to date.
 const changedYarn = danger.git.modified_files.includes('package.json');
 const changedYarnLock = danger.git.modified_files.includes('yarn.lock');
