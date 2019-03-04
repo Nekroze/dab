@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  terraform:
+    container_name: dab_terraform
+    image: "hashicorp/terraform:${DAB_APPS_TERRAFORM_TAG:-light}"
+    labels:
+      description: 'Write, Plan, and Create Infrastructure as Code'
+    network_mode: host
+    user: "$DAB_UID:$DAB_GID"
+    environment:
+      - HOME
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
+      - "$DAB_REPO_PATH:$DAB_REPO_PATH"
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+    working_dir: "$HOST_PWD"
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

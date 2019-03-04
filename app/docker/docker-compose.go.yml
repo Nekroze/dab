@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+
+  go:
+    container_name: dab_go
+    image: "golang:${DAB_APPS_GOLANG_TAG:-alpine}"
+    labels:
+      description: 'Golang compiler and toolchain'
+    user: "$DAB_UID:$DAB_GID"
+    environment:
+      HOME:
+      GO111MODULE: 'on'
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
+      - "$DAB_REPO_PATH:$DAB_REPO_PATH"
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+    working_dir: "$HOST_PWD"
+    entrypoint:
+      - /usr/local/go/bin/go
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
