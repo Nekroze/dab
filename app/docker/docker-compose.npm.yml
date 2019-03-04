@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  npm:
+    container_name: dab_npm
+    image: "node:${DAB_APPS_NPM_TAG:-alpine}"
+    labels:
+      description: 'NodeJS package manager'
+    user: "$DAB_UID:$DAB_GID"
+    environment:
+      - HOME
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
+      - "$DAB_REPO_PATH:$DAB_REPO_PATH"
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+    working_dir: "$HOST_PWD"
+    entrypoint:
+      - /usr/local/bin/npm
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

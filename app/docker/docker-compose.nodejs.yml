@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+
+  nodejs:
+    container_name: dab_nodejs
+    image: "node:${DAB_APPS_NODEJS_TAG:-alpine}"
+    labels:
+      description: 'NodeJS interpreter'
+    user: "$DAB_UID:$DAB_GID"
+    environment:
+      - HOME
+    volumes:
+      - "$DAB_CONF_PATH:$DAB_CONF_PATH"
+      - "$DAB_REPO_PATH:$DAB_REPO_PATH"
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+    working_dir: "$HOST_PWD"
+    entrypoint:
+      - /usr/local/bin/node
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps

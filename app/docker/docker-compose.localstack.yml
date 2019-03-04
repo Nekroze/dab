@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  localstack:
+    container_name: dab_localstack
+    image: "localstack/localstack:${DAB_APPS_LOCALSTACK_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'A fully functional local AWS cloud stack'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - default
+      - lab
+    ports:
+      - '4567-4593:4567-4593'
+      - 8080
+    environment:
+      SERVICES: "${DAB_APPS_LOCALSTACK_SERVICES:-}"
+      DEBUG: "${DAB_APPS_LOCALSTACK_DEBUG:-}"
+      DEFAULT_REGION: "${DAB_APPS_LOCALSTACK_DEFAULT_REGION:-us-east-1}"
+      FORCE_NONINTERACTIVE: 'true'
+      LAMBDA_DOCKER_NETWORK: 'lab'
+      DOCKER_HOST: 'unix:///var/run/docker.sock'
+    tmpfs:
+      - /tmp/localstack
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab
