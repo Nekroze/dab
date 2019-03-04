@@ -12,4 +12,4 @@ set -eu
 [ -n "${1:-}" ] || fatality 'must provide an app name'
 
 dpose "$1" up --detach "$@"
-dab apps address "$1" | grep -E ':3[0-9]+$' || true
+dab apps address "$1" | grep ':3\d*' || true
