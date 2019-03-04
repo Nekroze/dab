@@ -18,6 +18,7 @@ workflows:
     jobs:
       - 'Feature Testing'
       - 'UX Regression Testing'
+      - 'Dockerized Apps Check'
 
   'Periodic Stable Branch Updates':
     jobs:
@@ -32,6 +33,22 @@ workflows:
                 - master
 
 jobs:
+
+  'Dockerized Apps Check':
+    machine: true
+    steps:
+      - checkout
+
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+
+      - run:
+          name: check
+          command: ./scripts/apps-check.sh
 
   Shellcheck:
     docker:
