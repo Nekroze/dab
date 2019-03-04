@@ -22,10 +22,13 @@ for repo in "$@"; do
 			[ ! -d "$remkey" ] || continue
 			remname="$(basename "$remkey")"
 			remurl="$(config_get "repo/$repo/remotes/$remname")"
-			inform "configuring $repo remote $remname to $remurl"
 			if git remote | grep -qE "^$remname$"; then
-				git remote set-url "$remname" "$remurl"
+				if [ "$(git remote get-url "$remname")" != "$remurl" ]; then
+					inform "configuring $repo remote $remname url from $(git remote get-url "$remname") to $remurl"
+					git remote set-url "$remname" "$remurl"
+				fi
 			else
+				inform "configuring $repo remote $remname to $remurl"
 				git remote add "$remname" "$remurl"
 			fi
 		done
