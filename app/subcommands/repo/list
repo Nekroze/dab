@@ -1,52 +1,27 @@
 #!/bin/sh
-# Description: List all repositories
+# Description: List all defined repositories
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
 # shellcheck source=app/lib/update.sh
 . "$DAB/lib/update.sh"
 
-dab repo fetch
-
 repo_data=''
 repo_row() {
 	repo_data="$repo_data
-$1\`$2\`$3\`$4\`$5"
+$1\`$2\`$3"
 }
 
-for dir in "$DAB_CONF_PATH"/repo/*; do
-	repo="$(basename "$dir")"
+# shellcheck disable=SC2125
+repos=$(ls "$DAB_CONF_PATH/repo/")
 
-	status='not downloaded'
-	[ -d "$DAB_REPO_PATH/$repo" ] && status='downloaded'
+for repo in $repos; do
+	status='not cloned'
+	[ -d "$DAB_REPO_PATH/$repo" ] && status='cloned'
 
-	uptodate=''
-	if [ "$status" != 'not downloaded' ]; then
-		if check_repo_is_up_to_date "$repo"; then
-			uptodate='✓'
-		else
-			uptodate='✗'
-		fi
-	fi
+	site="$(dab config get repo/"$repo"/website)"
 
-	clean=''
-	if [ "$status" != 'not downloaded' ]; then
-		if check_repo_is_clean "$repo"; then
-			clean='✓'
-		else
-			clean='✗'
-		fi
-	fi
-
-	url="$(dab config get repo/"$repo"/website)"
-
-	repo_row "$repo" "$status" "${clean:-}" "${uptodate:-}" "$url"
+	repo_row "$repo" "$status" "$site"
 done
 
-colorize_table() {
-	cat | sed \
-		-e 's/✓/\\e[0;32m✓\\e[0m/g' \
-		-e 's/✗/\\e[0;31m✗\\e[0m/g'
-}
-
-printf '%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,STATUS,CLEAN,UPTODATE,URL -R status | colorize_table)"
+printf '%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,STATUS,SITE -R status | colorize_stdin_glyphs)"

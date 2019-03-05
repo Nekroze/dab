@@ -79,3 +79,9 @@ query_user() {
 		esac
 	done
 }
+
+colorize_stdin_glyphs() {
+	cat | sed \
+		-e 's/✓/\\e[0;32m✓\\e[0m/g' \
+		-e 's/✗/\\e[0;31m✗\\e[0m/g'
+}
