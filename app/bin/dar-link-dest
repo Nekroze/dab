@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export HOST_PWD=$PWD
+exec dab apps run "$(basename "$0")" "$@"
