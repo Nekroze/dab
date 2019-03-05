@@ -16,6 +16,7 @@ services:
       - "$DAB_REPO_PATH:$DAB_REPO_PATH"
       - "$HOME:$HOME"
       - "$HOST_PWD:$HOST_PWD"
+      - '/var/run/docker.sock:/var/run/docker.sock'
     working_dir: "$HOST_PWD"
     tmpfs:
       - /tmp
