@@ -53,7 +53,8 @@ config_load_envs() {
 	envs="$(config_path 'environment')"
 	[ -d "$envs" ] || return 0
 
-	for file in "$envs"/*; do
+	# shellcheck disable=SC2044
+	for file in $(find "$envs" -type f); do
 		name="$(basename "$file")"
 		export "$name=$(config_get "environment/$name" | envsubst)"
 	done
