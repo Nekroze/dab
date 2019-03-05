@@ -28,4 +28,5 @@ fi
 
 cd "$DAB_REPO_PATH/$repo"
 shellcheck --shell sh --color "$entrypoint" || true
-sh "$entrypoint" "$@"
+env HOST_PWD="$DAB_REPO_PATH/$repo" \
+	sh "$entrypoint" "$@"
