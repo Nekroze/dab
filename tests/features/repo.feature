@@ -47,8 +47,8 @@ Feature: Subcommand: dab repo
 		When I successfully run `dab repo list`
 
 		Then the output should match /^REPO\s*│\s*STATUS/
-		And the output should match /^dotfiles3\s*│\s*not downloaded/
-		And the output should match /^dotfiles4\s*│\s*downloaded/
+		And the output should match /^dotfiles3\s*│\s*not cloned/
+		And the output should match /^dotfiles4\s*│\s*cloned/
 
 	Scenario: Can set entrypoint to script
 		Given I successfully run `dab repo add dotfiles4 https://github.com/Nekroze/dotfiles.git`
@@ -118,7 +118,7 @@ Feature: Subcommand: dab repo
 
 		When I successfully run `dab repo list`
 
-		Then the output should match /^REPO\s*│.*│\s*URL$/
+		Then the output should match /^REPO\s*│.*│\s*SITE$/
 		And the output should match /^dotfiles11\s*│.*│\s*$/
 		And the output should match /^dotfiles12\s*│.*│\swww\.dotfiles12\.test\.website$/
 
@@ -152,7 +152,9 @@ Feature: Subcommand: dab repo
 
 		And the file "~/dab/dotfiles14/dotfiles/.git" should exist
 
-	Scenario: Can list repos clean status
+	Scenario: Can report repos clean status
+		Clean means no unstaged changes
+
 		Given a file named "~/.config/dab/repo/dotfiles15/url" with:
 		"""
 		https://github.com/Nekroze/dotfiles.git
@@ -161,29 +163,22 @@ Feature: Subcommand: dab repo
 		And I successfully run `dab repo add dotfiles17 https://github.com/Nekroze/dotfiles.git`
 		And I successfully run `sh -c "touch ~/dab/dotfiles17/not_clean.txt"`
 
-		When I successfully run `dab repo list`
+		When I successfully run `dab repo report`
 
-		Then the output should match /^REPO\s*│\s*STATUS\s*│\s*CLEAN\s*/
-		And the output should match /^dotfiles15\s*│\s*not downloaded\s*│\s+/
-		And the output should match /^dotfiles16\s*│\s*downloaded\s*│\s*✓\s*/
-		And the output should match /^dotfiles17\s*│\s*downloaded\s*│\s*✗\s*/
-		And the output should not match /^dotfiles16\s*│\s*downloaded\s*│\s*✗\s*/
-		And the output should not match /^dotfiles17\s*│\s*downloaded\s*│\s*✓\s*/
+		Then the output should match /^REPO\s*│\s*CLEAN\s*│\s*UPTODATE\s*/
+		And the output should not match /dotfiles15/
+		And the output should match /^dotfiles16\s*│\s*✓/
+		And the output should match /^dotfiles17\s*│\s*✗/
+		And the output should not match /^dotfiles16\s*│\s*✗/
+		And the output should not match /^dotfiles17\s*│\s*✓/
 
-	Scenario: Can list repos UpToDate status
-		Given a file named "~/.config/dab/repo/dotfiles18/url" with:
-		"""
-		https://github.com/Nekroze/dotfiles.git
-		"""
-		And I successfully run `dab repo add dotfiles19 https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `dab repo add dotfiles20 https://github.com/Nekroze/dotfiles.git`
-		And I successfully run `sh -c "cd ~/dab/dotfiles20 && git reset --hard HEAD~1"`
+	Scenario: Can report repos up to date status
+		Up to date just means that `origin/master` is checked out
 
-		When I successfully run `dab repo list`
+		Given  I successfully run `dab repo add dotfiles19 https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `sh -c "cd ~/dab/dotfiles19 && git checkout HEAD~1"`
 
-		Then the output should match /^REPO\s*│\s*STATUS\s*│[^│]*│\s*UPTODATE\s*/
-		And the output should match /^dotfiles18\s*│\s*not downloaded\s*│[^│]*│\s+/
-		And the output should match /^dotfiles19\s*│\s*downloaded\s*│[^│]*│\s*✓\s*/
-		And the output should match /^dotfiles20\s*│\s*downloaded\s*│[^│]*│\s*✗\s*/
-		And the output should not match /^dotfiles19\s*│\s*downloaded\s*│[^│]*│\s*✗\s*/
-		And the output should not match /^dotfiles20\s*│\s*downloaded\s*│[^│]*│\s*✓\s*/
+		When I successfully run `dab repo report`
+
+		Then the output should match /^dotfiles19\s*│\s*(✓|✗)\s*│\s*✗/
+		And the output should not match /^dotfiles19\s*│\s*(✓|✗)\s*│\s*✓/

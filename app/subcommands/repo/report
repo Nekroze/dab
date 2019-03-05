@@ -1,0 +1,34 @@
+#!/bin/sh
+# Description: Display repository status report for all repos
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -eu
+
+# shellcheck disable=SC1090
+. "$DAB/lib/update.sh"
+
+set +f
+# shellcheck disable=SC2125
+repos=$(ls "$DAB_REPO_PATH")
+set -f
+
+repo_data=''
+repo_row() {
+	repo_data="$repo_data
+$1\`$2\`$3"
+}
+
+dab repo fetch
+
+for repo in $repos; do
+	[ -d "$DAB_REPO_PATH/$repo/.git" ] || continue
+
+	clean='✗'
+	check_repo_is_clean "$repo" && clean='✓'
+
+	uptodate='✗'
+	check_repo_is_up_to_date "$repo" && uptodate='✓'
+
+	repo_row "$repo" "$clean" "$uptodate"
+done
+
+printf '\n%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,CLEAN,UPTODATE -R clean | colorize_stdin_glyphs)"
