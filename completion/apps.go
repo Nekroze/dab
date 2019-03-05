@@ -33,7 +33,7 @@ var apps = []string{
 	"mysql",
 	"nats",
 	"nikto",
-	"nodejs",
+	"node",
 	"npm",
 	"ntopng",
 	"openvas",
