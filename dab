@@ -88,12 +88,14 @@ if [ -r /etc/group ]; then
 fi
 
 # Make dab managed codebases available to the host.
-export DAB_REPO_PATH="${DAB_REPO_PATH:-$HOME/dab}"
+repo_path_default="${XDG_DATA_HOME:-$HOME}/dab"
+export DAB_REPO_PATH="${DAB_REPO_PATH:-$repo_path_default}"
 mkdir -p "$DAB_REPO_PATH" || true # try ensure it is owned by this user
 dArg -v "$DAB_REPO_PATH:$DAB_REPO_PATH"
 
 # Volume mount dab config to host user's XDG config directory.
-export DAB_CONF_PATH="${DAB_CONF_PATH:-$HOME/.config/dab}"
+conf_path_default="${XDG_CONFIG_HOME:-$HOME/.config}/dab"
+export DAB_CONF_PATH="${DAB_CONF_PATH:-$conf_path_default}"
 mkdir -p "$DAB_CONF_PATH" || true # try ensure it is owned by this user
 dArg -v "$DAB_CONF_PATH:$DAB_CONF_PATH"
 
