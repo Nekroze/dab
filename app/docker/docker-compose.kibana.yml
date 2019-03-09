@@ -11,6 +11,8 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
       - elasticsearch
+    env_file:
+      - /tmp/denvmux/kibana.env
     expose:
       - 5601
     ports:

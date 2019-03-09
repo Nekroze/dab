@@ -11,6 +11,8 @@ services:
       description: 'AWS command line interface'
     environment:
       HOME:
+    env_file:
+      - /tmp/denvmux/aws.env
     user: "$DAB_UID:$DAB_GID"
     volumes:
       - "$HOME:$HOME"

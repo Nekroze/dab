@@ -15,6 +15,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command:
       syslog://telegraf:6514
+    env_file:
+      - /tmp/denvmux/logspout.env
     environment:
       INACTIVITY_TIMEOUT: 1m
     tmpfs:

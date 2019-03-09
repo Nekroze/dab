@@ -12,6 +12,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --label-enable
+    env_file:
+      - /tmp/denvmux/watchtower.env
     tmpfs:
       - /tmp
 

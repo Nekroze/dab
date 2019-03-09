@@ -9,6 +9,8 @@ services:
       description: 'Cloud native messaging system'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    env_file:
+      - /tmp/denvmux/nats.env
     tmpfs:
       - /tmp
 

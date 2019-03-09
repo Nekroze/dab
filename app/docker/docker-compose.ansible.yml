@@ -11,6 +11,8 @@ services:
         - "ANSIBLE_VERSION=${DAB_APPS_ANSIBLE_VERSION:-2.7.1}"
     labels:
       description: 'Automated configuration management'
+    env_file:
+      - /tmp/denvmux/ansible.env
     environment:
       - DAB_GID
       - DAB_UID

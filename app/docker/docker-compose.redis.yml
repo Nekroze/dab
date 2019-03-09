@@ -10,6 +10,8 @@ services:
       exposing: 'tcp'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    env_file:
+      - /tmp/denvmux/redis.env
     healthcheck:
       test: 'redis-cli ping'
       interval: 30s

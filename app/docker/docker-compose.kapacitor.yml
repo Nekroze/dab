@@ -10,6 +10,8 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     depends_on:
       - influxdb
+    env_file:
+      - /tmp/denvmux/kapacitor.env
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086

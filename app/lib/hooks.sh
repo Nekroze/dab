@@ -67,6 +67,7 @@ pre_hooks() {
 	generate_user
 	config_load_envs
 	maybe_update_completion &
+	ensure_app_envs
 
 	case "${1:-}" in
 	'version' | 'network' | 'update')

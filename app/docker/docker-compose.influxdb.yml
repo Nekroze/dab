@@ -9,6 +9,8 @@ services:
     labels:
       description: 'Time series database from the TICK stack'
       com.centurylinklabs.watchtower.enable: 'true'
+    env_file:
+      - /tmp/denvmux/influxdb.env
     environment:
       INFLUXDB_DATA_QUERY_LOG_ENABLED: 'false'
       INFLUXDB_HTTP_LOG_ENABLED: 'false'

@@ -10,6 +10,8 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
     network_mode: none
+    env_file:
+      - /tmp/denvmux/cfssl.env
     user: "$DAB_UID:$DAB_GID"
     volumes:
       - "$DAB_CONF_PATH/pki:$DAB_CONF_PATH/pki"
