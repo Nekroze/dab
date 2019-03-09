@@ -11,6 +11,8 @@ services:
     networks:
       - default
       - lab
+    env_file:
+      - /tmp/denvmux/nikto.env
     tmpfs:
       - /tmp
 

@@ -12,6 +12,8 @@ services:
     depends_on:
       - redis
     network_mode: host
+    env_file:
+      - /tmp/denvmux/ntopng.env
     expose:
       - 3000
     ports:

@@ -10,6 +10,8 @@ services:
       exposing: 'tcp'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    env_file:
+      - /tmp/denvmux/mysql.env
     environment:
       MYSQL_ROOT_PASSWORD: "${DAB_APPS_MYSQL_ROOT_PASSWORD:-root}"
     volumes:

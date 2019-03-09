@@ -10,6 +10,8 @@ services:
       com.centurylinklabs.watchtower.enable: 'true'
     volumes:
       - couchdb:/usr/local/var/lib/couchdb
+    env_file:
+      - /tmp/denvmux/couchdb.env
     expose:
       - 5984
     restart: on-failure

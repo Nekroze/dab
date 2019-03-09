@@ -8,6 +8,8 @@ services:
     labels:
       description: 'Object-relational database management system'
     restart: on-failure
+    env_file:
+      - /tmp/denvmux/elasticsearch.env
     environment:
       discovery.type: 'single-node'
       bootstrap.memory_lock: 'true'

@@ -11,6 +11,8 @@ services:
       description: 'AWS Serverless Application Model CLI'
     environment:
       HOME:
+    env_file:
+      - /tmp/denvmux/sam.env
     user: "$DAB_UID:$DAB_DOCKER_GID"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

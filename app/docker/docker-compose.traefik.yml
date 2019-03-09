@@ -8,6 +8,8 @@ services:
     labels:
       description: 'The Cloud Native Edge Router, docker reverse proxy'
       com.centurylinklabs.watchtower.enable: 'true'
+    env_file:
+      - /tmp/denvmux/traefik.env
     command:
       - --ping
       - --web

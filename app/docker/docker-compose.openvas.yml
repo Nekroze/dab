@@ -17,6 +17,8 @@ services:
       - 443
     ports:
       - 443
+    env_file:
+      - /tmp/denvmux/openvas.env
     environment:
       PUBLIC_HOSTNAME: localhost
       OV_PASSWORD: "${DAB_APPS_OPENVAS_PASSWORD:-admin}"

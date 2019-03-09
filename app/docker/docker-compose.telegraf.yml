@@ -16,6 +16,8 @@ services:
     networks:
       - default
       - lab
+    env_file:
+      - /tmp/denvmux/telegraf.env
     environment:
       DAB_APPS_MYSQL_ROOT_PASSWORD: "${DAB_APPS_MYSQL_ROOT_PASSWORD:-root}"
     volumes:

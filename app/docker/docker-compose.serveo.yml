@@ -9,6 +9,8 @@ services:
       dockerfile: Dockerfile.ssh
     labels:
       description: 'Expose local servers to the internet'
+    env_file:
+      - /tmp/denvmux/serveo.env
     entrypoint:
       - /usr/bin/autossh
     depends_on:

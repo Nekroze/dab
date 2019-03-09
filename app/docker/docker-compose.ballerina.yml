@@ -9,6 +9,8 @@ services:
       description: 'IDE and language designed to make integration simple.'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    env_file:
+      - /tmp/denvmux/ballerina.env
     network_mode: host
     command:
       - 'composer'

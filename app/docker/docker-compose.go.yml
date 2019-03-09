@@ -8,6 +8,8 @@ services:
     labels:
       description: 'Golang compiler and toolchain'
     user: "$DAB_UID:$DAB_GID"
+    env_file:
+      - /tmp/denvmux/go.env
     environment:
       HOME:
       GO111MODULE: 'on'

@@ -9,6 +9,8 @@ services:
       dockerfile: Dockerfile.remote_syslog2
     labels:
       description: 'Ingests .log files placed in the docker volume named dab_logs'
+    env_file:
+      - /tmp/denvmux/remote-syslog2.env
     depends_on:
       - telegraf
     restart: on-failure

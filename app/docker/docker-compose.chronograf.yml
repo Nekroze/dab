@@ -16,6 +16,8 @@ services:
       - kapacitor
     volumes:
       - chronograf:/var/lib/chronograf
+    env_file:
+      - /tmp/denvmux/chronograf.env
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092

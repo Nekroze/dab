@@ -16,6 +16,8 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
       - gend:/srv/gend
+    env_file:
+      - /tmp/denvmux/docker-gen.env
     tmpfs:
       - /tmp
 

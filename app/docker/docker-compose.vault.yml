@@ -19,6 +19,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    env_file:
+      - /tmp/denvmux/vault.env
     environment:
       VAULT_ADDR: 'http://127.0.0.1:8200'
     volumes:

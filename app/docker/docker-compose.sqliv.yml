@@ -11,6 +11,8 @@ services:
        - lab
     labels:
       description: 'Massive SQL injection vulnerability scanner'
+    env_file:
+      - /tmp/denvmux/sqliv.env
     tmpfs:
       - /tmp
 

@@ -2,12 +2,14 @@ version: '3.5'
 
 services:
 
-  nodejs:
+  node:
     container_name: dab_nodejs
-    image: "node:${DAB_APPS_NODEJS_TAG:-alpine}"
+    image: "node:${DAB_APPS_NODE_TAG:-alpine}"
     labels:
       description: 'NodeJS interpreter'
     user: "$DAB_UID:$DAB_GID"
+    env_file:
+      - /tmp/denvmux/node.env
     environment:
       - HOME
     volumes:

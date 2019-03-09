@@ -13,6 +13,8 @@ services:
       - 8081
     ports:
       - 8081
+    env_file:
+      - /tmp/denvmux/pgweb.env
     environment:
       DATABASE_URL: 'postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable'
     depends_on:
