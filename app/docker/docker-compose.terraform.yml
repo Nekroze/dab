@@ -9,6 +9,8 @@ services:
       description: 'Write, Plan, and Create Infrastructure as Code'
     network_mode: host
     user: "$DAB_UID:$DAB_GID"
+    env_file:
+      - /tmp/denvmux/terraform.env
     environment:
       - HOME
     volumes:

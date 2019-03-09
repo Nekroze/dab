@@ -11,6 +11,8 @@ services:
     networks:
       - default
       - lab
+    env_file:
+      - /tmp/denvmux/kafkacat.env
     entrypoint:
       - /usr/local/bin/kafkacat
     command: "-b ${DAB_APPS_KAFKACAT_TARGET:-kafka} -L"

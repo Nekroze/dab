@@ -9,6 +9,8 @@ services:
       description: 'Browser automation``secret'
       com.centurylinklabs.watchtower.enable: 'true'
     shm_size: '2gb'
+    env_file:
+      - /tmp/denvmux/selenium.env
     environment:
       - "START_XVFB=true"
       - "TZ=${DAB_APPS_SELENIUM_TZ:-UTC}"

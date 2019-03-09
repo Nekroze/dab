@@ -8,6 +8,8 @@ services:
     labels:
       description: 'NodeJS package manager'
     user: "$DAB_UID:$DAB_GID"
+    env_file:
+      - /tmp/denvmux/npm.env
     environment:
       - HOME
     volumes:

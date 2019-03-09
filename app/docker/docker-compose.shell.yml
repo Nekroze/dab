@@ -9,6 +9,8 @@ services:
       description: 'Simple shell attached to the lab docker network'
     networks:
       - lab
+    env_file:
+      - /tmp/denvmux/shell.env
     tmpfs:
       - /tmp
 

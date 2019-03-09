@@ -13,6 +13,8 @@ services:
        - lab
     labels:
       description: 'Advanced XSS detection suite'
+    env_file:
+      - /tmp/denvmux/xsstrike.env
     tmpfs:
       - /tmp
 

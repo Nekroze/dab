@@ -8,6 +8,8 @@ services:
     labels:
       description: 'Kafka Consumer Lag Checking'
       com.centurylinklabs.watchtower.enable: 'true'
+    env_file:
+      - /tmp/denvmux/burrow.env
     environment:
         BURROW_ZOOKEEPER_SERVERS: "${DAB_APPS_BURROW_TARGET_ZOOKEEPER:-zookeeper}:2181"
         BURROW_CLUSTER_LOCAL_SERVERS: "${DAB_APPS_BURROW_TARGET_KAFKA:-kafka}:9092"

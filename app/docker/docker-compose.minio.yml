@@ -11,6 +11,8 @@ services:
     command:
       - server
       - /data
+    env_file:
+      - /tmp/denvmux/minio.env
     environment:
       MINIO_ACCESS_KEY: "${DAB_APPS_MINIO_ACCESS_KEY:-access}"
       MINIO_SECRET_KEY: "${DAB_APPS_MINIO_SECRET_KEY:-secretkey}"

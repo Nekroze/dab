@@ -18,6 +18,8 @@ services:
       - "$HOME/.mitmproxy:/home/mitmproxy/.mitmproxy"
     networks:
       - lab
+    env_file:
+      - /tmp/denvmux/mitmproxy.env
     expose:
       - 8080
       - 8081

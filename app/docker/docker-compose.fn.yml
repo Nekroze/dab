@@ -11,6 +11,8 @@ services:
         - "FN_VERSION=${DAB_APPS_FN_VERSION:-0.5.29}"
     labels:
       description: 'Open Source, Container-native, Serverless platform'
+    env_file:
+      - /tmp/denvmux/fn.env
     environment:
       HOME:
       FN_DOCKER_NETWORKS: 'lab'

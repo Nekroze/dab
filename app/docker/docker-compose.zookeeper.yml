@@ -9,6 +9,8 @@ services:
       description: 'Distributed configuration service'
       com.centurylinklabs.watchtower.enable: 'true'
     restart: on-failure
+    env_file:
+      - /tmp/denvmux/zookeeper.env
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: WARN

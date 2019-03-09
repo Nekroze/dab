@@ -8,6 +8,8 @@ services:
     labels:
       description: 'RESTful http api for Kafka'
       com.centurylinklabs.watchtower.enable: 'true'
+    env_file:
+      - /tmp/denvmux/kafka-rest.env
     environment:
       ACCESS_CONTROL_ALLOW_ORIGIN_DEFAULT: '*'
       KAFKA_REST_ZOOKEEPER_CONNECT: "${DAB_APPS_KAFKA_REST_TARGET_ZOOKEEPER:-zookeeper}:2181"
