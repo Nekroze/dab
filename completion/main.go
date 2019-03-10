@@ -1,5 +1,8 @@
 package main
 
+//go:generate go run ./gen/main.go
+//go:generate go fmt
+
 import "github.com/posener/complete"
 
 var dab = complete.Command{

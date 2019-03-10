@@ -77,6 +77,7 @@ jobs:
       - run:
           name: check
           command: |
+              ./scripts/compgen.sh
               cd completion && golangci-lint run --deadline 4m --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits
 
 

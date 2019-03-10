@@ -10,6 +10,11 @@ RUN go mod download
 
 # lint and build the shell completion binary for supported platforms.
 COPY ./completion ./
+COPY ./app/docker $GOPATH/src/app/app/docker
+COPY ./scripts/compgen.sh $GOPATH/src/app/compgen.sh
+
+RUN cd ../ \
+ && ./compgen.sh
 
 ENV CGO_ENABLED=0 \
     GOARCH=386
