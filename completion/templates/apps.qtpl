@@ -1,0 +1,14 @@
+{% func Apps(apps []string) %}
+package main
+
+import "github.com/posener/complete"
+
+var apps = []string{
+    {% for _, name := range apps %}
+    "{%s name %}",{% endfor %}
+}
+
+func predictApps(_ complete.Args) []string {
+	return apps
+}
+{% endfunc %}
