@@ -2,28 +2,24 @@ version: '3.5'
 
 services:
 
-  fn:
-    container_name: dab_fn
+  sam:
+    container_name: dab_sam
     build:
       context: .
-      dockerfile: Dockerfile.fn
-      args:
-        - "FN_VERSION=${DAB_APPS_FN_VERSION:-0.5.29}"
+      dockerfile: Dockerfile.sam
     labels:
-      description: 'Open Source, Container-native, Serverless platform'
+      description: 'AWS Serverless Application Model CLI'
     environment:
       HOME:
-      FN_DOCKER_NETWORKS: 'lab'
-    command: start
     user: "$DAB_UID:$DAB_DOCKER_GID"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "$HOME:$HOME"
       - "$HOST_PWD:$HOST_PWD"
     working_dir: "$HOST_PWD"
-    restart: on-failure
-    tmpfs:
-      - /tmp
+    entrypoint:
+      - /usr/local/bin/sam
+    command: '--help'
 
 networks:
   default:
