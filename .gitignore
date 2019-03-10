@@ -3,3 +3,5 @@
 /completion/completion
 *.log
 typescript
+/completion/templates/apps.qtpl.go
+/completion/apps.go
