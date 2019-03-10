@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  aws:
+    container_name: dab_aws
+    build:
+      context: .
+      dockerfile: Dockerfile.sam
+    labels:
+      description: 'AWS command line interface'
+    environment:
+      HOME:
+    user: "$DAB_UID:$DAB_GID"
+    volumes:
+      - "$HOME:$HOME"
+      - "$HOST_PWD:$HOST_PWD"
+    working_dir: "$HOST_PWD"
+    entrypoint:
+      - /usr/local/bin/aws
+    command: '--help'
+
+networks:
+  default:
+    name: dab_apps
