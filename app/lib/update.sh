@@ -4,9 +4,8 @@
 # shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
 
-FILE_HASH_ALGO=md5
 file_hash() {
-	"${FILE_HASH_ALGO}sum" "$1" | cut -d' ' -f1
+	"${FILE_HASH_ALGO:-md5}sum" "$1" | cut -d' ' -f1
 }
 day_in_seconds=86400
 self_update_period="$day_in_seconds"
@@ -66,7 +65,8 @@ get_commits_differing_from_master_in_repo() {
 	(
 		if [ -d "$repopath" ]; then
 			cd "$repopath" || return
-			git rev-list --left-right "$(git rev-parse HEAD)...${DAB_DEFAULT_REMOTE:-origin}/master"
+			tip=$(config_get "repo/$repo/tip" "${DAB_DEFAULT_REMOTE:-origin}/master")
+			carelessly git rev-list --left-right "$(git rev-parse HEAD)...$tip"
 		fi
 	)
 }

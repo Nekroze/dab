@@ -6,7 +6,11 @@
 
 config_get() {
 	path="$(config_path "$1")"
-	[ ! -r "$path" ] || cat "$path"
+	if [ -r "$path" ]; then
+		cat "$path"
+	elif [ -n "${2:-}" ]; then
+		echo "$2"
+	fi
 }
 
 config_set() {
