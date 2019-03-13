@@ -13,10 +13,16 @@ for repo in "$@"; do
 	url="$(config_get "repo/$repo/url")"
 	[ -n "$url" ] || fatality "url for repo $repo is unknown"
 
+	newclone=false
+	if [ ! -d "$DAB_REPO_PATH/$repo" ]; then
+		newclone=true
+		git clone --recursive "$url" "$DAB_REPO_PATH/$repo"
+	fi
+
 	[ -d "$DAB_REPO_PATH/$repo" ] || git clone --recursive "$url" "$DAB_REPO_PATH/$repo"
+	cd "$DAB_REPO_PATH/$repo"
 
 	if [ -d "$DAB_CONF_PATH/repo/$repo/remotes/" ]; then
-		cd "$DAB_REPO_PATH/$repo"
 		# shellcheck disable=SC2044
 		for remkey in $(find "$DAB_CONF_PATH/repo/$repo/remotes/" -type f -maxdepth 1); do
 			[ ! -d "$remkey" ] || continue
@@ -32,5 +38,10 @@ for repo in "$@"; do
 				git remote add "$remname" "$remurl"
 			fi
 		done
+	fi
+
+	if [ "${newclone:-false}" = 'true' ]; then
+		tip=$(config_get "repo/$repo/tip" "${DAB_DEFAULT_REMOTE:-origin}/master")
+		[ "$tip" = 'origin/master' ] || git checkout "$tip"
 	fi
 done
