@@ -10,6 +10,8 @@ set -eu
 . "$DAB/lib/output.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide an app name'
+app=$1
+shift
 
-dpose "$1" up --detach "$@"
-dab apps address "$1" | grep ':3\d*' || true
+dpose "$app" up --detach "$@"
+dab apps address "$app" | grep ':3\d*' || true
