@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:
+
+  kubernetes:
+    container_name: dab_kubernetes
+    image: "rancher/k3s:${DAB_APPS_K3S_TAG:-v0.2.0}"
+    labels:
+      description: 'Deployment, scaling, and management of containerized applications'
+    restart: on-failure
+    networks:
+      - default
+      - lab
+    command: server
+    privileged: true
+    env_file:
+      - /tmp/denvmux/kubernetes.env
+    environment:
+      K3S_CLUSTER_SECRET: somethingtotallyrandom
+      K3S_KUBECONFIG_MODE: '666'
+      K3S_KUBECONFIG_OUTPUT: /output/kubeconfig.yaml
+      KUBECONFIG: /output/kubeconfig.yaml
+    volumes:
+      - kubernetes:/var/lib/rancher/k3s
+      - "$DAB_CONF_PATH/apps/kubernetes/config:/output"
+      - "$DAB_CONF_PATH/apps/kubernetes/manifests:/var/lib/rancher/k3s/server/manifests"
+    ports:
+      - 6443:6443
+      - 80:80
+      - 443:443
+    tmpfs:
+      - /run
+      - /var/run
+    healthcheck:
+      test: 'kubectl get service kubernetes >/dev/null'
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  kubernetes:
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

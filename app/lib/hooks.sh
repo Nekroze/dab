@@ -51,8 +51,20 @@ ensure_persistent_docker_objects() {
 	silently dpose shell up --no-start || true
 }
 
+maybe_set_kubeconfig() {
+	app_kubeconfig=$DAB_CONF_PATH/apps/kubernetes/config/kubeconfig.yaml
+	if [ -z "${KUBECONFIG:-}" ] &&
+		[ -f "$app_kubeconfig" ] &&
+		[ ! -f ~/.kube/config.yaml ] &&
+		[ ! -f ~/.kube/config.yml ]; then
+		export KUBECONFIG=$app_kubeconfig
+	fi
+}
+
 pre_hooks() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] pre_hooks $*"
+	maybe_set_kubeconfig
+
 	if [ -f /tmp/hooked ]; then
 		return 0
 	else
