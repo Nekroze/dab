@@ -182,3 +182,16 @@ Feature: Subcommand: dab repo
 
 		Then the output should match /^dotfiles19\s*│\s*(✓|✗)\s*│\s*✗/
 		And the output should not match /^dotfiles19\s*│\s*(✓|✗)\s*│\s*✓/
+
+	Scenario: Tip config key on a repo changes what it clones
+
+		Given a file named "~/.config/dab/repo/dotfiles20/url" with:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
+		And I successfully run `dab config set repo/dotfiles20/tip ed0277d`
+		And I successfully run `dab repo clone dotfiles20`
+
+		When I successfully run `sh -c "cd ~/dab/dotfiles20 && git rev-parse --short HEAD"`
+
+		Then the output should match /^ed0277d$/
