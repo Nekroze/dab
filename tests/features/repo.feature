@@ -195,3 +195,11 @@ Feature: Subcommand: dab repo
 		When I successfully run `sh -c "cd ~/dab/dotfiles20 && git rev-parse --short HEAD"`
 
 		Then the output should match /^ed0277d$/
+
+	Scenario: Repos can be registered with a tip
+
+		Given I successfully run `sh -c "dab repo add dotfiles21 https://github.com/Nekroze/dotfiles.git ed0277d >/dev/null"`
+
+		When I successfully run `sh -c "cd ~/dab/dotfiles21 && git rev-parse --short HEAD"`
+
+		Then the output should match /^ed0277d$/
