@@ -107,6 +107,10 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
+          name: Build Image
+          command: ./scripts/build.sh
+
+      - run:
           name: Smoke Tests
           command: script -qec './scripts/test.sh'
           environment:
