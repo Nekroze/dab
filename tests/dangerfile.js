@@ -1,5 +1,7 @@
 const {danger, fail, warn} = require('danger')
 
+message("Thank you for submitting a PR, the community appreciates your work!")
+
 // No PR is too small to include a description of why you made a change.
 if (danger.github.pr.body.length < 2) {
 	fail('Please include a description of your PR changes.')
