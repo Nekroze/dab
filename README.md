@@ -161,6 +161,14 @@ The following is an (incomplete) list of environment variables dab knows about a
 - `DAB_LAB_SUBNET` CIDR describing the shape and size of th3 `lab` network, defaults to `10.10.0.0/16`.
 - `DAB_UMASK` allows tweaking the umask to run as in the dab container.
 
+The environment can be further customized by setting specific config keys.
+
+- `repo/<NAME>/tip` if set a repo will checkout the value after clone and compare against this for `dab repo report` status `uptodate`.
+- `repo/<NAME>/website` if set this will be displayed in `dab repo list`.
+- `repo/<NAME>/remotes/<REMOTENAME>` if set dab will ensure this repo has a remote named from what you put instead of `<REMOTENAME>` with a url it gets from the value of this key.
+- `tips/custom` is a list of custom tips to be mixed in with dab's tips.
+- `apps/<NAME>` some apps will mount a path under this config namespace such as kubernetes.
+
 
 ## Contributing
 
