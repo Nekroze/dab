@@ -142,12 +142,25 @@ The following is an (incomplete) list of environment variables dab knows about a
 - `DAB_GID` Change the group id (gid) running in the dab container.
 - `DAB_USER` Change the user name running in the dab container.
 - `DAB_AUTOUPDATE` can be set to either `'true'` or `'false'` to enable or disable all auto updating.
+- `DAB_AUTOUPDATE_IMAGE` can be set to either `'true'` or `'false'` to enable or disable dab image auto updating.
 - `DAB_AUTOUPDATE_WRAPPER` can be set to either `'true'` or `'false'` to enable or disable wrapper auto updating.
 - `DAB_AUTOUPDATE_COMPLETION` can be set to either `'true'` or `'false'` to enable or disable completion auto updating.
-- `DAB_TIPS` can be set to either `'true'` or `'false'` to enable or disable once hourly tips
-- `DAB_TIPS_BUILTIN` can be set to either `'true'` or `'false'` to enable or disable the builtin set of tips
-- `DAB_PROFILING` if set to `true` the time at the start and stop of major functions is displayed
-- `DAB_DEBUG` if set to `true` then every thing dab executes is displayed before hand via `set -x`
+- `DAB_TIPS` can be set to either `'true'` or `'false'` to enable or disable once hourly tips.
+- `DAB_TIPS_BUILTIN` can be set to either `'true'` or `'false'` to enable or disable the builtin set of tips.
+- `DAB_PROFILING` if set to `true` the time at the start and stop of major functions is displayed.
+- `DAB_DEBUG` if set to `true` then every thing dab executes is displayed before hand via `set -x`.
+- `DAB_APPS_*` Is a glob pattern, many apps can be tweaked such as the version, try `dab apps config` to find uses.
+- `DAB_APPS_<NAME>_*` Is a glob pattern where NAME is an app name, the prefix is removed and passed into the apps container.
+- `DAB_REPO_PATH` path to your dab managed repos, defaults to `~/dab`.
+- `DAB_DEFAULT_REMOTE` the remote to use when interacting with git, defaults to origin.
+- `DAB_IMAGE_NAMESPACE` image user/namespace, defaults to `nekroze`.
+- `DAB_IMAGE_NAME` the name of the image under the namespace for dab.
+- `DAB_IMAGE_TAG` the docker image tag to use, defaults to `latest`.
+- `DAB_IMAGE` the dab image to use, defaults to `$DAB_IMAGE_NAMESPACE/$DAB_IMAGE_NAME:$DAB_IMAGE_TAG`.
+- `DAB_LAB_INTERNET` is a boolean switch that toggles external routing on the `lab` network, defaults to false.
+- `DAB_LAB_SUBNET` CIDR describing the shape and size of th3 `lab` network, defaults to `10.10.0.0/16`.
+- `DAB_UMASK` allows tweaking the umask to run as in the dab container.
+
 
 ## Contributing
 
