@@ -6,8 +6,6 @@ set -eu
 
 # shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
 
 path="$(config_path "${1:-}")"
 

@@ -4,9 +4,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
-
 # If a revision is not given the initial commit is used as the floor
 rev="${1:-2cd1ee8}"
 

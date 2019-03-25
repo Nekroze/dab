@@ -5,8 +5,6 @@ set -eu
 
 # shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
 
 containers_on_network() {
 	docker ps --filter "network=$1" -q

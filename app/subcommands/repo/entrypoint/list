@@ -4,9 +4,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
-
 [ -n "${1:-}" ] || fatality 'must provide a repo name'
 
 # shellcheck source=app/lib/config.sh

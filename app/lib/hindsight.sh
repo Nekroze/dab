@@ -1,9 +1,6 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
-
 captain_hindsight() {
 	# shellcheck disable=SC2181
 	[ $? -ne 0 ] || return 0           # Exit status code was 0

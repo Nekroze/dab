@@ -1,0 +1,4 @@
+#!/bin/sh -eu
+error "$@"
+touch /tmp/fatality
+exit 1

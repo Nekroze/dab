@@ -4,8 +4,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
 # shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 

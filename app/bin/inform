@@ -1,0 +1,2 @@
+#!/bin/sh -u
+exec echo_color "$COLOR_CYAN" "$@"

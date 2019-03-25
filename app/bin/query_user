@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+[ -t 1 ] || fatality 'User input required but Dab is not running in a tty'
+
+message="${1:-Are you sure you would like to proceed?}"
+while true; do
+	# shellcheck disable=SC2039
+	read -r -p "$message " yn
+	case $yn in
+	[Yy]*) return 0 ;;
+	[Nn]*) return 1 ;;
+	*) echo "Please answer yes or no." ;;
+	esac
+done
