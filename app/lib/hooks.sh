@@ -66,7 +66,7 @@ generate_user() {
 }
 
 ensure_persistent_docker_objects() {
-	silently dpose shell up --no-start || true
+	dpose shell up --no-start || true
 }
 
 maybe_set_kubeconfig() {
@@ -106,7 +106,11 @@ pre_hooks() {
 	*)
 		maybe_selfupdate_dab || true
 		maybe_update_wrapper
-		ensure_persistent_docker_objects &
+		if silently docker network inspect lab; then
+			silently ensure_persistent_docker_objects &
+		else
+			ensure_persistent_docker_objects
+		fi
 		;;
 	esac
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] pre_hooks $*"
