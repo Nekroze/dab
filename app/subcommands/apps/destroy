@@ -6,8 +6,6 @@ set -eu
 
 # shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
 
 if [ -n "${1:-}" ]; then
 	dpose "$1" down --volumes

@@ -1,9 +1,6 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
-
 config_get() {
 	path="$(config_path "$1")"
 	if [ -r "$path" ]; then

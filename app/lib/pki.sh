@@ -1,9 +1,6 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
-
 _find_nssdbs_under() {
 	for fname in cert8.db cert9.db; do
 		carelessly find "$1" -name "$fname" -type f

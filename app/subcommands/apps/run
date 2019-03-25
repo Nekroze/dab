@@ -6,8 +6,6 @@ set -eu
 
 # shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
-# shellcheck source=app/lib/output.sh
-. "$DAB/lib/output.sh"
 
 [ -n "${1:-}" ] || fatality 'must provide an app name'
 dpose "$1" run --rm "$@"

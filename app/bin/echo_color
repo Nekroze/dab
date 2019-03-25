@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+color="$1"
+shift
+exec printf '%b\n' "${color}$*${COLOR_NC}"
