@@ -4,7 +4,7 @@ services:
 
   kubernetes:
     container_name: dab_kubernetes
-    image: "rancher/k3s:${DAB_APPS_K3S_TAG:-v0.2.0}"
+    image: "rancher/k3s:${DAB_APPS_K3S_TAG:-v0.3.0}"
     labels:
       description: 'Deployment, scaling, and management of containerized applications'
     restart: on-failure
