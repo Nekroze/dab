@@ -182,6 +182,7 @@ jobs:
           name: Profile
           command: |
               ./scripts/build.sh
+              docker images
               script -qec './scripts/test.sh'
           environment:
             TEST_DOCKER: local

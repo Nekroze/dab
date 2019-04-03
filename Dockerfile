@@ -67,9 +67,12 @@ LABEL org.label-schema.schema-version="1.0" \
 
 # Docker and docker-compose are always required but take a while to install so
 # they are to be kept at a lower layer for caching.
-RUN apk add --no-cache docker python3 \
+RUN apk add --no-cache --virtual .toolchain \
+    python3-dev libffi-dev openssl-dev build-base \
+ && apk add --no-cache docker python3 \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
  && pip3 install docker-compose asciinema \
+ && apk del .toolchain \
  && rm -rf ~/.cache
 
 # Misc tools required for scripts.
