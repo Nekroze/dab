@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+
+  cartography:
+    container_name: dab_cartography
+    build:
+      context: .
+      dockerfile: Dockerfile.cartography
+    labels:
+      description: 'AWS security graphing'
+    restart: never
+    depends_on:
+      - neo4j
+    env_file:
+      - /tmp/denvmux/cartography.env
+    environment:
+      HOME:
+    user: "$DAB_UID:$DAB_GID"
+    volumes:
+      - "$HOME:$HOME"
+      - "$HOME/.aws/${DAB_APPS_CARTOGRAPHY_AWS_CREDS_FILE:-credentials}:$HOME/.aws/credentials:ro"
+    working_dir: "$HOST_PWD"
+    tmpfs:
+      - /tmp
+
+networks:
+  default:
+    name: dab_apps
