@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  neo4j:
+    container_name: dab_neo4j
+    image: "neo4j:${DAB_APPS_NEO4j_TAG:-3.3}"
+    labels:
+      description: 'Robust graph database'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    ports:
+      - 7474
+      - 7687:7687
+    env_file:
+      - /tmp/denvmux/neo4j.env
+    environment:
+      NEO4J_AUTH: none
+    volumes:
+      - neo4j:/data
+    networks:
+      - default
+      - lab
+    tmpfs:
+      - /tmp
+
+volumes:
+  neo4j:
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

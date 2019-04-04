@@ -1,0 +1,5 @@
+FROM python:3
+
+RUN pip install cartography
+
+ENTRYPOINT ["/usr/local/bin/cartography","--neo4j-uri=bolt://neo4j:7687"]
