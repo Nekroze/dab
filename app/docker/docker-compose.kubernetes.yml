@@ -7,7 +7,15 @@ services:
     image: "rancher/k3s:${DAB_APPS_K3S_TAG:-v0.3.0}"
     labels:
       description: 'Deployment, scaling, and management of containerized applications'
+      deck-chores.sc.command: |
+        sh -c "
+          kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml && \
+          kubectl patch storageclass local-path -p '{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"true\"}}}'
+        "
+      deck-chores.sc.interval: every minute
     restart: on-failure
+    depends_on:
+      - deck-chores
     networks:
       - default
       - lab
@@ -22,6 +30,7 @@ services:
       KUBECONFIG: /output/kubeconfig.yaml
     volumes:
       - kubernetes:/var/lib/rancher/k3s
+      - kubernetes_storage_class:/opt/local-path-provisioner
       - "$DAB_CONF_PATH/apps/kubernetes/config:/output"
       - "$DAB_CONF_PATH/apps/kubernetes/manifests:/var/lib/rancher/k3s/server/manifests"
     ports:
@@ -40,6 +49,7 @@ services:
 
 volumes:
   kubernetes:
+  kubernetes_storage_class:
 
 networks:
   default:
