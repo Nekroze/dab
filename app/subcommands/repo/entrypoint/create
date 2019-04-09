@@ -1,14 +1,19 @@
 #!/bin/sh
-# Description: Create an entrypoint (defaults to start) for the given repo
-# Usage: <REPO_NAME> [<ENTRYPOINT_NAME>]
+# Description: Create an entrypoint for the given repo or global if given none
+# Usage: [<REPO_NAME>] <ENTRYPOINT_NAME>
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
 # shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
 
-[ -n "${1:-}" ] || fatality 'must provide a repo name'
-newpath="repo/$1/entrypoint/${2:-start}"
+[ -n "${1:-}" ] || fatality 'must provide at least an entrypoint name'
+
+if [ "$#" = 1 ]; then
+	newpath="repo/*/entrypoint/$1"
+else
+	newpath="repo/$1/entrypoint/$2"
+fi
 
 if [ ! -e "$DAB_CONF_PATH/$newpath" ]; then
 	config_set "$newpath" "$(cat "$DAB/default-entrypoint.sh")"

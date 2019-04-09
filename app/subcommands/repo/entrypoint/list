@@ -9,4 +9,5 @@ set -eu
 # shellcheck source=app/lib/config.sh
 . "$DAB/lib/config.sh"
 
-carelessly dab config tree "repo/$1/entrypoint"
+recklessly dab config tree "repo/$1/entrypoint"
+recklessly dab config tree "repo/*/entrypoint"
