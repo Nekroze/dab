@@ -59,7 +59,7 @@ Feature: Subcommand: dab repo
 
 	Scenario: Can put any command in an entrypoint start script
 		Given I successfully run `dab repo add dotfiles5 https://github.com/Nekroze/dotfiles.git`
-		And I run `dab repo entrypoint create dotfiles5`
+		And I run `dab repo entrypoint create dotfiles5 start`
 		And I append to "~/.config/dab/repo/dotfiles5/entrypoint/start" with:
 		"""
 		echo FOOBAR
@@ -203,3 +203,26 @@ Feature: Subcommand: dab repo
 		When I successfully run `sh -c "cd ~/dab/dotfiles21 && git rev-parse --short HEAD"`
 
 		Then the output should match /^ed0277d$/
+
+	Scenario: Can create global entrypoints
+		Given I successfully run `dab repo add dotfiles22 https://github.com/Nekroze/dotfiles.git`
+
+		When I run `dab repo entrypoint create start`
+
+		Then it should pass with "repo/*/entrypoint/start"
+
+	Scenario: Can run global entrypoints for use on any repo
+		Given I successfully run `dab repo add dotfiles23 https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create foobar`
+		And I append to "~/.config/dab/repo/*/entrypoint/foobar" with:
+		"""
+		echo FOOBAR
+		"""
+
+		When I run `dab repo entrypoint list dotfiles23`
+
+		Then it should pass with "foobar"
+
+		When I run `dab repo entrypoint run dotfiles23 foobar`
+
+		Then it should pass with "FOOBAR"
