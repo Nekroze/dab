@@ -12,6 +12,14 @@ dpose_all() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose_all $*"
 }
 
+get_docker_compose_files_for_app() {
+	app="$1"
+	out="$DAB/docker/docker-compose.$app.yml"
+	for dep in $(get_app_dependencies "$app"); do
+		out="$out:$(get_docker_compose_files_for_app "$dep")"
+	done
+	echo "$out"
+}
 dpose() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] dpose $*"
 
@@ -27,29 +35,6 @@ dpose() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose $*"
 }
 
-compose_app_config() {
-	highlight --syntax yaml -O xterm256 "$DAB/docker/docker-compose.$1.yml"
-}
-
-compose_to_apps_data() {
-	PROFILING="${DAB_PROFILING:-false}"
-	export DAB_PROFILING=false
-
-	tmp="$(mktemp)"
-	dpose_all config >"$tmp"
-	yq -r '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' <"$tmp"
-
-	export DAB_PROFILING="$PROFILING"
-}
-
-get_docker_compose_files_for_app() {
-	app="$1"
-	out="$DAB/docker/docker-compose.$app.yml"
-	for dep in $(get_app_dependencies "$app"); do
-		out="$out:$(get_docker_compose_files_for_app "$dep")"
-	done
-	echo "$out"
-}
 
 get_app_dependencies() {
 	app="$1"
@@ -79,21 +64,6 @@ get_app_urls() {
 	ishmael address "$id" | xargs --no-run-if-empty printf "$scheme://%s\\n"
 }
 
-await_container_healthy_timeout=60
-await_container_healthy() {
-	id="$1"
-	display="${2:-$1}"
-
-	if ishmael healthy "$id"; then
-		return 0
-	fi
-
-	inform "waiting for $display to become healthy..."
-	if ! ishmael healthy --wait "$await_container_healthy_timeout" "$id"; then
-		fatality "$display did not become healthy within $await_container_healthy_timeout seconds"
-	fi
-}
-
 app_envs_to_files_muxing() {
 	for pair in $(env | grep -E '^DAB_APPS_'); do
 		key=$(echo "$pair" | cut -d = -f 1)
@@ -106,12 +76,3 @@ app_envs_to_files_muxing() {
 	done
 }
 
-ensure_app_envs() {
-	mkdir -p /tmp/denvmux
-
-	# shellcheck disable=SC2044
-	for dcf in $(find "$DAB/docker" -type f -name 'docker-compose.*.yml'); do
-		app=$(basename "$dcf" | cut -d . -f 2)
-		touch "/tmp/denvmux/$app.env"
-	done
-}

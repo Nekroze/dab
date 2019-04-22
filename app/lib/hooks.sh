@@ -88,6 +88,16 @@ config_load_envs() {
 	done
 }
 
+ensure_app_envs() {
+	mkdir -p /tmp/denvmux
+
+	# shellcheck disable=SC2044
+	for dcf in $(find "$DAB/docker" -type f -name 'docker-compose.*.yml'); do
+		app=$(basename "$dcf" | cut -d . -f 2)
+		touch "/tmp/denvmux/$app.env"
+	done
+}
+
 pre_hooks() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] pre_hooks $*"
 	maybe_set_kubeconfig
