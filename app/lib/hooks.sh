@@ -5,8 +5,6 @@
 . "$DAB/lib/docker.sh"
 # shellcheck source=app/lib/hindsight.sh
 . "$DAB/lib/hindsight.sh"
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
 # shellcheck source=app/lib/update.sh
 . "$DAB/lib/update.sh"
 
@@ -77,6 +75,17 @@ maybe_set_kubeconfig() {
 		[ ! -f ~/.kube/config.yml ]; then
 		export KUBECONFIG=$app_kubeconfig
 	fi
+}
+
+config_load_envs() {
+	envs="$(config_path 'environment')"
+	[ -d "$envs" ] || return 0
+
+	# shellcheck disable=SC2044
+	for file in $(find "$envs" -type f | sort); do
+		name="$(basename "$file")"
+		export "$name=$(config_get "environment/$name" | envsubst)"
+	done
 }
 
 pre_hooks() {

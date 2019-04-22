@@ -1,0 +1,16 @@
+#!/bin/sh
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+
+key="$1"
+shift
+
+path="$(config_path "$key")"
+if [ -n "${1:-}" ]; then
+	[ "$(carelessly cat "$path")" = "$*" ] && return 0
+	whisper "setting config key $key to $*"
+	mkdir -p "$(dirname "$path")"
+	echo "$@" >"$path"
+elif [ -e "$path" ]; then
+	whisper "deleting config key $key"
+	rm -rf "$path"
+fi

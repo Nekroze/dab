@@ -4,9 +4,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-
 path="$(config_path "${1:-}")"
 
 [ -d "$path" ] || fatality 'Provided config key is not a namespace or does not exist'
