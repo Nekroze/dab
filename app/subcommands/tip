@@ -3,9 +3,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-
 TIPS="
 Tips can be disabled by setting the environment variable \$DAB_TIPS to 'false'
 Use 'dab repo list' to see which repositories are not on origin/master

@@ -6,8 +6,5 @@ set -eu
 
 [ -n "${1:-}" ] || fatality 'must provide a repo name'
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-
 recklessly dab config tree "repo/$1/entrypoint"
 recklessly dab config tree "repo/*/entrypoint"

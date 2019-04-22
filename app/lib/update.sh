@@ -1,9 +1,6 @@
 #!/bin/sh
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-
 file_hash() {
 	"${FILE_HASH_ALGO:-md5}sum" "$1" | cut -d' ' -f1
 }
