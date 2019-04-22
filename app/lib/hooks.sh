@@ -5,8 +5,6 @@
 . "$DAB/lib/docker.sh"
 # shellcheck source=app/lib/hindsight.sh
 . "$DAB/lib/hindsight.sh"
-# shellcheck source=app/lib/update.sh
-. "$DAB/lib/update.sh"
 
 export COLOR_NC='\e[0m'
 export COLOR_WHITE='\e[1;37m'

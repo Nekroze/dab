@@ -1,0 +1,12 @@
+#!/bin/sh
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+
+src='/usr/bin/dab-completion-linux'
+[ "$DAB_HOST_UNAME" = "Darwin" ] && src='/usr/bin/dab-completion-darwin'
+
+dst="$HOME/.dab-completion"
+if [ -x "$dst" ] && silently diff "$src" "$dst"; then
+	return 0
+elif [ "${DAB_AUTOUPDATE:-true}" != 'false' ] || [ "${DAB_AUTOUPDATE_COMPLETION:-}" != 'false' ]; then
+	cp "$src" "$dst"
+fi
