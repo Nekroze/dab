@@ -9,4 +9,7 @@ set -eu
 
 [ -n "${1:-}" ] || fatality 'must provide an app name'
 
-compose_app_config "$1"
+highlight \
+	--syntax yaml \
+	-O xterm256 \
+	"$DAB/docker/docker-compose.$1.yml"
