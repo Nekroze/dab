@@ -8,10 +8,10 @@ _find_nssdbs_under() {
 }
 
 _find_nssdbs() {
-	_find_nssdbs_under "~/.pki"
-	_find_nssdbs_under "~/.mozilla"
-	_find_nssdbs_under "~/.config/browsh"
-	_find_nssdbs_under "~/Library/Application\ Support/Firefox/Profiles"
+	_find_nssdbs_under "$HOME/.pki"
+	_find_nssdbs_under "$HOME/.mozilla"
+	_find_nssdbs_under "$HOME/.config/browsh"
+	_find_nssdbs_under "$HOME/Library/Application\ Support/Firefox/Profiles"
 }
 
 _find_nssdbs | sort -u

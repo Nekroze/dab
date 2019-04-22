@@ -20,6 +20,7 @@ get_docker_compose_files_for_app() {
 	done
 	echo "$out"
 }
+
 dpose() {
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] dpose $*"
 
@@ -34,7 +35,6 @@ dpose() {
 
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose $*"
 }
-
 
 get_app_dependencies() {
 	app="$1"
@@ -75,4 +75,3 @@ app_envs_to_files_muxing() {
 		echo "$newkey=$val" >>"/tmp/denvmux/$app.env"
 	done
 }
-

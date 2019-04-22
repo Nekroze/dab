@@ -3,9 +3,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/update.sh
-. "$DAB/lib/update.sh"
-
 repo_data=''
 repo_row() {
 	repo_data="$repo_data

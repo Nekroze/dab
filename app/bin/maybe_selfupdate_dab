@@ -1,0 +1,26 @@
+#!/bin/sh
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+
+day_in_seconds=86400
+should_selfupdate() {
+	[ "${DAB_AUTOUPDATE:-true}" = 'true' ] || return 1
+	[ "${DAB_AUTOUPDATE_IMAGE:-true}" = 'true' ] || return 1
+
+	last_updated="$(config_get 'updates/last')"
+	[ -n "$last_updated" ] || return 0
+
+	now="$(date +%s)"
+	seconds_since_last_update="$((now - last_updated))"
+	[ "$seconds_since_last_update" -gt "${self_update_period:-$day_in_seconds}" ]
+}
+
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STRT] maybe_selfupdate_dab"
+should_selfupdate || return 0
+
+warn "self updating dab!"
+config_set updates/last "$(date +%s)"
+
+docker pull "${DAB_IMAGE:-${DAB_IMAGE_NAMESPACE:-nekroze}/${DAB_IMAGE_NAME:-dab}:${DAB_IMAGE_TAG:-latest}}"
+/tmp/wrapper changelog "$(cut -c -7 </VERSION)"
+
+[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] maybe_selfupdate_dab"
