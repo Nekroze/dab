@@ -16,6 +16,7 @@ $1\`$2\`$3"
 repos=$(ls "$DAB_CONF_PATH/repo/")
 
 for repo in $repos; do
+	[ -f "$DAB_CONF_PATH/repo/$repo/url" ] || continue
 	status='not cloned'
 	[ -d "$DAB_REPO_PATH/$repo" ] && status='cloned'
 
