@@ -16,6 +16,8 @@ suffix="$*"
 [ -n "$suffix" ] && suffix=" $suffix"
 inform "Executing $repo entrypoint $entry$suffix"
 
+export DAB_CURRENT_REPO=$repo
+
 entrypoint="$DAB_CONF_PATH/repo/$repo/entrypoint/$entry"
 if [ ! -x "$entrypoint" ]; then
 	entrypoint="$DAB_CONF_PATH/repo/*/entrypoint/$entry"

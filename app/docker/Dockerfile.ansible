@@ -2,12 +2,10 @@ FROM alpine:latest
 
 RUN apk add --no-cache --virtual build-dependencies \
       gcc musl-dev libffi-dev openssl-dev python-dev \
- && apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing \
-     docker-compose \
  && apk add --no-cache \
       bash curl tar openssh-client sshpass git python py-boto py-dateutil \
       py-httplib2 py-jinja2 py-paramiko py-pip py-yaml ca-certificates docker \
- && pip install python-keyczar
+ && pip install python-keyczar docker-compose
 
 RUN mkdir -p /etc/ansible /ansible/playbooks \
  && echo "[local]" >> /etc/ansible/hosts \
