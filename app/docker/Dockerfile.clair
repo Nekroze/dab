@@ -1,0 +1,6 @@
+ARG CLAIR_TAG=latest
+FROM "quay.io/coreos/clair:$CLAIR_TAG"
+
+COPY configs/clair.yml /config/config.yaml
+
+CMD ["-config=/config/config.yaml"]
