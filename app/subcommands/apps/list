@@ -6,4 +6,15 @@ set -eu
 # shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
 
+compose_to_apps_data() {
+	PROFILING="${DAB_PROFILING:-false}"
+	export DAB_PROFILING=false
+
+	tmp="$(mktemp)"
+	dpose_all config >"$tmp"
+	yq -r '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' <"$tmp"
+
+	export DAB_PROFILING="$PROFILING"
+}
+
 compose_to_apps_data | column -s'`' -o' | ' -t -N NAME,DESCRIPTION,USERNAME,PASSWORD -R NAME

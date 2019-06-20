@@ -3,13 +3,41 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck disable=SC1090
-. "$DAB/lib/update.sh"
-
 set +f
 # shellcheck disable=SC2125
 repos=$(ls "$DAB_REPO_PATH")
 set -f
+
+get_commits_differing_from_master_in_repo() {
+	repo="$1"
+	repopath="$DAB_REPO_PATH/$repo"
+	(
+		if [ -d "$repopath" ]; then
+			cd "$repopath" || return
+			tip=$(config_get "repo/$repo/tip" "${DAB_DEFAULT_REMOTE:-origin}/master")
+			carelessly git rev-list --left-right "$(git rev-parse HEAD)...$tip"
+		fi
+	)
+}
+
+get_uncommitted_changes_in_repo() {
+	repo="$1"
+	repopath="$DAB_REPO_PATH/$repo"
+	(
+		if [ -d "$repopath" ]; then
+			cd "$repopath" || return
+			git status --porcelain || true
+		fi
+	)
+}
+
+check_repo_is_up_to_date() {
+	[ -z "$(get_commits_differing_from_master_in_repo "$1")" ]
+}
+
+check_repo_is_clean() {
+	[ -z "$(get_uncommitted_changes_in_repo "$1")" ]
+}
 
 repo_data=''
 repo_row() {

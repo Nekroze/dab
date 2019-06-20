@@ -4,9 +4,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-
 [ -n "${1:-}" ] || fatality 'must provide at least an entrypoint name'
 
 if [ "$#" = 1 ]; then
@@ -17,6 +14,6 @@ fi
 
 if [ ! -e "$DAB_CONF_PATH/$newpath" ]; then
 	config_set "$newpath" "$(cat "$DAB/default-entrypoint.sh")"
-	config_chmod "$newpath" +x
+	chmod +x "$(config_path "$newpath")"
 	inform 'This script will be executed with the root of the repository as the current working directory'
 fi

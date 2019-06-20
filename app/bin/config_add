@@ -1,0 +1,13 @@
+#!/bin/sh
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+
+key="$1"
+shift
+
+[ -n "$1" ] || fatality 'must provide some value to add'
+
+path="$(config_path "$key")"
+silently grep -E "^$*$" "$path" && return 0
+mkdir -p "$(dirname "$path")"
+echo "$@" >>"$path"
+whisper "added $* to config key $key which now contains $(wc -l <"$path") value(s)"

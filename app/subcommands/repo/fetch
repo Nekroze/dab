@@ -3,9 +3,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/update.sh
-. "$DAB/lib/update.sh"
-
 START_PATH="$PWD"
 for repo in "$DAB_CONF_PATH/repo/"*; do
 	name="$(basename "$repo" | sed "s@^$DAB_CONF_PATH@@")"

@@ -5,10 +5,6 @@
 . "$DAB/lib/docker.sh"
 # shellcheck source=app/lib/hindsight.sh
 . "$DAB/lib/hindsight.sh"
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-# shellcheck source=app/lib/update.sh
-. "$DAB/lib/update.sh"
 
 export COLOR_NC='\e[0m'
 export COLOR_WHITE='\e[1;37m'
@@ -77,6 +73,27 @@ maybe_set_kubeconfig() {
 		[ ! -f ~/.kube/config.yml ]; then
 		export KUBECONFIG=$app_kubeconfig
 	fi
+}
+
+config_load_envs() {
+	envs="$(config_path 'environment')"
+	[ -d "$envs" ] || return 0
+
+	# shellcheck disable=SC2044
+	for file in $(find "$envs" -type f | sort); do
+		name="$(basename "$file")"
+		export "$name=$(config_get "environment/$name" | envsubst)"
+	done
+}
+
+ensure_app_envs() {
+	mkdir -p /tmp/denvmux
+
+	# shellcheck disable=SC2044
+	for dcf in $(find "$DAB/docker" -type f -name 'docker-compose.*.yml'); do
+		app=$(basename "$dcf" | cut -d . -f 2)
+		touch "/tmp/denvmux/$app.env"
+	done
 }
 
 pre_hooks() {

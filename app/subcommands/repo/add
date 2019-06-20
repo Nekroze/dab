@@ -4,9 +4,6 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
-
 [ -n "${1:-}" ] || fatality 'must provide a repo name as the first parameter'
 [ -n "${2:-}" ] || fatality 'must provide a repo url as the second parameter'
 [ -z "${3:-}" ] || config_set "repo/$1/tip" "$3"

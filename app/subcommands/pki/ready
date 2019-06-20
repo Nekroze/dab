@@ -3,12 +3,8 @@
 # vim: ft=sh ts=4 sw=4 sts=4 noet
 set -eu
 
-# shellcheck source=app/lib/config.sh
-. "$DAB/lib/config.sh"
 # shellcheck source=app/lib/docker.sh
 . "$DAB/lib/docker.sh"
-# shellcheck source=app/lib/pki.sh
-. "$DAB/lib/pki.sh"
 
 if [ -f "$DAB_CONF_PATH/pki/ca/cfssl/csr" ]; then
 	exit 0
