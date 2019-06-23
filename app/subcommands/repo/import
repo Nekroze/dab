@@ -1,0 +1,31 @@
+#!/bin/sh
+# Description: Generate configuration for an orphan repo directory
+# Usage: <REPO_NAME>
+# vim: ft=sh ts=4 sw=4 sts=4 noet
+set -eu
+
+[ -n "${1:-}" ] || fatality 'must provide a repo name as the first parameter'
+repo=$1
+cfg_path=repo/$repo
+repo_path=$DAB_REPO_PATH/$repo
+
+if [ -d "$(config_path "$cfg_path")" ]; then
+	fatality "Configuration $cfg_path already exists, aborting import"
+fi
+
+ls -al "$repo_path"
+
+if [ ! -d "$repo_path/.git" ]; then
+	fatality "Repository $repo_path does not exist or is not a git repo"
+fi
+
+cd "$repo_path"
+
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's#^refs/remotes/origin/##')
+url=$(git remote get-url origin)
+
+if [ "$default_branch" = 'master' ]; then
+	dab repo add "$repo" "$url"
+else
+	dab repo add "$repo" "$url" "origin/$default_branch"
+fi
