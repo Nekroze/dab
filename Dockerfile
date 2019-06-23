@@ -18,7 +18,7 @@ RUN cd ../ \
 
 ENV CGO_ENABLED=0 \
     GOARCH=386
-    
+
 RUN GOOS=linux go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-linux .
 RUN GOOS=darwin go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-darwin .
 
@@ -69,7 +69,7 @@ LABEL org.label-schema.schema-version="1.0" \
 # they are to be kept at a lower layer for caching.
 RUN apk add --no-cache --virtual .toolchain \
     python3-dev libffi-dev openssl-dev build-base \
- && apk add --no-cache docker python3 \
+ && apk add --no-cache docker-cli python3 \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
  && pip3 install docker-compose asciinema \
  && apk del .toolchain \
