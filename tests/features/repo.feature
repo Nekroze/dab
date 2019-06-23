@@ -226,3 +226,16 @@ Feature: Subcommand: dab repo
 		When I run `dab repo entrypoint run dotfiles23 foobar`
 
 		Then it should pass with "FOOBAR"
+
+	Scenario: Unmanaged/orphaned repos can be easily imported
+		Given I successfully run `dab repo add dotfiles24 https://github.com/Nekroze/dotfiles.git`
+		And I successfully run `dab config set repo/dotfiles24`
+		And the directory "~/.config/dab/repo/dotfiles24/" should not exist
+
+		When I run `dab repo import dotfiles24`
+
+		Then the exit status should be 0
+		And the file "~/.config/dab/repo/dotfiles24/url" should contain exactly:
+		"""
+		https://github.com/Nekroze/dotfiles.git
+		"""
