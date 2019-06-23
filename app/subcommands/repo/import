@@ -13,8 +13,6 @@ if [ -d "$(config_path "$cfg_path")" ]; then
 	fatality "Configuration $cfg_path already exists, aborting import"
 fi
 
-ls -al "$repo_path"
-
 if [ ! -d "$repo_path/.git" ]; then
 	fatality "Repository $repo_path does not exist or is not a git repo"
 fi
