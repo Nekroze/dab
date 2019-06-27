@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+
+  kafkaview:
+    container_name: dab_kafkaview
+    image: "sourcelaborg/kafka-webview:${DAB_APPS_KAFKAVIEW_TAG:-latest}"
+    labels:
+      description: 'Full-featured web-based Apache Kafka consumer'
+      com.centurylinklabs.watchtower.enable: 'true'
+    depends_on:
+      - kafka
+    restart: on-failure
+    networks:
+      - default
+      - lab
+    env_file:
+      - /tmp/denvmux/kafkaview.env
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab
