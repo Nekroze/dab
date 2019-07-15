@@ -11,6 +11,10 @@ services:
     depends_on:
       - kafka
     restart: on-failure
+    ports:
+      - "${DAB_APPS_KAFKAVIEW_PORT:-6080}:6080"
+    expose:
+      - 6080
     networks:
       - default
       - lab
