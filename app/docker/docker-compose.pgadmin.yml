@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  pgadmin:
+    container_name: dab_pgadmin
+    image: "dpage/pgadmin4:${DAB_APPS_PGADMIN_TAG:-latest}"
+    labels:
+      description: 'Web based postgresql administrator`${DAB_APPS_PGADMIN_EMAIL:-admin@example.com}`${DAB_APPS_PGADMIN_PASSWORD:-admin}'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    ports:
+      - "${DAB_APPS_PGADMIN_PORT:-5555}:80"
+    expose:
+      - 80
+    env_file:
+      - /tmp/denvmux/pgadmin.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${DAB_APPS_PGADMIN_EMAIL:-admin@example.com}"
+      PGADMIN_DEFAULT_PASSWORD: "${DAB_APPS_PGADMIN_PASSWORD:-admin}"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - default
+      - lab
+
+volumes:
+  pgadmin:
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab
