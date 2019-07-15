@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+
+  mailhog:
+    container_name: dab_mailhog
+    image: "mailhog/mailhog:${DAB_APPS_MAILHOG_TAG:-latest}"
+    restart: on-failure
+    labels:
+      description: 'MailHog runs a super simple SMTP server which catches any message sent to it to display in a web interface'
+      com.centurylinklabs.watchtower.enable: 'true'
+    networks:
+      - default
+      - lab
+    ports:
+      - 1025
+      - 8025
+    env_file:
+      - /tmp/denvmux/mailhog.env
+    environment:
+      MH_CORS_ORIGIN: "${DAB_APPS_MAILHOG_CORS_ORIGIN:-}"
+      MH_HOSTNAME: "${DAB_APPS_MAILHOG_HOSTNAME:-mailhog.example}"
+      MH_API_BIND_ADDR: "${DAB_APPS_MAILHOG_API_BIND_ADDR:-0.0.0.0:8025}"
+      MH_UI_BIND_ADDR: "${DAB_APPS_MAILHOG_UI_BIND_ADDR:-0.0.0.0:8025}"
+      MH_MAILDIR_PATH: "${DAB_APPS_MAILHOG_MAILDIR_PATH:-}"
+      MH_SMTP_BIND_ADDR: "${DAB_APPS_MAILHOG_SMTP_BIND_ADDR:-0.0.0.0:1025}"
+      MH_STORAGE: "${DAB_APPS_MAILHOG_STORAGE:-memory}"
+      MH_OUTGOING_SMTP: "${DAB_APPS_MAILHOG_OUTGOING_SMTP:-}"
+      MH_UI_WEB_PATH: "${DAB_APPS_MAILHOG_UI_WEB_PATH:-}"
+      MH_AUTH_FILE: "${DAB_APPS_MAILHOG_AUTH_FILE:-}"
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab

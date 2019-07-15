@@ -87,6 +87,7 @@ Feature: Subcommand: dab apps
 			| influxdb       |
 			| kafka          |
 			| logspout       |
+			| mailhog        |
 			| memcached      |
 			| mitmproxy      |
 			| mysql          |
