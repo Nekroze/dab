@@ -80,6 +80,7 @@ Feature: Subcommand: dab apps
 
 		Examples:
 			| APP            |
+			| athens         |
 			| consul         |
 			| deck-chores    |
 			| docker-gen     |
