@@ -13,7 +13,7 @@ run_with_dependencies() {
 	shift 2
 	configpath="$(config_path "$configkey")"
 	[ -f "$configpath" ] || return 0
-	xargs -I{} sh -c "$depcmd {} ${@:-}" <"$configpath"
+	xargs -I{} sh -c "$depcmd {} $@" <"$configpath"
 }
 
 run_with_dependencies 'dab group start' "group/$group_name/groups"
