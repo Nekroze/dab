@@ -6,14 +6,16 @@ set -eu
 
 [ -n "${1:-}" ] || fatality 'must provide a group name to add too'
 group_name="$1"
+client_variant="${2:-}"
 
 run_with_dependencies() {
 	depcmd="$1"
 	configkey="$2"
+	clientvariant="${3:-}"
 	configpath="$(config_path "$configkey")"
 	[ -f "$configpath" ] || return 0
-	xargs -I{} sh -c "$depcmd {}" <"$configpath"
+	xargs -I{} sh -c "$depcmd {} $clientvariant" <"$configpath"
 }
 
 run_with_dependencies 'dab group start' "group/$group_name/groups"
-run_with_dependencies 'dab repo entrypoint run' "group/$group_name/repos"
+run_with_dependencies 'dab repo entrypoint run' "group/$group_name/repos" "$client_variant"
