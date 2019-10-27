@@ -10,7 +10,7 @@
 
 [![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)][15]
 
-Dab is a flexible tool for managing multiple interdependent projects and their orchestration, all while providing a friendly user experience and handy devops tools.
+The Developer Laboratory makes creating, sharing, and using a portable, reproducible local development environment. Everything runs in docker and is configured using simple files that can be version controlled and shared with friends or colleagues.
 
 ## Table of Contents
 
