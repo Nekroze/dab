@@ -72,19 +72,18 @@ if echo "$HOME" | grep -qv '/home'; then
 	dArg -v "$HOME:/home/$DAB_USER"
 fi
 
-# Docker group lists access if it exists on the host.
-[ -f /etc/group ] && dArg -v '/etc/group:/etc/group:ro'
-
 # Add the docker user explicitly to the groups dab has access too when
 # possible. This may be neccesary for customized UID's or GID's that may not
 # have docker access.
-if [ -r /etc/group ]; then
-	docker_gid="$(grep '^docker:' /etc/group | cut -d: -f3)"
-	export DAB_DOCKER_GID="$docker_gid"
-	if [ -n "$docker_gid" ]; then
-		export DAB_DOCKER_GID="$docker_gid"
-		dArg --group-add "$docker_gid"
-	fi
+if [ -z "${DAB_DOCKER_GID:-}" ] && [ -r /etc/group ]; then
+	# Docker group lists access if it exists on the host.
+	dArg -v '/etc/group:/etc/group:ro'
+	DAB_DOCKER_GID="$(grep '^docker:' /etc/group | cut -d: -f3)"
+	export DAB_DOCKER_GID
+fi
+
+if [ -n "$DAB_DOCKER_GID" ]; then
+	dArg --group-add "$DAB_DOCKER_GID"
 fi
 
 # Make dab managed codebases available to the host.
@@ -109,7 +108,8 @@ fi
 # Attempt work out how we connect to docker for passthrough.
 local_docker_socket='/var/run/docker.sock'
 if [ -e "$local_docker_socket" ]; then
-	dArg -v "$local_docker_socket:$local_docker_socket"
+	dArg -v "$local_docker_socket:/var/run/docker.sock"
+	dArg -e "DOCKER_HOST=unix:///var/run/docker.sock"
 elif [ -n "${DOCKER_HOST:-}" ]; then
 	dArg -e "DOCKER_HOST=$DOCKER_HOST"
 
