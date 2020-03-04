@@ -22,6 +22,10 @@ Feature: Subcommand: dab group
 	Scenario: Can group repositories then start them together
 		Given I successfully run `dab repo add three https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint create three start`
+		And I append to "~/.config/dab/repo/three/entrypoint/start" with:
+		"""
+		cat
+		"""
 		And I successfully run `dab repo add four https://github.com/Nekroze/dotfiles.git`
 		And I run `dab repo entrypoint create four start`
 
@@ -39,6 +43,39 @@ Feature: Subcommand: dab group
 		"""
 		Executing three entrypoint start
 		Executing four entrypoint start
+		"""
+
+	Scenario: Can group repositories fail fast
+		Given I successfully run `dab repo add successOne https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create successOne start`
+		And I successfully run `dab repo add failure https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create failure start`
+		And I append to "~/.config/dab/repo/failure/entrypoint/start" with:
+		"""
+		exit 1
+		"""
+		And I successfully run `dab repo add successTwo https://github.com/Nekroze/dotfiles.git`
+		And I run `dab repo entrypoint create successTwo start`
+
+		When I run `dab group repos failfast successOne start`
+
+		Then it should pass with "contains 1 value(s)"
+
+		When I run `dab group repos failfast failure start`
+
+		Then it should pass with "contains 2 value(s)"
+
+		When I run `dab group repos failfast successTwo start`
+
+		Then it should pass with "contains 3 value(s)"
+
+		When I run `dab group start failfast`
+
+		Then it should fail with:
+		"""
+		Executing successOne entrypoint start
+		Executing failure entrypoint start
+		dab repo entrypoint run failure start exploded
 		"""
 
 	Scenario: Can group groups and repos then start them together

@@ -65,6 +65,7 @@ Feature: Subcommand: dab apps
 			| kapacitor  |
 			| kibana     |
 			| ntopng     |
+			| pgadmin    |
 			| portainer  |
 			| traefik    |
 
