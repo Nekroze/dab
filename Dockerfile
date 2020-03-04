@@ -33,7 +33,7 @@ COPY ./.git ./
 RUN git rev-parse HEAD > /VERSION \
  && git clone https://github.com/Nekroze/dab.git \
  && cd dab \
- && git log --graph --pretty=format:'\e[0;31m%h\e[0m|↓|%s \e[0;34m<%an>\e[0m' --abbrev-commit | tac > /LOG
+ && git log --graph --pretty=format:'\e[0;31m%h\e[0m|↓|%s \e[0;34m<%an>\e[0m' --abbrev-commit | grep -v '|↓|Merge ' | tac > /LOG
 
 # Stage some files here so that the final image has less layers
 FROM alpine:latest AS prep
@@ -71,7 +71,7 @@ RUN apk add --no-cache --virtual .toolchain \
     python3-dev libffi-dev openssl-dev build-base \
  && apk add --no-cache docker-cli python3 \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
- && pip3 install docker-compose asciinema \
+ && pip3 install "docker-compose>=1.24.0,<1.25.0" asciinema \
  && apk del .toolchain \
  && rm -rf ~/.cache
 
