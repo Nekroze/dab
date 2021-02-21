@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.10.0
 
 RUN apk add --no-cache ca-certificates alpine-sdk python2 python2-dev libxslt-dev libxml2-dev py-pip git \
  && update-ca-certificates

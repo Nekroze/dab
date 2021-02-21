@@ -36,7 +36,7 @@ jobs:
 
   Shellcheck:
     docker:
-      - image: koalaman/shellcheck-alpine:stable 
+      - image: koalaman/shellcheck-alpine:stable
     steps:
       - checkout
 
@@ -200,4 +200,3 @@ jobs:
       - run:
           name: request
           command: ./scripts/request-stable-update.sh
-
