@@ -144,9 +144,9 @@ Feature: Subcommand: dab config
 	Scenario: You cannot make a namespace a key
 		Under everything namespaces are directories and so have the same properties.
 
-		Given I successfully run `dab config set asguard/thor "The O'Neill"`
+		Given I successfully run `dab config set asguard/thor myth`
 
-		When I run `dab config set asguard lost`
+		When I run `dab config set asguard alien`
 
 		Then it should fail with "Is a directory"
 
