@@ -26,7 +26,7 @@ services:
     ports:
       - 8080
       - 8081
-    command: mitmweb --web-iface 0.0.0.0 --ssl-insecure
+    command: mitmweb --web-host 0.0.0.0 --ssl-insecure
     tmpfs:
       - /tmp
 
