@@ -69,7 +69,7 @@ LABEL org.label-schema.schema-version="1.0" \
 # they are to be kept at a lower layer for caching.
 RUN apk add --no-cache --virtual .toolchain \
     python3-dev libffi-dev openssl-dev build-base \
- && apk add --no-cache docker-cli python3 \
+ && apk add --no-cache docker-cli python3 py3-pip py3-cryptography \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
  && pip3 install "docker-compose>=1.24.0,<1.25.0" asciinema \
  && apk del .toolchain \
