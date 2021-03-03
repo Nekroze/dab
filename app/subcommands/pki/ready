@@ -68,7 +68,7 @@ nssdb_inject() {
 }
 
 for nssdb in $(find_nssdbs); do
-	carelessly nssdb_inject "$nssdb"
+	carelessly nssdb_inject "$nssdb" || true
 done
 
 if [ ! -f ~/.mitmproxy/mitmproxy-ca.pem ] || [ ! -f ~/.mitmproxy/mitmproxy-ca-cert.pem ]; then
