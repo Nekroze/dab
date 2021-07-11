@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  athens:
+    container_name: dab_athens
+    image: "${DAB_APPS_ATHENS_IMAGE:-gomods/athens}:${DAB_APPS_ATHENS_TAG:-latest}"
+    labels:
+      description: 'Go Modules Proxy'
+      com.centurylinklabs.watchtower.enable: 'true'
+    restart: on-failure
+    expose:
+      - 3000
+    ports:
+      - "${DAB_APPS_ATHENS_PORT:-3000}:3000"
+    env_file:
+      - /tmp/denvmux/athens.env
+    environment:
+      ATHENS_STORAGE_TYPE: 'disk'
+      ATHENS_DISK_STORAGE_ROOT: '/var/lib/athens'
+    volumes:
+      - athens:/var/lib/athens
+    networks:
+      - default
+      - lab
+
+volumes:
+  athens:
+
+networks:
+  default:
+    name: dab_apps
+  lab:
+    external:
+      name: lab
