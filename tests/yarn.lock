@@ -611,8 +611,8 @@ url-template@^2.0.8:
   resolved "https://registry.yarnpkg.com/url-template/-/url-template-2.0.8.tgz#fc565a3cccbff7730c775f5641f9555791439f21"
 
 vm2@^3.6.0:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.6.3.tgz#6dd426bb67a387d03055c5d276720f3f23203b72"
+  version "3.9.5"
+  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.5.tgz#5288044860b4bbace443101fcd3bddb2a0aa2496"
 
 voca@^1.4.0:
   version "1.4.0"
