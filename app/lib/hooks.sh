@@ -71,7 +71,7 @@ maybe_set_kubeconfig() {
 		[ -f "$app_kubeconfig" ] &&
 		[ ! -f ~/.kube/config.yaml ] &&
 		[ ! -f ~/.kube/config.yml ]; then
-		export KUBECONFIG=$app_kubeconfig
+		export KUBECONFIG="$app_kubeconfig"
 	fi
 }
 

@@ -5,7 +5,7 @@ set -eu
 
 message="${1:-Are you sure you would like to proceed?}"
 while true; do
-	# shellcheck disable=SC2039
+	# shellcheck disable=SC3045
 	read -r -p "$message " yn
 	case $yn in
 	[Yy]*) return 0 ;;
