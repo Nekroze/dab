@@ -5,10 +5,12 @@ file_hash() {
 	"${FILE_HASH_ALGO:-md5}sum" "$1" | cut -d' ' -f1
 }
 
-if [ "${DAB_AUTOUPDATE:-true}" = 'false' ] || [ "${DAB_AUTOUPDATE_WRAPPER:-true}" = 'false' ] || ! [ -f /tmp/wrapper ] || ! [ -f "$DAB/dab" ]; then
+DAB_WRAPPER_FILENAME="$(basename "$DAB_WRAPPER_PATH")"
+
+if [ "${DAB_AUTOUPDATE:-true}" = 'false' ] || [ "${DAB_AUTOUPDATE_WRAPPER:-true}" = 'false' ] || ! [ -f "/tmp/wrapper/$DAB_WRAPPER_FILENAME" ] || ! [ -f "$DAB/dab" ]; then
 	return 0
-elif [ -r /tmp/wrapper ] && [ -r "$DAB/dab" ] && [ "$(file_hash "$DAB/dab")" != "$(file_hash /tmp/wrapper)" ]; then
-	if cat "$DAB/dab" >/tmp/wrapper; then
+elif [ -r "/tmp/wrapper/$DAB_WRAPPER_FILENAME" ] && [ -r "$DAB/dab" ] && [ "$(file_hash "$DAB/dab")" != "$(file_hash "/tmp/wrapper/$DAB_WRAPPER_FILENAME")" ]; then
+	if cat "$DAB/dab" >"/tmp/wrapper/$DAB_WRAPPER_FILENAME"; then
 		warn "Dab wrapper script at $DAB_WRAPPER_PATH was updated!"
 	else
 		error "Dab wrapper script at $DAB_WRAPPER_PATH could NOT be automatically updated!"
