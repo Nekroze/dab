@@ -21,5 +21,6 @@ networks:
   default:
     name: dab_apps
   lab:
-    external:
-      name: lab
+    name: lab
+    external: true
+

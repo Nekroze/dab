@@ -36,6 +36,7 @@ services:
 
 networks:
   default:
-    external:
-      name: lab
+    name: lab
+    external: true
+
 
