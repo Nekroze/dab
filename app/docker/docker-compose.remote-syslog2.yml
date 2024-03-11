@@ -21,8 +21,8 @@ services:
 
 volumes:
   logs:
-    external:
-      name: dab_logs
+    name: dab_logs
+    external: true
 
 networks:
   default:
