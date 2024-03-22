@@ -1,5 +1,5 @@
-FROM centos:latest
+FROM rockylinux:9
 
-ARG DIVE_VERSION=0.4.1
+ARG DIVE_VERSION=0.12.0
 RUN yum install -y "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.rpm"
 ENTRYPOINT ["/usr/local/bin/dive"]

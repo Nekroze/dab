@@ -44,7 +44,7 @@ Feature: Subcommand: dab apps
 		Given I run `dab apps start <APP>`
 		And it should pass matching:
 		"""
-		^<APP> is available at https?://([0-9]+\.){3}[0-9]+:[0-9]+$
+		^<APP> is available at https?://([0-9]+.){3}[0-9]+:[0-9]+$
 		"""
 		And I successfully run `docker ps`
 		And it should pass with "dab_<APP>"
@@ -166,7 +166,7 @@ Feature: Subcommand: dab apps
 			| traefik    | DAB_APPS_TRAEFIK_TAG    | v1.7       |
 
 	@smoke
-	Scenario: Can view the docker-compose config for a app
+	Scenario: Can view the docker compose config for a app
 		When I run `dab apps config vault`
 
 		Then it should pass with "description:"

@@ -1,5 +1,5 @@
 # Stage for compiling shell completion binary.
-FROM golang:1.12 AS completion
+FROM golang:1.22 AS completion
 
 WORKDIR $GOPATH/src/app/completion
 
@@ -71,7 +71,7 @@ RUN apk add --no-cache --virtual .toolchain \
     python3-dev libffi-dev openssl-dev build-base \
  && apk add --no-cache docker-cli python3 py3-pip py3-cryptography \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
- && pip3 install "docker-compose>=1.24.0,<1.25.0" asciinema \
+ && pip3 install asciinema \
  && apk del .toolchain \
  && rm -rf ~/.cache
 

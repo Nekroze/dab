@@ -6,4 +6,4 @@ export COMPOSE_PROJECT_NAME='dab'
 export COMPOSE_FILE="tests/docker-compose.yml:tests/docker-compose.${TEST_DOCKER:=local}.yml"
 
 # Build just the dab image and clean up.
-docker-compose build --force-rm --pull dab
+docker compose build --force-rm --pull dab

@@ -72,7 +72,7 @@ ls ~/dab/subcommander
 dab repo entrypoint create subcommander test
 dab repo entrypoint list subcommander
 # Now we have a script where we can place the build incantation
-dab config set repo/subcommander/entrypoint/test docker-compose run tests
+dab config set repo/subcommander/entrypoint/test docker compose run tests
 # We can put anything we want in these entrypoints
 # We can even run dab if we wanted to use apps for example
 # Now after making several epic improvements we can...

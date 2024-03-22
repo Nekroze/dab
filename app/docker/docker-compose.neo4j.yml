@@ -4,7 +4,7 @@ services:
 
   neo4j:
     container_name: dab_neo4j
-    image: "neo4j:${DAB_APPS_NEO4j_TAG:-3.3}"
+    image: "neo4j:${DAB_APPS_NEO4j_TAG:-4.4}"
     labels:
       description: 'Robust graph database'
       com.centurylinklabs.watchtower.enable: 'true'
@@ -31,5 +31,5 @@ networks:
   default:
     name: dab_apps
   lab:
-    external:
-      name: lab
+    name: lab
+    external: true
