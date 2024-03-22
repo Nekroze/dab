@@ -87,6 +87,16 @@ jobs:
       - checkout
 
       - run:
+<<<<<<< HEAD
+=======
+          name: Install Docker Compose v2
+          command: |
+            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+            mkdir -p $DOCKER_CONFIG/cli-plugins
+            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose            
+
+      - run:
+>>>>>>> b3c7f28 (Update DAB Apps)
           name: Build Image
           command: ./scripts/build.sh
 
@@ -132,6 +142,16 @@ jobs:
       - checkout
 
       - run:
+<<<<<<< HEAD
+=======
+          name: Install Docker Compose v2
+          command: |
+            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+            mkdir -p $DOCKER_CONFIG/cli-plugins
+            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+
+      - run:
+>>>>>>> b3c7f28 (Update DAB Apps)
           name: UX Regression Tests
           command: |
               ./scripts/build.sh
@@ -152,6 +172,16 @@ jobs:
       - checkout
 
       - run:
+<<<<<<< HEAD
+=======
+          name: Install Docker Compose v2
+          command: |
+            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+            mkdir -p $DOCKER_CONFIG/cli-plugins
+            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+
+      - run:
+>>>>>>> b3c7f28 (Update DAB Apps)
           name: Profile
           command: |
               ./scripts/build.sh

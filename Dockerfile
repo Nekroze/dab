@@ -72,7 +72,7 @@ RUN apk add --no-cache --virtual .toolchain \
     python3-dev libffi-dev openssl-dev build-base \
  && apk add --no-cache docker-cli docker-cli-buildx docker-cli-compose python3 py3-pip py3-cryptography \
  && rm -f /usr/bin/dockerd /usr/bin/docker-containerd* \
- && pip3 install --break-system-packages "docker-compose>=1.24.0,<1.25.0" asciinema \
+ && pip3 install asciinema \
  && apk del .toolchain \
  && rm -rf ~/.cache
 
