@@ -1,7 +1,9 @@
 #!/bin/sh
 set -eu
 
-go install github.com/valyala/quicktemplate/qtc@latest
+tools=$(go list -f '{{range .Imports}}{{.}}@latest{{end}}' completion/tools.go)
+echo "$tools"
+go install "$tools"
 
 cd completion
 go mod download

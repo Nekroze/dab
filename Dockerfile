@@ -17,10 +17,10 @@ RUN cd ../ \
  && ./compgen.sh
 
 ENV CGO_ENABLED=0 \
-    GOARCH=386
+    GOARCH=amd64
 
-RUN GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-linux .
-RUN GOOS=darwin GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-darwin .
+RUN GOOS=linux go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-linux .
+RUN GOOS=darwin go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-darwin .
 RUN GOOS=darwin GOARCH=arm64 go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-m1 .
 
 
