@@ -22,7 +22,7 @@ Feature: Subcommand: dab apps
 		When I run `dab apps update <APP>`
 
 		Then it should pass with "Pulling"
-		And the output should contain "Building"
+		And the output should contain "load build context"
 
 		Examples:
 			| APP      |
