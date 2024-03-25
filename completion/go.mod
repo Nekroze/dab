@@ -4,7 +4,7 @@ go 1.22.1
 
 require (
 	github.com/mitchellh/go-homedir v1.0.0
-	github.com/posener/complete v1.2.1
+	github.com/posener/complete v1.2.3
 	github.com/valyala/quicktemplate v1.7.0
 )
 

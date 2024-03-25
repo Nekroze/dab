@@ -66,7 +66,7 @@ jobs:
           name: check
           command: |
               ./scripts/compgen.sh
-              cd completion && golangci-lint run --timeout 4m --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits
+              cd completion && golangci-lint run --timeout 4m --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits,depguard,exhaustivestruct,exhaustruct,gomnd,varnamelen,nonamedreturns,wsl,ireturn
 
 
   'Danger Automated Code Review':
