@@ -59,4 +59,4 @@ for repo in $repos; do
 	repo_row "$repo" "$clean" "$uptodate"
 done
 
-printf '\n%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,CLEAN,UPTODATE | colorize_stdin_glyphs)"
+printf '\n%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,CLEAN,UPTODATE -R CLEAN | colorize_stdin_glyphs)"
