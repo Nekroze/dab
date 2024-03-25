@@ -105,6 +105,9 @@ jobs:
       - store_test_results:
           path: /tmp/dab/test_results
 
+      - store_artifacts:
+          path: /tmp/dab/test_results
+
       - run:
           name: Clear test results
           when: on_fail
