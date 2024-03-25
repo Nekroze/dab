@@ -19,8 +19,9 @@ RUN cd ../ \
 ENV CGO_ENABLED=0 \
     GOARCH=386
 
-RUN GOOS=linux go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-linux .
-RUN GOOS=darwin go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-darwin .
+RUN GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-linux .
+RUN GOOS=darwin GOARCH=amd64 go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-darwin .
+RUN GOOS=darwin GOARCH=arm64 go build -a -installsuffix cgo -ldflags='-w -s' -o /usr/bin/dab-completion-m1 .
 
 
 # This phase generates versioning artifacts from git.
