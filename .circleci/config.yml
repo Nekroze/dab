@@ -132,13 +132,6 @@ jobs:
       - checkout
 
       - run:
-          name: Install Docker Compose v2
-          command: |
-            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-            mkdir -p $DOCKER_CONFIG/cli-plugins
-            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-
-      - run:
           name: UX Regression Tests
           command: |
               ./scripts/build.sh
@@ -157,13 +150,6 @@ jobs:
     steps:
 
       - checkout
-
-      - run:
-          name: Install Docker Compose v2
-          command: |
-            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-            mkdir -p $DOCKER_CONFIG/cli-plugins
-            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
 
       - run:
           name: Profile
