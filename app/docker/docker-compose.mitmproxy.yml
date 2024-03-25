@@ -4,7 +4,7 @@ services:
 
   mitmproxy:
     container_name: dab_mitmproxy
-    image: "mitmproxy/mitmproxy:${DAB_APPS_MITMPROXY_TAG:-latest}"
+    image: "mitmproxy/mitmproxy:${DAB_APPS_MITMPROXY_TAG:-6.0.2}"
     labels:
       description: 'HTTP debuging swiss-army knife, connect and go to http://mitm.it to load certs'
       com.centurylinklabs.watchtower.enable: 'true'
