@@ -25,6 +25,7 @@ func (p predictGeneric) activeLevel(current int) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -32,5 +33,6 @@ func (p predictGeneric) Predict(args complete.Args) []string {
 	if !p.activeLevel(len(args.Completed)) {
 		return nil
 	}
+
 	return p.predict(args)
 }

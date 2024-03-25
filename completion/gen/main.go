@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"flag"
-	"io/ioutil"
+	"io/fs"
 	"os"
 	"sort"
 	"strings"
@@ -11,26 +11,29 @@ import (
 	"github.com/Nekroze/dab/completion/templates"
 )
 
-var searchDir string
-var outFile string
+var (
+	searchDir string
+	outFile   string
+)
 
 func main() {
 	flag.StringVar(&searchDir, "search", "../app/docker/", "directory to search for apps in")
 	flag.StringVar(&outFile, "out", "apps.go", "filename to write out to")
 	flag.Parse()
 
-	files, err := ioutil.ReadDir(searchDir)
+	files, err := os.ReadDir(searchDir)
 	if err != nil {
 		panic(err)
 	}
 
 	apps := []string{}
 	for _, f := range files {
-		if !isApp(f) {
+		fileinfo, _ := f.Info()
+		if !isApp(fileinfo) {
 			continue
 		}
 
-		apps = append(apps, getAppName(f))
+		apps = append(apps, getAppName(fileinfo))
 	}
 
 	sort.Strings(apps)
@@ -49,11 +52,11 @@ func main() {
 	w.Flush()
 }
 
-func getAppName(f os.FileInfo) string {
+func getAppName(f fs.FileInfo) string {
 	return strings.Split(f.Name(), ".")[1]
 }
 
-func isApp(f os.FileInfo) bool {
+func isApp(f fs.FileInfo) bool {
 	parts := strings.Split(f.Name(), ".")
 
 	if len(parts) != 3 {
