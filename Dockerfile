@@ -76,9 +76,7 @@ RUN apk add --no-cache --virtual .toolchain \
  && rm -rf ~/.cache
 
 # Misc tools required for scripts.
-RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl entr postgresql-client task bash \
- && wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 \
- && chmod +x /usr/bin/yq \
+RUN apk add --no-cache git openssh tree util-linux jq nss-tools multitail ca-certificates highlight libintl entr postgresql-client task bash yq \
  && echo "check_mail:0" >> /etc/multitail.conf \
  && chmod 666 /etc/passwd
 

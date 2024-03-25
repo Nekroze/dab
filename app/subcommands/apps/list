@@ -12,7 +12,7 @@ compose_to_apps_data() {
 
 	tmp="$(mktemp)"
 	dpose_all config >"$tmp"
-	yq -r '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' <"$tmp"
+	yq '.services | to_entries[] | "\(.key)`\(.value.labels.description)"' <"$tmp"
 
 	export DAB_PROFILING="$PROFILING"
 }
