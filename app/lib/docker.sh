@@ -42,17 +42,17 @@ get_app_dependencies() {
 	file="$DAB/docker/docker-compose.$app.yml"
 	[ -f "$file" ] || return 0
 
-	val="$(yq ".services[\"$app\"].depends_on" <"$file")"
+	val="$(yq e ".services[\"$app\"].depends_on | .[]" <"$file")"
 	[ "$val" != "null" ] || return 0
 
-	echo "$val" | sed -e '1d' -e '$d' | cut -d '"' -f 2
+	echo "$val"
 }
 
 get_app_label_value() {
 	app="$1"
 	label="$2"
 	default="${3:-}"
-	val="$(yq ".services[\"$app\"].labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
+	val="$(yq e ".services[\"$app\"].labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
 	[ "$val" != "null" ] || val="$default"
 	[ -z "$val" ] || echo "$val"
 }
