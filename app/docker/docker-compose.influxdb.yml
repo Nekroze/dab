@@ -4,7 +4,7 @@ services:
 
   influxdb:
     container_name: dab_influxdb
-    image: "influxdb:${DAB_APPS_INFLUXDB_TAG:-alpine}"
+    image: "influxdb:${DAB_APPS_INFLUXDB_TAG:-1.8-alpine}"
     restart: on-failure
     labels:
       description: 'Time series database from the TICK stack'
@@ -17,6 +17,7 @@ services:
       INFLUXDB_HTTP_PPROF_ENABLED: 'false'
     volumes:
       - influxdb:/var/lib/influxdb
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     healthcheck:
       test: 'wget --spider http://localhost:8086/ping || exit 1'
       interval: 30s
@@ -35,5 +36,5 @@ networks:
   default:
     name: dab_apps
   lab:
-    external:
-      name: lab
+    external: true
+    name: lab

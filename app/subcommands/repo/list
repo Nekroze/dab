@@ -22,4 +22,4 @@ for repo in $repos; do
 	repo_row "$repo" "$status" "$site"
 done
 
-printf '%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,STATUS,SITE -R status | colorize_stdin_glyphs)"
+printf '%b\n' "$(echo "$repo_data" | column -s'\`' -o' │ ' -t -N REPO,STATUS,SITE -R STATUS | colorize_stdin_glyphs)"

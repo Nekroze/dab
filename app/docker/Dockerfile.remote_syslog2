@@ -1,7 +1,8 @@
 FROM golang:latest
 
-RUN go get -d -v github.com/papertrail/remote_syslog2 \
- && go install github.com/papertrail/remote_syslog2
+RUN go mod init nekroze/dab/remote_syslog2 && \
+ go get -d -v github.com/papertrail/remote_syslog2 && \
+ go install github.com/papertrail/remote_syslog2
 
 COPY configs/remote_syslog2.yml /etc/log_files.yml
 

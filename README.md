@@ -183,7 +183,7 @@ The following projects are used to write dab:
 - [docker-compose-gen][9]
 - [yq][10]
 - [jq][11]
-- [docker-compose][12]
+- [docker compose][12]
 - [shellcheck][13]
 - [complete][14]
 

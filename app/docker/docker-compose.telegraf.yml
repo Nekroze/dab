@@ -29,6 +29,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    user: root
+    entrypoint: telegraf
     tmpfs:
       - /tmp
 
@@ -39,6 +41,6 @@ networks:
   default:
     name: dab_apps
   lab:
-     external:
-       name: lab
+     external: true
+     name: lab
  

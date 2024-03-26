@@ -52,7 +52,7 @@ jobs:
 
   GolangCI-Lint:
     docker:
-      - image: golangci/golangci-lint:v1.15.0
+      - image: golangci/golangci-lint:v1.57.1
     steps:
       - checkout
 
@@ -66,12 +66,12 @@ jobs:
           name: check
           command: |
               ./scripts/compgen.sh
-              cd completion && golangci-lint run --deadline 4m --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits
+              cd completion && golangci-lint run --timeout 4m --enable-all --disable dupl,lll,gochecknoglobals,gochecknoinits,depguard,exhaustivestruct,exhaustruct,gomnd,varnamelen,nonamedreturns,wsl,ireturn,gofumpt
 
 
   'Danger Automated Code Review':
     docker:
-      - image: circleci/node:latest
+      - image: cimg/node:lts
     steps:
       - checkout
 
@@ -85,13 +85,6 @@ jobs:
     steps:
 
       - checkout
-
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
           name: Build Image
@@ -139,13 +132,6 @@ jobs:
       - checkout
 
       - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-
-      - run:
           name: UX Regression Tests
           command: |
               ./scripts/build.sh
@@ -164,13 +150,6 @@ jobs:
     steps:
 
       - checkout
-
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
           name: Profile

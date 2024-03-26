@@ -4,7 +4,7 @@ services:
 
   deck-chores:
     container_name: dab_deck-chores
-    image: "funkyfuture/deck-chores:${DAB_APPS_DECK_CHORES_LABEL:-latest}"
+    image: "ghcr.io/funkyfuture/deck-chores:${DAB_APPS_DECK_CHORES_LABEL:-1}"
     network_mode: none
     restart: always
     labels:

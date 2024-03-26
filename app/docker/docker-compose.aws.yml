@@ -19,7 +19,7 @@ services:
       - "$HOST_PWD:$HOST_PWD"
     working_dir: "$HOST_PWD"
     entrypoint:
-      - /usr/local/bin/aws
+      - /usr/local/bin/awsv2
     command: '--help'
 
 networks:

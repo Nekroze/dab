@@ -7,7 +7,7 @@ dpose_all() {
 	app_envs_to_files_muxing
 	env COMPOSE_PROJECT_NAME=dab \
 		COMPOSE_FILE="$(find "$DAB/docker" -type f -name 'docker-compose.*.yml' | tr '\n' ':' | sed 's/:$//')" \
-		docker-compose --project-directory "$DAB/docker" "$@"
+		docker compose --project-directory "$DAB/docker" "$@"
 
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose_all $*"
 }
@@ -31,7 +31,7 @@ dpose() {
 	shift
 	env COMPOSE_PROJECT_NAME=dab \
 		COMPOSE_FILE="$(get_docker_compose_files_for_app "$app")" \
-		docker-compose --project-directory "$DAB/docker" "$@" 3>&1 1>&2 2>&3 | sed '/If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up/d'
+		docker compose --project-directory "$DAB/docker" "$@" 3>&1 1>&2 2>&3 | sed '/If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up/d'
 
 	[ "${DAB_PROFILING:-false}" = 'false' ] || echo "[PROFILE] $(date '+%s.%N') [STOP] dpose $*"
 }
@@ -42,17 +42,17 @@ get_app_dependencies() {
 	file="$DAB/docker/docker-compose.$app.yml"
 	[ -f "$file" ] || return 0
 
-	val="$(yq -r ".services[\"$app\"].depends_on" <"$file")"
+	val="$(yq e ".services[\"$app\"].depends_on | .[]" <"$file")"
 	[ "$val" != "null" ] || return 0
 
-	echo "$val" | sed -e '1d' -e '$d' | cut -d '"' -f 2
+	echo "$val"
 }
 
 get_app_label_value() {
 	app="$1"
 	label="$2"
 	default="${3:-}"
-	val="$(yq -r ".services[\"$app\"].labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
+	val="$(yq e ".services[\"$app\"].labels.$label" <"$DAB/docker/docker-compose.$app.yml")"
 	[ "$val" != "null" ] || val="$default"
 	[ -z "$val" ] || echo "$val"
 }

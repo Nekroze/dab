@@ -1,12 +1,11 @@
 #!/bin/sh
 set -eu
 
-export GO111MODULE=off
-
-go get -v -u github.com/valyala/quicktemplate/qtc
+tools=$(go list -f '{{range .Imports}}{{.}}@latest{{end}}' completion/tools.go)
+echo "$tools"
+go install "$tools"
 
 cd completion
-export GO111MODULE=on
 go mod download
 
 go generate -v ./templates

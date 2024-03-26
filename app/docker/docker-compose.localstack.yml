@@ -25,7 +25,7 @@ services:
       LAMBDA_DOCKER_NETWORK: 'lab'
       DOCKER_HOST: 'unix:///var/run/docker.sock'
     tmpfs:
-      - /tmp/localstack
+      - /tmp
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
 
@@ -33,5 +33,5 @@ networks:
   default:
     name: dab_apps
   lab:
-    external:
-      name: lab
+    external: true
+    name: lab

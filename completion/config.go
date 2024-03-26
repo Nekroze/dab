@@ -9,9 +9,10 @@ import (
 	"github.com/posener/complete"
 )
 
-var dabRepoPath string
-var dabConfPath string
-var home string
+var (
+	dabConfPath string
+	home        string
+)
 
 func init() {
 	var err error
@@ -21,12 +22,8 @@ func init() {
 	}
 
 	dabConfPath = filepath.Join(home, ".config/dab")
-	dabRepoPath = filepath.Join(home, "dab")
 	if val := os.Getenv("DAB_CONF_PATH"); val != "" {
 		dabConfPath = val
-	}
-	if val := os.Getenv("DAB_REPO_PATH"); val != "" {
-		dabRepoPath = val
 	}
 }
 
@@ -45,16 +42,19 @@ func getCompletedFragmentChildren(input string) (out []string) {
 			return err
 		}
 		out = append(out, strings.TrimPrefix(path, dir+"/"))
+
 		return nil
 	})
 	if err != nil {
 		panic(err)
 	}
+
 	return out
 }
 
 func getCompletedFragment(input string) string {
 	parts := strings.Split(input, "/")
 	completed := parts[:len(parts)-1]
+
 	return strings.Join(completed, "/")
 }
