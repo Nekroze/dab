@@ -1,4 +1,7 @@
 ARG NGINX_TAG=alpine
 FROM "nginx:$NGINX_TAG"
 
-ADD --chown=nginx:nginx https://gchq.github.io/CyberChef/index.html /usr/share/nginx/html/index.html
+WORKDIR /usr/share/nginx/html
+
+RUN wget -qO- https://github.com/gchq/CyberChef/releases/download/v10.8.2/CyberChef_v10.8.2.zip \
+	| busybox unzip - && chown nginx:nginx * -R

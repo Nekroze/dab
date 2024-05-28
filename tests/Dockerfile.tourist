@@ -21,7 +21,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip2 install PyYAML spielbash \
- && pip3 install "asciinema==1.4.0"
+ && pip3 install --break-system-packages "asciinema==1.4.0"
 
 WORKDIR /root
 
