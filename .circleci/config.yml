@@ -89,9 +89,10 @@ jobs:
       - run:
           name: Install Docker Compose v2
           command: |
-            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-            mkdir -p $DOCKER_CONFIG/cli-plugins
-            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose            
+            curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            mkdir -p ~/.docker/cli-plugins
+            chmod +x ~/docker-compose
+            mv ~/docker-compose ~/.docker/cli-plugins/docker-compose
 
       - run:
           name: Build Image
@@ -141,9 +142,10 @@ jobs:
       - run:
           name: Install Docker Compose v2
           command: |
-            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-            mkdir -p $DOCKER_CONFIG/cli-plugins
-            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+            curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            mkdir -p ~/.docker/cli-plugins
+            chmod +x ~/docker-compose
+            mv ~/docker-compose ~/.docker/cli-plugins/docker-compose
 
       - run:
           name: UX Regression Tests
@@ -168,9 +170,10 @@ jobs:
       - run:
           name: Install Docker Compose v2
           command: |
-            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-            mkdir -p $DOCKER_CONFIG/cli-plugins
-            curl -SL https://github.com/docker/compose/releases/download/v2.25.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+            curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            mkdir -p ~/.docker/cli-plugins
+            chmod +x ~/docker-compose
+            mv ~/docker-compose ~/.docker/cli-plugins/docker-compose 
 
       - run:
           name: Profile
