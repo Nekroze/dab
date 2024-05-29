@@ -1,4 +1,5 @@
----services:
+---
+services:
 
   node:
     container_name: dab_nodejs
