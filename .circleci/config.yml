@@ -89,7 +89,7 @@ jobs:
       - run:
           name: Install Docker Compose v2
           command: |
-            curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            curl -sSL "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             mkdir -p ~/.docker/cli-plugins
             chmod +x ~/docker-compose
             mv ~/docker-compose ~/.docker/cli-plugins/docker-compose
@@ -142,7 +142,7 @@ jobs:
       - run:
           name: Install Docker Compose v2
           command: |
-            curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            curl -sSL "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             mkdir -p ~/.docker/cli-plugins
             chmod +x ~/docker-compose
             mv ~/docker-compose ~/.docker/cli-plugins/docker-compose
@@ -170,7 +170,7 @@ jobs:
       - run:
           name: Install Docker Compose v2
           command: |
-            curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            curl -sSL "https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             mkdir -p ~/.docker/cli-plugins
             chmod +x ~/docker-compose
             mv ~/docker-compose ~/.docker/cli-plugins/docker-compose 
